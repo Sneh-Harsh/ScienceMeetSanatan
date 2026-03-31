@@ -1,0 +1,88 @@
+{
+  "items": [
+    {
+      "slug": "ganesh-aarti",
+      "name": "Shree Ganesh Aarti",
+      "category": "Aartis",
+      "deity": "Lord Ganesha",
+      "featured": true,
+      "popularity": 98,
+      "excerpt": "A luminous invocation to begin every sacred effort with wisdom, clarity, and auspicious grace.",
+      "languages": {
+        "hindi": "जय गणेश जय गणेश जय गणेश देवा। माता जाकी पार्वती पिता महादेवा॥",
+        "english": "Glory to Lord Ganesha, remover of obstacles, born of Parvati and Mahadeva, source of auspicious beginnings.",
+        "sanskrit": "श्रीगणेशाय नमः। विघ्नराजं भजे नित्यं सर्वसिद्धिप्रदायकम्॥"
+      }
+    },
+    {
+      "slug": "shiv-aarti",
+      "name": "Om Jai Shiv Omkara",
+      "category": "Aartis",
+      "deity": "Lord Shiva",
+      "featured": true,
+      "popularity": 96,
+      "excerpt": "A devotional hymn celebrating Shiva as the silent cosmic force beyond destruction and renewal.",
+      "languages": {
+        "hindi": "ॐ जय शिव ओंकारा, स्वामी जय शिव ओंकारा। ब्रह्मा विष्णु सदाशिव, अर्धांगी धारा॥",
+        "english": "Salutations to Shiva, the cosmic lord whose presence holds creation, preservation, and transcendence together.",
+        "sanskrit": "नमः शिवाय शान्ताय, करुणावताराय ते नमः॥"
+      }
+    },
+    {
+      "slug": "durga-chalisa",
+      "name": "Durga Chalisa",
+      "category": "Sacred Hymns",
+      "deity": "Maa Durga",
+      "featured": true,
+      "popularity": 91,
+      "excerpt": "A fierce and compassionate chant that invokes the Mother’s protection, courage, and divine presence.",
+      "languages": {
+        "hindi": "नमो नमो दुर्गे सुख करनी। नमो नमो अम्बे दुःख हरनी॥",
+        "english": "I bow to Mother Durga, giver of strength and remover of sorrow, who surrounds devotees with fearless grace.",
+        "sanskrit": "या देवी सर्वभूतेषु शक्तिरूपेण संस्थिता। नमस्तस्यै नमस्तस्यै नमस्तस्यै नमो नमः॥"
+      }
+    },
+    {
+      "slug": "rigveda-selections",
+      "name": "Rigveda Selections",
+      "category": "Vedas",
+      "deity": "Vedic Wisdom",
+      "featured": false,
+      "popularity": 83,
+      "excerpt": "Illuminating mantras from the Rigveda that celebrate cosmic order, fire, dawn, and the rhythm of truth.",
+      "languages": {
+        "hindi": "अग्निमीळे पुरोहितं यज्ञस्य देवम् ऋत्विजम्।",
+        "english": "I praise Agni, the priest of the sacrifice, divine minister and radiant carrier of offerings.",
+        "sanskrit": "अग्निमीळे पुरोहितं यज्ञस्य देवमृत्विजम् होतारं रत्नधातमम्॥"
+      }
+    },
+    {
+      "slug": "ramayan-aranya-kand",
+      "name": "Ramayan • Aranya Kand",
+      "category": "Ramayan",
+      "deity": "Lord Rama",
+      "featured": false,
+      "popularity": 86,
+      "excerpt": "A contemplative journey through exile, dharma, and divine endurance in the forests of the epic.",
+      "languages": {
+        "hindi": "वनवास में भी श्रीराम का आचरण मर्यादा, करुणा और धर्म का आदर्श बना रहता है।",
+        "english": "Even in exile, Lord Rama’s conduct remains the highest expression of grace, duty, and inner steadiness.",
+        "sanskrit": "रामो विग्रहवान् धर्मः।"
+      }
+    },
+    {
+      "slug": "mahabharat-gita-updesh",
+      "name": "Mahabharat • Gita Updesh",
+      "category": "Mahabharat",
+      "deity": "Shri Krishna",
+      "featured": false,
+      "popularity": 89,
+      "excerpt": "Timeless counsel from Krishna on action, surrender, courage, and the deeper purpose of life.",
+      "languages": {
+        "hindi": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।",
+        "english": "Your right is to action alone, never to the fruits that arise from it.",
+        "sanskrit": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन॥"
+      }
+    }
+  ]
+}

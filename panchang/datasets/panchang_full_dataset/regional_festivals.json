@@ -1,0 +1,26 @@
+[
+  {"name":"Chhath Puja","region":"Bihar, UP","month":"Kartik","tithi":"Shashthi","paksha":"Shukla"},
+  {"name":"Jitiya (Jivitputrika Vrat)","region":"Bihar","month":"Ashwin","tithi":"Ashtami","paksha":"Krishna"},
+  {"name":"Kajari Teej","region":"North India","month":"Bhadrapad","tithi":"Tritiya","paksha":"Krishna"},
+
+  {"name":"Lohri","region":"Punjab","calendar":"solar","fixed_date":"13 January"},
+  {"name":"Baisakhi","region":"Punjab","calendar":"solar","fixed_date":"13 April"},
+
+  {"name":"Pongal","region":"Tamil Nadu","calendar":"solar","fixed_date":"14 January"},
+  {"name":"Onam","region":"Kerala","calendar":"solar","month":"Chingam"},
+  {"name":"Vishu","region":"Kerala","calendar":"solar","fixed_date":"14 April"},
+
+  {"name":"Ugadi","region":"Andhra Pradesh, Karnataka","month":"Chaitra","tithi":"Pratipada","paksha":"Shukla"},
+  {"name":"Gudi Padwa","region":"Maharashtra","month":"Chaitra","tithi":"Pratipada","paksha":"Shukla"},
+
+  {"name":"Ganesh Visarjan","region":"Maharashtra","month":"Bhadrapad","tithi":"Chaturdashi","paksha":"Shukla"},
+
+  {"name":"Durga Puja","region":"West Bengal","month":"Ashwin","tithi":"Ashtami","paksha":"Shukla"},
+  {"name":"Kali Puja","region":"West Bengal","month":"Kartik","tithi":"Amavasya","paksha":"Krishna"},
+
+  {"name":"Nuakhai","region":"Odisha","month":"Bhadrapad","calendar":"solar"},
+  {"name":"Raja Parba","region":"Odisha","calendar":"solar","month":"June"},
+
+  {"name":"Gangaur","region":"Rajasthan","month":"Chaitra","tithi":"Tritiya","paksha":"Shukla"},
+  {"name":"Navratri Garba","region":"Gujarat","month":"Ashwin","paksha":"Shukla"}
+]

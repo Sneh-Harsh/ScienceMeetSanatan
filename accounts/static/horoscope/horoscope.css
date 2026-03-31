@@ -1,0 +1,436 @@
+:root{
+  --cosmic-bg-1:#071224;
+  --cosmic-bg-2:#111b38;
+  --cosmic-card:rgba(11, 20, 38, 0.72);
+  --cosmic-border:rgba(255,255,255,.12);
+  --cosmic-gold:#ffd26f;
+  --cosmic-saffron:#ff9d42;
+  --cosmic-cyan:#7ce7ff;
+  --cosmic-ink:#eef3ff;
+}
+
+body{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124,231,255,.10), transparent 35%),
+    radial-gradient(circle at 80% 15%, rgba(255,157,66,.10), transparent 30%),
+    linear-gradient(180deg, var(--cosmic-bg-2), var(--cosmic-bg-1));
+  color:var(--cosmic-ink);
+}
+
+.nav-link--active{
+  background:rgba(255,255,255,.10);
+}
+
+.horoscope-page{
+  position:relative;
+  padding:6.4rem 1.2rem 2.5rem;
+  max-width:1320px;
+  margin:0 auto;
+}
+
+.hero-shell{
+  position:relative;
+  min-height:240px;
+  overflow:hidden;
+}
+
+.cosmic-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.layer-one{
+  background:
+    radial-gradient(circle, rgba(255,255,255,.35) 0 1px, transparent 1.6px) 0 0/80px 80px,
+    radial-gradient(circle, rgba(255,210,111,.25) 0 1px, transparent 1.6px) 40px 30px/120px 120px;
+  opacity:.18;
+}
+
+.layer-two{
+  background: radial-gradient(70% 60% at 50% 0%, rgba(124,231,255,.08), transparent 60%);
+  animation: drift 18s linear infinite alternate;
+}
+
+.layer-three{
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.04), transparent);
+  filter: blur(34px);
+  animation: wave 10s ease-in-out infinite;
+}
+
+@keyframes drift{
+  from{ transform:translate3d(-10px, 0, 0); }
+  to{ transform:translate3d(18px, 6px, 0); }
+}
+
+@keyframes wave{
+  0%,100%{ transform:translateY(-8px); }
+  50%{ transform:translateY(10px); }
+}
+
+.hero-panel,
+.glass-card{
+  position:relative;
+  border:1px solid var(--cosmic-border);
+  background:var(--cosmic-card);
+  backdrop-filter:blur(18px);
+  box-shadow:0 18px 60px rgba(0,0,0,.22);
+}
+
+.hero-panel{
+  min-height:240px;
+  border-radius:30px;
+  padding:1.5rem 1.6rem;
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  align-items:center;
+}
+
+.hero-copy h1{
+  margin:.3rem 0 .55rem;
+  font-family:"Cormorant Garamond", serif;
+  font-size:clamp(2.4rem, 4vw, 4rem);
+  line-height:.98;
+  max-width:760px;
+}
+
+.hero-kicker{
+  font-size:.82rem;
+  font-weight:800;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--cosmic-cyan);
+}
+
+.hero-text{
+  max-width:720px;
+  color:rgba(238,243,255,.78);
+  font-size:1rem;
+  line-height:1.55;
+}
+
+.hero-badge{
+  width:230px;
+  min-height:190px;
+  border-radius:28px;
+  padding:1rem;
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border:1px solid rgba(255,255,255,.12);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.hero-badge__ring{
+  position:absolute;
+  inset:-20%;
+  background:conic-gradient(from 0deg, rgba(255,157,66,0), rgba(255,210,111,.4), rgba(124,231,255,.25), rgba(255,157,66,0));
+  animation:spin 7s linear infinite;
+}
+
+@keyframes spin{ to{ transform:rotate(360deg);} }
+
+.hero-badge__text,
+.hero-badge__meter{
+  position:relative;
+  z-index:1;
+}
+
+.hero-badge__text{
+  font-size:.9rem;
+  font-weight:700;
+  color:rgba(238,243,255,.76);
+}
+
+.hero-badge__meter{
+  font-size:3rem;
+  font-family:"Cormorant Garamond", serif;
+  color:var(--cosmic-gold);
+}
+
+.input-shell,
+.results-shell{
+  margin-top:1rem;
+}
+
+.input-shell{
+  border-radius:26px;
+  padding:1.2rem;
+}
+
+.input-head{
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  align-items:flex-start;
+}
+
+.input-head h2{
+  margin:0;
+  font-size:1.2rem;
+}
+
+.input-head p{
+  margin:.3rem 0 0;
+  color:rgba(238,243,255,.7);
+}
+
+.birth-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:.9rem;
+  margin-top:1rem;
+}
+
+.birth-grid label{
+  display:flex;
+  flex-direction:column;
+  gap:.35rem;
+  font-weight:700;
+  color:rgba(238,243,255,.84);
+}
+
+.birth-grid input{
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.04);
+  color:var(--cosmic-ink);
+  padding:.82rem .9rem;
+  outline:none;
+}
+
+.birth-grid input:focus{
+  border-color:rgba(124,231,255,.55);
+  box-shadow:0 0 0 3px rgba(124,231,255,.12);
+}
+
+.input-actions{
+  margin-top:1rem;
+  display:flex;
+  gap:.8rem;
+  flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn,
+.link-btn{
+  border:none;
+  border-radius:999px;
+  padding:.82rem 1.2rem;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+.primary-btn{
+  background:linear-gradient(135deg, var(--cosmic-saffron), var(--cosmic-gold));
+  color:#241700;
+  box-shadow:0 16px 34px rgba(255,157,66,.2);
+}
+
+.secondary-btn,
+.link-btn{
+  background:rgba(255,255,255,.06);
+  color:var(--cosmic-ink);
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover,
+.link-btn:hover{
+  transform:translateY(-1px);
+}
+
+.loader-card{
+  margin-top:1rem;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  padding:1rem;
+}
+
+.shimmer-line{
+  height:10px;
+  margin:.5rem 0;
+  border-radius:999px;
+  background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.18), rgba(255,255,255,.06));
+  background-size:220% 100%;
+  animation:shimmer 1.2s linear infinite;
+}
+
+.w-40{ width:40%; }
+.w-75{ width:75%; }
+.w-90{ width:90%; }
+
+@keyframes shimmer{
+  from{ background-position:200% 0; }
+  to{ background-position:-20% 0; }
+}
+
+.error-text{
+  margin-top:1rem;
+  color:#ffb4b4;
+  font-weight:700;
+}
+
+.summary-row{
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:1rem;
+}
+
+.summary-card,
+.insight-card,
+.side-card{
+  border-radius:24px;
+  padding:1.1rem 1.15rem;
+}
+
+.tab-row{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  margin:1rem 0;
+}
+
+.scope-tab{
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  color:var(--cosmic-ink);
+  padding:.72rem 1rem;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.scope-tab.is-active{
+  background:linear-gradient(135deg, rgba(255,157,66,.3), rgba(124,231,255,.22));
+  border-color:rgba(255,210,111,.25);
+}
+
+.content-grid{
+  display:grid;
+  grid-template-columns:1.45fr .8fr;
+  gap:1rem;
+}
+
+.insights-column,
+.side-column{
+  display:grid;
+  gap:1rem;
+}
+
+.card-title{
+  font-size:1rem;
+  font-weight:800;
+  margin-bottom:.65rem;
+}
+
+.message-title{
+  font-family:"Cormorant Garamond", serif;
+  font-size:2rem;
+  margin-bottom:.45rem;
+}
+
+.muted{
+  color:rgba(238,243,255,.72);
+}
+
+.score-grid{
+  display:grid;
+  gap:.75rem;
+}
+
+.score-row{
+  display:grid;
+  gap:.35rem;
+}
+
+.score-meta{
+  display:flex;
+  justify-content:space-between;
+  font-weight:700;
+}
+
+.score-bar{
+  height:10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.score-fill{
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg, var(--cosmic-cyan), var(--cosmic-gold));
+}
+
+.details-grid{
+  display:grid;
+  gap:.9rem;
+}
+
+.detail-item h4{
+  margin:0 0 .2rem;
+  font-size:1rem;
+}
+
+.detail-item p,
+.text-block{
+  margin:0;
+  color:rgba(238,243,255,.8);
+  line-height:1.6;
+}
+
+.lucky-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:.7rem;
+}
+
+.lucky-pill{
+  border-radius:18px;
+  background:rgba(255,255,255,.05);
+  border:1px solid rgba(255,255,255,.1);
+  padding:.8rem .85rem;
+}
+
+.lucky-pill span{
+  display:block;
+  color:rgba(238,243,255,.65);
+  font-size:.82rem;
+}
+
+.lucky-pill strong{
+  display:block;
+  margin-top:.2rem;
+  font-size:1rem;
+}
+
+@media (max-width: 980px){
+  .hero-panel,
+  .summary-row,
+  .content-grid{
+    grid-template-columns:1fr;
+  }
+  .hero-panel{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .birth-grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px){
+  .birth-grid,
+  .lucky-grid{
+    grid-template-columns:1fr;
+  }
+  .horoscope-page{
+    padding:6rem .9rem 2rem;
+  }
+}

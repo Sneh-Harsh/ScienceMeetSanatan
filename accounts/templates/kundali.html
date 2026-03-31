@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kundali | Science Meet Sanatan</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'baby_names.css' %}">
+  <link rel="stylesheet" href="{% static 'kundali.css' %}">
+</head>
+
+<body>
+  <header class="header">
+    <div class="left-nav">
+      <a href="/welcome/" class="logo">
+        <span class="logo-mark">SMS</span>
+        <span class="logo-text">Science Meet Sanatan</span>
+      </a>
+
+      <a href="/welcome/" class="nav-link">Home</a>
+
+      <div class="explore-wrap">
+        <a href="#" class="nav-link">Explore ▾</a>
+        <div class="dropdown">
+          <a href="/baby-names/">Baby names</a>
+          <a href="/library/">Library</a>
+          <a href="/quizzes/">Quizzes</a>
+          <a href="/panchang/">Panchang</a>
+          <a href="#">8K Wallpapers</a>
+          <a href="#">Gifs</a>
+        </div>
+      </div>
+
+      <a href="/panchang/" class="nav-link">Panchang</a>
+      <div class="explore-wrap">
+        <a href="/kundali/" class="nav-link nav-link--active">Kundali ▾</a>
+        <div class="dropdown">
+          <a href="/kundali/">Generator</a>
+          <a href="/horoscope/">Horoscope</a>
+        </div>
+      </div>
+      <a href="#" class="nav-link">About Us</a>
+    </div>
+
+    <div class="right-nav">
+      <a class="quiz-link" href="/library/">Library</a>
+      <a class="quiz-link" href="/quizzes/">Quizzes</a>
+
+      <div class="profile-wrap">
+        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+        <div class="profile-card">
+          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+          <p class="profile-status">Logged in</p>
+          <a class="logout-btn" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="kundali-page" id="kundaliRoot">
+    <section class="k-hero glass-panel">
+      <div class="k-hero__bg" aria-hidden="true"></div>
+      <div class="k-hero__top">
+        <div>
+          <div class="k-kicker">Vedic Astrology</div>
+          <h1 class="k-title">🕉️ Janma Kundali Generator</h1>
+          <div class="k-sub">Sidereal (Lahiri) • Whole Sign Houses • D1 + D9 • Nakshatra + Vimshottari</div>
+        </div>
+        <div class="k-badge" aria-hidden="true">
+          <div class="k-badge__ring"></div>
+          <div class="k-badge__glyph">ॐ</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="k-shell">
+      <div class="k-input glass-panel">
+        <div class="k-input__head">
+          <div class="k-input__title">Birth Details</div>
+          <div class="k-input__hint">Enter accurate time + place for correct Lagna.</div>
+        </div>
+
+        <div class="k-form" aria-label="Kundali inputs">
+          <label class="k-field">
+            <span>Date of birth</span>
+            <input id="dobInput" type="date" class="k-control" />
+          </label>
+
+          <label class="k-field">
+            <span>Time of birth (24h)</span>
+            <input id="tobInput" type="time" class="k-control" step="60" />
+          </label>
+
+          <label class="k-field">
+            <span>Latitude</span>
+            <input id="latInput" class="k-control" inputmode="decimal" placeholder="28.6139" />
+          </label>
+
+          <label class="k-field">
+            <span>Longitude</span>
+            <input id="lonInput" class="k-control" inputmode="decimal" placeholder="77.2090" />
+          </label>
+
+          <label class="k-field k-field--wide">
+            <span>Timezone</span>
+            <input id="tzInput" class="k-control" list="tzList" placeholder="Asia/Kolkata" />
+            <datalist id="tzList">
+              <option value="Asia/Kolkata"></option>
+              <option value="America/New_York"></option>
+              <option value="Europe/London"></option>
+              <option value="Asia/Dubai"></option>
+              <option value="Asia/Singapore"></option>
+              <option value="Australia/Sydney"></option>
+            </datalist>
+          </label>
+        </div>
+
+        <div class="k-actions">
+          <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button">Use current location</button>
+          <button id="todayBtn" class="k-btn" type="button">Today</button>
+          <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
+          <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate Kundali</button>
+        </div>
+
+        <div class="k-state" id="kState">
+          <div class="k-state__loading" id="kLoading" hidden>
+            <div class="spinner"></div>
+            <div>Calculating chart…</div>
+          </div>
+          <div class="k-state__error" id="kError" hidden></div>
+        </div>
+      </div>
+
+      <div class="k-output" id="kOutput" hidden>
+        <div class="k-summary glass-panel">
+          <div class="k-summary__left">
+            <div class="k-summary__title">Chart Summary</div>
+            <div class="k-chips" id="summaryChips"></div>
+          </div>
+          <div class="k-summary__right">
+            <div class="k-toggle" role="tablist" aria-label="Chart type">
+              <button class="k-toggle__btn is-active" type="button" data-chart="d1">D1 (Rashi)</button>
+              <button class="k-toggle__btn" type="button" data-chart="d9">D9 (Navamsa)</button>
+            </div>
+            <div class="k-toggle" role="tablist" aria-label="Chart style">
+              <button class="k-toggle__btn is-active" type="button" data-style="north">North Indian</button>
+              <button class="k-toggle__btn" type="button" data-style="south">South Indian</button>
+            </div>
+            <div class="k-toggle" role="tablist" aria-label="Language">
+              <button class="k-toggle__btn is-active" type="button" data-lang="en">English</button>
+              <button class="k-toggle__btn" type="button" data-lang="hi">हिंदी</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="k-grid">
+          <div class="k-chart glass-panel">
+            <div class="k-chart__head">
+              <div class="k-chart__title" id="chartTitle">D1 • North Indian</div>
+              <div class="k-chart__sub" id="chartSub">Tap a house to view details.</div>
+            </div>
+
+            <div class="chart-shell">
+              <div class="north-chart" id="northChart">
+                <svg class="north-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                  <rect x="1" y="1" width="98" height="98" rx="8" ry="8" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1.6"></rect>
+                  <path d="M1 50 L50 1 L99 50 L50 99 Z" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.2"></path>
+                  <path d="M1 1 L99 99" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="1.1"></path>
+                  <path d="M99 1 L1 99" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="1.1"></path>
+                </svg>
+                <div class="house h1" data-house="1"></div>
+                <div class="house h2" data-house="2"></div>
+                <div class="house h3" data-house="3"></div>
+                <div class="house h4" data-house="4"></div>
+                <div class="house h5" data-house="5"></div>
+                <div class="house h6" data-house="6"></div>
+                <div class="house h7" data-house="7"></div>
+                <div class="house h8" data-house="8"></div>
+                <div class="house h9" data-house="9"></div>
+                <div class="house h10" data-house="10"></div>
+                <div class="house h11" data-house="11"></div>
+                <div class="house h12" data-house="12"></div>
+              </div>
+
+              <div class="south-chart is-hidden" id="southChart"></div>
+            </div>
+          </div>
+
+          <div class="k-side">
+            <div class="k-panel glass-panel" id="housePanel">
+              <div class="k-panel__title">House Details</div>
+              <div class="k-panel__body" id="houseBody">Select a house from the chart.</div>
+            </div>
+            <div class="k-panel glass-panel" id="planetPanelSide">
+              <div class="k-panel__title">Planets</div>
+              <div class="k-table" id="planetTableSide"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="k-tabs glass-panel" aria-label="Kundali details">
+          <div class="k-tabs__head" role="tablist" aria-label="Kundali sections">
+            <button class="k-tab__btn is-active" type="button" data-tab="overview">Overview</button>
+            <button class="k-tab__btn" type="button" data-tab="planets">Planets</button>
+            <button class="k-tab__btn" type="button" data-tab="dosha">Dosha</button>
+            <button class="k-tab__btn" type="button" data-tab="dasha">Dasha</button>
+            <button class="k-tab__btn" type="button" data-tab="predictions">Predictions</button>
+            <button class="k-tab__btn" type="button" data-tab="remedies">Remedies</button>
+          </div>
+
+          <div class="k-tabs__body">
+            <div class="k-tab__pane" data-pane="overview" id="tabOverview"></div>
+            <div class="k-tab__pane" data-pane="planets" id="tabPlanets">
+              <div class="k-panel__title">Planets</div>
+              <div class="k-table" id="planetTable"></div>
+            </div>
+            <div class="k-tab__pane" data-pane="dosha" id="tabDosha"></div>
+            <div class="k-tab__pane" data-pane="dasha" id="tabDasha">
+              <div class="k-panel__title">Vimshottari Dasha</div>
+              <div class="k-dasha" id="dashaList"></div>
+            </div>
+            <div class="k-tab__pane" data-pane="predictions" id="tabPredictions"></div>
+            <div class="k-tab__pane" data-pane="remedies" id="tabRemedies"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="kundali-footer">Made with devotion 🪔</footer>
+  </main>
+
+  <script src="{% static 'kundali.js' %}"></script>
+</body>
+</html>

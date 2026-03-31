@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spiritual Library | Science Meet Sanatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}" />
+</head>
+<body>
+  <header class="header">
+    <div class="left-nav">
+      <a href="/welcome/" class="logo">
+        <span class="logo-mark">SMS</span>
+        <span class="logo-text">Science Meet Sanatan</span>
+      </a>
+      <a href="/welcome/" class="nav-link">Home</a>
+
+      <div class="explore-wrap">
+        <a href="#" class="nav-link">Explore ▾</a>
+        <div class="dropdown">
+          <a href="/baby-names/">Baby names</a>
+          <a href="/library/">Library</a>
+          <a href="/panchang/">Panchang</a>
+          <a href="#">8K Wallpapers</a>
+          <a href="#">Gifs</a>
+        </div>
+      </div>
+
+      <a href="/panchang/" class="nav-link">Panchang</a>
+      <div class="explore-wrap">
+        <a href="/kundali/" class="nav-link">Kundali ▾</a>
+        <div class="dropdown">
+          <a href="/kundali/">Generator</a>
+          <a href="/horoscope/">Horoscope</a>
+        </div>
+      </div>
+      <a href="#" class="nav-link">About Us</a>
+    </div>
+
+    <div class="right-nav">
+      <a class="quiz-link library-link library-link--active" href="/library/">Library</a>
+      <a class="quiz-link" href="/quizzes/">Quizzes</a>
+
+      <div class="profile-wrap">
+        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+        <div class="profile-card">
+          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+          <p class="profile-status">Logged in</p>
+          <a class="logout-btn" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="library-page" id="libraryPage" data-error="{{ library_error|escape }}">
+    <div class="sky-layer sky-layer--one"></div>
+    <div class="sky-layer sky-layer--two"></div>
+    <div class="particle-field" id="particleField" aria-hidden="true"></div>
+
+    <section class="library-hero">
+      <div class="hero-copy">
+        <span class="hero-kicker">Digital Spiritual Library</span>
+        <h1>Read sacred wisdom with a premium, immersive library experience.</h1>
+        <p>
+          Discover aartis, Vedic verses, epic passages, and devotional texts in a calm, modern space designed for deep reading.
+        </p>
+        <div class="hero-actions">
+          <a class="hero-btn hero-btn--primary" href="#libraryGrid">Explore Collection</a>
+          <button class="hero-btn hero-btn--ghost" type="button" id="featuredScrollBtn">Today’s Featured Aarti</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span>Total Texts</span>
+            <strong id="heroTotalCount">{{ library_payload_obj.total|default:0 }}</strong>
+          </div>
+          <div class="hero-stat">
+            <span>Categories</span>
+            <strong id="heroCategoryCount">{{ library_payload_obj.categories|length }}</strong>
+          </div>
+          <div class="hero-stat">
+            <span>Reading Mode</span>
+            <strong>Hindi • English • Sanskrit</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-featured" id="featuredRail">
+        {% for item in library_payload_obj.featured %}
+          <a class="featured-card" href="/library/{{ item.slug|urlencode }}/">
+            <span class="featured-label">✨ {% if item.content_type == 'pdf' %}Scripture{% else %}Featured{% endif %}</span>
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.excerpt|default:item.category }}</p>
+          </a>
+        {% empty %}
+          <div class="featured-card">
+            <span class="featured-label">✨ Library</span>
+            <h3>No items yet</h3>
+            <p>Add local library files to begin populating this section.</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="library-panel">
+      <div class="panel-top">
+        <div>
+          <p class="panel-kicker">Search the sacred archive</p>
+          <h2>Find by name, deity, category, or verse fragment.</h2>
+        </div>
+        <div class="panel-meta" id="libraryStatus">Ready to explore</div>
+      </div>
+
+      <div class="control-row">
+        <label class="search-shell" for="librarySearch">
+          <span>⌕</span>
+          <input id="librarySearch" type="search" placeholder="Search Ganesh, Shiva, Veda, Ramayan..." autocomplete="off" />
+        </label>
+
+        <select id="categoryFilter" class="filter-select">
+          <option value="all">All categories</option>
+          {% for category in library_payload_obj.categories %}
+            <option value="{{ category|lower }}">{{ category }}</option>
+          {% endfor %}
+        </select>
+
+        <select id="languageFilter" class="filter-select">
+          <option value="all">All languages</option>
+          <option value="hindi">Hindi</option>
+          <option value="english">English</option>
+          <option value="sanskrit">Sanskrit</option>
+        </select>
+      </div>
+
+      <div class="collection-shell">
+        <aside class="collection-sidebar">
+          <div class="sidebar-card">
+            <p class="sidebar-kicker">Today’s Cosmic Message</p>
+            <h3>Let devotion become a rhythm, not a rush.</h3>
+            <p>The right text at the right moment can become a doorway into quietness, focus, and gratitude.</p>
+          </div>
+          <div class="sidebar-card">
+            <p class="sidebar-kicker">Recently viewed</p>
+            <div id="recentlyViewed" class="recently-viewed"></div>
+          </div>
+        </aside>
+
+        <div class="collection-main">
+          <div id="libraryEmpty" class="library-empty" {% if library_payload_obj.items %}hidden{% endif %}>No texts matched your search yet.</div>
+          <div id="libraryGrid" class="library-grid">
+            {% for item in library_payload_obj.items %}
+              <a class="library-card" href="/library/{{ item.slug|urlencode }}/">
+                <div class="library-card__head">
+                  <span class="library-card__badge">{{ item.category }}</span>
+                  <span>{% if item.content_type == 'pdf' %}📘 PDF Reader{% else %}🪔 Aarti Reader{% endif %}</span>
+                </div>
+                <div>
+                  <h3 class="library-card__title">{{ item.name }}</h3>
+                  <p class="library-card__excerpt">{{ item.excerpt|default:"A premium reading experience for sacred literature." }}</p>
+                </div>
+                <div class="library-card__foot">
+                  <span>
+                    {% if item.content_type == 'pdf' %}
+                      {% for mode in item.reader_modes %}
+                        {% if mode == 'pdf' %}PDF{% elif mode == 'chapter' %}Chapter Wise{% elif mode == 'shloka' %}Shloka Wise{% else %}{{ mode }}{% endif %}{% if not forloop.last %} • {% endif %}
+                      {% endfor %}
+                    {% else %}
+                      {% if item.languages.hindi %}Hindi{% endif %}{% if item.languages.english %} • English{% endif %}{% if item.languages.sanskrit %} • Sanskrit{% endif %}
+                    {% endif %}
+                  </span>
+                  <span>Open →</span>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+          <div class="load-more-wrap">
+            <button id="loadMoreBtn" class="hero-btn hero-btn--ghost" type="button" {% if library_payload_obj.items|length <= 9 %}hidden{% endif %}>Load More</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {{ library_payload|json_script:"libraryPayloadData" }}
+  <script src="{% static 'library/library.js' %}?v=4"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ item_name }} | Spiritual Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}" />
+</head>
+<body>
+  <header class="header">
+    <div class="left-nav">
+      <a href="/welcome/" class="logo">
+        <span class="logo-mark">SMS</span>
+        <span class="logo-text">Science Meet Sanatan</span>
+      </a>
+      <a href="/welcome/" class="nav-link">Home</a>
+      <div class="explore-wrap">
+        <a href="#" class="nav-link">Explore ▾</a>
+        <div class="dropdown">
+          <a href="/baby-names/">Baby names</a>
+          <a href="/library/">Library</a>
+          <a href="/panchang/">Panchang</a>
+          <a href="#">8K Wallpapers</a>
+          <a href="#">Gifs</a>
+        </div>
+      </div>
+      <a href="/panchang/" class="nav-link">Panchang</a>
+      <div class="explore-wrap">
+        <a href="/kundali/" class="nav-link">Kundali ▾</a>
+        <div class="dropdown">
+          <a href="/kundali/">Generator</a>
+          <a href="/horoscope/">Horoscope</a>
+        </div>
+      </div>
+      <a href="#" class="nav-link">About Us</a>
+    </div>
+
+    <div class="right-nav">
+      <a class="quiz-link library-link library-link--active" href="/library/">Library</a>
+      <a class="quiz-link" href="/quizzes/">Quizzes</a>
+
+      <div class="profile-wrap">
+        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+        <div class="profile-card">
+          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+          <p class="profile-status">Logged in</p>
+          <a class="logout-btn" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="library-detail" id="libraryDetailPage" data-slug="{{ item_slug|escape }}">
+    <div class="detail-backdrop"></div>
+    <section class="detail-hero">
+      <a class="detail-back-link" href="/library/">← Back to Library</a>
+      <div class="detail-meta">Sacred Viewer</div>
+      <h1 id="detailTitle">{{ item_name }}</h1>
+      <p id="detailExcerpt">Loading sacred text...</p>
+
+      <div class="detail-toolbar">
+        <div class="language-toggle" id="languageToggle">
+          <button type="button" data-language="hindi" class="active">Hindi</button>
+          <button type="button" data-language="english">English</button>
+          <button type="button" data-language="sanskrit">Sanskrit</button>
+        </div>
+
+        <div class="language-toggle reading-toggle" id="readingModeToggle" hidden>
+          <button type="button" data-mode="pdf" class="active">PDF</button>
+          <button type="button" data-mode="chapter">Chapter Wise</button>
+          <button type="button" data-mode="shloka">Shloka Wise</button>
+        </div>
+
+        <div class="detail-actions">
+          <button type="button" id="copyTextBtn" class="detail-action-btn">Copy</button>
+          <button type="button" id="bookmarkBtn" class="detail-action-btn">Bookmark</button>
+          <button type="button" id="shareBtn" class="detail-action-btn">Share</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="detail-reader">
+      <aside class="detail-sidebar">
+        <div class="sidebar-card">
+          <p class="sidebar-kicker">Category</p>
+          <h3 id="detailCategory">Loading...</h3>
+        </div>
+        <div class="sidebar-card">
+          <p class="sidebar-kicker">Deity / Theme</p>
+          <h3 id="detailDeity">Loading...</h3>
+        </div>
+      </aside>
+
+      <article class="reader-card">
+        <div class="reader-header">
+          <div>
+            <p class="reader-kicker">Sacred text</p>
+            <h2 id="readerHeading">Preparing your reading space</h2>
+          </div>
+          <div class="reader-fade">Smooth scroll enabled</div>
+        </div>
+
+        <div id="readerContent" class="reader-content"></div>
+      </article>
+    </section>
+  </main>
+
+  <script src="{% static 'library/library.js' %}?v=4"></script>
+</body>
+</html>

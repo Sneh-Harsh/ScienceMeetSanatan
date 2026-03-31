@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Baby Names | Science Meet Sanatan</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="{% static 'baby_names.css' %}">
+
+</head>
+
+<body>
+
+<header class="header">
+
+<div class="left-nav">
+
+<a href="/welcome/" class="logo">
+<span class="logo-mark">SMS</span>
+<span class="logo-text">Science Meet Sanatan</span>
+</a>
+
+<a href="/welcome/" class="nav-link">Home</a>
+
+<div class="explore-wrap">
+
+<a href="#" class="nav-link">Explore ▾</a>
+
+<div class="dropdown">
+<a href="/baby-names/">Baby names</a>
+<a href="/library/">Library</a>
+<a href="/panchang/">Panchang</a>
+<a href="#">8K Wallpapers</a>
+<a href="#">Gifs</a>
+</div>
+
+</div>
+
+<a href="/panchang/" class="nav-link">Panchang</a>
+<div class="explore-wrap">
+  <a href="/kundali/" class="nav-link">Kundali ▾</a>
+  <div class="dropdown">
+    <a href="/kundali/">Generator</a>
+    <a href="/horoscope/">Horoscope</a>
+  </div>
+</div>
+<a href="#" class="nav-link">About Us</a>
+
+</div>
+
+<div class="right-nav">
+
+<a class="quiz-link" href="/library/">Library</a>
+<a class="quiz-link" href="/quizzes/">Quizzes</a>
+
+<div class="profile-wrap">
+
+<button class="profile-trigger">👤</button>
+
+<div class="profile-card">
+<p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+<p class="profile-status">Logged in</p>
+<a class="logout-btn" href="/">Logout</a>
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+<main class="names-page">
+
+<section class="names-controls">
+
+<h1>Divine Baby Names</h1>
+
+<p>Choose a category to update names on each deity card.</p>
+
+<div class="gender-toggle">
+
+<button class="toggle-btn active" data-gender="girl">
+Girl Names
+</button>
+
+<button class="toggle-btn" data-gender="boy">
+Boy Names
+</button>
+
+</div>
+
+</section>
+
+<section id="deityGrid" class="deity-grid"></section>
+
+</main>
+
+{% if baby_names_error %}
+<div class="names-data-error" role="status">
+  Names file load error: {{ baby_names_error }}
+</div>
+{% endif %}
+
+<script id="babyNamesData" type="application/json">{{ baby_names_json|safe }}</script>
+<script src="{% static 'baby_names.js' %}"></script>
+
+</body>
+</html>

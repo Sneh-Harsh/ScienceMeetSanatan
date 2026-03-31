@@ -1,0 +1,276 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panchang | Science Meet Sanatan</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'baby_names.css' %}">
+  <link rel="stylesheet" href="{% static 'panchang.css' %}">
+</head>
+
+<body>
+  <header class="header">
+    <div class="left-nav">
+      <a href="/welcome/" class="logo">
+        <span class="logo-mark">SMS</span>
+        <span class="logo-text">Science Meet Sanatan</span>
+      </a>
+
+      <a href="/welcome/" class="nav-link">Home</a>
+
+      <div class="explore-wrap">
+        <a href="#" class="nav-link">Explore ▾</a>
+        <div class="dropdown">
+          <a href="/baby-names/">Baby names</a>
+          <a href="/library/">Library</a>
+          <a href="/quizzes/">Quizzes</a>
+          <a href="/panchang/">Panchang</a>
+          <a href="#">8K Wallpapers</a>
+          <a href="#">Gifs</a>
+        </div>
+      </div>
+
+      <a href="/panchang/" class="nav-link nav-link--active">Panchang</a>
+      <div class="explore-wrap">
+        <a href="/kundali/" class="nav-link">Kundali ▾</a>
+        <div class="dropdown">
+          <a href="/kundali/">Generator</a>
+          <a href="/horoscope/">Horoscope</a>
+        </div>
+      </div>
+      <a href="#" class="nav-link">About Us</a>
+    </div>
+
+    <div class="right-nav">
+      <a class="quiz-link" href="/library/">Library</a>
+      <a class="quiz-link" href="/quizzes/">Quizzes</a>
+
+      <div class="profile-wrap">
+        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+        <div class="profile-card">
+          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+          <p class="profile-status">Logged in</p>
+          <a class="logout-btn" href="/">Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="panchangRoot" class="panchang-page">
+    <div id="locPrompt" class="loc-prompt" aria-hidden="true">
+      <div class="loc-prompt__backdrop"></div>
+      <div class="loc-prompt__panel glass-panel">
+        <div class="loc-prompt__title">Use your location for accurate Panchang</div>
+        <div class="loc-prompt__sub">
+          We use your latitude/longitude to compute sunrise, tithi/nakshatra timings, and show real-time weather visuals.
+        </div>
+        <div class="loc-prompt__actions">
+          <button id="locAllowBtn" class="loc-btn primary" type="button">Allow Location</button>
+          <button id="locDefaultBtn" class="loc-btn" type="button">Use Delhi</button>
+        </div>
+        <div class="loc-prompt__manual">
+          <div class="loc-prompt__label">Manual (lat/lon)</div>
+          <div class="loc-prompt__row">
+            <input id="latInput" class="loc-input" inputmode="decimal" placeholder="Latitude (e.g. 28.6139)" />
+            <input id="lonInput" class="loc-input" inputmode="decimal" placeholder="Longitude (e.g. 77.2090)" />
+            <button id="locApplyBtn" class="loc-btn" type="button">Apply</button>
+          </div>
+          <div class="loc-prompt__hint">Tip: Open Google Maps → right click → copy coordinates.</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="panchang-hero">
+      <div id="sky" class="sky" aria-hidden="true">
+        <div class="sky__gradient"></div>
+        <div class="sky__glyphs" id="glyphField" aria-hidden="true"></div>
+        <div class="sky__stars" id="stars"></div>
+        <div class="sky__clouds" id="clouds"></div>
+        <div class="sky__rain" id="rain"></div>
+        <div class="sky__sun" id="sun"></div>
+        <div class="sky__moon" id="moonDisc"></div>
+        <div class="sky__birds" id="birds" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero-content glass-panel">
+        <div class="hero-top">
+          <div class="hero-kicker">Panchang Dashboard</div>
+          <div class="hero-clock" id="liveClock">--:--:--</div>
+        </div>
+        <div class="hero-actions">
+          <button id="changeLocBtn" class="mini-btn" type="button">Change location</button>
+          <div class="weather-stack">
+            <div class="weather-pill" id="weatherPill">Weather: —</div>
+            <div class="temp-pill" id="tempPill">—</div>
+          </div>
+        </div>
+        <h1 class="hero-date" id="heroDate">Loading…</h1>
+        <div class="hero-lines">
+          <div class="hero-pill" id="heroLine1">—</div>
+          <div class="hero-pill" id="heroLine2">—</div>
+        </div>
+        <div class="hero-meta" id="heroMeta"></div>
+      </div>
+    </section>
+
+    <section class="panchang-grid" aria-label="Panchang cards">
+      <div class="state-card glass-panel" id="loadingCard">
+        <div class="spinner"></div>
+        <div class="state-text">Fetching Panchang…</div>
+      </div>
+
+      <div class="state-card glass-panel error" id="errorCard" hidden>
+        <div class="state-title">Could not load Panchang</div>
+        <div class="state-text" id="errorText"></div>
+      </div>
+
+      <div class="cards" id="cards" hidden>
+        <article class="p-card glow-sunrise">
+          <div class="p-card__head"><span class="p-ico">🌅</span><span class="p-title">Sunrise</span></div>
+          <div class="p-value" id="sunriseVal">—</div>
+          <div class="p-sub">Local time</div>
+        </article>
+
+        <article class="p-card glow-sunset">
+          <div class="p-card__head"><span class="p-ico">🌇</span><span class="p-title">Sunset</span></div>
+          <div class="p-value" id="sunsetVal">—</div>
+          <div class="p-sub">Local time</div>
+        </article>
+
+        <article class="p-card glow-tithi">
+          <div class="p-card__head"><span class="p-ico">📿</span><span class="p-title">Tithi</span></div>
+          <div class="p-value" id="tithiVal">—</div>
+          <div class="p-sub" id="tithiSub">Ends —</div>
+        </article>
+
+        <article class="p-card glow-nak">
+          <div class="p-card__head"><span class="p-ico">✨</span><span class="p-title">Nakshatra</span></div>
+          <div class="p-value" id="nakVal">—</div>
+          <div class="p-sub" id="nakSub">Ends —</div>
+        </article>
+
+        <article class="p-card glow-paksha">
+          <div class="p-card__head"><span class="p-ico">🌙</span><span class="p-title">Paksha</span></div>
+          <div class="p-value" id="pakshaVal">—</div>
+          <div class="p-sub">—</div>
+        </article>
+
+        <article class="p-card glow-month">
+          <div class="p-card__head"><span class="p-ico">📅</span><span class="p-title">Hindu Month</span></div>
+          <div class="p-value" id="monthVal">—</div>
+          <div class="p-sub">Lunar month</div>
+        </article>
+
+        <article class="p-card glow-moon">
+          <div class="p-card__head"><span class="p-ico">🌙</span><span class="p-title">Moon Phase</span></div>
+          <div class="moon-wrap">
+            <div class="moon-svg" id="moonSvg"></div>
+            <div>
+              <div class="p-value" id="moonPct">—%</div>
+              <div class="p-sub" id="moonSub">—</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="p-card glow-rahu">
+          <div class="p-card__head"><span class="p-ico">⏰</span><span class="p-title">Rahu Kaal</span></div>
+          <div class="p-value" id="rahuVal">—</div>
+          <div class="p-sub">Daytime period</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panchang-calendar" aria-label="Panchang calendar">
+      <div class="calendar-head glass-panel">
+        <div>
+          <div class="calendar-kicker">Panchang Calendar</div>
+          <div class="calendar-sub">Tap a date to see full details, festivals and timings.</div>
+        </div>
+        <div class="calendar-controls" aria-label="Calendar controls">
+          <button id="calPrevBtn" class="cal-btn" type="button" aria-label="Previous month">‹</button>
+          <select id="calMonth" class="cal-select" aria-label="Month"></select>
+          <select id="calYear" class="cal-select" aria-label="Year"></select>
+          <button id="calNextBtn" class="cal-btn" type="button" aria-label="Next month">›</button>
+          <button id="calTodayBtn" class="cal-btn cal-btn--today" type="button">Today</button>
+          <button id="coreFestBtn" class="cal-btn cal-btn--core" type="button">Core festivals</button>
+        </div>
+      </div>
+
+      <div class="calendar-shell glass-panel">
+        <div class="calendar-dow" aria-hidden="true">
+          <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+        </div>
+        <div class="calendar-grid" id="calGrid" role="grid" aria-label="Month grid"></div>
+      </div>
+    </section>
+
+    <div id="dayOverlay" class="day-overlay" aria-hidden="true" role="dialog" aria-label="Day details">
+      <div class="day-overlay__backdrop" id="dayOverlayBackdrop"></div>
+      <div class="day-overlay__panel glass-panel" id="dayOverlayPanel">
+        <div class="day-overlay__top">
+          <div class="day-overlay__title" id="ovTitle">—</div>
+          <button class="day-overlay__close" id="ovCloseBtn" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="day-overlay__chips" id="ovChips"></div>
+
+        <div class="day-overlay__scroll">
+          <div class="day-overlay__body" id="ovBody">
+          <div class="ov-loading" id="ovLoading">
+            <div class="spinner"></div>
+            <div class="state-text">Loading day details…</div>
+          </div>
+          <div class="ov-error" id="ovError" hidden>
+            <div class="state-title">Could not load day</div>
+            <div class="state-text" id="ovErrorText"></div>
+          </div>
+          <div class="ov-grid" id="ovGrid" hidden></div>
+          </div>
+          <div class="ov-fest" id="ovFest"></div>
+        </div>
+
+        <div class="day-overlay__nav">
+          <button id="ovPrevBtn" class="cal-btn" type="button" aria-label="Previous day">‹ Prev</button>
+          <button id="ovNextBtn" class="cal-btn" type="button" aria-label="Next day">Next ›</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="coreFestOverlay" class="day-overlay" aria-hidden="true" role="dialog" aria-label="Core festivals">
+      <div class="day-overlay__backdrop" id="coreFestBackdrop"></div>
+      <div class="day-overlay__panel glass-panel" id="coreFestPanel">
+        <div class="day-overlay__top">
+          <div class="day-overlay__title">Core festivals</div>
+          <button class="day-overlay__close" id="coreFestCloseBtn" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="day-overlay__chips" id="coreFestChips">
+          <span class="chip">From dataset</span>
+          <span class="chip">Highlights only</span>
+        </div>
+        <div class="day-overlay__scroll">
+          <div class="ov-loading" id="coreFestLoading">
+            <div class="spinner"></div>
+            <div class="state-text">Loading core festivals…</div>
+          </div>
+          <div class="ov-error" id="coreFestError" hidden>
+            <div class="state-title">Could not load</div>
+            <div class="state-text" id="coreFestErrorText"></div>
+          </div>
+          <div class="corefest-list" id="coreFestList" hidden></div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="panchang-footer">
+      Made with devotion 🪔
+    </footer>
+  </main>
+
+  <script src="{% static 'panchang.js' %}"></script>
+</body>
+</html>

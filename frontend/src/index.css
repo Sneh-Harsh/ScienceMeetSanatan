@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.glass {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(18px);
+}
+
+.glow-border {
+  position: relative;
+}
+.glow-border:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,153,51,.65), rgba(255,215,0,.35), rgba(147,51,234,.30));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: .85;
+}
+
+/* --- Card weather ambience layers (cloud/rain/sun) --- */
+.card-weather-layer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateZ(0);
+}
+
+.card-weather-layer--clear,
+.card-weather-layer--cloudy {
+  inset: -35%;
+  border-radius: 999px;
+}
+
+.card-weather-layer--clear.card-weather-layer--a {
+  opacity: 0.22;
+  filter: blur(10px);
+  background: radial-gradient(circle at 25% 20%, rgba(255, 215, 0, 0.35), rgba(255, 153, 51, 0.12) 35%, rgba(255, 255, 255, 0) 70%);
+  animation: card-sun-pulse 7.5s ease-in-out infinite;
+}
+.card-weather-layer--clear.card-weather-layer--b {
+  opacity: 0.14;
+  filter: blur(14px);
+  mix-blend-mode: screen;
+  background: conic-gradient(
+    from 210deg,
+    rgba(255, 215, 0, 0.18),
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 153, 51, 0.16) 65%,
+    rgba(255, 215, 0, 0.18)
+  );
+  animation: card-sun-rotate 16s linear infinite;
+}
+
+.card-weather-layer--cloudy.card-weather-layer--a {
+  opacity: 0.42;
+  filter: blur(16px) drop-shadow(0 14px 22px rgba(0,0,0,.28));
+  mix-blend-mode: screen;
+  background-image:
+    linear-gradient(to bottom, rgba(255,255,255,.10), rgba(255,255,255,0) 65%),
+    radial-gradient(closest-side at 25% 35%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(closest-side at 55% 28%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 74%),
+    radial-gradient(closest-side at 82% 40%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 70%);
+  animation: card-cloud-drift-a 19s linear infinite;
+}
+.card-weather-layer--cloudy.card-weather-layer--b {
+  opacity: 0.30;
+  filter: blur(20px) drop-shadow(0 18px 28px rgba(0,0,0,.26));
+  mix-blend-mode: screen;
+  background-image:
+    linear-gradient(to bottom, rgba(255,255,255,.07), rgba(255,255,255,0) 72%),
+    radial-gradient(closest-side at 18% 62%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(closest-side at 52% 58%, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0) 72%),
+    radial-gradient(closest-side at 78% 66%, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0) 70%);
+  animation: card-cloud-drift-b 27s linear infinite;
+}
+
+.card-weather-layer--rain.card-weather-layer--a {
+  opacity: 0.30;
+  mix-blend-mode: screen;
+  transform: perspective(720px) rotateX(12deg) rotateZ(-4deg);
+  transform-origin: 50% 0%;
+  background-image:
+    linear-gradient(to bottom, rgba(140,180,255,.10), rgba(140,180,255,0) 55%),
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.22) 0 1px,
+      rgba(255, 255, 255, 0) 1px 10px
+    ),
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.12) 0 2px,
+      rgba(255, 255, 255, 0) 2px 18px
+    );
+  background-size: 100% 100%, 180% 180%, 240% 240%;
+  animation: card-rain-fall 0.85s linear infinite;
+}
+.card-weather-layer--rain.card-weather-layer--b {
+  opacity: 0.18;
+  filter: blur(18px);
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(closest-side at 40% 12%, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0) 68%),
+    radial-gradient(closest-side at 75% 18%, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0) 70%),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.35));
+  animation: card-rain-mist 7s ease-in-out infinite;
+}
+
+@keyframes card-cloud-drift-a {
+  0% { transform: translateX(-6%) translateY(-2%) scale(1.02); }
+  50% { transform: translateX(6%) translateY(2%) scale(1.04); }
+  100% { transform: translateX(-6%) translateY(-2%) scale(1.02); }
+}
+@keyframes card-cloud-drift-b {
+  0% { transform: translateX(7%) translateY(2%) scale(1.02); }
+  50% { transform: translateX(-7%) translateY(-2%) scale(1.05); }
+  100% { transform: translateX(7%) translateY(2%) scale(1.02); }
+}
+@keyframes card-rain-fall {
+  0% { background-position: 0% -60%; }
+  100% { background-position: -35% 160%; }
+}
+@keyframes card-rain-mist {
+  0%, 100% { transform: translateY(0%); opacity: 0.16; }
+  50% { transform: translateY(2%); opacity: 0.22; }
+}
+@keyframes card-sun-pulse {
+  0%, 100% { transform: translateX(-4%) translateY(-2%) scale(1.02); opacity: 0.20; }
+  50% { transform: translateX(4%) translateY(2%) scale(1.06); opacity: 0.30; }
+}
+@keyframes card-sun-rotate {
+  0% { transform: rotate(0deg) scale(1.05); }
+  100% { transform: rotate(360deg) scale(1.05); }
+}

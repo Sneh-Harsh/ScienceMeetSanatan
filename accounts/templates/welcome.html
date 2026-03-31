@@ -1,0 +1,167 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome | Science Meet Sanatan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'welcome.css' %}" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="left-nav">
+        <a href="/welcome/" class="logo" aria-label="SMS Home">
+          <span class="logo-mark">SMS</span>
+          <span class="logo-text">Science Meet Sanatan</span>
+        </a>
+
+        <a href="/welcome/" class="nav-link">Home</a>
+
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <a
+          href="data:text/html;charset=utf-8,<!doctype html><html><head><meta charset='utf-8'><title>About Us</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Inter,Segoe UI,sans-serif;background:%230b1020;color:%23f3f7ff}h1{font-size:clamp(1.8rem,5vw,3rem)}</style></head><body><h1>About Us</h1></body></html>"
+          class="nav-link"
+          >About Us</a
+        >
+      </div>
+
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="logout-btn" href="/">Logout</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="verse-slider" aria-label="Gita verse slideshow">
+        <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1800&q=80');">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <p class="verse-tag">Bhagavad Gita 2.47</p>
+            <h1>You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions.</h1>
+          </div>
+        </div>
+
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1800&q=80');">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <p class="verse-tag">Bhagavad Gita 6.5</p>
+            <h1>Elevate yourself through the power of your mind, and not degrade yourself. Mind can be the friend and also the enemy.</h1>
+          </div>
+        </div>
+
+        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1800&q=80');">
+          <div class="slide-overlay"></div>
+          <div class="slide-content">
+            <p class="verse-tag">Bhagavad Gita 4.7</p>
+            <h1>Whenever there is a decline in righteousness and rise of unrighteousness, I manifest Myself.</h1>
+          </div>
+        </div>
+
+        <a class="read-btn fixed-read-btn" href="/library/">Explore Library</a>
+
+        <div class="carousel-indicators" aria-label="Slide indicators">
+          <button class="indicator active" type="button" aria-label="Show slide 1" data-slide="0"></button>
+          <button class="indicator" type="button" aria-label="Show slide 2" data-slide="1"></button>
+          <button class="indicator" type="button" aria-label="Show slide 3" data-slide="2"></button>
+        </div>
+      </section>
+
+      <section class="did-you-know" aria-label="Did you know section">
+        <canvas id="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
+
+        <div class="dyk-heading">
+          <p class="dyk-kicker">✨ Did you know?</p>
+          <h2>Sacred Insights from the Gita Universe</h2>
+        </div>
+
+        <div class="dyk-carousel">
+          <button class="cards-nav prev" type="button" aria-label="Previous cards">❮</button>
+          <div id="didYouKnowGrid" class="did-you-know-grid">
+            <div class="dyk-card">
+              <div class="dyk-card-inner">
+                <div class="dyk-card-face dyk-card-front">
+                  <img src="https://picsum.photos/seed/gita1/600/350" alt="Kalpa Vigraha" loading="lazy" />
+                  <h3 class="front-title">Kalpa Vigraha</h3>
+                </div>
+                <div class="dyk-card-face dyk-card-back">
+                  <h3>Kalpa Vigraha</h3>
+                  <p>Kalpa Vigraha symbolizes timeless divine form—representing the eternal truths that remain beyond changing ages.</p>
+                </div>
+              </div>
+            </div>
+            <div class="dyk-card">
+              <div class="dyk-card-inner">
+                <div class="dyk-card-face dyk-card-front">
+                  <img src="https://picsum.photos/seed/gita2/600/350" alt="Kurukshetra Field" loading="lazy" />
+                  <h3 class="front-title">Kurukshetra Field</h3>
+                </div>
+                <div class="dyk-card-face dyk-card-back">
+                  <h3>Kurukshetra Field</h3>
+                  <p>Kurukshetra in the Gita is both battlefield and inner mind, where duty and doubt face each other.</p>
+                </div>
+              </div>
+            </div>
+            <div class="dyk-card">
+              <div class="dyk-card-inner">
+                <div class="dyk-card-face dyk-card-front">
+                  <img src="https://picsum.photos/seed/gita3/600/350" alt="Krishna’s Flute" loading="lazy" />
+                  <h3 class="front-title">Krishna’s Flute</h3>
+                </div>
+                <div class="dyk-card-face dyk-card-back">
+                  <h3>Krishna’s Flute</h3>
+                  <p>The flute is a symbol of surrender: when ego empties, divine harmony flows naturally through life.</p>
+                </div>
+              </div>
+            </div>
+            <div class="dyk-card">
+              <div class="dyk-card-inner">
+                <div class="dyk-card-face dyk-card-front">
+                  <img src="https://picsum.photos/seed/gita4/600/350" alt="Bhakti Path" loading="lazy" />
+                  <h3 class="front-title">Bhakti Path</h3>
+                </div>
+                <div class="dyk-card-face dyk-card-back">
+                  <h3>Bhakti Path</h3>
+                  <p>Bhakti in the Gita teaches heartfelt devotion balanced with action, humility, and remembrance.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="cards-nav next" type="button" aria-label="Next cards">❯</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="{% static 'welcome.js' %}"></script>
+  </body>
+</html>

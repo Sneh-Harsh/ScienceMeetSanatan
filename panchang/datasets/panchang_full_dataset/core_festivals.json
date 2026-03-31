@@ -1,0 +1,51 @@
+[
+  {"name":"Chaitra Navratri","month":"Chaitra","start_tithi":"Pratipada","end_tithi":"Navami","paksha":"Shukla"},
+  {"name":"Ram Navami","month":"Chaitra","tithi":"Navami","paksha":"Shukla"},
+  {"name":"Hanuman Jayanti","month":"Chaitra","tithi":"Purnima","paksha":"Shukla"},
+
+  {"name":"Akshaya Tritiya","month":"Vaishakh","tithi":"Tritiya","paksha":"Shukla"},
+
+  {"name":"Ganga Dussehra","month":"Jyeshtha","tithi":"Dashami","paksha":"Shukla"},
+
+  {"name":"Jagannath Rath Yatra","month":"Ashadh","tithi":"Dwitiya","paksha":"Shukla"},
+  {"name":"Devshayani Ekadashi","month":"Ashadh","tithi":"Ekadashi","paksha":"Shukla"},
+
+  {"name":"Guru Purnima","month":"Ashadh","tithi":"Purnima","paksha":"Shukla"},
+  {"name":"Nag Panchami","month":"Shravan","tithi":"Panchami","paksha":"Shukla"},
+  {"name":"Raksha Bandhan","month":"Shravan","tithi":"Purnima","paksha":"Shukla"},
+
+  {"name":"Krishna Janmashtami","month":"Bhadrapad","tithi":"Ashtami","paksha":"Krishna"},
+  {"name":"Ganesh Chaturthi","month":"Bhadrapad","tithi":"Chaturthi","paksha":"Shukla"},
+  {"name":"Anant Chaturdashi","month":"Bhadrapad","tithi":"Chaturdashi","paksha":"Shukla"},
+
+  {"name":"Pitru Paksha Begins","month":"Bhadrapad","tithi":"Pratipada","paksha":"Krishna"},
+
+  {"name":"Sharadiya Navratri","month":"Ashwin","start_tithi":"Pratipada","end_tithi":"Navami","paksha":"Shukla"},
+  {"name":"Durga Ashtami","month":"Ashwin","tithi":"Ashtami","paksha":"Shukla"},
+  {"name":"Maha Navami","month":"Ashwin","tithi":"Navami","paksha":"Shukla"},
+  {"name":"Dussehra","month":"Ashwin","tithi":"Dashami","paksha":"Shukla"},
+  {"name":"Sharad Purnima","month":"Ashwin","tithi":"Purnima","paksha":"Shukla"},
+
+  {"name":"Karwa Chauth","month":"Kartik","tithi":"Chaturthi","paksha":"Krishna"},
+  {"name":"Dhanteras","month":"Kartik","tithi":"Trayodashi","paksha":"Krishna"},
+  {"name":"Narak Chaturdashi","month":"Kartik","tithi":"Chaturdashi","paksha":"Krishna"},
+  {"name":"Diwali","month":"Kartik","tithi":"Amavasya","paksha":"Krishna"},
+  {"name":"Govardhan Puja","month":"Kartik","tithi":"Pratipada","paksha":"Shukla"},
+  {"name":"Bhai Dooj","month":"Kartik","tithi":"Dwitiya","paksha":"Shukla"},
+  {"name":"Devuthani Ekadashi","month":"Kartik","tithi":"Ekadashi","paksha":"Shukla"},
+  {"name":"Kartik Purnima","month":"Kartik","tithi":"Purnima","paksha":"Shukla"},
+
+  {"name":"Makar Sankranti","calendar":"solar","fixed_date":"14 January"},
+
+  {"name":"Vasant Panchami","month":"Magh","tithi":"Panchami","paksha":"Shukla"},
+  {"name":"Ratha Saptami","month":"Magh","tithi":"Saptami","paksha":"Shukla"},
+
+  {"name":"Chhath Puja - Day 1 (Nahay Khay)","month":"Kartik","tithi":"Chaturthi","paksha":"Shukla"},
+  {"name":"Chhath Puja - Day 2 (Kharna)","month":"Kartik","tithi":"Panchami","paksha":"Shukla"},
+  {"name":"Chhath Puja - Day 3 (Sandhya Arghya)","month":"Kartik","tithi":"Shashthi","paksha":"Shukla"},
+  {"name":"Chhath Puja - Day 4 (Usha Arghya)","month":"Kartik","tithi":"Saptami","paksha":"Shukla"},
+
+  {"name":"Maha Shivratri","month":"Phalguna","tithi":"Chaturdashi","paksha":"Krishna"},
+  {"name":"Holika Dahan","month":"Phalguna","tithi":"Purnima","paksha":"Shukla"},
+  {"name":"Holi","month":"Phalguna","tithi":"Purnima","paksha":"Shukla"}
+]

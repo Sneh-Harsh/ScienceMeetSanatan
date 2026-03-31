@@ -1,0 +1,82 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Login</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+  </head>
+  <body data-mode="{{ mode|default:'login' }}">
+    <video class="video-background" autoplay muted loop playsinline>
+      <source src="{% static 'background-video.mp4' %}" type="video/mp4" />
+      Your browser does not support the background video.
+    </video>
+
+    <button id="toggleLogin" class="toggle-login-btn" type="button" aria-pressed="false">
+      Hide Login
+    </button>
+
+    <h2 class="brand-title">Science Meet Sanatan</h2>
+
+    <main class="login-wrapper">
+      <section class="login-card" aria-label="Authentication form">
+        <h1 id="formHeading">Welcome Back</h1>
+
+        {% if messages %}
+          <ul class="messages">
+            {% for message in messages %}
+              <li class="message {{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+
+        <form id="loginForm" class="auth-form" action="" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="form_type" value="login" />
+
+          <label for="loginUsername">Username</label>
+          <input id="loginUsername" name="username" type="text" placeholder="Enter your username" required />
+
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" name="password" type="password" placeholder="Enter your password" required />
+
+          <button type="submit" class="primary-btn">Log In</button>
+        </form>
+
+        <form id="signupForm" class="auth-form hidden" action="" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="form_type" value="signup" />
+
+          <label for="signupName">Name</label>
+          <input id="signupName" name="name" type="text" placeholder="Enter your full name" required />
+
+          <label for="signupUsername">Username</label>
+          <input id="signupUsername" name="username" type="text" placeholder="Choose a username" required />
+
+          <label for="signupEmail">Email</label>
+          <input id="signupEmail" name="email" type="email" placeholder="Enter your email" required />
+
+          <label for="signupPassword">Password</label>
+          <input id="signupPassword" name="password" type="password" placeholder="Create a password" required />
+
+          <button type="submit" class="primary-btn">Sign Up</button>
+        </form>
+
+        <p class="switch-auth">
+          <span id="switchPrompt">Don&apos;t have an account?</span>
+          <button id="switchAuthBtn" class="link-btn" type="button">Sign Up</button>
+        </p>
+
+        <div id="socialBlock">
+          <div class="divider" aria-hidden="true"><span>or continue with</span></div>
+
+          <div class="social-buttons">
+            <a class="social-btn{% if not google_oauth_configured %} disabled{% endif %}" href="/oauth/login/google-oauth2/">Google</a>
+            <a class="social-btn{% if not apple_oauth_configured %} disabled{% endif %}" href="/oauth/login/apple-id/">Apple ID</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="{% static 'script.js' %}"></script>
+  </body>
+</html>
