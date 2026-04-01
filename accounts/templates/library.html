@@ -7,7 +7,7 @@
   <title>Spiritual Library | Science Meet Sanatan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
   <link rel="stylesheet" href="{% static 'library/library.css' %}" />
 </head>
@@ -70,7 +70,7 @@
           Discover aartis, Vedic verses, epic passages, and devotional texts in a calm, modern space designed for deep reading.
         </p>
         <div class="hero-actions">
-          <a class="hero-btn hero-btn--primary" href="#libraryGrid">Explore Collection</a>
+          <a class="hero-btn hero-btn--primary" href="#libraryGrid" id="exploreCollectionBtn">Explore Collection</a>
           <button class="hero-btn hero-btn--ghost" type="button" id="featuredScrollBtn">Today’s Featured Aarti</button>
         </div>
         <div class="hero-stats">
@@ -80,7 +80,7 @@
           </div>
           <div class="hero-stat">
             <span>Categories</span>
-            <strong id="heroCategoryCount">{{ library_payload_obj.categories|length }}</strong>
+            <strong id="heroCategoryCount">8</strong>
           </div>
           <div class="hero-stat">
             <span>Reading Mode</span>
@@ -123,9 +123,14 @@
 
         <select id="categoryFilter" class="filter-select">
           <option value="all">All categories</option>
-          {% for category in library_payload_obj.categories %}
-            <option value="{{ category|lower }}">{{ category }}</option>
-          {% endfor %}
+          <option value="aartis">Aartis</option>
+          <option value="books">Books</option>
+          <option value="audios">Audios</option>
+          <option value="bhajans">Bhajans</option>
+          <option value="vedas">Vedas</option>
+          <option value="upanishads">Upanishads</option>
+          <option value="chalisas">Chalisas</option>
+          <option value="sacred hymns">Sacred Hymns</option>
         </select>
 
         <select id="languageFilter" class="filter-select">
@@ -186,6 +191,6 @@
   </main>
 
   {{ library_payload|json_script:"libraryPayloadData" }}
-  <script src="{% static 'library/library.js' %}?v=4"></script>
+  <script src="{% static 'library/library.js' %}?v=8"></script>
 </body>
 </html>

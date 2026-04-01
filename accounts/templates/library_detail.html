@@ -7,7 +7,7 @@
   <title>{{ item_name }} | Spiritual Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
   <link rel="stylesheet" href="{% static 'library/library.css' %}" />
 </head>
@@ -105,11 +105,17 @@
           <div class="reader-fade">Smooth scroll enabled</div>
         </div>
 
+        <div class="reader-nav" id="readerNav">
+          <button type="button" class="reader-nav__btn" id="prevPageBtn">← Previous</button>
+          <div class="reader-nav__status" id="readerPageStatus">Opening sacred pages…</div>
+          <button type="button" class="reader-nav__btn" id="nextPageBtn">Next →</button>
+        </div>
+
         <div id="readerContent" class="reader-content"></div>
       </article>
     </section>
   </main>
 
-  <script src="{% static 'library/library.js' %}?v=4"></script>
+  <script src="{% static 'library/library.js' %}?v=8"></script>
 </body>
 </html>

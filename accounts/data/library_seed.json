@@ -9,9 +9,9 @@
       "popularity": 98,
       "excerpt": "A luminous invocation to begin every sacred effort with wisdom, clarity, and auspicious grace.",
       "languages": {
-        "hindi": "जय गणेश जय गणेश जय गणेश देवा। माता जाकी पार्वती पिता महादेवा॥",
-        "english": "Glory to Lord Ganesha, remover of obstacles, born of Parvati and Mahadeva, source of auspicious beginnings.",
-        "sanskrit": "श्रीगणेशाय नमः। विघ्नराजं भजे नित्यं सर्वसिद्धिप्रदायकम्॥"
+        "hindi": "श्रीगणेशाय नमः।\nवक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।\nनिर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥\nजय गणेश, जय गणेश, जय गणेश देवा।\nमाता जाकी पार्वती, पिता महादेवा॥\n\nएक दन्त दयावन्त, चार भुजा धारी।\nमाथे पर तिलक सोहे, मूसे की सवारी॥\n\nअंधन को आंख देत, कोढ़िन को काया।\nबांझन को पुत्र देत, निर्धन को माया॥\n\nहार चढ़े, फूल चढ़े, और चढ़े मेवा।\nलड्डुओं का भोग लगे, संत करें सेवा॥\n\nजय गणेश, जय गणेश, जय गणेश देवा।\nमाता जाकी पार्वती, पिता महादेवा॥",
+        "english": "Glory to Lord Ganesha, divine son of Mother Parvati and Lord Shiva.\n\nYou are the compassionate one with a single tusk and four arms,\nadorned with a tilak on your forehead, riding your mouse.\n\nYou grant vision to the blind, heal the sick,\nbless the childless with children, and give wealth to the poor.\n\nGarlands, flowers, and offerings are presented to you,\nand laddus are offered as devotees serve you with devotion.\n\nGlory to Lord Ganesha, remover of obstacles and giver of wisdom.",
+        "Transliteration": "Jaya Gaṇeśa, Jaya Gaṇeśa, Jaya Gaṇeśa Deva,\nMātā jāki Pārvatī, pitā Mahādeva॥\n\nEka-danta dayāvanta, cāra bhuja dhārī,\nMāthe para tilaka sohe, mūse kī savārī॥\n\nAndhana ko āṅkha deta, koḍhina ko kāyā,\nBāñjhana ko putra deta, nirdhana ko māyā॥\n\nHāra chaṛhe, phūla chaṛhe, aura chaṛhe mevā,\nLaḍḍūana kā bhoga lage, santa kare sevā॥\n\nJaya Gaṇeśa, Jaya Gaṇeśa, Jaya Gaṇeśa Deva,\nMātā jāki Pārvatī, pitā Mahādeva॥"
       }
     },
     {
@@ -23,7 +23,7 @@
       "popularity": 96,
       "excerpt": "A devotional hymn celebrating Shiva as the silent cosmic force beyond destruction and renewal.",
       "languages": {
-        "hindi": "ॐ जय शिव ओंकारा, स्वामी जय शिव ओंकारा। ब्रह्मा विष्णु सदाशिव, अर्धांगी धारा॥",
+        "hindi": "ॐ जय शिव ओंकारा, स्वामी जय शिव ओंकारा।\nब्रह्मा, विष्णु, सदाशिव, अर्धांगी धारा॥\n\nएकानन चतुरानन पंचानन राजे।\nहंसासन गरुड़ासन वृषवाहन साजे॥\n\nदो भुजा चार चतुर्भुजा दस भुजा अति सोहे।\nतीनों रूप निरखते त्रिभुवन जन मोहे॥\n\nअक्षमाला वनमाला मुण्डमाला धारी।\nचंदन मृगमद सोहे भाले शशिधारी॥\n\nश्वेताम्बर पीताम्बर बाघाम्बर अंगे।\nसनकादिक ब्रह्मादिक भूतादिक संगे॥\n\nकर के मध्य कमंडलु चक्र त्रिशूल धारी।\nजग करता जग भर्ता जग पालनकारी॥\n\nब्रह्मा विष्णु सदाशिव जानत अविवेका।\nप्रणवाक्षर के मध्ये ये तीनों एका॥\n\nकाशी में विश्वनाथ विराजत नन्दी ब्रह्मचारी।\nनित उठ दर्शन पावत महिमा अति भारी॥\n\nॐ जय शिव ओंकारा॥",
         "english": "Salutations to Shiva, the cosmic lord whose presence holds creation, preservation, and transcendence together.",
         "sanskrit": "नमः शिवाय शान्ताय, करुणावताराय ते नमः॥"
       }
@@ -31,7 +31,7 @@
     {
       "slug": "durga-chalisa",
       "name": "Durga Chalisa",
-      "category": "Sacred Hymns",
+      "category": "Chalisas",
       "deity": "Maa Durga",
       "featured": true,
       "popularity": 91,
@@ -59,7 +59,7 @@
     {
       "slug": "ramayan-aranya-kand",
       "name": "Ramayan • Aranya Kand",
-      "category": "Ramayan",
+      "category": "Books",
       "deity": "Lord Rama",
       "featured": false,
       "popularity": 86,
@@ -73,7 +73,7 @@
     {
       "slug": "mahabharat-gita-updesh",
       "name": "Mahabharat • Gita Updesh",
-      "category": "Mahabharat",
+      "category": "Books",
       "deity": "Shri Krishna",
       "featured": false,
       "popularity": 89,

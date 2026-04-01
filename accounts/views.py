@@ -13,7 +13,7 @@ from django.views.decorators.http import require_GET, require_POST
 
 from .models import LoginAttempt
 from .baby_names_data import load_baby_names_json
-from .library_data import build_library_payload, get_library_item, load_library_items
+from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_library_item, load_library_items
 from .models import Category, QuizAttempt, UserStats
 
 
@@ -171,6 +171,7 @@ def library_page(request):
         {
             "library_payload": json.dumps(payload),
             "library_payload_obj": payload,
+            "library_categories": PRESET_LIBRARY_CATEGORIES,
             "library_error": library_error,
         },
     )
@@ -229,7 +230,7 @@ def api_library_items(request):
     return JsonResponse(
         {
             "items": filtered,
-            "categories": sorted({item["category"] for item in items}),
+            "categories": list(PRESET_LIBRARY_CATEGORIES),
             "total": len(filtered),
             "debug_total_before_filters": len(items),
         }

@@ -23,3 +23,44 @@ class LoginAttempt(models.Model):
     def __str__(self):
         status = 'success' if self.success else 'failed'
         return f'{self.username} ({self.provider}) - {status}'
+
+
+class Category(models.Model):
+    slug = models.SlugField(max_length=60, unique=True)
+    name = models.CharField(max_length=120, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class QuizAttempt(models.Model):
+    user = models.ForeignKey("auth.User", on_delete=models.CASCADE, related_name="quiz_attempts")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="attempts")
+    score = models.PositiveIntegerField()
+    total_questions = models.PositiveIntegerField()
+    attempt_best_streak = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.user.username} • {self.category.slug} • {self.score}/{self.total_questions}"
+
+
+class UserStats(models.Model):
+    user = models.OneToOneField("auth.User", on_delete=models.CASCADE, related_name="user_stats")
+    total_score = models.PositiveIntegerField(default=0)
+    highest_score = models.PositiveIntegerField(default=0)
+    best_streak = models.PositiveIntegerField(default=0)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-total_score", "-highest_score"]
+
+    def __str__(self) -> str:
+        return f"{self.user.username} • total={self.total_score}"

@@ -283,4 +283,203 @@ def _tithi_pos(tithi: str, paksha: str) -> Optional[int]:
         return None
 
 
-def _matches_core(rule: Dict[str, Any], *, tithi: str, paks
+def _matches_core(rule: Dict[str, Any], *, tithi: str, paksha: str, month: str) -> bool:
+    # Supports single-day and range rules (start_tithi/end_tithi).
+    if rule.get("month") is not None and _norm_month(rule.get("month")) != _norm_month(month):
+        return False
+    if rule.get("paksha") is not None and _norm_paksha(rule.get("paksha")) != _norm_paksha(paksha):
+        return False
+
+    if rule.get("tithi") is not None:
+        return _norm_tithi(rule.get("tithi")) == _norm_tithi(tithi)
+
+    if rule.get("start_tithi") is not None and rule.get("end_tithi") is not None:
+        pos = _tithi_pos(tithi, paksha)
+        start = _tithi_pos(str(rule.get("start_tithi")), str(rule.get("paksha") or paksha))
+        end = _tithi_pos(str(rule.get("end_tithi")), str(rule.get("paksha") or paksha))
+        if pos is None or start is None or end is None:
+            return False
+        return start <= pos <= end
+
+    return False
+
+
+def _matches(rule: Dict[str, Any], *, tithi: str, paksha: str, month: str, nakshatra: str) -> bool:
+    for k, v in (("tithi", tithi), ("paksha", paksha), ("month", month), ("nakshatra", nakshatra)):
+        rv = rule.get(k)
+        if rv is None:
+            continue
+        if k == "paksha":
+            if _norm_paksha(rv) != _norm_paksha(v):
+                return False
+        elif k == "month":
+            if _norm_month(rv) != _norm_month(v):
+                return False
+        elif k == "tithi":
+            if _norm_tithi(rv) != _norm_tithi(v):
+                return False
+        else:
+            if _norm_key(rv) and _norm_key(rv) != _norm_key(v):
+                return False
+    return True
+
+
+def festivals_for_day(
+    *,
+    date_str: Optional[str] = None,
+    tithi: str,
+    paksha: str,
+    month: str,
+    nakshatra: str,
+    # Optional time-rule snapshots (festival exceptions)
+    tithi_sunset: Optional[str] = None,
+    paksha_sunset: Optional[str] = None,
+    tithi_nishita: Optional[str] = None,
+    paksha_nishita: Optional[str] = None,
+    tithi_midnight: Optional[str] = None,
+    paksha_midnight: Optional[str] = None,
+    tithi_prev_sunrise: Optional[str] = None,
+    paksha_prev_sunrise: Optional[str] = None,
+    tithi_next_sunrise: Optional[str] = None,
+    paksha_next_sunrise: Optional[str] = None,
+    tithi_moonrise: Optional[str] = None,
+    paksha_moonrise: Optional[str] = None,
+    sankranti_to_signs: Optional[List[int]] = None,
+    month_is_adhik: Optional[bool] = None,
+    sun_sign_today: Optional[int] = None,
+    sun_sign_yesterday: Optional[int] = None,
+) -> List[Dict[str, Any]]:
+    """
+    Returns a list of matched festivals with metadata (icon/description/animation key).
+    Matching is rule-based and derived from Panchang fields (no hardcoded dates).
+    """
+    rules = _load_rules()
+    matched: List[Tuple[str, Dict[str, Any]]] = []
+
+    # Default time rule: tithi/paksha at sunrise (most festivals)
+    def pick_snapshot(time_rule: str) -> Tuple[str, str]:
+        tr = _norm_key(time_rule)
+        if tr in ("sunset", "evening"):
+            return (tithi_sunset or tithi, paksha_sunset or paksha)
+        if tr in ("midnight",):
+            return (tithi_midnight or tithi_nishita or tithi, paksha_midnight or paksha_nishita or paksha)
+        if tr in ("nishita", "night"):
+            return (tithi_nishita or tithi, paksha_nishita or paksha)
+        if tr in ("moonrise",):
+            return (tithi_moonrise or tithi, paksha_moonrise or paksha)
+        return (tithi, paksha)
+
+    # Festival-specific time rules (definition, not dates)
+    TIME_RULE_BY_NAME = {
+        "Krishna Janmashtami": "midnight",
+        "Maha Shivratri": "night",
+        "Holika Dahan": "sunset",
+        "Karwa Chauth": "moonrise",
+    }
+
+    # Core (tithi/paksha/month/nakshatra)
+    for rule in rules.get("core", []):
+        # Solar core festival(s)
+        if _norm_key(rule.get("calendar")) == "solar":
+            name = str(rule.get("name") or "").strip()
+            if name == "Makar Sankranti":
+                # Sun enters Capricorn (sidereal sign index 9)
+                if sankranti_to_signs and 9 in sankranti_to_signs:
+                    matched.append(("core", rule))
+            continue
+
+        if month_is_adhik:
+            # Most festivals are not observed in Adhik Maas (shift to the next "normal" month).
+            continue
+
+        name = str(rule.get("name") or "").strip()
+        tr = TIME_RULE_BY_NAME.get(name, "sunrise")
+        tt, pp = pick_snapshot(tr)
+
+        # Ekadashi edge-cases (Drik-style):
+        # - Double (vriddhi) Ekadashi: if Ekadashi exists at sunrise on two consecutive days,
+        #   mark only the 2nd day (today is skipped if tomorrow is also Ekadashi).
+        # - Skipped Ekadashi at sunrise: if Ekadashi doesn't appear at sunrise on any day in the paksha,
+        #   it is observed on the next day's sunrise (usually Dwadashi / Mahadwadashi).
+        if tr == "sunrise" and _norm_tithi(rule.get("tithi")) == "Ekadashi":
+            tt_norm = _norm_tithi(tt)
+            pp_norm = _norm_paksha(pp)
+            next_t = _norm_tithi(tithi_next_sunrise) if tithi_next_sunrise else None
+            next_p = _norm_paksha(paksha_next_sunrise) if paksha_next_sunrise else None
+            prev_t = _norm_tithi(tithi_prev_sunrise) if tithi_prev_sunrise else None
+            prev_p = _norm_paksha(paksha_prev_sunrise) if paksha_prev_sunrise else None
+
+            # Prefer 2nd day when Ekadashi spans two sunrises.
+            if tt_norm == "Ekadashi" and next_t == "Ekadashi" and next_p == pp_norm:
+                continue
+
+            # Skipped-at-sunrise: Dashami -> Dwadashi transition across sunrises.
+            if tt_norm == "Dwadashi" and prev_t == "Dashami" and prev_p == pp_norm:
+                tt = "Ekadashi"
+
+        if _matches_core(rule, tithi=tt, paksha=pp, month=month):
+            enriched = dict(rule)
+            enriched["time_rule"] = tr
+            matched.append(("core", enriched))
+
+    # Vrat rules
+    for rule in rules.get("vrat", []):
+        # Avoid overly-broad rules (some datasets only include month+paksha for naming).
+        if "tithi" in rule or "start_tithi" in rule or "end_tithi" in rule or "nakshatra" in rule:
+            if _matches(rule, tithi=tithi, paksha=paksha, month=month, nakshatra=nakshatra):
+                matched.append(("vrat", rule))
+
+    # Regional rules: only those that contain lunar conditions (e.g., Chhath Puja)
+    for rule in rules.get("regional", []):
+        # Fixed-date rules (Gregorian) - format expected: "MM-DD" or "YYYY-MM-DD"
+        if date_str and rule.get("fixed_date"):
+            fd = str(rule.get("fixed_date")).strip()
+            if len(fd) == 5 and date_str[5:] == fd:
+                matched.append(("regional", rule))
+                continue
+            if len(fd) == 10 and date_str == fd:
+                matched.append(("regional", rule))
+                continue
+        if "tithi" in rule or "month" in rule or "paksha" in rule or "nakshatra" in rule:
+            if _matches(rule, tithi=tithi, paksha=paksha, month=month, nakshatra=nakshatra):
+                matched.append(("regional", rule))
+        else:
+            # typed rules
+            rtype = rule.get("type")
+            if rtype == "lunar_new_year":
+                if month == "Chaitra" and paksha == "Shukla Paksha" and tithi == "Pratipada":
+                    matched.append(("regional", rule))
+            elif rtype == "solar":
+                # Minimal solar support: Makara Sankranti / Pongal (Sun enters Capricorn)
+                if str(rule.get("name")) == "Pongal" and sun_sign_today is not None and sun_sign_yesterday is not None:
+                    if sun_sign_today == 9 and sun_sign_yesterday != 9:
+                        matched.append(("regional", rule))
+
+    # Derived (rule-based) festivals for better coverage
+    if month == "Chaitra" and paksha == "Shukla Paksha" and tithi == "Pratipada":
+        matched.append(("derived", {"name": "Navratri Begins"}))
+    if month == "Ashwin" and paksha == "Shukla Paksha" and tithi == "Pratipada":
+        matched.append(("derived", {"name": "Sharad Navratri Begins"}))
+    if month == "Ashwin" and paksha == "Shukla Paksha" and tithi == "Dashami":
+        matched.append(("derived", {"name": "Dussehra"}))
+
+    # Normalize + attach metadata
+    out: List[Dict[str, Any]] = []
+    seen = set()
+    for source, r in matched:
+        name = str(r.get("name") or "").strip()
+        if not name or name in seen:
+            continue
+        seen.add(name)
+        out.append(
+            {
+                "name": name,
+                "icon": _ICON_BY_NAME.get(name, "🎉"),
+                "description": _DESC_BY_NAME.get(name, "Auspicious day in the Sanatan calendar."),
+                "anim": _ANIM_BY_NAME.get(name, "glow"),
+                "source": source,
+                "time_rule": r.get("time_rule"),
+                "region": r.get("region"),
+            }
+        )
+    return out

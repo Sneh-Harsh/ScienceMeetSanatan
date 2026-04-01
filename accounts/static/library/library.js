@@ -1,6 +1,16 @@
 const libraryPage = document.getElementById("libraryPage");
 const libraryDetailPage = document.getElementById("libraryDetailPage");
 const libraryPayloadNode = document.getElementById("libraryPayloadData");
+const FIXED_LIBRARY_CATEGORIES = [
+  "Aartis",
+  "Books",
+  "Audios",
+  "Bhajans",
+  "Vedas",
+  "Upanishads",
+  "Chalisas",
+  "Sacred Hymns",
+];
 
 const debounce = (callback, wait = 220) => {
   let timeoutId = null;
@@ -12,7 +22,8 @@ const debounce = (callback, wait = 220) => {
 
 const safeJson = (value, fallback) => {
   try {
-    return JSON.parse(value);
+    const parsed = JSON.parse(value);
+    return parsed == null ? fallback : parsed;
   } catch (error) {
     return fallback;
   }
@@ -78,10 +89,12 @@ const initLibraryListPage = () => {
   const languageFilter = document.getElementById("languageFilter");
   const loadMoreBtn = document.getElementById("loadMoreBtn");
   const featuredScrollBtn = document.getElementById("featuredScrollBtn");
+  const exploreCollectionBtn = document.getElementById("exploreCollectionBtn");
   const statusNode = document.getElementById("libraryStatus");
   const heroTotalCount = document.getElementById("heroTotalCount");
   const heroCategoryCount = document.getElementById("heroCategoryCount");
   const recentlyViewed = document.getElementById("recentlyViewed");
+  const presetCategories = [...FIXED_LIBRARY_CATEGORIES];
 
   let items = Array.isArray(seed.items) ? seed.items : [];
   let visibleCount = 9;
@@ -108,10 +121,15 @@ const initLibraryListPage = () => {
 
   const renderFeatured = () => {
     const featured = Array.isArray(seed.featured) && seed.featured.length ? seed.featured : items.slice(0, 3);
-    featuredRail.innerHTML = featured
+    featuredRail.innerHTML = (featured.length ? featured : [{
+      slug: "",
+      name: "No featured text yet",
+      excerpt: "Add local library files to populate the featured shelf.",
+      content_type: "text",
+    }])
       .map(
         (item, index) => `
-          <a class="featured-card" href="/library/${encodeURIComponent(item.slug)}/" style="animation-delay:${index * 90}ms">
+          <a class="featured-card" href="${item.slug ? `/library/${encodeURIComponent(item.slug)}/` : '#'}" style="animation-delay:${index * 90}ms">
             <span class="featured-label">✨ ${escapeHtml(item.content_type === "pdf" ? "Scripture" : "Featured")}</span>
             <h3>${escapeHtml(item.name)}</h3>
             <p>${escapeHtml(item.excerpt || item.category)}</p>
@@ -124,7 +142,11 @@ const initLibraryListPage = () => {
   const filteredItems = () =>
     items.filter((item) => {
       const matchesCategory = category === "all" || item.category.toLowerCase() === category;
-      const matchesLanguage = language === "all" || Boolean(item.languages?.[language]);
+      const matchesLanguage =
+        language === "all" ||
+        item.content_type === "pdf" ||
+        category === "books" ||
+        Boolean(item.languages?.[language]);
       const haystack = [
         item.name,
         item.deity,
@@ -168,12 +190,11 @@ const initLibraryListPage = () => {
     loadMoreBtn.hidden = filtered.length <= visible.length;
     setStatus(statusNode, filtered.length ? `${filtered.length} sacred text${filtered.length > 1 ? "s" : ""} found` : "No matching texts yet");
     heroTotalCount.textContent = String(items.length);
-    heroCategoryCount.textContent = String(seed.categories?.length || 0);
+    heroCategoryCount.textContent = String(FIXED_LIBRARY_CATEGORIES.length);
   };
 
   const populateCategories = () => {
-    const categories = Array.isArray(seed.categories) ? seed.categories : [];
-    categoryFilter.innerHTML = `<option value="all">All categories</option>${categories
+    categoryFilter.innerHTML = `<option value="all">All categories</option>${FIXED_LIBRARY_CATEGORIES
       .map((entry) => `<option value="${escapeHtml(entry.toLowerCase())}">${escapeHtml(entry)}</option>`)
       .join("")}`;
   };
@@ -203,7 +224,17 @@ const initLibraryListPage = () => {
   };
 
   featuredScrollBtn?.addEventListener("click", () => {
+    const firstFeatured = (Array.isArray(seed.featured) && seed.featured.length ? seed.featured[0] : items[0]) || null;
+    if (firstFeatured?.slug) {
+      window.location.href = `/library/${encodeURIComponent(firstFeatured.slug)}/`;
+      return;
+    }
     featuredRail?.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
+
+  exploreCollectionBtn?.addEventListener("click", (event) => {
+    event.preventDefault();
+    document.getElementById("libraryGrid")?.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
   searchInput?.addEventListener(
@@ -247,6 +278,10 @@ const initLibraryDetailPage = () => {
   const deityNode = document.getElementById("detailDeity");
   const readerHeading = document.getElementById("readerHeading");
   const readerContent = document.getElementById("readerContent");
+  const prevPageBtn = document.getElementById("prevPageBtn");
+  const nextPageBtn = document.getElementById("nextPageBtn");
+  const readerPageStatus = document.getElementById("readerPageStatus");
+  const readerNav = document.getElementById("readerNav");
   const copyTextBtn = document.getElementById("copyTextBtn");
   const bookmarkBtn = document.getElementById("bookmarkBtn");
   const shareBtn = document.getElementById("shareBtn");
@@ -258,8 +293,26 @@ const initLibraryDetailPage = () => {
   let itemData = null;
   let currentLanguage = "hindi";
   let currentReadingMode = "language";
+  let currentBookPage = 0;
+  let currentPdfPage = 1;
+
+  const updateReaderNav = (options = {}) => {
+    const {
+      enabled = true,
+      prevDisabled = false,
+      nextDisabled = false,
+      status = "",
+    } = options;
+    if (readerNav) {
+      readerNav.hidden = !enabled;
+    }
+    if (prevPageBtn) prevPageBtn.disabled = !enabled || prevDisabled;
+    if (nextPageBtn) nextPageBtn.disabled = !enabled || nextDisabled;
+    if (readerPageStatus) readerPageStatus.textContent = status;
+  };
 
   const renderStructuredSection = (list, emptyMessage, titleKey, bodyKey) => {
+    updateReaderNav({ enabled: false, status: "Structured reading view" });
     if (!Array.isArray(list) || !list.length) {
       readerContent.innerHTML = `<div class="reader-empty-state">${escapeHtml(emptyMessage)}</div>`;
       return;
@@ -279,6 +332,67 @@ const initLibraryDetailPage = () => {
         `;
       })
       .join("");
+  };
+
+  const renderBookSpread = (lines, pageIndex) => {
+    const linesPerSide = 8;
+    const linesPerSpread = linesPerSide * 2;
+    const totalSpreads = Math.max(1, Math.ceil(lines.length / linesPerSpread));
+    const safePageIndex = Math.min(Math.max(pageIndex, 0), totalSpreads - 1);
+    currentBookPage = safePageIndex;
+    const start = safePageIndex * linesPerSpread;
+    const leftLines = lines.slice(start, start + linesPerSide);
+    const rightLines = lines.slice(start + linesPerSide, start + linesPerSpread);
+
+    updateReaderNav({
+      enabled: true,
+      prevDisabled: safePageIndex === 0,
+      nextDisabled: safePageIndex >= totalSpreads - 1,
+      status: `Spread ${safePageIndex + 1} of ${totalSpreads}`,
+    });
+
+    const renderPage = (pageLines, label) => `
+      <section class="book-page">
+        <div class="book-page__label">${label}</div>
+        <div class="book-page__body">
+          ${pageLines.length
+            ? pageLines
+                .map(
+                  (line, index) =>
+                    `<div class="reader-line" style="animation-delay:${index * 35}ms">${escapeHtml(line)}</div>`
+                )
+                .join("")
+            : `<div class="reader-line reader-line--muted">This page is intentionally left calm.</div>`}
+        </div>
+      </section>
+    `;
+
+    readerContent.innerHTML = `
+      <div class="book-shell">
+        <div class="book-spine" aria-hidden="true"></div>
+        ${renderPage(leftLines, "Left Page")}
+        ${renderPage(rightLines, "Right Page")}
+      </div>
+    `;
+  };
+
+  const renderPdfSpread = () => {
+    updateReaderNav({
+      enabled: true,
+      prevDisabled: currentPdfPage <= 1,
+      nextDisabled: false,
+      status: `PDF page ${currentPdfPage}`,
+    });
+    readerContent.innerHTML = itemData.pdf_url
+      ? `
+        <div class="pdf-reader-shell book-shell book-shell--pdf">
+          <div class="book-page book-page--pdf">
+            <div class="book-page__label">Digital Scripture</div>
+            <iframe class="pdf-frame" src="${escapeHtml(itemData.pdf_url)}#toolbar=0&navpanes=0&page=${currentPdfPage}&view=FitH" title="${escapeHtml(itemData.name)} PDF"></iframe>
+          </div>
+        </div>
+      `
+      : `<div class="reader-empty-state">PDF file is not available yet for this scripture.</div>`;
   };
 
   const renderReader = () => {
@@ -308,32 +422,24 @@ const initLibraryDetailPage = () => {
       }
 
       readerHeading.textContent = `${itemData.name} • PDF Reader`;
-      readerContent.innerHTML = itemData.pdf_url
-        ? `
-          <div class="pdf-reader-shell">
-            <iframe class="pdf-frame" src="${escapeHtml(itemData.pdf_url)}#toolbar=0&navpanes=0&view=FitH" title="${escapeHtml(itemData.name)} PDF"></iframe>
-          </div>
-        `
-        : `<div class="reader-empty-state">PDF file is not available yet for this scripture.</div>`;
+      renderPdfSpread();
       return;
     }
 
     const text = itemData.languages?.[currentLanguage] || itemData.languages?.english || itemData.languages?.hindi || itemData.languages?.sanskrit || "";
     const lines = splitLines(text);
     readerHeading.textContent = `${itemData.name} • ${currentLanguage[0].toUpperCase()}${currentLanguage.slice(1)}`;
-    readerContent.innerHTML = lines.length
-      ? lines
-          .map(
-            (line, index) => `
-              <div class="reader-line" style="animation-delay:${index * 45}ms">${escapeHtml(line)}</div>
-            `
-          )
-          .join("")
-      : `<div class="reader-line">No ${currentLanguage} text is available yet for this entry.</div>`;
+    if (!lines.length) {
+      updateReaderNav({ enabled: false, status: "No text available" });
+      readerContent.innerHTML = `<div class="reader-line">No ${currentLanguage} text is available yet for this entry.</div>`;
+      return;
+    }
+    renderBookSpread(lines, currentBookPage);
   };
 
   const setActiveLanguage = (language) => {
     currentLanguage = language;
+    currentBookPage = 0;
     toggleButtons.forEach((button) => {
       button.classList.toggle("active", button.dataset.language === language);
     });
@@ -342,6 +448,7 @@ const initLibraryDetailPage = () => {
 
   const setActiveReadingMode = (mode) => {
     currentReadingMode = mode;
+    currentPdfPage = 1;
     readingButtons.forEach((button) => {
       button.classList.toggle("active", button.dataset.mode === mode);
     });
@@ -355,6 +462,28 @@ const initLibraryDetailPage = () => {
 
     readingButtons.forEach((button) => {
       button.addEventListener("click", () => setActiveReadingMode(button.dataset.mode));
+    });
+
+    prevPageBtn?.addEventListener("click", () => {
+      if (!itemData) return;
+      if (itemData.content_type === "pdf" && currentReadingMode === "pdf") {
+        currentPdfPage = Math.max(1, currentPdfPage - 1);
+        renderReader();
+        return;
+      }
+      currentBookPage = Math.max(0, currentBookPage - 1);
+      renderReader();
+    });
+
+    nextPageBtn?.addEventListener("click", () => {
+      if (!itemData) return;
+      if (itemData.content_type === "pdf" && currentReadingMode === "pdf") {
+        currentPdfPage += 1;
+        renderReader();
+        return;
+      }
+      currentBookPage += 1;
+      renderReader();
     });
 
     copyTextBtn?.addEventListener("click", async () => {

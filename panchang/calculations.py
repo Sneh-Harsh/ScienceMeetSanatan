@@ -468,4 +468,161 @@ def build_panchang(*, date: Optional[str], lat: float, lon: float, tz_name: str,
     paksha_next_sunrise = _paksha_from_tithi_index(_tithi_index(sunrise_next_jd))
 
     # - midnight snapshot (00:00 local time of the night after today's sunset)
-    local_mid
+    local_midnight = datetime(local_day.year, local_day.month, local_day.day, 0, 0, 0, tzinfo=tz)
+    local_midnight_next = local_midnight + timedelta(days=1)
+    jd_midnight_next = _dt_to_jd_utc(local_midnight_next.astimezone(ZoneInfo("UTC")))
+    tithi_midnight = TITHI_NAMES[_tithi_index(jd_midnight_next)]
+    paksha_midnight = _paksha_from_tithi_index(_tithi_index(jd_midnight_next))
+
+    # - moonrise-based festivals (best-effort; moonrise after sunset)
+    moonrise_jd = _moon_rise(sunset_jd, lat, lon)
+    tithi_moonrise = TITHI_NAMES[_tithi_index(moonrise_jd)] if moonrise_jd else None
+    paksha_moonrise = _paksha_from_tithi_index(_tithi_index(moonrise_jd)) if moonrise_jd else None
+
+    # - sankranti(s) during sunrise->next sunrise window (solar festivals)
+    sank_to, _sank_times = _sankranti_to_signs_between(sunrise_jd, sunrise_next_jd)
+
+    festivals_detail = festivals_for_day(
+        date_str=date_str,
+        tithi=tithi_name,
+        paksha=paksha,
+        month=month_base,
+        nakshatra=nak_name,
+        tithi_sunset=tithi_sunset,
+        paksha_sunset=paksha_sunset,
+        tithi_nishita=tithi_nishita,
+        paksha_nishita=paksha_nishita,
+        tithi_midnight=tithi_midnight,
+        paksha_midnight=paksha_midnight,
+        tithi_prev_sunrise=tithi_prev_sunrise,
+        paksha_prev_sunrise=paksha_prev_sunrise,
+        tithi_next_sunrise=tithi_next_sunrise,
+        paksha_next_sunrise=paksha_next_sunrise,
+        tithi_moonrise=tithi_moonrise,
+        paksha_moonrise=paksha_moonrise,
+        sankranti_to_signs=list(sank_to),
+        month_is_adhik=bool(month_is_adhik),
+        sun_sign_today=sun_sign_today,
+        sun_sign_yesterday=sun_sign_yesterday,
+    )
+
+    manual_festivals = get_festivals_for_date(date_str)
+    for name in manual_festivals:
+        norm = str(name).strip().lower()
+        if any(str(f.get("name") or "").strip().lower() == norm for f in festivals_detail):
+            continue
+        festivals_detail.append(
+            {
+                "name": str(name).strip(),
+                "icon": "🎉",
+                "description": "Festival day.",
+                "anim": "glow",
+                "source": "manual",
+            }
+        )
+
+    festivals = [str(f.get("name")) for f in festivals_detail if f.get("name")]
+
+    vikram_samvat = _vikram_samvat_year(local_day, tz, lat, lon, tz_name)
+
+    return {
+        # required fields
+        "tithi": tithi_name,
+        "tithi_start": _jd_to_dt_local(t_start, tz).isoformat(timespec="seconds"),
+        "tithi_end": _jd_to_dt_local(t_end, tz).isoformat(timespec="seconds"),
+        "nakshatra": nak_name,
+        "nak_start": _jd_to_dt_local(n_start, tz).isoformat(timespec="seconds"),
+        "nak_end": _jd_to_dt_local(n_end, tz).isoformat(timespec="seconds"),
+        "paksha": paksha,
+        "month": month_name,
+        "month_base": month_base,
+        "month_type": month_type,
+        "month_start": _jd_to_dt_local(month_start_jd, tz).isoformat(timespec="seconds"),
+        "month_end": _jd_to_dt_local(month_end_jd, tz).isoformat(timespec="seconds"),
+        "sankranti_count": int(sankranti_count),
+        "month_is_adhik": bool(month_is_adhik),
+        "month_is_kshay": bool(month_is_kshay),
+        "moon_phase": float(moon_phase),  # 0..1
+        # extra for premium dashboard
+        "moon_waxing": bool(moon_waxing),
+        "sunrise": sunrise_local.isoformat(timespec="seconds"),
+        "sunset": sunset_local.isoformat(timespec="seconds"),
+        "rahu_start": rahu_start.isoformat(timespec="seconds"),
+        "rahu_end": rahu_end.isoformat(timespec="seconds"),
+        "abhijit_start": abhijit_start.isoformat(timespec="seconds"),
+        "abhijit_end": abhijit_end.isoformat(timespec="seconds"),
+        "festivals": festivals,
+        "festivals_detail": festivals_detail,
+        "vikram_samvat": int(vikram_samvat),
+        "location": {"lat": lat, "lon": lon, "tz": tz_name},
+        "date": date_str,
+    }
+
+
+@lru_cache(maxsize=4096)
+def build_panchang_for_date(*, date: str, lat_r: float, lon_r: float, tz_name: str, rules_version: str = "") -> Dict:
+    """
+    Cached day-panchang at sunrise (used heavily by month calendar).
+    Cache key uses rounded lat/lon to avoid fragmentation.
+    `rules_version` is used as a cache-buster when festival datasets change.
+    """
+    return build_panchang(date=date, lat=float(lat_r), lon=float(lon_r), tz_name=tz_name, at=None)
+
+
+@lru_cache(maxsize=256)
+def _vikram_samvat_start_date(g_year: int, lat_r: float, lon_r: float, tz_name: str) -> Date:
+    try:
+        tz = ZoneInfo(tz_name)
+    except Exception:
+        tz = ZoneInfo("UTC")
+        tz_name = "UTC"
+
+    # Rule: Vikram Samvat year changes on Chaitra Shukla Pratipada (Hindu/Nav Varsha),
+    # which begins immediately after the spring Amavasya (new moon), typically in March–April.
+    #
+    # Important: a sunrise-only scan can MISS Pratipada when it starts after sunrise and ends before
+    # the next sunrise. So we detect the Amavasya→Pratipada boundary (tithi index 29 -> 0) and then
+    # select the *spring* boundary date.
+    #
+    # Heuristic window (India practice): Nav Varsha usually falls ~mid-March to mid-April.
+    local_start = datetime(g_year, 3, 1, 0, 0, 0, tzinfo=tz)
+    local_end = datetime(g_year, 5, 1, 0, 0, 0, tzinfo=tz)
+    jd_start = _dt_to_jd_utc(local_start.astimezone(ZoneInfo("UTC")))
+    jd_end = _dt_to_jd_utc(local_end.astimezone(ZoneInfo("UTC")))
+
+    candidates: list[Date] = []
+
+    jd = jd_start
+    step = 6.0 / 24.0  # 6 hours
+    while jd < jd_end:
+        if _tithi_index(jd) == 29:
+            lo, hi = _find_bracket(jd, _tithi_index, 29, direction=+1)
+            amavasya_end = _binary_search_transition(lo, hi, _tithi_index, 29, tol_minutes=0.5)
+            candidates.append(_jd_to_dt_local(amavasya_end, tz).date())
+            jd = amavasya_end + 1.0  # jump past this Amavasya
+            continue
+        jd += step
+
+    # Prefer the boundary that falls inside the expected Nav Varsha window.
+    window_start = Date(g_year, 3, 15)
+    window_end = Date(g_year, 4, 20)
+    in_window = [d for d in candidates if window_start <= d <= window_end]
+    if in_window:
+        return min(in_window)
+
+    # Otherwise, fall back to the earliest candidate after March 10.
+    fallback_start = Date(g_year, 3, 10)
+    after = [d for d in candidates if d >= fallback_start]
+    if after:
+        return min(after)
+
+    # Last resort
+    return Date(g_year, 4, 1)
+
+
+def _vikram_samvat_year(local_day: Date, tz: ZoneInfo, lat: float, lon: float, tz_name: str) -> int:
+    lat_r = round(float(lat), 2)
+    lon_r = round(float(lon), 2)
+    start_date = _vikram_samvat_start_date(local_day.year, lat_r, lon_r, tz_name)
+    base = local_day.year + 57
+    return base if local_day >= start_date else base - 1
