@@ -133,6 +133,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR / 'accounts' / 'static']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 LIBRARY_DRIVE_FILE_ID = os.getenv('LIBRARY_DRIVE_FILE_ID', '').strip()
 LIBRARY_DRIVE_URL = os.getenv(
