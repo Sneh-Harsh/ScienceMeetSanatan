@@ -2,3 +2,4 @@ Django
 social-auth-app-django>=5.4,<6.0
 openpyxl>=3.1,<4.0
 pyswisseph>=2.10,<3.0
+whitenoise
