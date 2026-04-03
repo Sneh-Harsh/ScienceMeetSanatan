@@ -15,6 +15,7 @@ body {
   background: #08090c;
   color: #f5f7ff;
   overflow: hidden;
+  position: relative;
 }
 
 .video-background {
@@ -24,7 +25,7 @@ body {
   height: 100vh;
   object-fit: cover;
   object-position: center;
-  z-index: -2;
+  z-index: 0;
 }
 
 body::before {
@@ -32,7 +33,7 @@ body::before {
   position: fixed;
   inset: 0;
   background: rgba(4, 7, 14, 0.4);
-  z-index: -1;
+  z-index: 1;
 }
 
 .toggle-login-btn {
@@ -70,11 +71,14 @@ body::before {
   transform: translateY(8px);
   pointer-events: none;
   transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 3;
 }
 
 .login-wrapper {
   width: min(92vw, 420px);
   transition: opacity 0.2s ease, transform 0.2s ease;
+  position: relative;
+  z-index: 3;
 }
 
 .login-card {
