@@ -40,6 +40,7 @@
           <input id="loginPassword" name="password" type="password" placeholder="Enter your password" required />
 
           <button type="submit" class="primary-btn">Log In</button>
+          <button id="showForgotBtn" class="secondary-link-btn" type="button">Forgot password?</button>
         </form>
 
         <form id="signupForm" class="auth-form hidden" action="" method="post">
@@ -59,6 +60,26 @@
           <input id="signupPassword" name="password" type="password" placeholder="Create a password" required />
 
           <button type="submit" class="primary-btn">Sign Up</button>
+        </form>
+
+        <form id="forgotForm" class="auth-form hidden" action="" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="form_type" value="reset_password" />
+
+          <label for="forgotUsername">Username</label>
+          <input id="forgotUsername" name="username" type="text" placeholder="Enter your username" required />
+
+          <label for="forgotEmail">Email</label>
+          <input id="forgotEmail" name="email" type="email" placeholder="Enter your registered email" required />
+
+          <label for="forgotNewPassword">New password</label>
+          <input id="forgotNewPassword" name="new_password" type="password" placeholder="Enter a new password" required />
+
+          <label for="forgotConfirmPassword">Confirm new password</label>
+          <input id="forgotConfirmPassword" name="confirm_password" type="password" placeholder="Confirm your new password" required />
+
+          <button type="submit" class="primary-btn">Reset Password</button>
+          <button id="backToLoginBtn" class="secondary-link-btn" type="button">Back to login</button>
         </form>
 
         <p class="switch-auth">

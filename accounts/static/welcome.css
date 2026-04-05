@@ -58,8 +58,8 @@ body {
 .verse-slider {
   position: relative;
   width: 100%;
-  height: 70vh;
-  min-height: 420px;
+  height: 76vh;
+  min-height: 500px;
   max-height: 760px;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -69,11 +69,10 @@ body {
 .slide {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
   opacity: 0;
   transform: scale(1.05);
   transition: opacity 0.85s ease, transform 4s ease;
+  overflow: hidden;
 }
 
 .slide.active {
@@ -81,10 +80,248 @@ body {
   transform: scale(1);
 }
 
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 26%),
+    radial-gradient(circle at 80% 18%, rgba(255, 255, 255, 0.05), transparent 24%),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+}
+
+.slide--baby {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 179, 71, 0.3), transparent 28%),
+    radial-gradient(circle at 78% 26%, rgba(236, 72, 153, 0.2), transparent 24%),
+    linear-gradient(135deg, #24131d 0%, #4a1d2d 38%, #8a4f20 100%);
+}
+
+.slide--panchang {
+  background:
+    radial-gradient(circle at 18% 24%, rgba(125, 211, 252, 0.24), transparent 30%),
+    radial-gradient(circle at 80% 16%, rgba(255, 215, 0, 0.18), transparent 24%),
+    linear-gradient(135deg, #071422 0%, #15324a 45%, #0d1827 100%);
+}
+
+.slide--kundali {
+  background:
+    radial-gradient(circle at 25% 20%, rgba(255, 166, 0, 0.2), transparent 26%),
+    radial-gradient(circle at 82% 24%, rgba(168, 85, 247, 0.22), transparent 22%),
+    linear-gradient(135deg, #180e23 0%, #2d1640 42%, #4f2e22 100%);
+}
+
+.slide--horoscope {
+  background:
+    radial-gradient(circle at 22% 22%, rgba(129, 140, 248, 0.26), transparent 30%),
+    radial-gradient(circle at 78% 18%, rgba(244, 114, 182, 0.18), transparent 24%),
+    linear-gradient(135deg, #0d132b 0%, #201547 45%, #411a53 100%);
+}
+
+.slide--library {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 217, 119, 0.2), transparent 24%),
+    radial-gradient(circle at 78% 22%, rgba(255, 255, 255, 0.1), transparent 22%),
+    linear-gradient(135deg, #2a1b0f 0%, #53361f 40%, #140f0a 100%);
+}
+
+.slide--quizzes {
+  background:
+    radial-gradient(circle at 24% 18%, rgba(34, 197, 94, 0.2), transparent 24%),
+    radial-gradient(circle at 78% 24%, rgba(56, 189, 248, 0.2), transparent 24%),
+    linear-gradient(135deg, #0c1321 0%, #11233d 45%, #0b3a37 100%);
+}
+
 .slide-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(95deg, rgba(8, 12, 22, 0.78) 0%, rgba(8, 12, 22, 0.46) 44%, rgba(8, 12, 22, 0.7) 100%);
+  background:
+    linear-gradient(95deg, rgba(8, 12, 22, 0.62) 0%, rgba(8, 12, 22, 0.28) 44%, rgba(8, 12, 22, 0.56) 100%);
+}
+
+.slide-visual {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.slide-visual::before,
+.slide-visual::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+  opacity:.9;
+}
+
+.slide--baby .slide-visual::before{
+  inset:auto 8% 12% auto;
+  width:min(38vw, 380px);
+  height:min(24vw, 240px);
+  border-radius:28px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.08) 0 2px, transparent 2px 26%),
+    linear-gradient(180deg, rgba(255,255,255,.06) 0 2px, transparent 2px 34%),
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.10), 0 20px 60px rgba(0,0,0,.18);
+  animation: baby-grid 12s linear infinite;
+}
+
+.slide--panchang .slide-visual::before{
+  right:6%;
+  top:14%;
+  width:min(34vw, 340px);
+  height:min(34vw, 340px);
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.08) 0 2px, transparent 3px),
+    repeating-conic-gradient(from 0deg, rgba(255,215,0,.14) 0deg 8deg, transparent 8deg 28deg);
+  animation: panchang-wheel 18s linear infinite;
+}
+
+.slide--panchang .slide-visual::after{
+  right:16%;
+  top:24%;
+  width:min(18vw, 180px);
+  height:min(18vw, 180px);
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.10);
+  background: radial-gradient(circle, rgba(125,211,252,.18), rgba(125,211,252,0) 62%);
+  animation: float-orb 8s ease-in-out infinite;
+}
+
+.slide--kundali .slide-visual::before{
+  right:8%;
+  top:16%;
+  width:min(34vw, 340px);
+  height:min(34vw, 340px);
+  transform: rotate(45deg);
+  border:2px solid rgba(255,179,71,.22);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.06),
+    0 18px 60px rgba(0,0,0,.18);
+  animation: kundali-spin 16s ease-in-out infinite;
+}
+
+.slide--kundali .slide-visual::after{
+  right:13%;
+  top:21%;
+  width:min(22vw, 220px);
+  height:min(22vw, 220px);
+  transform: rotate(45deg);
+  border:1px solid rgba(255,255,255,.12);
+  background: linear-gradient(135deg, rgba(255,166,0,.12), rgba(168,85,247,.10));
+  animation: kundali-spin 10s ease-in-out infinite reverse;
+}
+
+.slide--horoscope .slide-visual::before{
+  right:7%;
+  top:18%;
+  width:min(38vw, 380px);
+  height:min(38vw, 380px);
+  border-radius:50%;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.04) 0 54%, transparent 54%),
+    repeating-conic-gradient(from 0deg, rgba(255,255,255,.12) 0deg 3deg, transparent 3deg 30deg);
+  animation: horoscope-spin 22s linear infinite;
+}
+
+.slide--library .slide-visual::before{
+  right:7%;
+  bottom:10%;
+  width:min(36vw, 360px);
+  height:min(24vw, 240px);
+  border-radius:24px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+    repeating-linear-gradient(90deg, rgba(255,217,119,.14) 0 12%, rgba(255,255,255,.03) 12% 18%);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.2),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+  animation: library-shelf 10s ease-in-out infinite;
+}
+
+.slide--library .slide-visual::after{
+  right:11%;
+  bottom:18%;
+  width:min(16vw, 160px);
+  height:min(20vw, 200px);
+  border-radius:16px 16px 8px 8px;
+  background: linear-gradient(180deg, rgba(255,244,214,.22), rgba(255,217,119,.08));
+  box-shadow: 0 12px 40px rgba(0,0,0,.16);
+  transform-origin: left center;
+  animation: page-turn 5.8s ease-in-out infinite;
+}
+
+.slide--quizzes .slide-visual::before{
+  right:6%;
+  top:17%;
+  width:min(36vw, 360px);
+  height:min(22vw, 220px);
+  border-radius:22px;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(34,197,94,.28), transparent 18%),
+    radial-gradient(circle at 52% 46%, rgba(56,189,248,.22), transparent 18%),
+    radial-gradient(circle at 82% 26%, rgba(255,215,0,.22), transparent 16%),
+    linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08), 0 18px 60px rgba(0,0,0,.18);
+  animation: quiz-pulse 8s ease-in-out infinite;
+}
+
+.slide--quizzes .slide-visual::after{
+  right:12%;
+  top:50%;
+  width:min(12vw, 120px);
+  height:min(12vw, 120px);
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+  animation: float-orb 6.5s ease-in-out infinite reverse;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(16px);
+  opacity: 0.9;
+  animation: float-orb 10s ease-in-out infinite;
+}
+
+.orb--one {
+  width: 240px;
+  height: 240px;
+  right: 12%;
+  top: 18%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+}
+
+.orb--two {
+  width: 360px;
+  height: 360px;
+  right: 0;
+  bottom: -8%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.12), rgba(255, 255, 255, 0));
+  animation-delay: -4s;
+}
+
+.feature-glyph {
+  position: absolute;
+  right: 14%;
+  top: 20%;
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.16);
+  text-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+  animation: glyph-drift 14s ease-in-out infinite;
+}
+
+.feature-glyph--small {
+  right: 8%;
+  top: 58%;
+  font-size: clamp(1.1rem, 3vw, 2rem);
+  color: rgba(255, 255, 255, 0.26);
+  animation-delay: -5s;
 }
 
 .slide-content {
@@ -102,7 +339,7 @@ body {
 
 .verse-tag {
   margin: 0;
-  color: #d2e9ff;
+  color: #f6ddad;
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -112,8 +349,23 @@ body {
 .slide-content h1 {
   margin: 0;
   font-size: clamp(1.35rem, 3.3vw, 2.75rem);
-  line-height: 1.35;
+  line-height: 1.18;
   text-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
+}
+
+.slide-copy {
+  margin: 0;
+  max-width: 680px;
+  color: rgba(239, 246, 255, 0.8);
+  font-size: clamp(0.96rem, 1.6vw, 1.1rem);
+  line-height: 1.7;
+}
+
+.slide-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
 }
 
 .read-btn {
@@ -149,13 +401,6 @@ body {
   transform: translateX(0);
 }
 
-.fixed-read-btn {
-  position: absolute;
-  right: clamp(1.5rem, 5vw, 4rem);
-  bottom: clamp(1.35rem, 4vw, 2.4rem);
-  z-index: 6;
-}
-
 .carousel-indicators {
   position: absolute;
   left: clamp(1.5rem, 5vw, 4rem);
@@ -183,6 +428,62 @@ body {
 .indicator.active {
   border-color: #d9edff;
   background: #d9edff;
+}
+
+@keyframes float-orb {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-14px, 10px, 0) scale(1.04);
+  }
+}
+
+@keyframes glyph-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(8px, -10px, 0) rotate(3deg);
+  }
+}
+
+@keyframes baby-grid{
+  0%{ transform: translate3d(0,0,0); }
+  50%{ transform: translate3d(-10px,8px,0); }
+  100%{ transform: translate3d(0,0,0); }
+}
+
+@keyframes panchang-wheel{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(360deg); }
+}
+
+@keyframes kundali-spin{
+  0%,100%{ transform: rotate(45deg) scale(1); }
+  50%{ transform: rotate(49deg) scale(1.03); }
+}
+
+@keyframes horoscope-spin{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(-360deg); }
+}
+
+@keyframes library-shelf{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-6px); }
+}
+
+@keyframes page-turn{
+  0%,100%{ transform: perspective(600px) rotateY(0deg); }
+  50%{ transform: perspective(600px) rotateY(-18deg); }
+}
+
+@keyframes quiz-pulse{
+  0%,100%{ transform: translateY(0) scale(1); }
+  50%{ transform: translateY(-6px) scale(1.02); }
 }
 
 .did-you-know {
@@ -425,13 +726,8 @@ body {
   }
 
   .verse-slider {
-    height: 68vh;
-    min-height: 360px;
-  }
-
-  .fixed-read-btn {
-    right: 1.2rem;
-    bottom: 1.2rem;
+    height: 72vh;
+    min-height: 500px;
   }
 
   .carousel-indicators {
@@ -449,5 +745,40 @@ body {
 
   .did-you-know-grid {
     grid-template-columns: 1fr;
+  }
+
+  .slide-content {
+    gap: 0.9rem;
+    padding: 5.6rem 1rem 4rem;
+  }
+
+  .slide-content h1 {
+    font-size: clamp(1.28rem, 6vw, 1.8rem);
+  }
+
+  .slide-copy {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .feature-glyph {
+    right: 8%;
+    top: 14%;
+    font-size: clamp(3.1rem, 14vw, 4.8rem);
+  }
+
+  .feature-glyph--small {
+    top: auto;
+    bottom: 18%;
+    right: 8%;
+    font-size: clamp(0.95rem, 4vw, 1.2rem);
+  }
+
+  .slide-visual::before{
+    opacity:.72;
+  }
+
+  .slide-visual::after{
+    opacity:.66;
   }
 }

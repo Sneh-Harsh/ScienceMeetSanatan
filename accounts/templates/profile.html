@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Settings | Science Meet Sanatan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'header.css' %}" />
+    <link rel="stylesheet" href="{% static 'profile.css' %}" />
+  </head>
+  <body>
+    <header class="header">
+      <a href="/welcome/" class="logo">
+        <span class="logo-mark">SMS</span>
+        <span class="logo-text">Science Meet Sanatan</span>
+      </a>
+      <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-shell" aria-hidden="true">
+        <div class="left-nav">
+          <a href="/welcome/" class="nav-link">Home</a>
+          <div class="explore-wrap">
+            <a href="#" class="nav-link">Explore ▾</a>
+            <div class="dropdown">
+              <a href="/baby-names/">Baby names</a>
+              <a href="/library/">Library</a>
+              <a href="/panchang/">Panchang</a>
+              <a href="#">8K Wallpapers</a>
+              <a href="#">Gifs</a>
+            </div>
+          </div>
+          <a href="/panchang/" class="nav-link">Panchang</a>
+          <div class="explore-wrap">
+            <a href="/kundali/" class="nav-link">Kundali ▾</a>
+            <div class="dropdown">
+              <a href="/kundali/">Generator</a>
+              <a href="/horoscope/">Horoscope</a>
+            </div>
+          </div>
+          <a href="#" class="nav-link">About Us</a>
+        </div>
+        <div class="right-nav">
+          <a class="quiz-link" href="/library/">Library</a>
+          <a class="quiz-link" href="/quizzes/">Quizzes</a>
+          <div class="profile-wrap">
+            <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+            <div class="profile-card">
+              <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+              <p class="profile-status">Logged in</p>
+              <a class="profile-link" href="/profile/">Manage account</a>
+              <a class="logout-btn" href="/">Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="profile-page">
+      <section class="profile-hero">
+        <div class="profile-kicker">Account Center</div>
+        <h1>Manage your profile and security</h1>
+        <p>Update your username, email, display name, and password from one secure place.</p>
+      </section>
+
+      {% if messages %}
+        <ul class="profile-messages">
+          {% for message in messages %}
+            <li class="profile-message {{ message.tags }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
+      <section class="profile-grid">
+        <article class="profile-panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">Profile</div>
+              <h2>Edit your account details</h2>
+            </div>
+          </div>
+          <form method="post" class="settings-form">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="profile" />
+
+            <label for="profileName">Full name</label>
+            <input id="profileName" name="name" type="text" value="{{ full_name }}" required />
+
+            <label for="profileUsername">Username</label>
+            <input id="profileUsername" name="username" type="text" value="{{ request.user.username }}" required />
+
+            <label for="profileEmail">Email</label>
+            <input id="profileEmail" name="email" type="email" value="{{ request.user.email }}" required />
+
+            <button type="submit" class="settings-btn">Save profile</button>
+          </form>
+        </article>
+
+        <article class="profile-panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">Security</div>
+              <h2>Change your password</h2>
+            </div>
+          </div>
+          <form method="post" class="settings-form">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="password" />
+
+            <label for="currentPassword">Current password</label>
+            <input id="currentPassword" name="current_password" type="password" required />
+
+            <label for="newPassword">New password</label>
+            <input id="newPassword" name="new_password" type="password" required />
+
+            <label for="confirmPassword">Confirm new password</label>
+            <input id="confirmPassword" name="confirm_password" type="password" required />
+
+            <button type="submit" class="settings-btn settings-btn--alt">Update password</button>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <script src="{% static 'header.js' %}"></script>
+  </body>
+</html>

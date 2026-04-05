@@ -3,31 +3,46 @@ const pageBody = document.body;
 
 const loginForm = document.querySelector('#loginForm');
 const signupForm = document.querySelector('#signupForm');
+const forgotForm = document.querySelector('#forgotForm');
 const switchAuthBtn = document.querySelector('#switchAuthBtn');
 const switchPrompt = document.querySelector('#switchPrompt');
 const formHeading = document.querySelector('#formHeading');
 const socialBlock = document.querySelector('#socialBlock');
+const showForgotBtn = document.querySelector('#showForgotBtn');
+const backToLoginBtn = document.querySelector('#backToLoginBtn');
 
-let authMode = pageBody.dataset.mode === 'signup' ? 'signup' : 'login';
+let authMode = pageBody.dataset.mode === 'signup' ? 'signup' : pageBody.dataset.mode === 'forgot' ? 'forgot' : 'login';
 
 const updateAuthModeUi = () => {
-  if (!loginForm || !signupForm || !switchAuthBtn || !switchPrompt || !formHeading || !socialBlock) {
+  if (!loginForm || !signupForm || !forgotForm || !switchAuthBtn || !switchPrompt || !formHeading || !socialBlock) {
     return;
   }
 
   const isSignup = authMode === 'signup';
+  const isForgot = authMode === 'forgot';
 
-  loginForm.classList.toggle('hidden', isSignup);
+  loginForm.classList.toggle('hidden', isSignup || isForgot);
   signupForm.classList.toggle('hidden', !isSignup);
-  socialBlock.classList.toggle('hidden', isSignup);
+  forgotForm.classList.toggle('hidden', !isForgot);
+  socialBlock.classList.toggle('hidden', isSignup || isForgot);
 
-  formHeading.textContent = isSignup ? 'Create Account' : 'Welcome Back';
-  switchPrompt.textContent = isSignup ? 'Already have an account?' : "Don't have an account?";
-  switchAuthBtn.textContent = isSignup ? 'Log In' : 'Sign Up';
+  formHeading.textContent = isSignup ? 'Create Account' : isForgot ? 'Reset Password' : 'Welcome Back';
+  switchPrompt.textContent = isSignup ? 'Already have an account?' : isForgot ? 'Remembered your password?' : "Don't have an account?";
+  switchAuthBtn.textContent = isSignup || isForgot ? 'Log In' : 'Sign Up';
 };
 
 switchAuthBtn?.addEventListener('click', () => {
   authMode = authMode === 'signup' ? 'login' : 'signup';
+  updateAuthModeUi();
+});
+
+showForgotBtn?.addEventListener('click', () => {
+  authMode = 'forgot';
+  updateAuthModeUi();
+});
+
+backToLoginBtn?.addEventListener('click', () => {
+  authMode = 'login';
   updateAuthModeUi();
 });
 

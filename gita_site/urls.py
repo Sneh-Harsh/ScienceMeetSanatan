@@ -20,6 +20,7 @@ from accounts.views import (
     login_page,
     kundali_page,
     panchang_page,
+    profile_page,
     quizzes_page,
     welcome_page,
 )
@@ -30,6 +31,7 @@ urlpatterns = [
     path('welcome/', welcome_page, name='welcome'),
     path('baby-names/', baby_names_page, name='baby_names'),
     path('quizzes/', quizzes_page, name='quizzes'),
+    path('profile/', profile_page, name='profile'),
     path('library/', library_page, name='library'),
     path('library/<slug:slug>/', library_detail_page, name='library_detail'),
     path('aartis/<slug:slug>/', library_detail_page, name='aarti_detail'),

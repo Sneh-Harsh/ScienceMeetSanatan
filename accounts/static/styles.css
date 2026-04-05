@@ -196,6 +196,22 @@ body::before {
   opacity: 0.92;
 }
 
+.secondary-link-btn {
+  margin-top: 0.15rem;
+  border: none;
+  background: transparent;
+  color: #cde3ff;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.2rem 0;
+  cursor: pointer;
+}
+
+.secondary-link-btn:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
 
 .auth-form.hidden,
 .hidden {

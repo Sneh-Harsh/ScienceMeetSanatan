@@ -192,7 +192,7 @@ if (slides.length > 1) {
   window.setInterval(() => {
     const next = (activeIndex + 1) % slides.length;
     applySlide(next);
-  }, 5200);
+  }, 8200);
 
   applySlide(activeIndex);
 }

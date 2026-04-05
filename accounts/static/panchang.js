@@ -637,15 +637,37 @@ const FESTIVAL_ICONS = {
 
 const panchangCache = new Map(); // key -> payload
 const coreFestYearCache = new Map(); // key -> list
+const PANCHANG_STORAGE_PREFIX = "sms:panchang:day:v1:";
+const COREFEST_STORAGE_PREFIX = "sms:panchang:corefest:v1:";
+
+function safeStorageGet(key){
+  try{
+    const raw = window.localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : null;
+  }catch{
+    return null;
+  }
+}
+
+function safeStorageSet(key, value){
+  try{
+    window.localStorage.setItem(key, JSON.stringify(value));
+  }catch{}
+}
 
 async function fetchPanchangForDate(dateStr, { signal } = {}){
   const { lat, lon, tz } = getSavedLocation();
   const tzName = tz || getBrowserTz();
   const key = `${dateStr}|${Number(lat).toFixed(4)}|${Number(lon).toFixed(4)}|${tzName}`;
   if(panchangCache.has(key)) return panchangCache.get(key);
+  const stored = safeStorageGet(PANCHANG_STORAGE_PREFIX + key);
+  if(stored){
+    panchangCache.set(key, stored);
+    return stored;
+  }
 
   const controller = new AbortController();
-  const timeoutMs = 12_000;
+  const timeoutMs = 18_000;
   const timeoutId = window.setTimeout(()=> controller.abort(), timeoutMs);
   const mergedSignal = signal
     ? (function merge(){
@@ -672,6 +694,7 @@ async function fetchPanchangForDate(dateStr, { signal } = {}){
     }
     const j = JSON.parse(bodyText);
     panchangCache.set(key, j);
+    safeStorageSet(PANCHANG_STORAGE_PREFIX + key, j);
     return j;
   }catch(err){
     if(String(err?.name || "").toLowerCase() === "aborterror"){
@@ -719,6 +742,13 @@ async function loadCoreFestivals(){
 
     let list = coreFestYearCache.get(cacheKey) || null;
     if(!list){
+      const stored = safeStorageGet(COREFEST_STORAGE_PREFIX + cacheKey);
+      if(Array.isArray(stored)){
+        list = stored;
+        coreFestYearCache.set(cacheKey, list);
+      }
+    }
+    if(!list){
       const qs = new URLSearchParams({ year: String(year), lat: String(lat), lon: String(lon), tz: tzName });
       const res = await fetch(`/api/core-festivals-dates/?${qs.toString()}`, { headers: { Accept:"application/json" } });
       const bodyText = await res.text();
@@ -726,6 +756,7 @@ async function loadCoreFestivals(){
       const parsed = JSON.parse(bodyText);
       list = Array.isArray(parsed) ? parsed : [];
       coreFestYearCache.set(cacheKey, list);
+      safeStorageSet(COREFEST_STORAGE_PREFIX + cacheKey, list);
     }
 
     const html = list.map((r)=>{

@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{% static 'header.css' %}" />
-    <link rel="stylesheet" href="{% static 'welcome.css' %}" />
+    <link rel="stylesheet" href="{% static 'welcome.css' %}?v=2" />
   </head>
   <body>
     <header class="header">
@@ -60,6 +60,7 @@
           <div class="profile-card">
             <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
             <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
             <a class="logout-btn" href="/">Logout</a>
           </div>
         </div>
@@ -68,37 +69,122 @@
     </header>
 
     <main class="content">
-      <section class="verse-slider" aria-label="Gita verse slideshow">
-        <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1800&q=80');">
+      <section class="verse-slider feature-slider" aria-label="Platform feature showcase">
+        <article class="slide slide--baby active">
           <div class="slide-overlay"></div>
-          <div class="slide-content">
-            <p class="verse-tag">Bhagavad Gita 2.47</p>
-            <h1>You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions.</h1>
+          <div class="slide-visual" aria-hidden="true">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <span class="feature-glyph">🪷</span>
+            <span class="feature-glyph feature-glyph--small">A-Z</span>
           </div>
-        </div>
+          <div class="slide-content">
+            <p class="verse-tag">Baby Names</p>
+            <h1>Explore deity-inspired baby names with immersive cards, alphabet filters, and modern reveal interactions.</h1>
+            <p class="slide-copy">Search meaningful names by divine inspiration and browse them in a premium, cinematic experience.</p>
+            <div class="slide-actions">
+              <a class="read-btn" href="/baby-names/">Open Baby Names</a>
+            </div>
+          </div>
+        </article>
 
-        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1800&q=80');">
+        <article class="slide slide--panchang">
           <div class="slide-overlay"></div>
-          <div class="slide-content">
-            <p class="verse-tag">Bhagavad Gita 6.5</p>
-            <h1>Elevate yourself through the power of your mind, and not degrade yourself. Mind can be the friend and also the enemy.</h1>
+          <div class="slide-visual" aria-hidden="true">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <span class="feature-glyph">🌙</span>
+            <span class="feature-glyph feature-glyph--small">📅</span>
           </div>
-        </div>
+          <div class="slide-content">
+            <p class="verse-tag">Panchang</p>
+            <h1>Read a living Panchang with real-time sky, moon phase, festivals, timings, and a premium interactive calendar.</h1>
+            <p class="slide-copy">Track tithi, nakshatra, paksha, Rahu Kaal, weather visuals, and core festivals in one elegant dashboard.</p>
+            <div class="slide-actions">
+              <a class="read-btn" href="/panchang/">Open Panchang</a>
+            </div>
+          </div>
+        </article>
 
-        <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1800&q=80');">
+        <article class="slide slide--kundali">
           <div class="slide-overlay"></div>
-          <div class="slide-content">
-            <p class="verse-tag">Bhagavad Gita 4.7</p>
-            <h1>Whenever there is a decline in righteousness and rise of unrighteousness, I manifest Myself.</h1>
+          <div class="slide-visual" aria-hidden="true">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <span class="feature-glyph">🔶</span>
+            <span class="feature-glyph feature-glyph--small">☉ ☽ ♃</span>
           </div>
-        </div>
+          <div class="slide-content">
+            <p class="verse-tag">Kundali</p>
+            <h1>Generate traditional Vedic birth charts with modern interactivity, house details, doshas, yogas, and chart insights.</h1>
+            <p class="slide-copy">Built for a polished Janma Kundali experience with a responsive North Indian chart and cleaner astrology workflows.</p>
+            <div class="slide-actions">
+              <a class="read-btn" href="/kundali/">Open Kundali</a>
+            </div>
+          </div>
+        </article>
 
-        <a class="read-btn fixed-read-btn" href="/library/">Explore Library</a>
+        <article class="slide slide--horoscope">
+          <div class="slide-overlay"></div>
+          <div class="slide-visual" aria-hidden="true">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <span class="feature-glyph">✨</span>
+            <span class="feature-glyph feature-glyph--small">♈︎ ♉︎ ♊︎</span>
+          </div>
+          <div class="slide-content">
+            <p class="verse-tag">Horoscope</p>
+            <h1>See daily, weekly, monthly, and yearly horoscope insights shaped by Kundali, dasha, and transit energies.</h1>
+            <p class="slide-copy">A richer cosmic reading flow with scores, energy meters, and emotionally engaging personalized guidance.</p>
+            <div class="slide-actions">
+              <a class="read-btn" href="/horoscope/">Open Horoscope</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide slide--library">
+          <div class="slide-overlay"></div>
+          <div class="slide-visual" aria-hidden="true">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <span class="feature-glyph">📖</span>
+            <span class="feature-glyph feature-glyph--small">🪔</span>
+          </div>
+          <div class="slide-content">
+            <p class="verse-tag">Library</p>
+            <h1>Read aartis and sacred texts in a premium spiritual library with immersive readers, bookmarks, and chapter-ready scripture views.</h1>
+            <p class="slide-copy">Designed to feel calm, devotional, and modern — from Aartis to long-form scripture reading.</p>
+            <div class="slide-actions">
+              <a class="read-btn" href="/library/">Open Library</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="slide slide--quizzes">
+          <div class="slide-overlay"></div>
+          <div class="slide-visual" aria-hidden="true">
+            <span class="orb orb--one"></span>
+            <span class="orb orb--two"></span>
+            <span class="feature-glyph">🧠</span>
+            <span class="feature-glyph feature-glyph--small">🏆</span>
+          </div>
+          <div class="slide-content">
+            <p class="verse-tag">Quizzes</p>
+            <h1>Test your Sanatan knowledge in a game-like quiz experience with streaks, leaderboard energy, and category challenges.</h1>
+            <p class="slide-copy">Practice, learn, and compete with a quiz system designed for students, youth, and curious spiritual learners.</p>
+            <div class="slide-actions">
+              <a class="read-btn" href="/quizzes/">Open Quizzes</a>
+            </div>
+          </div>
+        </article>
 
         <div class="carousel-indicators" aria-label="Slide indicators">
-          <button class="indicator active" type="button" aria-label="Show slide 1" data-slide="0"></button>
-          <button class="indicator" type="button" aria-label="Show slide 2" data-slide="1"></button>
-          <button class="indicator" type="button" aria-label="Show slide 3" data-slide="2"></button>
+          <button class="indicator active" type="button" aria-label="Show Baby Names" data-slide="0"></button>
+          <button class="indicator" type="button" aria-label="Show Panchang" data-slide="1"></button>
+          <button class="indicator" type="button" aria-label="Show Kundali" data-slide="2"></button>
+          <button class="indicator" type="button" aria-label="Show Horoscope" data-slide="3"></button>
+          <button class="indicator" type="button" aria-label="Show Library" data-slide="4"></button>
+          <button class="indicator" type="button" aria-label="Show Quizzes" data-slide="5"></button>
         </div>
       </section>
 
@@ -168,6 +254,6 @@
     </main>
 
     <script src="{% static 'header.js' %}"></script>
-    <script src="{% static 'welcome.js' %}"></script>
+    <script src="{% static 'welcome.js' %}?v=2"></script>
   </body>
 </html>

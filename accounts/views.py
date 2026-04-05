@@ -3,6 +3,7 @@ import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -53,6 +54,33 @@ def login_page(request):
                 )
                 messages.success(request, 'Signup successful. Please log in with your new account.')
                 return redirect('/?mode=login')
+
+        elif form_type == 'reset_password':
+            username = request.POST.get('username', '').strip()
+            email = request.POST.get('email', '').strip()
+            new_password = request.POST.get('new_password', '')
+            confirm_password = request.POST.get('confirm_password', '')
+
+            if not username or not email or not new_password or not confirm_password:
+                messages.error(request, 'Please fill all password reset fields.')
+                mode = 'forgot'
+            elif new_password != confirm_password:
+                messages.error(request, 'New password and confirm password do not match.')
+                mode = 'forgot'
+            else:
+                try:
+                    user = User.objects.get(username=username, email__iexact=email)
+                except User.DoesNotExist:
+                    user = None
+
+                if user is None:
+                    messages.error(request, 'No account matched that username and email.')
+                    mode = 'forgot'
+                else:
+                    user.set_password(new_password)
+                    user.save(update_fields=['password'])
+                    messages.success(request, 'Password updated successfully. Please log in with your new password.')
+                    return redirect('/?mode=login')
 
         else:
             username = request.POST.get('username', '').strip()
@@ -154,6 +182,64 @@ def kundali_page(request):
 @login_required
 def horoscope_page(request):
     return render(request, "horoscope.html")
+
+
+@login_required
+def profile_page(request):
+    if request.method == "POST":
+        form_type = request.POST.get("form_type", "").strip()
+
+        if form_type == "profile":
+            full_name = request.POST.get("name", "").strip()
+            username = request.POST.get("username", "").strip()
+            email = request.POST.get("email", "").strip()
+
+            if not full_name or not username or not email:
+                messages.error(request, "Please fill all profile fields.")
+            elif User.objects.exclude(pk=request.user.pk).filter(username=username).exists():
+                messages.error(request, "That username is already taken.")
+            elif User.objects.exclude(pk=request.user.pk).filter(email__iexact=email).exists():
+                messages.error(request, "That email is already used by another account.")
+            else:
+                first_name = full_name
+                last_name = ""
+                if " " in full_name:
+                    first_name, last_name = full_name.split(" ", 1)
+
+                request.user.username = username
+                request.user.email = email
+                request.user.first_name = first_name
+                request.user.last_name = last_name
+                request.user.save(update_fields=["username", "email", "first_name", "last_name"])
+                messages.success(request, "Profile updated successfully.")
+                return redirect("/profile/")
+
+        elif form_type == "password":
+            current_password = request.POST.get("current_password", "")
+            new_password = request.POST.get("new_password", "")
+            confirm_password = request.POST.get("confirm_password", "")
+
+            if not current_password or not new_password or not confirm_password:
+                messages.error(request, "Please fill all password fields.")
+            elif new_password != confirm_password:
+                messages.error(request, "New password and confirm password do not match.")
+            elif not request.user.check_password(current_password):
+                messages.error(request, "Current password is incorrect.")
+            else:
+                request.user.set_password(new_password)
+                request.user.save(update_fields=["password"])
+                update_session_auth_hash(request, request.user)
+                messages.success(request, "Password changed successfully.")
+                return redirect("/profile/")
+
+    full_name = " ".join(filter(None, [request.user.first_name, request.user.last_name])).strip() or request.user.username
+    return render(
+        request,
+        "profile.html",
+        {
+            "full_name": full_name,
+        },
+    )
 
 
 @login_required
