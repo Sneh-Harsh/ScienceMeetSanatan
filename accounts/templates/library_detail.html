@@ -73,7 +73,7 @@
         <div class="language-toggle" id="languageToggle">
           <button type="button" data-language="hindi" class="active">Hindi</button>
           <button type="button" data-language="english">English</button>
-          <button type="button" data-language="sanskrit">Sanskrit</button>
+          <button type="button" data-language="transliteration">Transliteration</button>
         </div>
 
         <div class="language-toggle reading-toggle" id="readingModeToggle" hidden>
@@ -114,15 +114,27 @@
         <div class="reader-nav" id="readerNav">
           <button type="button" class="reader-nav__btn" id="prevPageBtn">← Previous</button>
           <div class="reader-nav__status" id="readerPageStatus">Opening sacred pages…</div>
-          <button type="button" class="reader-nav__btn" id="nextPageBtn">Next →</button>
+          <div class="reader-nav__actions">
+            <button type="button" class="reader-nav__btn reader-nav__btn--ghost" id="fullscreenReaderBtn">⛶ Fullscreen</button>
+            <button type="button" class="reader-nav__btn" id="nextPageBtn">Next →</button>
+          </div>
         </div>
 
         <div id="readerContent" class="reader-content"></div>
+
+        <div class="reader-nav reader-nav--bottom" id="readerNavBottom">
+          <button type="button" class="reader-nav__btn" id="prevPageBtnBottom">← Previous</button>
+          <div class="reader-nav__status" id="readerPageStatusBottom">Opening sacred pages…</div>
+          <div class="reader-nav__actions">
+            <button type="button" class="reader-nav__btn reader-nav__btn--ghost" id="fullscreenReaderBtnBottom">⛶ Fullscreen</button>
+            <button type="button" class="reader-nav__btn" id="nextPageBtnBottom">Next →</button>
+          </div>
+        </div>
       </article>
     </section>
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=8"></script>
+  <script src="{% static 'library/library.js' %}?v=12"></script>
 </body>
 </html>

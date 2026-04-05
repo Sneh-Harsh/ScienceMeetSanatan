@@ -77,21 +77,25 @@ def core_festivals_api(request):
 
 
 @lru_cache(maxsize=128)
-def _core_festival_dates_for_year(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str) -> list[dict]:
+def _core_festival_dates_for_year(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str):
     start = Date(year, 1, 1)
     end = Date(year, 12, 31)
-    out: list[dict] = []
-    seen: set[str] = set()
+    out = []
+    seen = set()
 
     d = start
     while d <= end:
-        payload = build_panchang_for_date(
-            date=str(d),
-            lat_r=lat_r,
-            lon_r=lon_r,
-            tz_name=tz_name,
-            rules_version=rules_version,
-        )
+        try:
+            payload = build_panchang_for_date(
+                date=str(d),
+                lat_r=lat_r,
+                lon_r=lon_r,
+                tz_name=tz_name,
+                rules_version=rules_version,
+            )
+        except Exception:
+            d += timedelta(days=1)
+            continue
         details = payload.get("festivals_detail")
         if isinstance(details, list):
             for f in details:
@@ -155,6 +159,8 @@ def core_festival_dates_api(request):
             rules_version=rules_ver,
         )
     except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+        data = []
+        if request.GET.get("debug") == "1":
+            return JsonResponse({"error": str(exc)}, status=500)
 
     return JsonResponse(data, safe=False)

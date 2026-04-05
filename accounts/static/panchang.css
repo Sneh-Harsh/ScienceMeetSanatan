@@ -1206,6 +1206,7 @@
   text-align:left;
   cursor:pointer;
   font: inherit;
+  color: rgba(255,255,255,.92);
 }
 .corefest-item:focus-visible{
   outline: 3px solid rgba(255,153,51,.35);
@@ -1227,6 +1228,8 @@
 .corefest-name{
   font-weight: 980;
   letter-spacing:-.01em;
+  color: rgba(255,245,214,.98);
+  text-shadow: 0 8px 26px rgba(0,0,0,.22);
 }
 .corefest-rule{
   margin-top:.25rem;
@@ -1254,6 +1257,74 @@
 
 @media (max-width: 760px){
   .corefest-list{ grid-template-columns: 1fr; }
+  .calendar-head{
+    padding: .9rem .8rem;
+  }
+  .calendar-controls{
+    width:100%;
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:.45rem;
+  }
+  .cal-btn,
+  .cal-select{
+    width:100%;
+    text-align:center;
+  }
+  .calendar-shell{
+    padding:.55rem;
+    border-radius:20px;
+  }
+  .calendar-dow{
+    gap:.25rem;
+    margin-bottom:.35rem;
+    font-size:.62rem;
+    letter-spacing:.04em;
+  }
+  .calendar-grid{
+    gap:.25rem;
+  }
+  .cal-cell{
+    min-height: 78px;
+    padding: .4rem .3rem .35rem;
+    border-radius: 14px;
+  }
+  .cal-date{
+    font-size: .92rem;
+    line-height: 1;
+  }
+  .cal-tithi{
+    margin-top:.2rem;
+    font-size: .61rem;
+    line-height: 1.02rem;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: clip;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    min-height: 2.05rem;
+    max-width: calc(100% - 1.55rem);
+  }
+  .cal-time{
+    display:none;
+  }
+  .cal-stickers{
+    right:.26rem;
+    top:.24rem;
+    gap:.18rem;
+  }
+  .sticker{
+    width: 20px;
+    height: 20px;
+    border-radius: 7px;
+    font-size: .8rem;
+  }
+  .cal-cell.has-core .sticker{
+    width: 22px;
+    height: 22px;
+    border-radius: 8px;
+  }
 }
 
 .ov-fest{

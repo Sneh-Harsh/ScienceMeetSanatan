@@ -90,7 +90,7 @@
           </div>
           <div class="hero-stat">
             <span>Reading Mode</span>
-            <strong>Hindi • English • Sanskrit</strong>
+            <strong>Hindi • English • Transliteration</strong>
           </div>
         </div>
       </div>
@@ -143,7 +143,7 @@
           <option value="all">All languages</option>
           <option value="hindi">Hindi</option>
           <option value="english">English</option>
-          <option value="sanskrit">Sanskrit</option>
+          <option value="transliteration">Transliteration</option>
         </select>
       </div>
 
@@ -180,7 +180,7 @@
                         {% if mode == 'pdf' %}PDF{% elif mode == 'chapter' %}Chapter Wise{% elif mode == 'shloka' %}Shloka Wise{% else %}{{ mode }}{% endif %}{% if not forloop.last %} • {% endif %}
                       {% endfor %}
                     {% else %}
-                      {% if item.languages.hindi %}Hindi{% endif %}{% if item.languages.english %} • English{% endif %}{% if item.languages.sanskrit %} • Sanskrit{% endif %}
+                      {% if item.languages.hindi %}Hindi{% endif %}{% if item.languages.english %} • English{% endif %}{% if item.languages.transliteration %} • Transliteration{% endif %}
                     {% endif %}
                   </span>
                   <span>Open →</span>
@@ -198,6 +198,6 @@
 
   {{ library_payload|json_script:"libraryPayloadData" }}
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=8"></script>
+  <script src="{% static 'library/library.js' %}?v=12"></script>
 </body>
 </html>
