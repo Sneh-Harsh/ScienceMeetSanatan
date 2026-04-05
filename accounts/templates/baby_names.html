@@ -13,6 +13,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="{% static 'header.css' %}">
 <link rel="stylesheet" href="{% static 'baby_names.css' %}">
 
 </head>
@@ -21,12 +22,15 @@
 
 <header class="header">
 
-<div class="left-nav">
-
 <a href="/welcome/" class="logo">
 <span class="logo-mark">SMS</span>
 <span class="logo-text">Science Meet Sanatan</span>
 </a>
+<button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+<span></span><span></span><span></span>
+</button>
+<div class="nav-shell" aria-hidden="true">
+<div class="left-nav">
 
 <a href="/welcome/" class="nav-link">Home</a>
 
@@ -74,6 +78,7 @@
 </div>
 
 </div>
+ </div>
 
 </header>
 
@@ -110,6 +115,7 @@ Boy Names
 {% endif %}
 
 <script id="babyNamesData" type="application/json">{{ baby_names_json|safe }}</script>
+<script src="{% static 'header.js' %}"></script>
 <script src="{% static 'baby_names.js' %}"></script>
 
 </body>

@@ -16,47 +16,47 @@ babyNamesData = {};
 const deityCards = [
 {
 deity:"Lord Shiva",
-video:"/static/baby_names_assets/shiva.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370750/shiva_hzppal.mov",
 fallback:{girl:"Shivani",boy:"Shivansh"}
 },
 {
 deity:"Lord Vishnu",
-video:"/static/baby_names_assets/vishnu.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370751/vishnu_v8bq73.mov",
 fallback:{girl:"Vaishnavi",boy:"Vihaan"}
 },
 {
 deity:"Maa Durga",
-video:"/static/baby_names_assets/durga.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370745/durga_w8yixb.mov",
 fallback:{girl:"Durga",boy:"Aditya"}
 },
 {
 deity:"Lord Ganesha",
-video:"/static/baby_names_assets/ganesha.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370745/ganesha_uvxv3l.mov",
 fallback:{girl:"Ganishka",boy:"Ganesh"}
 },
 {
 deity:"Lord Ram",
-video:"/static/baby_names_assets/ram.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370750/ram_syoolb.mov",
 fallback:{girl:"Ramya",boy:"Ramit"}
 },
 {
 deity:"Lord Hanuman",
-video:"/static/baby_names_assets/hanuman.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370748/hanuman_pri6tb.mov",
 fallback:{girl:"Anjani",boy:"Hanumant"}
 },
 {
 deity:"Lord Krishna",
-video:"/static/baby_names_assets/krishna.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370798/krishna_i5av0s.mp4",
 fallback:{girl:"Krishika",boy:"Krish"}
 },
 {
 deity:"Maa Saraswati",
-video:"/static/baby_names_assets/saraswati.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370752/saraswati_ccr76j.mov",
 fallback:{girl:"Saras",boy:"Vedant"}
 },
 {
 deity:"Maa Laxmi",
-video:"/static/baby_names_assets/laxmi.mp4",
+video:"https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775370745/laxmi_oh9o9t.mov",
 fallback:{girl:"Lakshita",boy:"Laksh"}
 }
 ];
@@ -112,11 +112,14 @@ cardElement.innerHTML=`
 
 const video = cardElement.querySelector("video");
 
+video.play().catch(()=>{});
+
 cardElement.addEventListener("mouseenter",()=>{
 video.play();
 });
 
 cardElement.addEventListener("mouseleave",()=>{
+if(window.matchMedia("(hover: none)").matches) return;
 video.pause();
 video.currentTime=0;
 });

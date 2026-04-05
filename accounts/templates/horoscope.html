@@ -8,16 +8,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'header.css' %}">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
   <link rel="stylesheet" href="{% static 'horoscope/horoscope.css' %}">
 </head>
 <body>
   <header class="header">
-    <div class="left-nav">
       <a href="/welcome/" class="logo">
         <span class="logo-mark">SMS</span>
         <span class="logo-text">Science Meet Sanatan</span>
       </a>
+      <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    <div class="nav-shell" aria-hidden="true">
+    <div class="left-nav">
       <a href="/welcome/" class="nav-link">Home</a>
 
       <div class="explore-wrap">
@@ -54,6 +59,7 @@
           <a class="logout-btn" href="/">Logout</a>
         </div>
       </div>
+    </div>
     </div>
   </header>
 
@@ -145,6 +151,7 @@
     </section>
   </main>
 
+  <script src="{% static 'header.js' %}"></script>
   <script type="module" src="{% static 'horoscope/page.js' %}"></script>
 </body>
 </html>
