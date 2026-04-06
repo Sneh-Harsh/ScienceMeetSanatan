@@ -1,4 +1,7 @@
 import json
+from datetime import date as dt_date
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 from django.conf import settings
 from django.contrib import messages
@@ -7,6 +10,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.core.cache import cache
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -16,6 +20,285 @@ from .models import LoginAttempt
 from .baby_names_data import load_baby_names_json
 from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_library_item, load_library_items
 from .models import Category, QuizAttempt, UserStats
+from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
+from panchang.festival_rules import rules_version as festival_rules_version
+from panchang.views import _cached_panchang_for_date, _core_festival_dates_for_year
+import swisseph as swe
+
+
+WELCOME_TIMEOUT = 60 * 60
+RASHI_TOPICS = {
+    1: "clarity, confidence, and a stronger sense of self",
+    2: "resources, family priorities, and grounded decisions",
+    3: "courage, communication, and finishing what you begin",
+    4: "home, emotional peace, and inner stability",
+    5: "joy, creativity, romance, and inspired expression",
+    6: "health, routines, and practical discipline",
+    7: "relationships, agreements, and meaningful dialogue",
+    8: "transformation, release, and hidden emotional undercurrents",
+    9: "faith, luck, mentors, and a wider vision",
+    10: "career, reputation, and visible action",
+    11: "gains, allies, and long-term hopes",
+    12: "rest, prayer, closure, and spiritual retreat",
+}
+PLANET_COLORS = {
+    "Sun": "#f8c24f",
+    "Moon": "#c7d8ff",
+    "Mercury": "#72f0d1",
+    "Venus": "#ff92dc",
+    "Mars": "#ff7b63",
+    "Jupiter": "#ffbe6b",
+    "Saturn": "#7f8dff",
+    "Rahu": "#9c7dff",
+    "Ketu": "#7ce4ff",
+}
+PLANET_ORBITS = {
+    "Moon": 1,
+    "Mercury": 2,
+    "Venus": 3,
+    "Mars": 4,
+    "Jupiter": 5,
+    "Saturn": 6,
+    "Rahu": 7,
+    "Ketu": 8,
+}
+TIME_RULE_LABELS = {
+    "sunrise": "Sunrise rule",
+    "sunset": "Sunset window",
+    "midnight": "Midnight rule",
+    "nishita": "Nishita Kaal",
+    "moonrise": "Moonrise window",
+}
+
+
+def _house_from_sign(target_idx, base_idx):
+    return ((int(target_idx) - int(base_idx)) % 12) + 1
+
+
+def _current_transits(*, lat: float, lon: float, tz_name: str):
+    tz = ZoneInfo(tz_name)
+    now_local = datetime.now(tz).replace(second=0, microsecond=0)
+    jd_ut = _dt_to_jd_ut(now_local.astimezone(timezone.utc))
+
+    transits = {}
+    for name, symbol, body in PLANETS:
+        lon_deg = _sidereal_lon(jd_ut, body)
+        transits[name] = {
+            "name": name,
+            "symbol": symbol,
+            "degree": round(lon_deg, 2),
+            "rashi_index": int(_rashi_index(lon_deg)),
+            "color": PLANET_COLORS.get(name, "#f2ca50"),
+        }
+
+    rahu_lon = _sidereal_lon(jd_ut, swe.TRUE_NODE)
+    ketu_lon = (rahu_lon + 180.0) % 360.0
+    transits["Rahu"] = {
+        "name": "Rahu",
+        "symbol": "☊",
+        "degree": round(rahu_lon, 2),
+        "rashi_index": int(_rashi_index(rahu_lon)),
+        "color": PLANET_COLORS["Rahu"],
+    }
+    transits["Ketu"] = {
+        "name": "Ketu",
+        "symbol": "☋",
+        "degree": round(ketu_lon, 2),
+        "rashi_index": int(_rashi_index(ketu_lon)),
+        "color": PLANET_COLORS["Ketu"],
+    }
+    return now_local, transits
+
+
+def _raashi_prediction(sign_idx, sign_data, transits):
+    moon_house = _house_from_sign(transits["Moon"]["rashi_index"], sign_idx)
+    jupiter_house = _house_from_sign(transits["Jupiter"]["rashi_index"], sign_idx)
+    saturn_house = _house_from_sign(transits["Saturn"]["rashi_index"], sign_idx)
+    venus_house = _house_from_sign(transits["Venus"]["rashi_index"], sign_idx)
+    mars_house = _house_from_sign(transits["Mars"]["rashi_index"], sign_idx)
+    mercury_house = _house_from_sign(transits["Mercury"]["rashi_index"], sign_idx)
+    rahu_house = _house_from_sign(transits["Rahu"]["rashi_index"], sign_idx)
+
+    energy = 56
+    if moon_house in {1, 5, 9, 10, 11}:
+        energy += 12
+    if jupiter_house in {1, 2, 5, 7, 9, 10, 11}:
+        energy += 14
+    if venus_house in {1, 5, 7, 11}:
+        energy += 8
+    if mercury_house in {2, 3, 6, 10, 11}:
+        energy += 6
+    if saturn_house in {4, 8, 10, 12}:
+        energy -= 12
+    if mars_house in {1, 6, 8, 12}:
+        energy -= 7
+    if rahu_house in {2, 7, 8, 12}:
+        energy -= 6
+    energy = max(22, min(96, energy))
+
+    dominant = "Jupiter"
+    if saturn_house in {8, 10, 12}:
+        dominant = "Saturn"
+    elif venus_house in {1, 5, 7, 11}:
+        dominant = "Venus"
+    elif mars_house in {1, 6, 8, 12}:
+        dominant = "Mars"
+
+    opening = RASHI_TOPICS.get(moon_house, "reflection and recalibration")
+    supportive = []
+    if jupiter_house in {1, 2, 5, 7, 9, 10, 11}:
+        supportive.append("Jupiter opens graceful opportunities")
+    if mercury_house in {2, 3, 6, 10, 11}:
+        supportive.append("Mercury sharpens your decisions")
+    if venus_house in {1, 5, 7, 11}:
+        supportive.append("Venus softens relationships")
+    caution = []
+    if saturn_house in {4, 8, 10, 12}:
+        caution.append("Saturn asks for patience")
+    if mars_house in {1, 6, 8, 12}:
+        caution.append("Mars can make reactions too quick")
+    if rahu_house in {2, 7, 8, 12}:
+        caution.append("Rahu may blur priorities")
+
+    support_text = ", ".join(supportive[:2]) if supportive else "steady effort becomes your best ally"
+    caution_text = ", while ".join(caution[:2]) if caution else "so calm choices will bring the best outcome"
+    prediction = (
+        f"Krishna says, today {sign_data['sa']} moves through {opening}. "
+        f"{support_text}, while {caution_text}. Stay close to truth, move gently, and let wisdom lead before emotion does."
+    )
+
+    return {
+        "slug": sign_data["sa"].lower(),
+        "sign_en": sign_data["en"],
+        "sign_sa": sign_data["sa"],
+        "energy": int(energy),
+        "dominant_planet": dominant,
+        "prediction": prediction,
+        "accent": PLANET_COLORS.get(dominant, "#f2ca50"),
+    }
+
+
+def _format_iso_local(value, tz_name: str, include_date=False):
+    if not value:
+        return ""
+    try:
+        dt_obj = datetime.fromisoformat(str(value))
+        if dt_obj.tzinfo is None:
+            dt_obj = dt_obj.replace(tzinfo=ZoneInfo(tz_name))
+        dt_obj = dt_obj.astimezone(ZoneInfo(tz_name))
+        return dt_obj.strftime("%d %b • %I:%M %p") if include_date else dt_obj.strftime("%I:%M %p")
+    except Exception:
+        return str(value)
+
+
+def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
+    tz = ZoneInfo(tz_name)
+    today = datetime.now(tz).date()
+    rules_version = festival_rules_version()
+    year_festivals = _core_festival_dates_for_year(
+        year=today.year,
+        lat_r=round(lat, 3),
+        lon_r=round(lon, 3),
+        tz_name=tz_name,
+        rules_version=rules_version,
+    )
+    month_items = [item for item in year_festivals if str(item.get("date", "")).startswith(f"{today.year}-{today.month:02d}-")]
+    if len(month_items) < 4:
+        month_items = year_festivals
+
+    def _festival_date(item):
+        return dt_date.fromisoformat(str(item.get("date")))
+
+    pivot = 0
+    for idx, item in enumerate(month_items):
+        if _festival_date(item) >= today:
+            pivot = idx
+            break
+    else:
+        pivot = max(len(month_items) - 1, 0)
+
+    start = max(0, pivot - 1)
+    if start + 4 > len(month_items):
+        start = max(0, len(month_items) - 4)
+    selected = month_items[start:start + 4]
+
+    out = []
+    for item in selected:
+        festival_date = str(item.get("date"))
+        payload = _cached_panchang_for_date(
+            date=festival_date,
+            lat_r=round(lat, 3),
+            lon_r=round(lon, 3),
+            tz_name=tz_name,
+            rules_version=rules_version,
+        )
+        detail = None
+        for current in payload.get("festivals_detail", []):
+            if str(current.get("name") or "").strip().lower() == str(item.get("name") or "").strip().lower():
+                detail = current
+                break
+        fest_day = dt_date.fromisoformat(festival_date)
+        status = "today" if fest_day == today else ("past" if fest_day < today else "upcoming")
+        time_parts = []
+        if detail and detail.get("time_rule"):
+            time_parts.append(TIME_RULE_LABELS.get(str(detail.get("time_rule")), str(detail.get("time_rule")).replace("_", " ").title()))
+        if payload.get("tithi_end"):
+            time_parts.append(f"Tithi till {_format_iso_local(payload.get('tithi_end'), tz_name)}")
+        out.append(
+            {
+                "name": str(item.get("name") or ""),
+                "date": festival_date,
+                "date_label": fest_day.strftime("%d %b %Y"),
+                "time_label": " • ".join(part for part in time_parts if part),
+                "status": status,
+                "icon": item.get("icon") or "✦",
+                "description": str(item.get("description") or "")[:180],
+            }
+        )
+    return out
+
+
+def _welcome_planets(transits):
+    bodies = []
+    for name in ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Rahu", "Ketu"]:
+        item = transits[name]
+        bodies.append(
+            {
+                "name": name,
+                "symbol": item["symbol"],
+                "degree": item["degree"],
+                "angle": round(float(item["degree"]), 2),
+                "orbit": PLANET_ORBITS.get(name, 0),
+                "color": item["color"],
+            }
+        )
+    return bodies
+
+
+@login_required
+@require_GET
+def welcome_insights_api(request):
+    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    try:
+        lat = float(request.GET.get("lat") or 28.6139)
+        lon = float(request.GET.get("lon") or 77.2090)
+    except Exception:
+        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+
+    cache_key = f"welcome:insights:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return JsonResponse(cached)
+
+    now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
+    payload = {
+        "generated_at": now_local.isoformat(),
+        "rashi_pulse": [_raashi_prediction(idx, sign_data, transits) for idx, sign_data in enumerate(RASHI)],
+        "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
+        "planets": _welcome_planets(transits),
+    }
+    cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
+    return JsonResponse(payload)
 
 
 def login_page(request):

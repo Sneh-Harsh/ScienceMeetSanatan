@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{% static 'header.css' %}" />
-    <link rel="stylesheet" href="{% static 'welcome.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'welcome.css' %}?v=4" />
   </head>
   <body>
     <header class="header">
@@ -70,14 +70,26 @@
 
     <main class="content">
       <section class="hero-observatory" aria-label="Homepage hero">
-        <div class="hero-bg-glow hero-bg-glow--one"></div>
-        <div class="hero-bg-glow hero-bg-glow--two"></div>
-        <div class="hero-copy">
+        <div class="hero-backdrop" id="heroArt" aria-hidden="true">
+          <img
+            id="heroImage"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1giK1HDUuu7mIFvuIeIGJdPAI1E4_tjyBoIRm5Bwx29nE6Y4MaY3AA-ZIVh-AN63KFMMtrUCt-uQVcaumO2KmUgF4x0UAZxNwIgXPC1aI4EhvAwZB_LP2cXCXoHiyjnXstfeiAS3GhmsdrcZU1n-ONnUBIYv2_EIbOiVx16KGt5Y3Sjn0llm6xPzo6RWaj5JuDyvRD6HJHXbEDgGLSgz5PcNH5NHSmggHLICOfPou-HWaVY-iqfRkqaOF-VDvXpH0ax5XCut-YhBB"
+            alt="Celestial observatory hero"
+          />
+          <div class="hero-vortex" aria-hidden="true">
+            <span class="hero-vortex__halo"></span>
+            <span class="hero-vortex__ring hero-vortex__ring--one"></span>
+            <span class="hero-vortex__ring hero-vortex__ring--two"></span>
+            <span class="hero-vortex__core"></span>
+          </div>
+        </div>
+
+        <div class="hero-copy hero-copy--center">
           <div class="hero-kicker">Wisdom of the Ancients • Precision of Science</div>
           <h1>Decoding the <span>Celestial</span> Blueprint</h1>
           <p>
-            A refined spiritual platform where Panchang, Kundali, Horoscope, Library, Baby Names, and Quizzes
-            come together in one celestial editorial experience.
+            A refined spiritual observatory where Panchang, Kundali, Horoscope, Library, Baby Names, and
+            Quizzes breathe together inside one premium Sanatan experience.
           </p>
           <div class="hero-actions">
             <a class="hero-btn hero-btn--primary" href="#featurePulse">Begin Observation</a>
@@ -85,26 +97,25 @@
           </div>
         </div>
 
-        <div class="hero-art" id="heroArt" aria-hidden="true">
-          <div class="hero-rings">
-            <span class="ring ring--outer"></span>
-            <span class="ring ring--mid"></span>
-            <span class="ring ring--inner"></span>
-          </div>
-          <img
-            id="heroImage"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1giK1HDUuu7mIFvuIeIGJdPAI1E4_tjyBoIRm5Bwx29nE6Y4MaY3AA-ZIVh-AN63KFMMtrUCt-uQVcaumO2KmUgF4x0UAZxNwIgXPC1aI4EhvAwZB_LP2cXCXoHiyjnXstfeiAS3GhmsdrcZU1n-ONnUBIYv2_EIbOiVx16KGt5Y3Sjn0llm6xPzo6RWaj5JuDyvRD6HJHXbEDgGLSgz5PcNH5NHSmggHLICOfPou-HWaVY-iqfRkqaOF-VDvXpH0ax5XCut-YhBB"
-            alt="Celestial observatory hero"
-          />
-        </div>
-
         <div class="aether-search">
-          <div class="aether-icon">✦</div>
-          <div class="aether-copy">
-            <div class="aether-label">Aether Access</div>
-            <div class="aether-text">Jump directly into Panchang, Library, Kundali, Horoscope, Baby Names, or Quizzes.</div>
-          </div>
-          <a class="aether-btn" href="/library/">Enter Library</a>
+          <form class="aether-form" id="aetherForm" autocomplete="off">
+            <div class="aether-icon">✦</div>
+            <div class="aether-copy">
+              <label class="aether-label" for="aetherInput">Aether Access</label>
+              <input
+                id="aetherInput"
+                class="aether-input"
+                type="search"
+                placeholder="Search constellations, festivals, or your Raashi..."
+              />
+            </div>
+            <button class="aether-btn" type="submit">
+              <span class="aether-btn__glow"></span>
+              <span class="aether-btn__icon">✦</span>
+              <span class="aether-btn__text">Aether Search</span>
+            </button>
+          </form>
+          <div class="aether-results" id="aetherResults" hidden></div>
         </div>
       </section>
 
@@ -162,42 +173,46 @@
         </div>
       </section>
 
+      <section class="raashi-pulse" aria-label="Raashi Pulse">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Raashi Pulse</div>
+            <h2>Today’s cosmic note for every sign</h2>
+            <p>Transit-led daily guidance for all twelve raashis, expressed in a calm Krishna voice.</p>
+          </div>
+          <div class="section-meta" id="raashiGeneratedAt">Loading live transits…</div>
+        </div>
+        <div class="raashi-track" id="raashiTrack">
+          <div class="loading-card">Attuning today’s raashi pulse…</div>
+        </div>
+      </section>
+
       <section class="festival-orbit" aria-label="Festival orbit">
         <div class="orbit-copy">
           <div class="section-kicker">Temporal Alignment</div>
           <h2>Festival Orbit</h2>
           <p>
-            Follow your spiritual year through Panchang-driven observances, festival timing, and a cosmic
-            calendar system designed for both devotion and clarity.
+            Follow this month’s sacred rhythm through Panchang-driven observances, dates, and timing windows.
           </p>
 
-          <div class="orbit-list">
-            <a class="orbit-item" href="/panchang/">
-              <div class="orbit-date">LIVE</div>
-              <h3>Panchang Dashboard</h3>
-              <p>Read today’s tithi, nakshatra, paksha, Rahu Kaal, and celestial weather in one view.</p>
-            </a>
-            <a class="orbit-item" href="/panchang/">
-              <div class="orbit-date">YEAR VIEW</div>
-              <h3>Core Festival Calendar</h3>
-              <p>Explore the annual cycle of major observances, highlights, and sacred transition points.</p>
-            </a>
-            <a class="orbit-item" href="/horoscope/">
-              <div class="orbit-date">PERSONAL</div>
-              <h3>Horoscope Timing</h3>
-              <p>See how transits, dasha, and your Kundali shape the emotional rhythm of the coming periods.</p>
-            </a>
+          <div class="festival-timeline" id="festivalTimeline">
+            <div class="timeline-loading">Collecting this month’s sacred milestones…</div>
           </div>
 
           <a class="orbit-link" href="/panchang/">View annual calendar →</a>
         </div>
 
         <div class="orbit-visual">
-          <div class="orbit-shell">
-            <span class="orbit-ring orbit-ring--one"></span>
-            <span class="orbit-ring orbit-ring--two"></span>
-            <span class="orbit-ring orbit-ring--three"></span>
-            <div class="orbit-core"></div>
+          <div class="planetarium-card">
+            <div class="planetarium-card__copy">
+              <div class="section-kicker">Live Planet System</div>
+              <p>Drag to rotate the system. Motion is scaled so one Earth year completes in about 60 seconds here.</p>
+            </div>
+            <div class="planetarium" id="planetarium">
+              <div class="planetarium-stage" id="planetariumStage">
+                <div class="planetarium-sun">☉</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -257,7 +272,31 @@
       </section>
     </main>
 
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <div class="site-footer__brand">Science Meet Sanatan</div>
+          <p class="site-footer__copy">
+            A modern spiritual platform connecting Panchang, Kundali, Horoscope, Library, Baby Names, and Quizzes.
+          </p>
+        </div>
+        <div class="site-footer__links">
+          <a href="/welcome/">Home</a>
+          <a href="/panchang/">Panchang</a>
+          <a href="/kundali/">Kundali</a>
+          <a href="/horoscope/">Horoscope</a>
+          <a href="/library/">Library</a>
+          <a href="/quizzes/">Quizzes</a>
+        </div>
+        <div class="site-footer__meta">
+          <div>© 2026 Science Meet Sanatan. All rights reserved.</div>
+          <div>Designed with devotion for seekers, students, and families.</div>
+          <div>Instagram: <a href="https://instagram.com/sciencemeetsanatan" target="_blank" rel="noreferrer">@sciencemeetsanatan</a></div>
+        </div>
+      </div>
+    </footer>
+
     <script src="{% static 'header.js' %}"></script>
-    <script src="{% static 'welcome.js' %}?v=3"></script>
+    <script src="{% static 'welcome.js' %}?v=4"></script>
   </body>
 </html>

@@ -11,6 +11,7 @@ from accounts.views import (
     api_library_detail,
     api_library_items,
     api_submit_score,
+    welcome_insights_api,
     apple_login_start,
     baby_names_page,
     google_login_start,
@@ -43,6 +44,7 @@ urlpatterns = [
     path('api/leaderboard/', api_leaderboard, name='api_leaderboard'),
     path('api/leaderboard/<slug:category_slug>/', api_leaderboard_category, name='api_leaderboard_category'),
     path('api/submit-score/', api_submit_score, name='api_submit_score'),
+    path('api/welcome-insights/', welcome_insights_api, name='api_welcome_insights'),
     path('oauth/google/', google_login_start, name='google_login_start'),
     path('oauth/apple/', apple_login_start, name='apple_login_start'),
 ]
