@@ -195,16 +195,12 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
     rules_version = festival_rules_version()
-    month_start = today.replace(day=1)
-    if today.month == 12:
-        next_month = dt_date(today.year + 1, 1, 1)
-    else:
-        next_month = dt_date(today.year, today.month + 1, 1)
-    month_end = next_month
+    start_day = dt_date.fromordinal(today.toordinal() - 10)
+    end_day = dt_date.fromordinal(today.toordinal() + 45)
 
     candidates = []
-    current = month_start
-    while current < month_end:
+    current = start_day
+    while current <= end_day:
         try:
             payload = _cached_panchang_for_date(
                 date=current.isoformat(),
@@ -239,6 +235,8 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
                 }
             )
         current = dt_date.fromordinal(current.toordinal() + 1)
+        if len(candidates) >= 8 and current > today:
+            break
 
     seen = set()
     month_items = []
@@ -516,14 +514,8 @@ def welcome_page(request):
     lon = 77.2090
     bootstrap_raashi = {"generated_at": "", "rashi_pulse": []}
     bootstrap_festivals = {"generated_at": "", "monthly_festivals": []}
-    try:
-        bootstrap_raashi = cache.get(f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}") or _build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
-    except Exception:
-        pass
-    try:
-        bootstrap_festivals = cache.get(f"welcome:festivals:v2:{round(lat,3)}:{round(lon,3)}:{tz_name}") or _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
-    except Exception:
-        pass
+    bootstrap_raashi = cache.get(f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}") or bootstrap_raashi
+    bootstrap_festivals = cache.get(f"welcome:festivals:v2:{round(lat,3)}:{round(lon,3)}:{tz_name}") or bootstrap_festivals
     return render(request, 'welcome.html', {
         'welcome_raashi_bootstrap': bootstrap_raashi,
         'welcome_festivals_bootstrap': bootstrap_festivals,

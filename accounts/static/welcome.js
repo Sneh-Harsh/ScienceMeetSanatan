@@ -15,7 +15,14 @@ const raashiBootstrapNode = document.getElementById("welcome-raashi-bootstrap");
 const festivalsBootstrapNode = document.getElementById("welcome-festivals-bootstrap");
 
 const safeJsonFetch = async (url) => {
-  const response = await fetch(url, { credentials: "same-origin" });
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 12000);
+  let response;
+  try {
+    response = await fetch(url, { credentials: "same-origin", signal: controller.signal });
+  } finally {
+    window.clearTimeout(timeout);
+  }
   const contentType = response.headers.get("content-type") || "";
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   if (!contentType.includes("application/json")) throw new Error(`Non-JSON response (${contentType || "unknown"})`);
