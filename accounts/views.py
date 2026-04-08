@@ -22,7 +22,7 @@ from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_
 from .models import Category, QuizAttempt, UserStats
 from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
 from panchang.festival_rules import rules_version as festival_rules_version
-from panchang.views import _cached_panchang_for_date, _core_festival_dates_for_year, _load_core_festival_rules
+from panchang.views import _cached_panchang_for_date, _load_core_festival_rules
 import swisseph as swe
 
 
@@ -374,57 +374,6 @@ def _build_welcome_festivals_payload(*, lat: float, lon: float, tz_name: str):
 def _fallback_welcome_festivals_payload(*, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
-    try:
-        resolved = _core_festival_dates_for_year(
-            year=today.year,
-            lat_r=round(28.6139, 3),
-            lon_r=round(77.2090, 3),
-            tz_name=tz_name,
-            rules_version=festival_rules_version(),
-        )
-    except Exception:
-        resolved = []
-
-    month_resolved = []
-    for item in resolved:
-        try:
-            item_date = dt_date.fromisoformat(str(item.get("date") or ""))
-        except Exception:
-            continue
-        if item_date.year == today.year and item_date.month == today.month:
-            month_resolved.append(
-                {
-                    "name": str(item.get("name") or ""),
-                    "date": item_date.isoformat(),
-                    "date_label": item_date.strftime("%d %b %Y"),
-                    "time_label": "See Panchang for exact timing",
-                    "status": "today" if item_date == today else ("past" if item_date < today else "upcoming"),
-                    "icon": item.get("icon") or "✦",
-                    "description": str(item.get("description") or "")[:180],
-                    "festival_meta": " • ".join(
-                        part for part in [str(item.get("month") or ""), str(item.get("paksha") or ""), str(item.get("tithi") or "")] if part
-                    ),
-                }
-            )
-    if month_resolved:
-        month_resolved.sort(key=lambda item: (item["date"], item["name"]))
-        pivot = 0
-        for idx, item in enumerate(month_resolved):
-            fest_day = dt_date.fromisoformat(item["date"])
-            if fest_day >= today:
-                pivot = idx
-                break
-        else:
-            pivot = len(month_resolved) - 1
-        start = max(0, pivot - 1)
-        if start + 4 > len(month_resolved):
-            start = max(0, len(month_resolved) - 4)
-        return {
-            "generated_at": datetime.now(tz).isoformat(),
-            "monthly_festivals": month_resolved[start:start + 4],
-            "fallback": True,
-        }
-
     rules = _load_core_festival_rules()
     hinted_months = GREGORIAN_TO_LUNAR_HINTS.get(today.month, [])
     items = []
@@ -714,6 +663,11 @@ def apple_login_start(request):
 
 
 def welcome_page(request):
+    if request.method == "HEAD":
+        return render(request, 'welcome.html', {
+            'welcome_raashi_bootstrap': {"generated_at": "", "rashi_pulse": []},
+            'welcome_festivals_bootstrap': {"generated_at": "", "monthly_festivals": []},
+        })
     tz_name = "Asia/Kolkata"
     lat = 28.6139
     lon = 77.2090
