@@ -246,6 +246,7 @@ const renderFestivalTimeline = (items = []) => {
             <h3>${escapeHtml(item.name)}</h3>
             <div class="timeline-date">${escapeHtml(item.date_label || item.date || "")}</div>
             <div class="timeline-time">${escapeHtml(item.time_label || "Timings updating")}</div>
+            <div class="timeline-meta">${escapeHtml(item.festival_meta || "")}</div>
             <div class="timeline-desc">${escapeHtml(item.description || "Sacred observance from this month's orbit.")}</div>
           </div>
         </article>

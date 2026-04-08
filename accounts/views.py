@@ -22,7 +22,7 @@ from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_
 from .models import Category, QuizAttempt, UserStats
 from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
 from panchang.festival_rules import rules_version as festival_rules_version
-from panchang.views import _cached_panchang_for_date, _load_core_festival_rules
+from panchang.views import _cached_panchang_for_date, _core_festival_dates_for_year, _load_core_festival_rules
 import swisseph as swe
 
 
@@ -250,6 +250,9 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
                     "time_label": " • ".join(part for part in time_parts if part),
                     "icon": detail.get("icon") or "✦",
                     "description": str(detail.get("description") or "")[:180],
+                    "tithi": str(payload.get("tithi") or ""),
+                    "paksha": str(payload.get("paksha") or ""),
+                    "month": str(payload.get("month") or ""),
                 }
             )
         current = dt_date.fromordinal(current.toordinal() + 1)
@@ -294,6 +297,9 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
                 "status": status,
                 "icon": item.get("icon") or "✦",
                 "description": str(item.get("description") or "")[:180],
+                "festival_meta": " • ".join(
+                    part for part in [str(item.get("month") or ""), str(item.get("paksha") or ""), str(item.get("tithi") or "")] if part
+                ),
             }
         )
     return out
@@ -368,6 +374,57 @@ def _build_welcome_festivals_payload(*, lat: float, lon: float, tz_name: str):
 def _fallback_welcome_festivals_payload(*, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
+    try:
+        resolved = _core_festival_dates_for_year(
+            year=today.year,
+            lat_r=round(28.6139, 3),
+            lon_r=round(77.2090, 3),
+            tz_name=tz_name,
+            rules_version=festival_rules_version(),
+        )
+    except Exception:
+        resolved = []
+
+    month_resolved = []
+    for item in resolved:
+        try:
+            item_date = dt_date.fromisoformat(str(item.get("date") or ""))
+        except Exception:
+            continue
+        if item_date.year == today.year and item_date.month == today.month:
+            month_resolved.append(
+                {
+                    "name": str(item.get("name") or ""),
+                    "date": item_date.isoformat(),
+                    "date_label": item_date.strftime("%d %b %Y"),
+                    "time_label": "See Panchang for exact timing",
+                    "status": "today" if item_date == today else ("past" if item_date < today else "upcoming"),
+                    "icon": item.get("icon") or "✦",
+                    "description": str(item.get("description") or "")[:180],
+                    "festival_meta": " • ".join(
+                        part for part in [str(item.get("month") or ""), str(item.get("paksha") or ""), str(item.get("tithi") or "")] if part
+                    ),
+                }
+            )
+    if month_resolved:
+        month_resolved.sort(key=lambda item: (item["date"], item["name"]))
+        pivot = 0
+        for idx, item in enumerate(month_resolved):
+            fest_day = dt_date.fromisoformat(item["date"])
+            if fest_day >= today:
+                pivot = idx
+                break
+        else:
+            pivot = len(month_resolved) - 1
+        start = max(0, pivot - 1)
+        if start + 4 > len(month_resolved):
+            start = max(0, len(month_resolved) - 4)
+        return {
+            "generated_at": datetime.now(tz).isoformat(),
+            "monthly_festivals": month_resolved[start:start + 4],
+            "fallback": True,
+        }
+
     rules = _load_core_festival_rules()
     hinted_months = GREGORIAN_TO_LUNAR_HINTS.get(today.month, [])
     items = []
@@ -399,6 +456,9 @@ def _fallback_welcome_festivals_payload(*, tz_name: str):
                 "status": "upcoming",
                 "icon": "✦",
                 "description": f"{month_name or 'Sacred'} observance. Open Panchang for exact resolved timing.",
+                "festival_meta": " • ".join(
+                    part for part in [month_name, str(rule.get("paksha") or ""), str(rule.get("tithi") or "")] if part
+                ),
             }
         )
     if not items:
@@ -411,6 +471,7 @@ def _fallback_welcome_festivals_payload(*, tz_name: str):
                 "status": "upcoming",
                 "icon": "✦",
                 "description": "Festival timings are being refreshed. Open Panchang for the latest resolved observances.",
+                "festival_meta": "",
             }
         ]
     if len(items) > 4:
@@ -663,7 +724,6 @@ def welcome_page(request):
         'welcome_festivals_bootstrap': bootstrap_festivals,
     })
 
-@login_required
 def baby_names_page(request):
     baby_names_error = ""
     baby_names_json = "{}"
@@ -682,22 +742,18 @@ def baby_names_page(request):
     )
 
 
-@login_required
 def quizzes_page(request):
     return render(request, "quizzes.html")
 
 
-@login_required
 def panchang_page(request):
     return render(request, "panchang.html")
 
 
-@login_required
 def kundali_page(request):
     return render(request, "kundali.html")
 
 
-@login_required
 def horoscope_page(request):
     return render(request, "horoscope.html")
 
@@ -760,7 +816,6 @@ def profile_page(request):
     )
 
 
-@login_required
 def library_page(request):
     library_error = ""
     payload = {"items": [], "featured": [], "categories": [], "total": 0}
@@ -781,7 +836,6 @@ def library_page(request):
     )
 
 
-@login_required
 def library_detail_page(request, slug: str):
     item = get_library_item(slug)
     if item is None:
@@ -797,7 +851,6 @@ def library_detail_page(request, slug: str):
     )
 
 
-@login_required
 @require_GET
 def api_library_items(request):
     refresh = request.GET.get("refresh") == "1"
@@ -841,7 +894,6 @@ def api_library_items(request):
     )
 
 
-@login_required
 @require_GET
 def api_library_detail(request, slug: str):
     item = get_library_item(slug)

@@ -641,6 +641,13 @@ body {
   margin-top: 0.15rem;
 }
 
+.timeline-meta {
+  margin-top: 0.2rem;
+  color: rgba(225, 232, 255, 0.8);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .timeline-desc {
   margin-top: 0.45rem;
   font-size: 0.92rem;
