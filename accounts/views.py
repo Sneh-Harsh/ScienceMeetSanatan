@@ -387,8 +387,8 @@ def _fallback_welcome_festivals_payload(*, tz_name: str):
         name = str(rule.get("name") or "").strip()
         if not name:
             continue
-        fallback_date_label = fixed_date or f"{month_name} • Date resolving"
-        fallback_time_label = "See Panchang for exact timing"
+        fallback_date_label = fixed_date or ""
+        fallback_time_label = "Open calendar for exact date and tithi timing"
         items.append(
             {
                 "name": name,
@@ -417,12 +417,12 @@ def _fallback_welcome_festivals_payload(*, tz_name: str):
         items = [
             {
                 "name": "Sacred Festival Window",
-                "date": today.isoformat(),
-                "date_label": today.strftime("%d %b %Y"),
-                "time_label": "See Panchang for exact timing",
+                "date": "",
+                "date_label": "",
+                "time_label": "Open calendar for exact date and tithi timing",
                 "status": "upcoming",
                 "icon": "✦",
-                "description": "Festival timings are being refreshed. Open Panchang for the latest resolved observances.",
+                "description": "Open calendar to see full information.",
                 "festival_meta": "",
             }
         ]
@@ -446,6 +446,14 @@ def _welcome_payload_has_items(payload, key):
     return isinstance(payload, dict) and isinstance(payload.get(key), list) and bool(payload.get(key))
 
 
+def _welcome_festival_exact_cache_key(*, lat: float, lon: float, tz_name: str):
+    return f"welcome:festivals:exact:v6:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+
+
+def _welcome_festival_fallback_cache_key(*, lat: float, lon: float, tz_name: str):
+    return f"welcome:festivals:fallback:v6:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+
+
 def _cached_or_fallback_raashi_payload(*, lat: float, lon: float, tz_name: str):
     cache_key = f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
     cached = cache.get(cache_key)
@@ -457,12 +465,16 @@ def _cached_or_fallback_raashi_payload(*, lat: float, lon: float, tz_name: str):
 
 
 def _cached_or_fallback_festivals_payload(*, lat: float, lon: float, tz_name: str):
-    cache_key = f"welcome:festivals:v5:{round(lat,3)}:{round(lon,3)}:{tz_name}"
-    cached = cache.get(cache_key)
-    if _welcome_payload_has_items(cached, "monthly_festivals"):
-        return cached
+    exact_cache_key = _welcome_festival_exact_cache_key(lat=lat, lon=lon, tz_name=tz_name)
+    cached_exact = cache.get(exact_cache_key)
+    if _welcome_payload_has_items(cached_exact, "monthly_festivals"):
+        return cached_exact
+    fallback_cache_key = _welcome_festival_fallback_cache_key(lat=lat, lon=lon, tz_name=tz_name)
+    cached_fallback = cache.get(fallback_cache_key)
+    if _welcome_payload_has_items(cached_fallback, "monthly_festivals"):
+        return cached_fallback
     payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
-    cache.set(cache_key, payload, timeout=min(WELCOME_TIMEOUT, 15 * 60))
+    cache.set(fallback_cache_key, payload, timeout=min(WELCOME_TIMEOUT, 15 * 60))
     return payload
 
 
@@ -528,16 +540,19 @@ def welcome_festivals_api(request):
     except Exception:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
 
-    cache_key = f"welcome:festivals:v5:{round(lat,3)}:{round(lon,3)}:{tz_name}"
-    cached = cache.get(cache_key)
-    if _welcome_payload_has_items(cached, "monthly_festivals"):
-        return JsonResponse(cached)
+    exact_cache_key = _welcome_festival_exact_cache_key(lat=lat, lon=lon, tz_name=tz_name)
+    cached_exact = cache.get(exact_cache_key)
+    if _welcome_payload_has_items(cached_exact, "monthly_festivals"):
+        return JsonResponse(cached_exact)
+
+    if request.GET.get("fresh") != "1":
+        return JsonResponse(_cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name))
 
     try:
         payload = _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
-        cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
+        cache.set(exact_cache_key, payload, timeout=WELCOME_TIMEOUT)
     except Exception as exc:
-        payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
+        payload = _cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
         payload["error"] = str(exc)
     return JsonResponse(payload)
 
@@ -675,10 +690,7 @@ def welcome_page(request):
     lat = 28.6139
     lon = 77.2090
     bootstrap_raashi = _cached_or_fallback_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
-    exact_festival_cache_key = f"welcome:festivals:v5:{round(lat,3)}:{round(lon,3)}:{tz_name}"
-    bootstrap_festivals = cache.get(exact_festival_cache_key)
-    if not _welcome_payload_has_items(bootstrap_festivals, "monthly_festivals") or bool(bootstrap_festivals.get("fallback")):
-        bootstrap_festivals = {"generated_at": "", "monthly_festivals": []}
+    bootstrap_festivals = _cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
     return render(request, 'welcome.html', {
         'welcome_raashi_bootstrap': bootstrap_raashi,
         'welcome_festivals_bootstrap': bootstrap_festivals,

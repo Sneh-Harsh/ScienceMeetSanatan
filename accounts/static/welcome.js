@@ -14,9 +14,9 @@ const aetherSearchButtonText = document.querySelector(".aether-btn__text");
 const raashiBootstrapNode = document.getElementById("welcome-raashi-bootstrap");
 const festivalsBootstrapNode = document.getElementById("welcome-festivals-bootstrap");
 
-const safeJsonFetch = async (url) => {
+const safeJsonFetch = async (url, timeoutMs = 12000) => {
   const controller = new AbortController();
-  const timeout = window.setTimeout(() => controller.abort(), 12000);
+  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
   let response;
   try {
     response = await fetch(url, { credentials: "same-origin", signal: controller.signal });
@@ -244,8 +244,8 @@ const renderFestivalTimeline = (items = []) => {
           <div class="timeline-content">
             <div class="section-kicker">${escapeHtml(item.icon || "✦")} ${index === 3 ? "Upcoming" : "Festival"}</div>
             <h3>${escapeHtml(item.name)}</h3>
-            <div class="timeline-date">${escapeHtml(item.date_label || item.date || "")}${item.time_label ? ` • ${escapeHtml(item.time_label)}` : ""}</div>
-            <div class="timeline-meta">${escapeHtml(item.festival_meta || "")}</div>
+            ${item.date_label || item.time_label ? `<div class="timeline-date">${escapeHtml(item.date_label || "")}${item.date_label && item.time_label ? " • " : ""}${escapeHtml(item.time_label || "")}</div>` : ""}
+            ${item.festival_meta ? `<div class="timeline-meta">${escapeHtml(item.festival_meta || "")}</div>` : ""}
             <div class="timeline-desc">Open calendar to see full information.</div>
           </div>
         </article>
@@ -487,7 +487,7 @@ const fetchWelcomeInsights = async () => {
 
   const requests = await Promise.allSettled([
     safeJsonFetch("/api/welcome-raashi/"),
-    safeJsonFetch("/api/welcome-festivals/"),
+    safeJsonFetch("/api/welcome-festivals/?fresh=1", 28000),
   ]);
 
   const [raashiResult, festivalResult] = requests;
