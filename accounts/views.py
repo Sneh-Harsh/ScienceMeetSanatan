@@ -22,7 +22,7 @@ from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_
 from .models import Category, QuizAttempt, UserStats
 from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
 from panchang.festival_rules import rules_version as festival_rules_version
-from panchang.views import _cached_panchang_for_date, _core_festival_dates_for_year
+from panchang.views import _cached_panchang_for_date
 import swisseph as swe
 
 
@@ -195,27 +195,70 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
     rules_version = festival_rules_version()
-    year_festivals = _core_festival_dates_for_year(
-        year=today.year,
-        lat_r=round(lat, 3),
-        lon_r=round(lon, 3),
-        tz_name=tz_name,
-        rules_version=rules_version,
-    )
-    month_items = [item for item in year_festivals if str(item.get("date", "")).startswith(f"{today.year}-{today.month:02d}-")]
-    if len(month_items) < 4:
-        month_items = year_festivals
+    month_start = today.replace(day=1)
+    if today.month == 12:
+        next_month = dt_date(today.year + 1, 1, 1)
+    else:
+        next_month = dt_date(today.year, today.month + 1, 1)
+    month_end = next_month
 
-    def _festival_date(item):
-        return dt_date.fromisoformat(str(item.get("date")))
+    candidates = []
+    current = month_start
+    while current < month_end:
+        try:
+            payload = _cached_panchang_for_date(
+                date=current.isoformat(),
+                lat_r=round(lat, 3),
+                lon_r=round(lon, 3),
+                tz_name=tz_name,
+                rules_version=rules_version,
+            )
+        except Exception:
+            current = dt_date.fromordinal(current.toordinal() + 1)
+            continue
+
+        for detail in payload.get("festivals_detail", []):
+            if not isinstance(detail, dict) or str(detail.get("source") or "") != "core":
+                continue
+            name = str(detail.get("name") or "").strip()
+            if not name:
+                continue
+            time_parts = []
+            if detail.get("time_rule"):
+                time_parts.append(TIME_RULE_LABELS.get(str(detail.get("time_rule")), str(detail.get("time_rule")).replace("_", " ").title()))
+            if payload.get("tithi_end"):
+                time_parts.append(f"Tithi till {_format_iso_local(payload.get('tithi_end'), tz_name)}")
+            candidates.append(
+                {
+                    "name": name,
+                    "date": current.isoformat(),
+                    "date_label": current.strftime("%d %b %Y"),
+                    "time_label": " • ".join(part for part in time_parts if part),
+                    "icon": detail.get("icon") or "✦",
+                    "description": str(detail.get("description") or "")[:180],
+                }
+            )
+        current = dt_date.fromordinal(current.toordinal() + 1)
+
+    seen = set()
+    month_items = []
+    for item in candidates:
+        key = f"{item['date']}|{item['name'].lower()}"
+        if key in seen:
+            continue
+        seen.add(key)
+        month_items.append(item)
+    month_items.sort(key=lambda item: (item["date"], item["name"]))
+    if not month_items:
+        return []
 
     pivot = 0
     for idx, item in enumerate(month_items):
-        if _festival_date(item) >= today:
+        if dt_date.fromisoformat(item["date"]) >= today:
             pivot = idx
             break
     else:
-        pivot = max(len(month_items) - 1, 0)
+        pivot = len(month_items) - 1
 
     start = max(0, pivot - 1)
     if start + 4 > len(month_items):
@@ -224,32 +267,14 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
 
     out = []
     for item in selected:
-        festival_date = str(item.get("date"))
-        payload = _cached_panchang_for_date(
-            date=festival_date,
-            lat_r=round(lat, 3),
-            lon_r=round(lon, 3),
-            tz_name=tz_name,
-            rules_version=rules_version,
-        )
-        detail = None
-        for current in payload.get("festivals_detail", []):
-            if str(current.get("name") or "").strip().lower() == str(item.get("name") or "").strip().lower():
-                detail = current
-                break
-        fest_day = dt_date.fromisoformat(festival_date)
+        fest_day = dt_date.fromisoformat(str(item.get("date")))
         status = "today" if fest_day == today else ("past" if fest_day < today else "upcoming")
-        time_parts = []
-        if detail and detail.get("time_rule"):
-            time_parts.append(TIME_RULE_LABELS.get(str(detail.get("time_rule")), str(detail.get("time_rule")).replace("_", " ").title()))
-        if payload.get("tithi_end"):
-            time_parts.append(f"Tithi till {_format_iso_local(payload.get('tithi_end'), tz_name)}")
         out.append(
             {
                 "name": str(item.get("name") or ""),
-                "date": festival_date,
-                "date_label": fest_day.strftime("%d %b %Y"),
-                "time_label": " • ".join(part for part in time_parts if part),
+                "date": str(item.get("date") or ""),
+                "date_label": str(item.get("date_label") or fest_day.strftime("%d %b %Y")),
+                "time_label": str(item.get("time_label") or ""),
                 "status": status,
                 "icon": item.get("icon") or "✦",
                 "description": str(item.get("description") or "")[:180],
@@ -297,6 +322,56 @@ def welcome_insights_api(request):
         "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
         "planets": _welcome_planets(transits),
     }
+    cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
+    return JsonResponse(payload)
+
+
+@login_required
+@require_GET
+def welcome_raashi_api(request):
+    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    try:
+        lat = float(request.GET.get("lat") or 28.6139)
+        lon = float(request.GET.get("lon") or 77.2090)
+    except Exception:
+        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+
+    cache_key = f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return JsonResponse(cached)
+
+    now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
+    payload = {
+        "generated_at": now_local.isoformat(),
+        "rashi_pulse": [_raashi_prediction(idx, sign_data, transits) for idx, sign_data in enumerate(RASHI)],
+    }
+    cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
+    return JsonResponse(payload)
+
+
+@login_required
+@require_GET
+def welcome_festivals_api(request):
+    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    try:
+        lat = float(request.GET.get("lat") or 28.6139)
+        lon = float(request.GET.get("lon") or 77.2090)
+    except Exception:
+        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+
+    cache_key = f"welcome:festivals:v2:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return JsonResponse(cached)
+
+    try:
+        payload = {
+            "generated_at": datetime.now(ZoneInfo(tz_name)).isoformat(),
+            "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
+        }
+    except Exception as exc:
+        return JsonResponse({"error": str(exc), "monthly_festivals": []}, status=200)
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 

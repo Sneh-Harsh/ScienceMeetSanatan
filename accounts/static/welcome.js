@@ -1,6 +1,6 @@
 const header = document.querySelector(".header");
 const heroArt = document.querySelector("#heroArt");
-const heroImage = document.querySelector("#heroImage");
+const heroVideo = document.querySelector("#heroVideo");
 const aetherForm = document.querySelector("#aetherForm");
 const aetherInput = document.querySelector("#aetherInput");
 const aetherResults = document.querySelector("#aetherResults");
@@ -8,6 +8,7 @@ const raashiTrack = document.querySelector("#raashiTrack");
 const raashiGeneratedAt = document.querySelector("#raashiGeneratedAt");
 const festivalTimeline = document.querySelector("#festivalTimeline");
 const planetariumStage = document.querySelector("#planetariumStage");
+const planetariumCanvas = document.querySelector("#planetariumCanvas");
 const aetherSearchButton = document.querySelector(".aether-btn");
 const aetherSearchButtonText = document.querySelector(".aether-btn__text");
 
@@ -134,13 +135,12 @@ const updateHeaderState = () => {
 };
 
 const setHeroParallax = (clientX, clientY) => {
-  if (!heroArt || !heroImage) return;
+  if (!heroArt || !heroVideo) return;
   const rect = heroArt.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
-  const x = ((clientX - rect.left) / rect.width - 0.5) * 12;
-  const y = ((clientY - rect.top) / rect.height - 0.5) * 10;
-  heroImage.style.setProperty("--hero-x", `${x.toFixed(2)}px`);
-  heroImage.style.setProperty("--hero-y", `${y.toFixed(2)}px`);
+  const x = ((clientX - rect.left) / rect.width - 0.5) * 8;
+  const y = ((clientY - rect.top) / rect.height - 0.5) * 6;
+  heroVideo.style.transform = `scale(1.14) translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
 };
 
 const formatGeneratedAt = (value) => {
@@ -229,6 +229,7 @@ const renderFestivalTimeline = (items = []) => {
 };
 
 const renderPlanetarium = () => {
+  if (planetariumCanvas) return;
   if (!planetariumStage) return;
   planetariumStage.querySelectorAll(".planet-orbit").forEach((node) => node.remove());
   planetNodes = SOLAR_SYSTEM_BODIES.map((planet) => {
@@ -394,6 +395,7 @@ const startPlanetAnimation = () => {
 };
 
 const enablePlanetariumInteraction = () => {
+  if (planetariumCanvas) return;
   if (!planetariumStage) return;
   let dragging = false;
   let startX = 0;
@@ -441,22 +443,32 @@ const enablePlanetariumInteraction = () => {
 };
 
 const fetchWelcomeInsights = async () => {
-  try {
-    const response = await fetch("/api/welcome-insights/", { credentials: "same-origin" });
-    if (!response.ok) throw new Error(`API error ${response.status}`);
-    welcomeInsights = await response.json();
-    renderRaashiPulse(welcomeInsights.rashi_pulse || []);
-    renderFestivalTimeline(welcomeInsights.monthly_festivals || []);
-    renderPlanetarium();
-    if (raashiGeneratedAt && welcomeInsights.generated_at) {
-      raashiGeneratedAt.textContent = `Live transits • ${formatGeneratedAt(welcomeInsights.generated_at)}`;
+  const requests = await Promise.allSettled([
+    fetch("/api/welcome-raashi/", { credentials: "same-origin" }).then((response) => response.json()),
+    fetch("/api/welcome-festivals/", { credentials: "same-origin" }).then((response) => response.json()),
+  ]);
+
+  const [raashiResult, festivalResult] = requests;
+
+  if (raashiResult.status === "fulfilled" && Array.isArray(raashiResult.value?.rashi_pulse)) {
+    welcomeInsights = { ...(welcomeInsights || {}), ...raashiResult.value };
+    renderRaashiPulse(raashiResult.value.rashi_pulse || []);
+    if (raashiGeneratedAt && raashiResult.value.generated_at) {
+      raashiGeneratedAt.textContent = `Live transits • ${formatGeneratedAt(raashiResult.value.generated_at)}`;
     }
-  } catch (error) {
+  } else {
     if (raashiGeneratedAt) raashiGeneratedAt.textContent = "Live transits unavailable";
     renderRaashiPulse([]);
-    renderFestivalTimeline([]);
-    renderPlanetarium();
   }
+
+  if (festivalResult.status === "fulfilled" && Array.isArray(festivalResult.value?.monthly_festivals)) {
+    welcomeInsights = { ...(welcomeInsights || {}), ...festivalResult.value };
+    renderFestivalTimeline(festivalResult.value.monthly_festivals || []);
+  } else {
+    renderFestivalTimeline([]);
+  }
+
+  renderPlanetarium();
 };
 
 window.addEventListener("scroll", updateHeaderState, { passive: true });
@@ -464,9 +476,8 @@ updateHeaderState();
 
 heroArt?.addEventListener("pointermove", (event) => setHeroParallax(event.clientX, event.clientY));
 heroArt?.addEventListener("pointerleave", () => {
-  if (!heroImage) return;
-  heroImage.style.setProperty("--hero-x", "0px");
-  heroImage.style.setProperty("--hero-y", "0px");
+  if (!heroVideo) return;
+  heroVideo.style.transform = "scale(1.14)";
 });
 
 initializeSearch();

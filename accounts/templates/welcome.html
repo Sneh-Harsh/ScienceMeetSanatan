@@ -10,7 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="{% static 'header.css' %}" />
-    <link rel="stylesheet" href="{% static 'welcome.css' %}?v=4" />
+    <link rel="stylesheet" href="{% static 'welcome.css' %}?v=5" />
   </head>
   <body>
     <header class="header">
@@ -71,17 +71,20 @@
     <main class="content">
       <section class="hero-observatory" aria-label="Homepage hero">
         <div class="hero-backdrop" id="heroArt" aria-hidden="true">
-          <img
-            id="heroImage"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1giK1HDUuu7mIFvuIeIGJdPAI1E4_tjyBoIRm5Bwx29nE6Y4MaY3AA-ZIVh-AN63KFMMtrUCt-uQVcaumO2KmUgF4x0UAZxNwIgXPC1aI4EhvAwZB_LP2cXCXoHiyjnXstfeiAS3GhmsdrcZU1n-ONnUBIYv2_EIbOiVx16KGt5Y3Sjn0llm6xPzo6RWaj5JuDyvRD6HJHXbEDgGLSgz5PcNH5NHSmggHLICOfPou-HWaVY-iqfRkqaOF-VDvXpH0ax5XCut-YhBB"
-            alt="Celestial observatory hero"
-          />
-          <div class="hero-vortex" aria-hidden="true">
-            <span class="hero-vortex__halo"></span>
-            <span class="hero-vortex__ring hero-vortex__ring--one"></span>
-            <span class="hero-vortex__ring hero-vortex__ring--two"></span>
-            <span class="hero-vortex__core"></span>
-          </div>
+          <video
+            id="heroVideo"
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+          >
+            <source
+              src="https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775553078/Welcome_page_background_wkjmmp.mp4"
+              type="video/mp4"
+            />
+          </video>
         </div>
 
         <div class="hero-copy hero-copy--center">
@@ -206,10 +209,11 @@
           <div class="planetarium-card">
             <div class="planetarium-card__copy">
               <div class="section-kicker">Live Planet System</div>
-              <p>Drag to rotate the system. Motion is scaled so one Earth year completes in about 60 seconds here.</p>
+              <p>Drag to orbit the camera. Real 3D planets render with scaled motion and cinematic lighting.</p>
             </div>
             <div class="planetarium" id="planetarium">
-              <div class="planetarium-stage" id="planetariumStage">
+              <div class="planetarium-canvas" id="planetariumCanvas"></div>
+              <div class="planetarium-stage planetarium-stage--fallback" id="planetariumStage">
                 <div class="planetarium-sun">☉</div>
               </div>
             </div>
@@ -297,6 +301,7 @@
     </footer>
 
     <script src="{% static 'header.js' %}"></script>
-    <script src="{% static 'welcome.js' %}?v=4"></script>
+    <script src="{% static 'welcome.js' %}?v=5"></script>
+    <script type="module" src="{% static 'welcome-planetarium.js' %}?v=1"></script>
   </body>
 </html>
