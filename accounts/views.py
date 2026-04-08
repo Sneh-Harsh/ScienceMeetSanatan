@@ -300,7 +300,21 @@ def _welcome_planets(transits):
     return bodies
 
 
-@login_required
+def _build_welcome_raashi_payload(*, lat: float, lon: float, tz_name: str):
+    now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
+    return {
+        "generated_at": now_local.isoformat(),
+        "rashi_pulse": [_raashi_prediction(idx, sign_data, transits) for idx, sign_data in enumerate(RASHI)],
+    }
+
+
+def _build_welcome_festivals_payload(*, lat: float, lon: float, tz_name: str):
+    return {
+        "generated_at": datetime.now(ZoneInfo(tz_name)).isoformat(),
+        "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
+    }
+
+
 @require_GET
 def welcome_insights_api(request):
     tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
@@ -317,16 +331,13 @@ def welcome_insights_api(request):
 
     now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
     payload = {
-        "generated_at": now_local.isoformat(),
-        "rashi_pulse": [_raashi_prediction(idx, sign_data, transits) for idx, sign_data in enumerate(RASHI)],
-        "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
+        **_build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name),
+        **_build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name),
         "planets": _welcome_planets(transits),
     }
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
-
-@login_required
 @require_GET
 def welcome_raashi_api(request):
     tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
@@ -341,16 +352,16 @@ def welcome_raashi_api(request):
     if cached is not None:
         return JsonResponse(cached)
 
-    now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
-    payload = {
-        "generated_at": now_local.isoformat(),
-        "rashi_pulse": [_raashi_prediction(idx, sign_data, transits) for idx, sign_data in enumerate(RASHI)],
-    }
+    try:
+        payload = _build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
+    except Exception as exc:
+        stale = cache.get(cache_key)
+        if stale is not None:
+            return JsonResponse(stale)
+        return JsonResponse({"error": str(exc), "rashi_pulse": []}, status=500)
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
-
-@login_required
 @require_GET
 def welcome_festivals_api(request):
     tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
@@ -366,12 +377,12 @@ def welcome_festivals_api(request):
         return JsonResponse(cached)
 
     try:
-        payload = {
-            "generated_at": datetime.now(ZoneInfo(tz_name)).isoformat(),
-            "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
-        }
+        payload = _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
     except Exception as exc:
-        return JsonResponse({"error": str(exc), "monthly_festivals": []}, status=200)
+        stale = cache.get(cache_key)
+        if stale is not None:
+            return JsonResponse(stale)
+        return JsonResponse({"error": str(exc), "monthly_festivals": []}, status=500)
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
@@ -500,7 +511,23 @@ def apple_login_start(request):
 
 
 def welcome_page(request):
-    return render(request, 'welcome.html')
+    tz_name = "Asia/Kolkata"
+    lat = 28.6139
+    lon = 77.2090
+    bootstrap_raashi = {"generated_at": "", "rashi_pulse": []}
+    bootstrap_festivals = {"generated_at": "", "monthly_festivals": []}
+    try:
+        bootstrap_raashi = cache.get(f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}") or _build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
+    except Exception:
+        pass
+    try:
+        bootstrap_festivals = cache.get(f"welcome:festivals:v2:{round(lat,3)}:{round(lon,3)}:{tz_name}") or _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
+    except Exception:
+        pass
+    return render(request, 'welcome.html', {
+        'welcome_raashi_bootstrap': bootstrap_raashi,
+        'welcome_festivals_bootstrap': bootstrap_festivals,
+    })
 
 @login_required
 def baby_names_page(request):

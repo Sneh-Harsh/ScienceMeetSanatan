@@ -11,6 +11,25 @@ const planetariumStage = document.querySelector("#planetariumStage");
 const planetariumCanvas = document.querySelector("#planetariumCanvas");
 const aetherSearchButton = document.querySelector(".aether-btn");
 const aetherSearchButtonText = document.querySelector(".aether-btn__text");
+const raashiBootstrapNode = document.getElementById("welcome-raashi-bootstrap");
+const festivalsBootstrapNode = document.getElementById("welcome-festivals-bootstrap");
+
+const safeJsonFetch = async (url) => {
+  const response = await fetch(url, { credentials: "same-origin" });
+  const contentType = response.headers.get("content-type") || "";
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  if (!contentType.includes("application/json")) throw new Error(`Non-JSON response (${contentType || "unknown"})`);
+  return response.json();
+};
+
+const readBootstrapJson = (node) => {
+  if (!node) return null;
+  try {
+    return JSON.parse(node.textContent || "null");
+  } catch (_) {
+    return null;
+  }
+};
 
 const STATIC_SEARCH_ENTRIES = [
   { title: "Panchang", meta: "Feature • Calendar, festivals, timings", href: "/panchang/", kind: "feature" },
@@ -167,7 +186,7 @@ const escapeHtml = (value) =>
 const renderRaashiPulse = (items = []) => {
   if (!raashiTrack) return;
   if (!items.length) {
-    raashiTrack.innerHTML = '<div class="loading-card">Raashi pulse is aligning. Please refresh in a moment.</div>';
+    raashiTrack.innerHTML = '<div class="loading-card">Raashi pulse is unavailable right now.</div>';
     return;
   }
   raashiTrack.innerHTML = items
@@ -199,7 +218,7 @@ const renderRaashiPulse = (items = []) => {
 const renderFestivalTimeline = (items = []) => {
   if (!festivalTimeline) return;
   if (!items.length) {
-    festivalTimeline.innerHTML = '<div class="timeline-loading">No festival pulse is available right now.</div>';
+    festivalTimeline.innerHTML = '<div class="timeline-loading">Festival orbit is unavailable right now.</div>';
     return;
   }
   const visibleItems = items.slice(0, 4);
@@ -443,9 +462,25 @@ const enablePlanetariumInteraction = () => {
 };
 
 const fetchWelcomeInsights = async () => {
+  const bootstrapRaashi = readBootstrapJson(raashiBootstrapNode);
+  const bootstrapFestivals = readBootstrapJson(festivalsBootstrapNode);
+
+  if (bootstrapRaashi && Array.isArray(bootstrapRaashi.rashi_pulse) && bootstrapRaashi.rashi_pulse.length) {
+    welcomeInsights = { ...(welcomeInsights || {}), ...bootstrapRaashi };
+    renderRaashiPulse(bootstrapRaashi.rashi_pulse);
+    if (raashiGeneratedAt && bootstrapRaashi.generated_at) {
+      raashiGeneratedAt.textContent = `Live transits • ${formatGeneratedAt(bootstrapRaashi.generated_at)}`;
+    }
+  }
+
+  if (bootstrapFestivals && Array.isArray(bootstrapFestivals.monthly_festivals) && bootstrapFestivals.monthly_festivals.length) {
+    welcomeInsights = { ...(welcomeInsights || {}), ...bootstrapFestivals };
+    renderFestivalTimeline(bootstrapFestivals.monthly_festivals);
+  }
+
   const requests = await Promise.allSettled([
-    fetch("/api/welcome-raashi/", { credentials: "same-origin" }).then((response) => response.json()),
-    fetch("/api/welcome-festivals/", { credentials: "same-origin" }).then((response) => response.json()),
+    safeJsonFetch("/api/welcome-raashi/"),
+    safeJsonFetch("/api/welcome-festivals/"),
   ]);
 
   const [raashiResult, festivalResult] = requests;
@@ -457,15 +492,19 @@ const fetchWelcomeInsights = async () => {
       raashiGeneratedAt.textContent = `Live transits • ${formatGeneratedAt(raashiResult.value.generated_at)}`;
     }
   } else {
-    if (raashiGeneratedAt) raashiGeneratedAt.textContent = "Live transits unavailable";
-    renderRaashiPulse([]);
+    if (!bootstrapRaashi?.rashi_pulse?.length) {
+      if (raashiGeneratedAt) raashiGeneratedAt.textContent = "Live transits unavailable";
+      renderRaashiPulse([]);
+    }
   }
 
   if (festivalResult.status === "fulfilled" && Array.isArray(festivalResult.value?.monthly_festivals)) {
     welcomeInsights = { ...(welcomeInsights || {}), ...festivalResult.value };
     renderFestivalTimeline(festivalResult.value.monthly_festivals || []);
   } else {
-    renderFestivalTimeline([]);
+    if (!bootstrapFestivals?.monthly_festivals?.length) {
+      renderFestivalTimeline([]);
+    }
   }
 
   renderPlanetarium();

@@ -372,6 +372,7 @@ body {
   overflow-x: auto;
   padding-bottom: 0.75rem;
   scrollbar-width: none;
+  align-items: stretch;
 }
 
 .feature-rail::-webkit-scrollbar {
@@ -1031,6 +1032,38 @@ body {
     flex-direction: column;
   }
 
+  .feature-rail {
+    display: flex;
+    gap: 0.9rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.85rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .raashi-track {
+    display: flex;
+    gap: 0.9rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.9rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pulse-card {
+    flex: 0 0 min(82vw, 340px);
+    min-width: min(82vw, 340px);
+    scroll-snap-align: start;
+  }
+
+  .raashi-card {
+    flex: 0 0 min(82vw, 340px);
+    min-width: min(82vw, 340px);
+    scroll-snap-align: start;
+  }
+
   .bento-card--wide,
   .bento-card--tall {
     grid-column: span 1;
@@ -1081,7 +1114,65 @@ body {
 
   .raashi-card,
   .pulse-card {
-    min-width: 90vw;
+    min-width: 88vw;
+  }
+
+  .raashi-track {
+    gap: 0.8rem;
+    padding-inline: 0.05rem;
+  }
+
+  .feature-rail {
+    gap: 0.8rem;
+    padding-inline: 0.05rem;
+  }
+
+  .pulse-card {
+    flex-basis: 88vw;
+    min-width: 88vw;
+    min-height: 260px;
+    padding: 1.2rem;
+  }
+
+  .pulse-card h3 {
+    font-size: 1.65rem;
+  }
+
+  .raashi-card {
+    flex-basis: 88vw;
+    min-width: 88vw;
+    min-height: 270px;
+    padding: 1.15rem;
+  }
+
+  .raashi-card h3 {
+    font-size: 1.7rem;
+  }
+
+  .raashi-card__top,
+  .raashi-card__foot {
+    gap: 0.8rem;
+  }
+
+  .raashi-card__sigil {
+    width: 52px;
+    height: 52px;
+    font-size: 1.2rem;
+  }
+
+  .raashi-card__text {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin: 1rem 0 1.2rem;
+  }
+
+  .raashi-card__planet {
+    font-size: 0.8rem;
+  }
+
+  .pulse-card p {
+    font-size: 0.92rem;
+    line-height: 1.65;
   }
 
   .planetarium {
