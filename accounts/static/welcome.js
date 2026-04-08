@@ -244,10 +244,9 @@ const renderFestivalTimeline = (items = []) => {
           <div class="timeline-content">
             <div class="section-kicker">${escapeHtml(item.icon || "✦")} ${index === 3 ? "Upcoming" : "Festival"}</div>
             <h3>${escapeHtml(item.name)}</h3>
-            <div class="timeline-date">${escapeHtml(item.date_label || item.date || "")}</div>
-            <div class="timeline-time">${escapeHtml(item.time_label || "Timings updating")}</div>
+            <div class="timeline-date">${escapeHtml(item.date_label || item.date || "")}${item.time_label ? ` • ${escapeHtml(item.time_label)}` : ""}</div>
             <div class="timeline-meta">${escapeHtml(item.festival_meta || "")}</div>
-            <div class="timeline-desc">${escapeHtml(item.description || "Sacred observance from this month's orbit.")}</div>
+            <div class="timeline-desc">Open calendar to see full information.</div>
           </div>
         </article>
       `;

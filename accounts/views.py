@@ -387,26 +387,29 @@ def _fallback_welcome_festivals_payload(*, tz_name: str):
         name = str(rule.get("name") or "").strip()
         if not name:
             continue
-        timing_bits = []
-        if fixed_date:
-            timing_bits.append(fixed_date)
-        if rule.get("paksha"):
-            timing_bits.append(str(rule.get("paksha")))
-        if rule.get("tithi"):
-            timing_bits.append(str(rule.get("tithi")))
-        elif rule.get("start_tithi") and rule.get("end_tithi"):
-            timing_bits.append(f"{rule.get('start_tithi')} → {rule.get('end_tithi')}")
+        fallback_date_label = fixed_date or f"{month_name} • Date resolving"
+        fallback_time_label = "See Panchang for exact timing"
         items.append(
             {
                 "name": name,
-                "date": today.isoformat(),
-                "date_label": today.strftime("%d %b %Y"),
-                "time_label": " • ".join(bit for bit in timing_bits if bit) or "See Panchang for exact timing",
+                "date": "",
+                "date_label": fallback_date_label,
+                "time_label": fallback_time_label,
                 "status": "upcoming",
                 "icon": "✦",
                 "description": f"{month_name or 'Sacred'} observance. Open Panchang for exact resolved timing.",
                 "festival_meta": " • ".join(
-                    part for part in [month_name, str(rule.get("paksha") or ""), str(rule.get("tithi") or "")] if part
+                    part
+                    for part in [
+                        month_name,
+                        str(rule.get("paksha") or ""),
+                        str(rule.get("tithi") or "") or (
+                            f"{rule.get('start_tithi')} → {rule.get('end_tithi')}"
+                            if rule.get("start_tithi") and rule.get("end_tithi")
+                            else ""
+                        ),
+                    ]
+                    if part
                 ),
             }
         )
@@ -454,7 +457,7 @@ def _cached_or_fallback_raashi_payload(*, lat: float, lon: float, tz_name: str):
 
 
 def _cached_or_fallback_festivals_payload(*, lat: float, lon: float, tz_name: str):
-    cache_key = f"welcome:festivals:v3:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cache_key = f"welcome:festivals:v5:{round(lat,3)}:{round(lon,3)}:{tz_name}"
     cached = cache.get(cache_key)
     if _welcome_payload_has_items(cached, "monthly_festivals"):
         return cached
@@ -525,17 +528,17 @@ def welcome_festivals_api(request):
     except Exception:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
 
-    cache_key = f"welcome:festivals:v3:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cache_key = f"welcome:festivals:v5:{round(lat,3)}:{round(lon,3)}:{tz_name}"
     cached = cache.get(cache_key)
     if _welcome_payload_has_items(cached, "monthly_festivals"):
         return JsonResponse(cached)
 
     try:
         payload = _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
+        cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     except Exception as exc:
         payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
         payload["error"] = str(exc)
-    cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
 
@@ -672,7 +675,10 @@ def welcome_page(request):
     lat = 28.6139
     lon = 77.2090
     bootstrap_raashi = _cached_or_fallback_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
-    bootstrap_festivals = _cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
+    exact_festival_cache_key = f"welcome:festivals:v5:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    bootstrap_festivals = cache.get(exact_festival_cache_key)
+    if not _welcome_payload_has_items(bootstrap_festivals, "monthly_festivals") or bool(bootstrap_festivals.get("fallback")):
+        bootstrap_festivals = {"generated_at": "", "monthly_festivals": []}
     return render(request, 'welcome.html', {
         'welcome_raashi_bootstrap': bootstrap_raashi,
         'welcome_festivals_bootstrap': bootstrap_festivals,
