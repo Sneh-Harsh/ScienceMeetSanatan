@@ -164,4 +164,4 @@ def load_baby_names() -> dict:
 
 
 def load_baby_names_json() -> str:
-    return 
+    return json.dumps(load_baby_names(), ensure_ascii=False)
