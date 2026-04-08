@@ -411,7 +411,7 @@ def login_page(request):
                     last_name=last_name,
                 )
                 messages.success(request, 'Signup successful. Please log in with your new account.')
-                return redirect('/?mode=login')
+                return redirect('/login/?mode=login')
 
         elif form_type == 'reset_password':
             username = request.POST.get('username', '').strip()
@@ -438,7 +438,7 @@ def login_page(request):
                     user.set_password(new_password)
                     user.save(update_fields=['password'])
                     messages.success(request, 'Password updated successfully. Please log in with your new password.')
-                    return redirect('/?mode=login')
+                    return redirect('/login/?mode=login')
 
         else:
             username = request.POST.get('username', '').strip()
@@ -472,14 +472,14 @@ def login_page(request):
 def google_login_start(request):
     if not settings.SOCIAL_AUTH_ENABLED:
         messages.error(request, 'Google login is unavailable because social-auth package is not installed.')
-        return redirect('/?mode=login')
+        return redirect('/login/?mode=login')
 
     if not settings.GOOGLE_OAUTH_CONFIGURED:
         messages.error(
             request,
             'Google OAuth is not configured. Set SOCIAL_AUTH_GOOGLE_OAUTH2_KEY and SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET.',
         )
-        return redirect('/?mode=login')
+        return redirect('/login/?mode=login')
 
     return redirect(reverse('social:begin', args=['google-oauth2']))
 
@@ -487,19 +487,18 @@ def google_login_start(request):
 def apple_login_start(request):
     if not settings.SOCIAL_AUTH_ENABLED:
         messages.error(request, 'Apple login is unavailable because social-auth package is not installed.')
-        return redirect('/?mode=login')
+        return redirect('/login/?mode=login')
 
     if not settings.APPLE_OAUTH_CONFIGURED:
         messages.error(
             request,
             'Apple OAuth is not configured. Set SOCIAL_AUTH_APPLE_ID_CLIENT, TEAM, KEY and valid SECRET/PEM key.',
         )
-        return redirect('/?mode=login')
+        return redirect('/login/?mode=login')
 
     return redirect(reverse('social:begin', args=['apple-id']))
 
 
-@login_required
 def welcome_page(request):
     return render(request, 'welcome.html')
 

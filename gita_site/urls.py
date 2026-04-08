@@ -30,7 +30,8 @@ from accounts.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', login_page, name='login'),
+    path('', welcome_page, name='home'),
+    path('login/', login_page, name='login'),
     path('welcome/', welcome_page, name='welcome'),
     path('baby-names/', baby_names_page, name='baby_names'),
     path('quizzes/', quizzes_page, name='quizzes'),
