@@ -22,7 +22,7 @@ from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_
 from .models import Category, QuizAttempt, UserStats
 from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
 from panchang.festival_rules import rules_version as festival_rules_version
-from panchang.views import _cached_panchang_for_date
+from panchang.views import _cached_panchang_for_date, _load_core_festival_rules
 import swisseph as swe
 
 
@@ -68,6 +68,20 @@ TIME_RULE_LABELS = {
     "midnight": "Midnight rule",
     "nishita": "Nishita Kaal",
     "moonrise": "Moonrise window",
+}
+GREGORIAN_TO_LUNAR_HINTS = {
+    1: ["Paush", "Magh"],
+    2: ["Magh", "Phalguna"],
+    3: ["Phalguna", "Chaitra"],
+    4: ["Chaitra", "Vaishakh"],
+    5: ["Vaishakh", "Jyeshtha"],
+    6: ["Jyeshtha", "Ashadh"],
+    7: ["Ashadh", "Shravan"],
+    8: ["Shravan", "Bhadrapad"],
+    9: ["Bhadrapad", "Ashwin"],
+    10: ["Ashwin", "Kartik"],
+    11: ["Kartik", "Margashirsha"],
+    12: ["Margashirsha", "Paush"],
 }
 
 
@@ -195,8 +209,12 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
     rules_version = festival_rules_version()
-    start_day = dt_date.fromordinal(today.toordinal() - 10)
-    end_day = dt_date.fromordinal(today.toordinal() + 45)
+    start_day = today.replace(day=1)
+    if start_day.month == 12:
+        next_month = dt_date(start_day.year + 1, 1, 1)
+    else:
+        next_month = dt_date(start_day.year, start_day.month + 1, 1)
+    end_day = dt_date.fromordinal(next_month.toordinal() - 1)
 
     candidates = []
     current = start_day
@@ -235,7 +253,7 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
                 }
             )
         current = dt_date.fromordinal(current.toordinal() + 1)
-        if len(candidates) >= 8 and current > today:
+        if len(candidates) >= 10 and current > today:
             break
 
     seen = set()
@@ -306,11 +324,133 @@ def _build_welcome_raashi_payload(*, lat: float, lon: float, tz_name: str):
     }
 
 
+def _fallback_welcome_raashi_payload(*, tz_name: str):
+    tz = ZoneInfo(tz_name)
+    today = datetime.now(tz)
+    day_seed = today.timetuple().tm_yday
+    items = []
+    for idx, sign_data in enumerate(RASHI):
+        energy = 48 + ((day_seed + idx * 7) % 36)
+        mood_bucket = (day_seed + idx * 3) % 4
+        if mood_bucket == 0:
+            opening = "clarity in decision-making and a calmer inner pace"
+        elif mood_bucket == 1:
+            opening = "relationships, grace, and steadier emotional balance"
+        elif mood_bucket == 2:
+            opening = "work, duty, and practical problem-solving"
+        else:
+            opening = "rest, reflection, and spiritual reset"
+        items.append(
+            {
+                "slug": sign_data["sa"].lower(),
+                "sign_en": sign_data["en"],
+                "sign_sa": sign_data["sa"],
+                "energy": energy,
+                "dominant_planet": ["Jupiter", "Venus", "Mercury", "Saturn"][(day_seed + idx) % 4],
+                "prediction": f"Krishna says, today {sign_data['sa']} moves through {opening}. Stay measured, trust dharma over impulse, and let small wise actions shape the day.",
+                "accent": ["#f2ca50", "#ff92dc", "#72f0d1", "#7f8dff"][(day_seed + idx) % 4],
+            }
+        )
+    return {
+        "generated_at": today.isoformat(),
+        "rashi_pulse": items,
+        "fallback": True,
+    }
+
+
 def _build_welcome_festivals_payload(*, lat: float, lon: float, tz_name: str):
     return {
         "generated_at": datetime.now(ZoneInfo(tz_name)).isoformat(),
         "monthly_festivals": _welcome_festivals(lat=lat, lon=lon, tz_name=tz_name),
     }
+
+
+def _fallback_welcome_festivals_payload(*, tz_name: str):
+    tz = ZoneInfo(tz_name)
+    today = datetime.now(tz).date()
+    rules = _load_core_festival_rules()
+    hinted_months = GREGORIAN_TO_LUNAR_HINTS.get(today.month, [])
+    items = []
+    for rule in rules:
+        if not isinstance(rule, dict):
+            continue
+        month_name = str(rule.get("month") or "")
+        fixed_date = str(rule.get("fixed_date") or "")
+        if month_name and month_name not in hinted_months:
+            continue
+        name = str(rule.get("name") or "").strip()
+        if not name:
+            continue
+        timing_bits = []
+        if fixed_date:
+            timing_bits.append(fixed_date)
+        if rule.get("paksha"):
+            timing_bits.append(str(rule.get("paksha")))
+        if rule.get("tithi"):
+            timing_bits.append(str(rule.get("tithi")))
+        elif rule.get("start_tithi") and rule.get("end_tithi"):
+            timing_bits.append(f"{rule.get('start_tithi')} → {rule.get('end_tithi')}")
+        items.append(
+            {
+                "name": name,
+                "date": today.isoformat(),
+                "date_label": today.strftime("%d %b %Y"),
+                "time_label": " • ".join(bit for bit in timing_bits if bit) or "See Panchang for exact timing",
+                "status": "upcoming",
+                "icon": "✦",
+                "description": f"{month_name or 'Sacred'} observance. Open Panchang for exact resolved timing.",
+            }
+        )
+    if not items:
+        items = [
+            {
+                "name": "Sacred Festival Window",
+                "date": today.isoformat(),
+                "date_label": today.strftime("%d %b %Y"),
+                "time_label": "See Panchang for exact timing",
+                "status": "upcoming",
+                "icon": "✦",
+                "description": "Festival timings are being refreshed. Open Panchang for the latest resolved observances.",
+            }
+        ]
+    if len(items) > 4:
+        items = items[:4]
+    if items:
+        if len(items) > 1:
+            items[0]["status"] = "past"
+        if len(items) > 2:
+            items[1]["status"] = "today"
+        for item in items[2:]:
+            item["status"] = "upcoming"
+    return {
+        "generated_at": datetime.now(tz).isoformat(),
+        "monthly_festivals": items,
+        "fallback": True,
+    }
+
+
+def _welcome_payload_has_items(payload, key):
+    return isinstance(payload, dict) and isinstance(payload.get(key), list) and bool(payload.get(key))
+
+
+def _cached_or_fallback_raashi_payload(*, lat: float, lon: float, tz_name: str):
+    cache_key = f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cached = cache.get(cache_key)
+    if _welcome_payload_has_items(cached, "rashi_pulse"):
+        return cached
+    payload = _fallback_welcome_raashi_payload(tz_name=tz_name)
+    cache.set(cache_key, payload, timeout=min(WELCOME_TIMEOUT, 15 * 60))
+    return payload
+
+
+def _cached_or_fallback_festivals_payload(*, lat: float, lon: float, tz_name: str):
+    cache_key = f"welcome:festivals:v3:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cached = cache.get(cache_key)
+    if _welcome_payload_has_items(cached, "monthly_festivals"):
+        return cached
+    payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
+    cache.set(cache_key, payload, timeout=min(WELCOME_TIMEOUT, 15 * 60))
+    return payload
 
 
 @require_GET
@@ -327,12 +467,20 @@ def welcome_insights_api(request):
     if cached is not None:
         return JsonResponse(cached)
 
-    now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
-    payload = {
-        **_build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name),
-        **_build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name),
-        "planets": _welcome_planets(transits),
-    }
+    try:
+        now_local, transits = _current_transits(lat=lat, lon=lon, tz_name=tz_name)
+        payload = {
+            **_build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name),
+            **_build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name),
+            "planets": _welcome_planets(transits),
+        }
+    except Exception:
+        payload = {
+            **_cached_or_fallback_raashi_payload(lat=lat, lon=lon, tz_name=tz_name),
+            **_cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name),
+            "planets": [],
+            "fallback": True,
+        }
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
@@ -347,16 +495,14 @@ def welcome_raashi_api(request):
 
     cache_key = f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
     cached = cache.get(cache_key)
-    if cached is not None:
+    if _welcome_payload_has_items(cached, "rashi_pulse"):
         return JsonResponse(cached)
 
     try:
         payload = _build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
     except Exception as exc:
-        stale = cache.get(cache_key)
-        if stale is not None:
-            return JsonResponse(stale)
-        return JsonResponse({"error": str(exc), "rashi_pulse": []}, status=500)
+        payload = _fallback_welcome_raashi_payload(tz_name=tz_name)
+        payload["error"] = str(exc)
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
@@ -369,18 +515,16 @@ def welcome_festivals_api(request):
     except Exception:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
 
-    cache_key = f"welcome:festivals:v2:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    cache_key = f"welcome:festivals:v3:{round(lat,3)}:{round(lon,3)}:{tz_name}"
     cached = cache.get(cache_key)
-    if cached is not None:
+    if _welcome_payload_has_items(cached, "monthly_festivals"):
         return JsonResponse(cached)
 
     try:
         payload = _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
     except Exception as exc:
-        stale = cache.get(cache_key)
-        if stale is not None:
-            return JsonResponse(stale)
-        return JsonResponse({"error": str(exc), "monthly_festivals": []}, status=500)
+        payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
+        payload["error"] = str(exc)
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
@@ -512,10 +656,8 @@ def welcome_page(request):
     tz_name = "Asia/Kolkata"
     lat = 28.6139
     lon = 77.2090
-    bootstrap_raashi = {"generated_at": "", "rashi_pulse": []}
-    bootstrap_festivals = {"generated_at": "", "monthly_festivals": []}
-    bootstrap_raashi = cache.get(f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}") or bootstrap_raashi
-    bootstrap_festivals = cache.get(f"welcome:festivals:v2:{round(lat,3)}:{round(lon,3)}:{tz_name}") or bootstrap_festivals
+    bootstrap_raashi = _cached_or_fallback_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
+    bootstrap_festivals = _cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
     return render(request, 'welcome.html', {
         'welcome_raashi_bootstrap': bootstrap_raashi,
         'welcome_festivals_bootstrap': bootstrap_festivals,
