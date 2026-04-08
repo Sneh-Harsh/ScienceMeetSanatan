@@ -209,14 +209,11 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
     rules_version = festival_rules_version()
-    start_day = today.replace(day=1)
-    if start_day.month == 12:
-        next_month = dt_date(start_day.year + 1, 1, 1)
-    else:
-        next_month = dt_date(start_day.year, start_day.month + 1, 1)
-    end_day = dt_date.fromordinal(next_month.toordinal() - 1)
+    start_day = dt_date.fromordinal(today.toordinal() - 10)
+    end_day = dt_date.fromordinal(today.toordinal() + 40)
 
     candidates = []
+    seen_keys = set()
     current = start_day
     while current <= end_day:
         try:
@@ -237,6 +234,10 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
             name = str(detail.get("name") or "").strip()
             if not name:
                 continue
+            dedupe_key = f"{current.isoformat()}|{name.lower()}"
+            if dedupe_key in seen_keys:
+                continue
+            seen_keys.add(dedupe_key)
             time_parts = []
             if detail.get("time_rule"):
                 time_parts.append(TIME_RULE_LABELS.get(str(detail.get("time_rule")), str(detail.get("time_rule")).replace("_", " ").title()))
@@ -256,16 +257,11 @@ def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
                 }
             )
         current = dt_date.fromordinal(current.toordinal() + 1)
-        if len(candidates) >= 10 and current > today:
+        if len(candidates) >= 5 and current > today:
             break
 
-    seen = set()
     month_items = []
     for item in candidates:
-        key = f"{item['date']}|{item['name'].lower()}"
-        if key in seen:
-            continue
-        seen.add(key)
         month_items.append(item)
     month_items.sort(key=lambda item: (item["date"], item["name"]))
     if not month_items:
@@ -447,11 +443,11 @@ def _welcome_payload_has_items(payload, key):
 
 
 def _welcome_festival_exact_cache_key(*, lat: float, lon: float, tz_name: str):
-    return f"welcome:festivals:exact:v6:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    return f"welcome:festivals:exact:v7:{round(lat,3)}:{round(lon,3)}:{tz_name}"
 
 
 def _welcome_festival_fallback_cache_key(*, lat: float, lon: float, tz_name: str):
-    return f"welcome:festivals:fallback:v6:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    return f"welcome:festivals:fallback:v7:{round(lat,3)}:{round(lon,3)}:{tz_name}"
 
 
 def _cached_or_fallback_raashi_payload(*, lat: float, lon: float, tz_name: str):
