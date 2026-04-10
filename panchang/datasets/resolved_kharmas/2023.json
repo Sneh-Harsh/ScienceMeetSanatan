@@ -1,0 +1,45 @@
+{
+  "year": 2023,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2022-12-16T09:58:36+05:30",
+      "end": "2023-01-14T20:45:32+05:30",
+      "start_label": "16 Dec 2022 • 09:58 AM",
+      "end_label": "14 Jan 2023 • 08:45 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2023-03-15T06:34:31+05:30",
+      "end": "2023-04-14T14:59:04+05:30",
+      "start_label": "15 Mar 2023 • 06:34 AM",
+      "end_label": "14 Apr 2023 • 02:59 PM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2023-12-16T15:58:36+05:30",
+      "end": "2024-01-15T02:43:46+05:30",
+      "start_label": "16 Dec 2023 • 03:58 PM",
+      "end_label": "15 Jan 2024 • 02:43 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    }
+  ],
+  "active": null
+}

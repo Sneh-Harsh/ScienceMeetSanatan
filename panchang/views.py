@@ -26,11 +26,11 @@ def _year_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str, rule
 
 
 def _kharmas_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> str:
-    return f"panchang:kharmas:v1:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}"
+    return f"panchang:kharmas:v2:{year}"
 
 
 def _marriage_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> str:
-    return f"panchang:marriage:v2:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}"
+    return f"panchang:marriage:v3:{year}"
 
 
 def _core_festival_cache_path(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str) -> Path:

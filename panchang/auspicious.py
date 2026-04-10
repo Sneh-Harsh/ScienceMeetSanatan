@@ -191,10 +191,9 @@ def _load_bundled_payload(kind: str, year: int):
 
 
 def kharmas_for_year(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> Dict:
-    if _location_matches_bundle(lat_r, lon_r, tz_name):
-        bundled = _load_bundled_payload("kharmas", year)
-        if bundled:
-            return bundled
+    bundled = _load_bundled_payload("kharmas", year)
+    if bundled:
+        return bundled
 
     tz = ZoneInfo(tz_name)
     start_local = datetime(year - 1, 11, 1, 0, 0, tzinfo=tz)
@@ -299,10 +298,9 @@ def _marriage_reason_parts(payload: Dict, yoga_name: str, karana_name: str, week
 
 
 def marriage_windows_for_year(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> Dict:
-    if _location_matches_bundle(lat_r, lon_r, tz_name):
-        bundled = _load_bundled_payload("marriage", year)
-        if bundled:
-            return bundled
+    bundled = _load_bundled_payload("marriage", year)
+    if bundled:
+        return bundled
 
     tz = ZoneInfo(tz_name)
     start = Date(year, 1, 1)

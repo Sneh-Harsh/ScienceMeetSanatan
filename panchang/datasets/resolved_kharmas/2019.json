@@ -1,0 +1,45 @@
+{
+  "year": 2019,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2018-12-16T09:09:22+05:30",
+      "end": "2019-01-14T19:51:23+05:30",
+      "start_label": "16 Dec 2018 • 09:09 AM",
+      "end_label": "14 Jan 2019 • 07:51 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2019-03-15T05:40:01+05:30",
+      "end": "2019-04-14T14:09:08+05:30",
+      "start_label": "15 Mar 2019 • 05:40 AM",
+      "end_label": "14 Apr 2019 • 02:09 PM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2019-12-16T15:27:39+05:30",
+      "end": "2020-01-15T02:07:55+05:30",
+      "start_label": "16 Dec 2019 • 03:27 PM",
+      "end_label": "15 Jan 2020 • 02:07 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    }
+  ],
+  "active": null
+}

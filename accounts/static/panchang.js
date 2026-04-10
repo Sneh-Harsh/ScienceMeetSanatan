@@ -1524,12 +1524,10 @@ function getAuspiciousYear(){
 }
 
 async function fetchKharmasYear(year){
-  const { lat, lon, tz } = getSavedLocation();
-  const tzName = tz || getBrowserTz();
-  const key = `${year}|${Number(lat).toFixed(3)}|${Number(lon).toFixed(3)}|${tzName}`;
+  const key = `bundle|${year}`;
   let data = kharmasYearCache.get(key) || null;
   if(data) return data;
-  const res = await fetch(`/api/kharmas/?${new URLSearchParams({ year: String(year), lat: String(lat), lon: String(lon), tz: tzName })}`, {
+  const res = await fetch(`/api/kharmas/?${new URLSearchParams({ year: String(year) })}`, {
     headers: { Accept: "application/json" },
   });
   const text = await res.text();
@@ -1540,12 +1538,10 @@ async function fetchKharmasYear(year){
 }
 
 async function fetchMarriageYear(year){
-  const { lat, lon, tz } = getSavedLocation();
-  const tzName = tz || getBrowserTz();
-  const key = `${year}|${Number(lat).toFixed(3)}|${Number(lon).toFixed(3)}|${tzName}`;
+  const key = `bundle|${year}`;
   let data = marriageYearCache.get(key) || null;
   if(data) return data;
-  const res = await fetch(`/api/marriage-dates/?${new URLSearchParams({ year: String(year), lat: String(lat), lon: String(lon), tz: tzName })}`, {
+  const res = await fetch(`/api/marriage-dates/?${new URLSearchParams({ year: String(year) })}`, {
     headers: { Accept: "application/json" },
   });
   const text = await res.text();

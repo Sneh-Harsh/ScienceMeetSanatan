@@ -1,0 +1,45 @@
+{
+  "year": 2034,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2033-12-16T05:39:30+05:30",
+      "end": "2034-01-14T16:26:26+05:30",
+      "start_label": "16 Dec 2033 • 05:39 AM",
+      "end_label": "14 Jan 2034 • 04:26 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 2806 days"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2034-03-15T02:15:04+05:30",
+      "end": "2034-04-14T10:39:58+05:30",
+      "start_label": "15 Mar 2034 • 02:15 AM",
+      "end_label": "14 Apr 2034 • 10:39 AM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 2895 days"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2034-12-16T11:42:18+05:30",
+      "end": "2035-01-14T22:28:11+05:30",
+      "start_label": "16 Dec 2034 • 11:42 AM",
+      "end_label": "14 Jan 2035 • 10:28 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 3171 days"
+    }
+  ],
+  "active": null
+}

@@ -1,0 +1,45 @@
+{
+  "year": 2021,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2020-12-15T21:32:14+05:30",
+      "end": "2021-01-14T08:14:56+05:30",
+      "start_label": "15 Dec 2020 • 09:32 PM",
+      "end_label": "14 Jan 2021 • 08:14 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2021-03-14T18:03:34+05:30",
+      "end": "2021-04-14T02:32:42+05:30",
+      "start_label": "14 Mar 2021 • 06:03 PM",
+      "end_label": "14 Apr 2021 • 02:32 AM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2021-12-16T03:44:11+05:30",
+      "end": "2022-01-14T14:29:42+05:30",
+      "start_label": "16 Dec 2021 • 03:44 AM",
+      "end_label": "14 Jan 2022 • 02:29 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    }
+  ],
+  "active": null
+}
