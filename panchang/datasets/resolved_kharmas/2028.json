@@ -1,0 +1,45 @@
+{
+  "year": 2028,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2027-12-16T16:39:01+05:30",
+      "end": "2028-01-15T03:24:12+05:30",
+      "start_label": "16 Dec 2027 • 04:39 PM",
+      "end_label": "15 Jan 2028 • 03:24 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 614 days"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2028-03-14T13:14:56+05:30",
+      "end": "2028-04-13T21:44:25+05:30",
+      "start_label": "14 Mar 2028 • 01:14 PM",
+      "end_label": "13 Apr 2028 • 09:44 PM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 703 days"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2028-12-15T22:40:47+05:30",
+      "end": "2029-01-14T09:26:40+05:30",
+      "start_label": "15 Dec 2028 • 10:40 PM",
+      "end_label": "14 Jan 2029 • 09:26 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 980 days"
+    }
+  ],
+  "active": null
+}

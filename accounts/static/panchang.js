@@ -107,6 +107,20 @@ const els = {
   coreFestError: document.querySelector("#coreFestError"),
   coreFestErrorText: document.querySelector("#coreFestErrorText"),
   coreFestList: document.querySelector("#coreFestList"),
+
+  auspiciousYear: document.querySelector("#auspiciousYear"),
+  kharmasStatus: document.querySelector("#kharmasStatus"),
+  kharmasTitle: document.querySelector("#kharmasTitle"),
+  kharmasMeta: document.querySelector("#kharmasMeta"),
+  kharmasNote: document.querySelector("#kharmasNote"),
+  kharmasTimeline: document.querySelector("#kharmasTimeline"),
+  marriageCount: document.querySelector("#marriageCount"),
+  marriageNextDate: document.querySelector("#marriageNextDate"),
+  marriageNextMeta: document.querySelector("#marriageNextMeta"),
+  marriageNextWindow: document.querySelector("#marriageNextWindow"),
+  marriageTopThree: document.querySelector("#marriageTopThree"),
+  marriageNotes: document.querySelector("#marriageNotes"),
+  marriageTimeline: document.querySelector("#marriageTimeline"),
 };
 
 function pad2(n){ return String(n).padStart(2,"0"); }
@@ -168,6 +182,22 @@ function formatDateTime12(iso, tzName){
 function formatDateLong(dateStr){
   const d = new Date(dateStr + "T00:00:00");
   return new Intl.DateTimeFormat(undefined, { weekday:"long", day:"2-digit", month:"long", year:"numeric" }).format(d);
+}
+
+function formatDateShort(dateStr){
+  const d = new Date(dateStr + "T00:00:00");
+  return new Intl.DateTimeFormat(undefined, { day:"2-digit", month:"short", year:"numeric" }).format(d);
+}
+
+function todayIsoInTz(tzName){
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: tzName || getBrowserTz(),
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(new Date());
+  const map = Object.fromEntries(parts.filter((part)=> part.type !== "literal").map((part)=> [part.type, part.value]));
+  return `${map.year}-${map.month}-${map.day}`;
 }
 
 function clamp01(n){ return Math.max(0, Math.min(1, n)); }
@@ -1285,10 +1315,13 @@ function renderPlaceResults(items){
       if(!Number.isFinite(lat) || !Number.isFinite(lon)) return;
       saveLocation(lat, lon, null, button.dataset.name || null);
       panchangCache.clear();
+      kharmasYearCache.clear();
+      marriageYearCache.clear();
       if(els.placeSearchInput) els.placeSearchInput.value = button.dataset.name || "";
       closeLocationPrompt();
       renderCalendar(calendarState.year, calendarState.monthIndex);
       initReload();
+      loadAuspiciousPlanner(getAuspiciousYear());
     });
   });
 }
@@ -1319,6 +1352,8 @@ const FESTIVAL_ICONS = {
 
 const panchangCache = new Map(); // key -> payload
 const coreFestYearCache = new Map(); // key -> list
+const kharmasYearCache = new Map();
+const marriageYearCache = new Map();
 const PANCHANG_STORAGE_PREFIX = "sms:panchang:day:v1:";
 const COREFEST_STORAGE_PREFIX = "sms:panchang:corefest:v2:";
 
@@ -1480,6 +1515,204 @@ async function loadCoreFestivals(){
   }
 }
 
+function getAuspiciousYear(){
+  const fromPlanner = Number(els.auspiciousYear?.value);
+  if(Number.isFinite(fromPlanner) && fromPlanner >= 1600) return fromPlanner;
+  const fromCalendar = Number(els.calYear?.value);
+  if(Number.isFinite(fromCalendar) && fromCalendar >= 1600) return fromCalendar;
+  return new Date().getFullYear();
+}
+
+async function fetchKharmasYear(year){
+  const { lat, lon, tz } = getSavedLocation();
+  const tzName = tz || getBrowserTz();
+  const key = `${year}|${Number(lat).toFixed(3)}|${Number(lon).toFixed(3)}|${tzName}`;
+  let data = kharmasYearCache.get(key) || null;
+  if(data) return data;
+  const res = await fetch(`/api/kharmas/?${new URLSearchParams({ year: String(year), lat: String(lat), lon: String(lon), tz: tzName })}`, {
+    headers: { Accept: "application/json" },
+  });
+  const text = await res.text();
+  if(!res.ok) throw new Error(`Kharmas API ${res.status}: ${text.slice(0, 140)}`);
+  data = JSON.parse(text);
+  kharmasYearCache.set(key, data);
+  return data;
+}
+
+async function fetchMarriageYear(year){
+  const { lat, lon, tz } = getSavedLocation();
+  const tzName = tz || getBrowserTz();
+  const key = `${year}|${Number(lat).toFixed(3)}|${Number(lon).toFixed(3)}|${tzName}`;
+  let data = marriageYearCache.get(key) || null;
+  if(data) return data;
+  const res = await fetch(`/api/marriage-dates/?${new URLSearchParams({ year: String(year), lat: String(lat), lon: String(lon), tz: tzName })}`, {
+    headers: { Accept: "application/json" },
+  });
+  const text = await res.text();
+  if(!res.ok) throw new Error(`Marriage API ${res.status}: ${text.slice(0, 140)}`);
+  data = JSON.parse(text);
+  marriageYearCache.set(key, data);
+  return data;
+}
+
+function renderKharmas(data){
+  if(!els.kharmasTimeline) return;
+  const intervals = Array.isArray(data?.intervals) ? data.intervals : [];
+  const active = data?.active || intervals.find((item)=> item?.is_active) || null;
+  if(els.kharmasStatus) els.kharmasStatus.textContent = active ? "Active now" : "Year map";
+  if(els.kharmasTitle) els.kharmasTitle.textContent = active?.name || `Kharmas windows • ${getAuspiciousYear()}`;
+  if(els.kharmasMeta){
+    els.kharmasMeta.textContent = active
+      ? `${active.start_label} → ${active.end_label}`
+      : (intervals[0] ? `${intervals.length} solar restraint windows mapped` : "No kharmas interval found.");
+  }
+  if(els.kharmasNote){
+    els.kharmasNote.textContent = active
+      ? `${active.name} is active while Surya transits ${active.sun_sign}. This phase traditionally pauses marriages and major saṃskāras until ${active.end_label}.`
+      : "Kharmas begins when Surya enters Dhanu or Meena and ends with Makara or Mesha Sankranti.";
+  }
+  els.kharmasTimeline.innerHTML = intervals.map((item)=> `
+    <article class="kharmas-item${item.is_active ? " is-active" : ""}">
+      <div class="kharmas-item__head">
+        <span class="kharmas-item__badge">${escapeHtml(item.name)}</span>
+        <span class="kharmas-item__status">${escapeHtml(item.remaining_label || "")}</span>
+      </div>
+      <div class="kharmas-item__dates">${escapeHtml(item.start_label)} → ${escapeHtml(item.end_label)}</div>
+      <div class="kharmas-item__meta">Surya ${escapeHtml(item.sun_sign)} → ${escapeHtml(item.end_sign)} • ${escapeHtml(String(item.duration_days || "—"))} days</div>
+    </article>
+  `).join("") || `<div class="state-text">No Kharmas interval found for this year.</div>`;
+}
+
+function renderMarriagePlanner(data){
+  if(!els.marriageTimeline) return;
+  const tzName = getSavedLocation().tz || getBrowserTz();
+  const timeline = Array.isArray(data?.timeline)
+    ? data.timeline
+    : [...(Array.isArray(data?.dates) ? data.dates : [])].sort((a, b)=> String(a?.date || "").localeCompare(String(b?.date || "")));
+  const ranked = Array.isArray(data?.top_three) && data.top_three.length
+    ? data.top_three
+    : [...timeline].sort((a, b)=> (Number(b?.score || 0) - Number(a?.score || 0)) || String(a?.date || "").localeCompare(String(b?.date || ""))).slice(0, 3);
+  const todayIso = todayIsoInTz(tzName);
+  const plannerYear = getAuspiciousYear();
+  let nextUpcoming = data?.next_upcoming || null;
+  if(!nextUpcoming){
+    if(plannerYear < Number(todayIso.slice(0, 4))){
+      nextUpcoming = null;
+    }else{
+      nextUpcoming = timeline.find((item)=> String(item?.date || "") >= todayIso) || (plannerYear > Number(todayIso.slice(0, 4)) ? timeline[0] || null : null);
+    }
+  }
+  if(els.marriageCount) els.marriageCount.textContent = String(data?.count ?? timeline.length ?? 0);
+  if(els.marriageNextDate) els.marriageNextDate.textContent = nextUpcoming?.date_label || "Year completed";
+  if(els.marriageNextMeta) els.marriageNextMeta.textContent = nextUpcoming?.reason_line || "No upcoming ceremony-friendly date remains in this year.";
+  if(els.marriageNextWindow) els.marriageNextWindow.textContent = nextUpcoming?.window || "—";
+  if(els.marriageTopThree){
+    els.marriageTopThree.innerHTML = ranked.map((item, index)=> `
+      <article class="marriage-rank-card">
+        <div class="marriage-rank-card__rank">${escapeHtml(String(item.rank || index + 1))}</div>
+        <div class="marriage-rank-card__body">
+          <div class="marriage-rank-card__date">${escapeHtml(item.date_label || formatDateShort(item.date || ""))}</div>
+          <div class="marriage-rank-card__meta">${escapeHtml(item.grade || "Strong")} • ${escapeHtml(String(item.score || "—"))}/100</div>
+        </div>
+      </article>
+    `).join("") || `<div class="state-text">Top-ranked dates will appear here.</div>`;
+  }
+  if(els.marriageNotes){
+    const notes = Array.isArray(data?.notes) ? data.notes : [];
+    els.marriageNotes.innerHTML = notes.map((note)=> `<span class="marriage-note">${escapeHtml(note)}</span>`).join("");
+  }
+  els.marriageTimeline.innerHTML = timeline.length ? `
+    <div class="marriage-wheel__spacer" aria-hidden="true"></div>
+    ${timeline.map((item)=> {
+      const isPast = String(item?.date || "") < todayIso;
+      const isNext = nextUpcoming && String(nextUpcoming?.date || "") === String(item?.date || "");
+      return `
+        <button class="marriage-timeline-item${isPast ? " is-past" : " is-upcoming"}${isNext ? " is-next" : ""}" type="button" data-date="${escapeHtml(item.date || "")}">
+          <span class="marriage-timeline-item__dot" aria-hidden="true"></span>
+          <span class="marriage-timeline-item__content">
+            <span class="marriage-timeline-item__date">${escapeHtml(item.date_label || formatDateShort(item.date || ""))}</span>
+            <span class="marriage-timeline-item__window">${escapeHtml(item.window || "Consult Panchang timing")}</span>
+            <span class="marriage-timeline-item__meta">${escapeHtml(item.month || "")} • ${escapeHtml(item.tithi || "")} • ${escapeHtml(item.paksha || "")}</span>
+          </span>
+        </button>
+      `;
+    }).join("")}
+    <div class="marriage-wheel__spacer" aria-hidden="true"></div>
+  ` : `<div class="state-text">No marriage-friendly dates found for this year.</div>`;
+  ensureMarriageTimelineWheel();
+  centerMarriageTimeline(nextUpcoming?.date || timeline[0]?.date || "");
+}
+
+function updateMarriageTimelineState(){
+  const viewport = els.marriageTimeline;
+  if(!viewport) return;
+  const items = [...viewport.querySelectorAll(".marriage-timeline-item")];
+  const center = viewport.scrollTop + (viewport.clientHeight / 2);
+  items.forEach((item)=>{
+    const itemCenter = item.offsetTop + (item.offsetHeight / 2);
+    const distance = Math.min(3, Math.abs(center - itemCenter) / Math.max(item.offsetHeight, 1));
+    const arc = Math.min(28, distance * 13);
+    const scale = Math.max(.82, 1 - (distance * .08));
+    const opacity = Math.max(.26, 1 - (distance * .22));
+    item.style.setProperty("--wheel-shift", `${arc.toFixed(1)}px`);
+    item.style.setProperty("--wheel-scale", scale.toFixed(3));
+    item.style.setProperty("--wheel-opacity", opacity.toFixed(3));
+    item.classList.toggle("is-centered", distance < .42);
+  });
+}
+
+function centerMarriageTimeline(dateValue){
+  const viewport = els.marriageTimeline;
+  if(!viewport || !dateValue) return;
+  const target = viewport.querySelector(`.marriage-timeline-item[data-date="${CSS.escape(dateValue)}"]`);
+  if(!target) return;
+  const top = target.offsetTop - ((viewport.clientHeight - target.offsetHeight) / 2);
+  viewport.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+  window.requestAnimationFrame(updateMarriageTimelineState);
+}
+
+function ensureMarriageTimelineWheel(){
+  const viewport = els.marriageTimeline;
+  if(!viewport || viewport.dataset.bound === "1") return;
+  viewport.dataset.bound = "1";
+  let frame = null;
+  const onScroll = ()=>{
+    if(frame) return;
+    frame = window.requestAnimationFrame(()=>{
+      frame = null;
+      updateMarriageTimelineState();
+    });
+  };
+  viewport.addEventListener("scroll", onScroll, { passive: true });
+  viewport.addEventListener("click", (event)=>{
+    const target = event.target instanceof Element ? event.target.closest(".marriage-timeline-item") : null;
+    if(!target) return;
+    centerMarriageTimeline(target.dataset.date || "");
+  });
+  window.addEventListener("resize", onScroll);
+}
+
+async function loadAuspiciousPlanner(year = getAuspiciousYear()){
+  if(els.kharmasStatus) els.kharmasStatus.textContent = "Loading…";
+  if(els.marriageCount) els.marriageCount.textContent = "…";
+  if(els.marriageTopThree) els.marriageTopThree.innerHTML = `<div class="state-text">Ranking the strongest alignments…</div>`;
+  if(els.marriageTimeline) els.marriageTimeline.innerHTML = `<div class="state-text">Scanning the sacred year…</div>`;
+  if(els.kharmasTimeline) els.kharmasTimeline.innerHTML = `<div class="state-text">Mapping solar transits…</div>`;
+  try{
+    const [kharmas, marriage] = await Promise.all([
+      fetchKharmasYear(year),
+      fetchMarriageYear(year),
+    ]);
+    renderKharmas(kharmas);
+    renderMarriagePlanner(marriage);
+  }catch(err){
+    if(els.kharmasStatus) els.kharmasStatus.textContent = "Unavailable";
+    if(els.kharmasTimeline) els.kharmasTimeline.innerHTML = `<div class="state-text">${escapeHtml(String(err?.message || err))}</div>`;
+    if(els.marriageTopThree) els.marriageTopThree.innerHTML = `<div class="state-text">${escapeHtml(String(err?.message || err))}</div>`;
+    if(els.marriageTimeline) els.marriageTimeline.innerHTML = `<div class="state-text">${escapeHtml(String(err?.message || err))}</div>`;
+  }
+}
+
 function escapeHtml(s){
   return String(s)
     .replaceAll("&","&amp;")
@@ -1527,6 +1760,22 @@ function ensureCalendarControls(){
       opt.textContent = String(y);
       els.calYear.appendChild(opt);
     }
+  }
+}
+
+function ensureAuspiciousYearSelect(){
+  if(!els.auspiciousYear) return;
+  if(els.auspiciousYear.options.length === 0){
+    const nowY = new Date().getFullYear();
+    for(let y=nowY - 8; y<=nowY + 8; y++){
+      const opt = document.createElement("option");
+      opt.value = String(y);
+      opt.textContent = String(y);
+      els.auspiciousYear.appendChild(opt);
+    }
+  }
+  if(!els.auspiciousYear.value){
+    els.auspiciousYear.value = String(new Date().getFullYear());
   }
 }
 
@@ -1844,6 +2093,8 @@ function initCalendar(){
     els.calYear.addEventListener("change", ()=>{
       const y = Number(els.calYear.value);
       renderCalendar(y, calendarState.monthIndex);
+      if(els.auspiciousYear) els.auspiciousYear.value = String(y);
+      loadAuspiciousPlanner(y);
     });
   }
 
@@ -1939,6 +2190,7 @@ async function init(){
   buildStars();
   startGlyphField();
   initCalendar();
+  ensureAuspiciousYearSelect();
   initFocusMode();
   initReminderToggle();
   initHeroParallax();
@@ -1978,13 +2230,23 @@ async function init(){
     els.changeLocBtn.addEventListener("click", openLocationPrompt);
   }
 
+  if(els.auspiciousYear){
+    els.auspiciousYear.value = els.calYear?.value || String(new Date().getFullYear());
+    els.auspiciousYear.addEventListener("change", ()=>{
+      loadAuspiciousPlanner(getAuspiciousYear());
+    });
+  }
+
   if(els.locDefaultBtn){
     els.locDefaultBtn.addEventListener("click", ()=>{
       saveLocation(28.6139, 77.2090, null, "New Delhi, India");
       panchangCache.clear();
+      kharmasYearCache.clear();
+      marriageYearCache.clear();
       renderCalendar(calendarState.year, calendarState.monthIndex);
       closeLocationPrompt();
       initReload();
+      loadAuspiciousPlanner(getAuspiciousYear());
     });
   }
 
@@ -2045,9 +2307,12 @@ async function init(){
           saveLocation(pos.coords.latitude, pos.coords.longitude, null, placeName);
           if(els.placeSearchInput && placeName) els.placeSearchInput.value = placeName;
           panchangCache.clear();
+          kharmasYearCache.clear();
+          marriageYearCache.clear();
           renderCalendar(calendarState.year, calendarState.monthIndex);
           closeLocationPrompt();
           initReload();
+          loadAuspiciousPlanner(getAuspiciousYear());
         },
         ()=>{
           alert("Location permission denied. You can use Delhi or manual coordinates.");
@@ -2057,6 +2322,7 @@ async function init(){
     });
   }
 
+  loadAuspiciousPlanner(getAuspiciousYear());
   initReload();
 }
 

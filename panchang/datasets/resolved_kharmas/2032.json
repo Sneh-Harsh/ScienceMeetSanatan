@@ -1,0 +1,45 @@
+{
+  "year": 2032,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2031-12-16T17:13:50+05:30",
+      "end": "2032-01-15T03:54:47+05:30",
+      "start_label": "16 Dec 2031 • 05:13 PM",
+      "end_label": "15 Jan 2032 • 03:54 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 2075 days"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2032-03-14T13:41:19+05:30",
+      "end": "2032-04-13T22:10:26+05:30",
+      "start_label": "14 Mar 2032 • 01:41 PM",
+      "end_label": "13 Apr 2032 • 10:10 PM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 2164 days"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2032-12-15T23:27:53+05:30",
+      "end": "2033-01-14T10:09:54+05:30",
+      "start_label": "15 Dec 2032 • 11:27 PM",
+      "end_label": "14 Jan 2033 • 10:09 AM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 2441 days"
+    }
+  ],
+  "active": null
+}

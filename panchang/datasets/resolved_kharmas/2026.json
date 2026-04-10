@@ -1,0 +1,57 @@
+{
+  "year": 2026,
+  "intervals": [
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2025-12-16T04:20:02+05:30",
+      "end": "2026-01-14T15:07:19+05:30",
+      "start_label": "16 Dec 2025 • 04:20 AM",
+      "end_label": "14 Jan 2026 • 03:07 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": false,
+      "remaining_label": "Completed"
+    },
+    {
+      "name": "Meena Kharmas",
+      "start": "2026-03-15T01:02:59+05:30",
+      "end": "2026-04-14T09:32:49+05:30",
+      "start_label": "15 Mar 2026 • 01:02 AM",
+      "end_label": "14 Apr 2026 • 09:32 AM",
+      "duration_days": 30,
+      "sun_sign": "Meena",
+      "end_sign": "Mesha",
+      "is_active": true,
+      "is_upcoming": false,
+      "remaining_label": "Ends in 3 days"
+    },
+    {
+      "name": "Dhanu Kharmas",
+      "start": "2026-12-16T10:24:58+05:30",
+      "end": "2027-01-14T21:10:29+05:30",
+      "start_label": "16 Dec 2026 • 10:24 AM",
+      "end_label": "14 Jan 2027 • 09:10 PM",
+      "duration_days": 29,
+      "sun_sign": "Dhanu",
+      "end_sign": "Makara",
+      "is_active": false,
+      "is_upcoming": true,
+      "remaining_label": "Begins in 249 days"
+    }
+  ],
+  "active": {
+    "name": "Meena Kharmas",
+    "start": "2026-03-15T01:02:59+05:30",
+    "end": "2026-04-14T09:32:49+05:30",
+    "start_label": "15 Mar 2026 • 01:02 AM",
+    "end_label": "14 Apr 2026 • 09:32 AM",
+    "duration_days": 30,
+    "sun_sign": "Meena",
+    "end_sign": "Mesha",
+    "is_active": true,
+    "is_upcoming": false,
+    "remaining_label": "Ends in 3 days"
+  }
+}

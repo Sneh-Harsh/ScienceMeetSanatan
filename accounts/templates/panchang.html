@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'header.css' %}">
-  <link rel="stylesheet" href="{% static 'panchang.css' %}?v=7">
+  <link rel="stylesheet" href="{% static 'panchang.css' %}?v=9">
 </head>
 
 <body>
@@ -389,6 +389,78 @@
       </div>
     </section>
 
+    <section class="auspicious-planner" aria-label="Kharmas and marriage planner">
+      <div class="auspicious-planner__head glass-panel">
+        <div>
+          <div class="calendar-kicker">Sacred Planning Engine</div>
+          <div class="observatory-insights__title">Kharmas & Marriage Windows</div>
+          <div class="calendar-sub">Astronomically derived sacred intervals for Kharmas and ceremony-friendly wedding dates for the selected year.</div>
+        </div>
+        <div class="auspicious-planner__controls">
+          <label class="auspicious-planner__label" for="auspiciousYear">Planner year</label>
+          <select id="auspiciousYear" class="cal-select" aria-label="Planner year"></select>
+        </div>
+      </div>
+
+      <div class="auspicious-planner__grid">
+        <article class="kharmas-panel glass-panel">
+          <div class="kharmas-panel__head">
+            <div>
+              <div class="calendar-kicker">Kharmas Observatory</div>
+              <h2>Solar pause for sacred restraint</h2>
+            </div>
+            <div class="kharmas-panel__status" id="kharmasStatus">Loading…</div>
+          </div>
+          <div class="kharmas-panel__hero" id="kharmasHero">
+            <div class="kharmas-panel__orb"></div>
+            <div class="kharmas-panel__copy">
+              <div class="kharmas-panel__title" id="kharmasTitle">Kharmas alignment</div>
+              <div class="kharmas-panel__meta" id="kharmasMeta">Computing start and end transitions…</div>
+              <div class="kharmas-panel__note" id="kharmasNote">Marriage ceremonies and major saṃskāras are usually avoided while Surya traverses Dhanu or Meena.</div>
+            </div>
+          </div>
+          <div class="kharmas-timeline" id="kharmasTimeline"></div>
+        </article>
+
+        <article class="marriage-panel glass-panel">
+          <div class="marriage-panel__head">
+            <div>
+              <div class="calendar-kicker">Vivaha Muhurta Mapper</div>
+              <h2>Best marriage dates for the year</h2>
+            </div>
+            <div class="marriage-panel__summary">
+              <div class="marriage-panel__count" id="marriageCount">—</div>
+              <div class="marriage-panel__count-label">recommended dates</div>
+            </div>
+          </div>
+          <div class="marriage-panel__metrics">
+            <div class="marriage-metric">
+              <span class="marriage-metric__label">Next strongest date</span>
+              <strong class="marriage-metric__value" id="marriageNextDate">—</strong>
+              <span class="marriage-metric__sub" id="marriageNextMeta">Waiting for yearly scan…</span>
+            </div>
+            <div class="marriage-metric">
+              <span class="marriage-metric__label">Ceremony window</span>
+              <strong class="marriage-metric__value" id="marriageNextWindow">—</strong>
+              <span class="marriage-metric__sub">Rahu Kaal excluded where possible</span>
+            </div>
+          </div>
+          <div class="marriage-rankings">
+            <div class="marriage-rankings__head">
+              <span class="calendar-kicker">Top ranked dates</span>
+              <span class="marriage-rankings__sub">1 · 2 · 3 strongest selections</span>
+            </div>
+            <div class="marriage-rankings__list" id="marriageTopThree"></div>
+          </div>
+          <div class="marriage-notes" id="marriageNotes"></div>
+          <div class="marriage-wheel">
+            <div class="marriage-wheel__line" aria-hidden="true"></div>
+            <div class="marriage-wheel__viewport" id="marriageTimeline" aria-label="Wedding date timeline"></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <div id="dayOverlay" class="day-overlay" aria-hidden="true" role="dialog" aria-label="Day details">
       <div class="day-overlay__backdrop" id="dayOverlayBackdrop"></div>
       <div class="day-overlay__panel glass-panel" id="dayOverlayPanel">
@@ -451,6 +523,6 @@
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'panchang.js' %}?v=7"></script>
+  <script src="{% static 'panchang.js' %}?v=9"></script>
 </body>
 </html>

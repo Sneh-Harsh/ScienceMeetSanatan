@@ -8,6 +8,7 @@ from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
+from .auspicious import kharmas_for_year, marriage_windows_for_year
 from .calculations import build_panchang, build_panchang_for_date
 from .festival_rules import rules_version as festival_rules_version
 
@@ -22,6 +23,14 @@ def _day_cache_key(*, date: str, lat_r: float, lon_r: float, tz_name: str, rules
 
 def _year_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str) -> str:
     return f"panchang:corefest:v3:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}:{rules_version}"
+
+
+def _kharmas_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> str:
+    return f"panchang:kharmas:v1:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}"
+
+
+def _marriage_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> str:
+    return f"panchang:marriage:v2:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}"
 
 
 def _core_festival_cache_path(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str) -> Path:
@@ -258,3 +267,59 @@ def core_festival_dates_api(request):
             return JsonResponse({"error": str(exc)}, status=500)
 
     return JsonResponse(data, safe=False)
+
+
+@require_GET
+def kharmas_api(request):
+    year_raw = request.GET.get("year") or ""
+    try:
+        year = int(year_raw)
+    except Exception:
+        year = Date.today().year
+    year = max(1600, min(2600, year))
+
+    tz = request.GET.get("tz") or "Asia/Kolkata"
+    try:
+        lat = float(request.GET.get("lat") or 28.6139)
+        lon = float(request.GET.get("lon") or 77.2090)
+    except Exception:
+        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+
+    cache_key = _kharmas_cache_key(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+    try:
+        data = cache.get(cache_key)
+        if not isinstance(data, dict) or not data:
+            data = kharmas_for_year(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+            cache.set(cache_key, data, timeout=YEAR_CACHE_TIMEOUT)
+    except Exception as exc:
+        return JsonResponse({"error": str(exc)}, status=500)
+
+    return JsonResponse(data)
+
+
+@require_GET
+def marriage_dates_api(request):
+    year_raw = request.GET.get("year") or ""
+    try:
+        year = int(year_raw)
+    except Exception:
+        year = Date.today().year
+    year = max(1600, min(2600, year))
+
+    tz = request.GET.get("tz") or "Asia/Kolkata"
+    try:
+        lat = float(request.GET.get("lat") or 28.6139)
+        lon = float(request.GET.get("lon") or 77.2090)
+    except Exception:
+        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+
+    cache_key = _marriage_cache_key(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+    try:
+        data = cache.get(cache_key)
+        if not isinstance(data, dict) or not data:
+            data = marriage_windows_for_year(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+            cache.set(cache_key, data, timeout=YEAR_CACHE_TIMEOUT)
+    except Exception as exc:
+        return JsonResponse({"error": str(exc)}, status=500)
+
+    return JsonResponse(data)
