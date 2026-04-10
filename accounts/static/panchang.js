@@ -2,6 +2,8 @@ const API_URL = "/api/panchang";
 
 const els = {
   root: document.querySelector("#panchangRoot"),
+  heroScene: document.querySelector("#heroScene"),
+  heroParallax: document.querySelector(".hero-shell"),
   sky: document.querySelector("#sky"),
   glyphField: document.querySelector("#glyphField"),
   stars: document.querySelector("#stars"),
@@ -14,18 +16,45 @@ const els = {
   locPrompt: document.querySelector("#locPrompt"),
   locAllowBtn: document.querySelector("#locAllowBtn"),
   locDefaultBtn: document.querySelector("#locDefaultBtn"),
-  latInput: document.querySelector("#latInput"),
-  lonInput: document.querySelector("#lonInput"),
-  locApplyBtn: document.querySelector("#locApplyBtn"),
+  placeSearchInput: document.querySelector("#placeSearchInput"),
+  placeSearchBtn: document.querySelector("#placeSearchBtn"),
+  placeSearchResults: document.querySelector("#placeSearchResults"),
   changeLocBtn: document.querySelector("#changeLocBtn"),
   weatherPill: document.querySelector("#weatherPill"),
   tempPill: document.querySelector("#tempPill"),
 
   liveClock: document.querySelector("#liveClock"),
+  heroGreeting: document.querySelector("#heroGreeting"),
   heroDate: document.querySelector("#heroDate"),
   heroLine1: document.querySelector("#heroLine1"),
   heroLine2: document.querySelector("#heroLine2"),
   heroMeta: document.querySelector("#heroMeta"),
+  heroPlaceName: document.querySelector("#heroPlaceName"),
+  heroCoords: document.querySelector("#heroCoords"),
+  heroDescription: document.querySelector("#heroDescription"),
+  heroNakshatra: document.querySelector("#heroNakshatra"),
+  heroMetricTithi: document.querySelector("#heroMetricTithi"),
+  heroMetricNak: document.querySelector("#heroMetricNak"),
+  heroMetricRahu: document.querySelector("#heroMetricRahu"),
+  heroMetricMoon: document.querySelector("#heroMetricMoon"),
+  focusModeBtn: document.querySelector("#focusModeBtn"),
+  reminderToggle: document.querySelector("#reminderToggle"),
+  reminderList: document.querySelector("#reminderList"),
+  aiInsightText: document.querySelector("#aiInsightText"),
+  aiInsightStatus: document.querySelector("#aiInsightStatus"),
+  aiInsightRefresh: document.querySelector("#aiInsightRefresh"),
+  timelineBar: document.querySelector("#timelineBar"),
+  timelineDetail: document.querySelector("#timelineDetail"),
+  energyFluxMeta: document.querySelector("#energyFluxMeta"),
+  energyFluxBars: document.querySelector("#energyFluxBars"),
+  recommendationsList: document.querySelector("#recommendationsList"),
+  peakWindowTitle: document.querySelector("#peakWindowTitle"),
+  peakWindowTime: document.querySelector("#peakWindowTime"),
+  peakWindowCopy: document.querySelector("#peakWindowCopy"),
+  sageQuoteText: document.querySelector("#sageQuoteText"),
+  sageQuoteAuthor: document.querySelector("#sageQuoteAuthor"),
+  sagePrevBtn: document.querySelector("#sagePrevBtn"),
+  sageNextBtn: document.querySelector("#sageNextBtn"),
 
   loadingCard: document.querySelector("#loadingCard"),
   errorCard: document.querySelector("#errorCard"),
@@ -40,6 +69,9 @@ const els = {
   nakSub: document.querySelector("#nakSub"),
   pakshaVal: document.querySelector("#pakshaVal"),
   monthVal: document.querySelector("#monthVal"),
+  heroMoonSvg: document.querySelector("#heroMoonSvg"),
+  heroMoonPct: document.querySelector("#heroMoonPct"),
+  heroMoonSub: document.querySelector("#heroMoonSub"),
   moonSvg: document.querySelector("#moonSvg"),
   moonPct: document.querySelector("#moonPct"),
   moonSub: document.querySelector("#moonSub"),
@@ -140,11 +172,551 @@ function formatDateLong(dateStr){
 
 function clamp01(n){ return Math.max(0, Math.min(1, n)); }
 
+function fmtNumber(n){
+  return Number.isFinite(Number(n)) ? Number(n).toFixed(4) : "—";
+}
+
+function getUserName(){
+  const raw = els.root?.dataset?.userName || "Sneh";
+  const first = String(raw).trim().split(/\s+/)[0];
+  return first || "Sneh";
+}
+
+function getGreeting(date = new Date()){
+  const hour = date.getHours();
+  if(hour < 12) return "Good Morning";
+  if(hour < 17) return "Good Afternoon";
+  if(hour < 21) return "Good Evening";
+  return "Good Night";
+}
+
+function setGreeting(){
+  if(!els.heroGreeting) return;
+  els.heroGreeting.textContent = `${getGreeting(new Date())}, ${getUserName()}`;
+}
+
+function msOrNull(value){
+  const ms = Date.parse(value);
+  return Number.isFinite(ms) ? ms : null;
+}
+
+function formatRangeShort(a, b, tzName){
+  if(!a || !b) return "—";
+  return `${formatTime(a, tzName)}–${formatTime(b, tzName)}`;
+}
+
+function minutesToLabel(total, tzName = getBrowserTz()){
+  const minutes = ((Math.round(total) % (24 * 60)) + (24 * 60)) % (24 * 60);
+  const hour = Math.floor(minutes / 60);
+  const minute = minutes % 60;
+  const d = new Date();
+  d.setHours(hour, minute, 0, 0);
+  return _getTimeFmt(tzName, true).format(d);
+}
+
 function setState({loading=false, error=null, ready=false} = {}){
   if(els.loadingCard) els.loadingCard.hidden = !loading;
   if(els.errorCard) els.errorCard.hidden = !error;
   if(els.errorText) els.errorText.textContent = error || "";
   if(els.cards) els.cards.hidden = !ready;
+}
+
+function typeText(target, text, speed = 18){
+  if(!target) return;
+  const next = String(text || "");
+  target.textContent = "";
+  let index = 0;
+  window.clearInterval(target._typingTimer);
+  target._typingTimer = window.setInterval(()=>{
+    index += 1;
+    target.textContent = next.slice(0, index);
+    if(index >= next.length){
+      window.clearInterval(target._typingTimer);
+    }
+  }, speed);
+}
+
+function buildFallbackInsight(p){
+  const parts = [];
+  if(p?.tithi){
+    parts.push(`Today is shaped by ${p.tithi}`);
+  }
+  if(p?.nakshatra){
+    parts.push(`${p.nakshatra} supports thoughtful action and steadier decisions`);
+  }
+  if(p?.rahu_start && p?.rahu_end){
+    parts.push(`avoid major commitments during Rahu Kaal from ${formatTime(p.rahu_start, p.location?.tz)} to ${formatTime(p.rahu_end, p.location?.tz)}`);
+  }
+  if(p?.paksha === "Shukla"){
+    parts.push("growth-oriented work and prayer feel naturally aligned");
+  }else{
+    parts.push("reflection, cleanup, and inward focus will feel more natural");
+  }
+  const sentence = parts.join(". ");
+  return `${sentence.charAt(0).toUpperCase()}${sentence.slice(1)}.`;
+}
+
+function buildHeroDescription(p){
+  const parts = [];
+  if(p?.paksha && p?.month){
+    parts.push(`${p.month} in ${p.paksha} Paksha shapes the overall tone today`);
+  }
+  if(p?.nakshatra){
+    parts.push(`${p.nakshatra} favors measured attention and thoughtful work`);
+  }
+  if(p?.tithi === "Ekadashi"){
+    parts.push("the day is especially supportive for discipline, prayer, and gentle fasting");
+  }else if(p?.tithi){
+    parts.push(`${p.tithi} supports a steadier rhythm than impulsive action`);
+  }
+  return `${parts.join(". ")}.`.replace(/\.\./g, ".");
+}
+
+function parseHourMinute(iso, tzName){
+  const d = new Date(iso);
+  if(Number.isNaN(d.getTime())) return null;
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: tzName,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(d);
+  const hour = Number(parts.find((part)=> part.type === "hour")?.value ?? NaN);
+  const minute = Number(parts.find((part)=> part.type === "minute")?.value ?? NaN);
+  if(!Number.isFinite(hour) || !Number.isFinite(minute)) return null;
+  return hour * 60 + minute;
+}
+
+function segmentScore({ start, end, sunriseMin, sunsetMin, rahuStartMin, rahuEndMin, moonPct, paksha }) {
+  const duration = Math.max(1, end - start);
+  const mid = start + duration / 2;
+  let score = 62;
+  if(mid >= sunriseMin && mid <= sunriseMin + 150) score += 15;
+  if(mid >= sunsetMin - 105 && mid <= sunsetMin + 60) score += 10;
+  if(mid >= rahuStartMin && mid <= rahuEndMin) score -= 30;
+  if(mid > 720 && mid < 930) score += 6;
+  if(mid > 60 && mid < 300) score += 4;
+  if((paksha || "").toLowerCase().includes("shukla")) score += 4;
+  score += Math.round((moonPct - 50) / 12);
+  return Math.max(18, Math.min(96, score));
+}
+
+function buildEnergyFlux(p){
+  const tzName = p?.location?.tz || getBrowserTz();
+  const sunriseMin = parseHourMinute(p?.sunrise, tzName) ?? 360;
+  const sunsetMin = parseHourMinute(p?.sunset, tzName) ?? 1080;
+  const rahuStartMin = parseHourMinute(p?.rahu_start, tzName) ?? 780;
+  const rahuEndMin = parseHourMinute(p?.rahu_end, tzName) ?? 870;
+  const moonPct = Math.round(clamp01(p?.moon_phase) * 100);
+  const dayDuration = Math.max(600, sunsetMin - sunriseMin);
+  const dayPart = dayDuration / 5;
+  const nextSunriseMin = sunriseMin + 24 * 60;
+  const nightDuration = Math.max(540, nextSunriseMin - sunsetMin);
+  const nightQuarter = nightDuration / 4;
+  const nishitaMid = sunsetMin + nightDuration / 2;
+  const muhurt = 48;
+  const bands = [
+    { key: "brahma", label: "Brahma Muhurta", start: sunriseMin - 96, end: sunriseMin - 48 },
+    { key: "pratah", label: "Pratah", start: sunriseMin, end: sunriseMin + dayPart },
+    { key: "sangava", label: "Sangava", start: sunriseMin + dayPart, end: sunriseMin + dayPart * 2 },
+    { key: "madhyahna", label: "Madhyahna", start: sunriseMin + dayPart * 2, end: sunriseMin + dayPart * 3 },
+    { key: "aparahna", label: "Aparahna", start: sunriseMin + dayPart * 3, end: sunriseMin + dayPart * 4 },
+    { key: "sayam", label: "Sayam", start: sunriseMin + dayPart * 4, end: sunsetMin },
+    { key: "pradosha", label: "Pradosha", start: sunsetMin, end: sunsetMin + nightQuarter },
+    { key: "nishita", label: "Nishita", start: nishitaMid - muhurt / 2, end: nishitaMid + muhurt / 2 },
+  ];
+
+  return bands.map((band)=>{
+    const score = segmentScore({
+      start: band.start,
+      end: band.end,
+      sunriseMin,
+      sunsetMin,
+      rahuStartMin,
+      rahuEndMin,
+      moonPct,
+      paksha: p?.paksha,
+    });
+    return {
+      ...band,
+      score,
+      time: `${minutesToLabel(band.start, tzName)}–${minutesToLabel(band.end, tzName)}`,
+      tone: score >= 82 ? "high" : score >= 60 ? "medium" : "low",
+    };
+  });
+}
+
+function hydrateEnergyFlux(p){
+  if(!els.energyFluxBars) return;
+  const flux = buildEnergyFlux(p);
+  els.energyFluxBars.innerHTML = flux.map((band)=> `
+    <div class="energy-flux__bar energy-flux__bar--${band.tone}" data-score="${band.score}">
+      <i style="--energy:${band.score}%"></i>
+      <span>${escapeHtml(band.label)}</span>
+      <small>${escapeHtml(band.time)}</small>
+    </div>
+  `).join("");
+  if(els.energyFluxMeta){
+    els.energyFluxMeta.textContent = `${p.month} • ${p.tithi} • ${p.paksha}`;
+  }
+  const peak = [...flux].sort((a, b)=> b.score - a.score)[0];
+  if(els.peakWindowTitle) els.peakWindowTitle.textContent = `${peak.label} is strongest`;
+  if(els.peakWindowTime) els.peakWindowTime.textContent = peak.time;
+  if(els.peakWindowCopy){
+    els.peakWindowCopy.textContent = `${peak.label} carries the cleanest rhythm today for focused work, prayer, and deliberate decisions.`;
+  }
+}
+
+function buildRecommendations(p){
+  const tags = [p?.tithi, p?.nakshatra, p?.paksha, p?.month].filter(Boolean).map((v)=> String(v).toLowerCase());
+  const matched = LIBRARY_SUGGESTIONS.filter((item)=>
+    item.tags.some((tag)=> tags.some((needle)=> String(tag).toLowerCase().includes(needle) || needle.includes(String(tag).toLowerCase())))
+  );
+  const picks = (matched.length ? matched : LIBRARY_SUGGESTIONS).slice(0, 3);
+  return picks.map((item, index)=> {
+    const href = item.slug ? `/library/${item.slug}/` : `/library/?q=${encodeURIComponent(item.title)}`;
+    const kind = /mantra/i.test(item.title)
+      ? "Mantra"
+      : /chalisa/i.test(item.title)
+        ? "Chalisa"
+        : /veda/i.test(item.title)
+          ? "Veda"
+          : /ramayan|mahabharat|gita/i.test(item.title)
+            ? "Book"
+            : "Library";
+    const rationale = index === 0
+      ? `${p?.nakshatra || "Today’s nakshatra"} supports this choice for steadier concentration and devotional reading.`
+      : index === 1
+        ? `${p?.tithi || "The current tithi"} aligns well with this recitation or reading pattern today.`
+        : `${p?.paksha || "The lunar cycle"} makes this a balanced pick for reflection and gentle action.`;
+    return {
+      tag: kind,
+      title: item.title,
+      copy: rationale,
+      href,
+    };
+  });
+}
+
+function hydrateRecommendations(p){
+  if(!els.recommendationsList) return;
+  const items = buildRecommendations(p);
+  els.recommendationsList.innerHTML = items.map((item, index)=> `
+    <article class="recommendation-item">
+      <span class="recommendation-item__index">${pad2(index + 1)}</span>
+      <div class="recommendation-item__body">
+        <div class="recommendation-item__title">${escapeHtml(item.title)}</div>
+        <div class="recommendation-item__copy">${escapeHtml(item.copy)}</div>
+        <div class="recommendation-item__meta">
+          <span class="recommendation-item__tag">${escapeHtml(item.tag)}</span>
+          <a class="recommendation-item__link" href="${escapeHtml(item.href)}">Open in Library</a>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function buildSageQuotes(p){
+  return [
+    {
+      quote: `In ${p?.nakshatra || "this sky"}, attention becomes worship when it is steady and undivided.`,
+      author: "Acharya V. Sharma · Chronologist",
+    },
+    {
+      quote: `${p?.tithi || "Today’s tithi"} reminds us that disciplined action carries more grace than hurried effort.`,
+      author: "Swami Dayanand · Ritual scholar",
+    },
+    {
+      quote: `${p?.paksha || "The current lunar arc"} teaches that timing is not a detail of practice, but part of practice itself.`,
+      author: "Rishi Anant · Vedanga commentator",
+    },
+  ];
+}
+
+function renderSageQuote(){
+  const item = sageCarouselState.items[sageCarouselState.index];
+  if(!item) return;
+  if(els.sageQuoteText) typeText(els.sageQuoteText, item.quote, 14);
+  if(els.sageQuoteAuthor) els.sageQuoteAuthor.textContent = item.author;
+}
+
+function startSageCarousel(p){
+  sageCarouselState.items = buildSageQuotes(p);
+  sageCarouselState.index = 0;
+  window.clearInterval(sageCarouselState.timer);
+  renderSageQuote();
+  sageCarouselState.timer = window.setInterval(()=>{
+    sageCarouselState.index = (sageCarouselState.index + 1) % sageCarouselState.items.length;
+    renderSageQuote();
+  }, 5200);
+}
+
+async function refreshAIInsight(p, { force = false } = {}){
+  if(!els.aiInsightText) return;
+  const cacheKey = `sms:panchang:insight:${p?.date || "today"}:${fmtNumber(p?.location?.lat)}:${fmtNumber(p?.location?.lon)}`;
+  const cached = force ? null : safeStorageGet(cacheKey);
+  if(cached?.text){
+    typeText(els.aiInsightText, cached.text);
+    if(els.aiInsightStatus) els.aiInsightStatus.textContent = "Loaded from today’s cached insight";
+    return;
+  }
+
+  if(els.aiInsightStatus) els.aiInsightStatus.textContent = "Generating daily guidance…";
+  const fallback = buildFallbackInsight(p);
+  let finalText = fallback;
+
+  try{
+    const endpoint = window.PANCHANG_AI_ENDPOINT || "/api/ai-daily-insight/";
+    const controller = new AbortController();
+    const timeout = window.setTimeout(()=> controller.abort(), 2800);
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        date: p?.date,
+        tithi: p?.tithi,
+        nakshatra: p?.nakshatra,
+        paksha: p?.paksha,
+        month: p?.month,
+        rahu_start: p?.rahu_start,
+        rahu_end: p?.rahu_end,
+        location: p?.location,
+      }),
+      signal: controller.signal,
+    });
+    window.clearTimeout(timeout);
+    if(res.ok){
+      const data = await res.json();
+      if(typeof data?.insight === "string" && data.insight.trim()){
+        finalText = data.insight.trim();
+      }
+    }
+  }catch{}
+
+  safeStorageSet(cacheKey, { text: finalText, created_at: Date.now() });
+  typeText(els.aiInsightText, finalText);
+  if(els.aiInsightStatus){
+    els.aiInsightStatus.textContent = finalText === fallback
+      ? "Using fast on-device guidance"
+      : "Generated from AI insight service";
+  }
+}
+
+function buildReminders(p){
+  const tzName = p?.location?.tz || getBrowserTz();
+  const reminders = [];
+  reminders.push({
+    tone: "best",
+    title: "Best time for पूजा",
+    sub: p?.abhijit_start
+      ? `${formatRangeShort(p.abhijit_start, p.abhijit_end, tzName)} is especially balanced.`
+      : `Sunrise onward till ${formatTime(p?.rahu_start, tzName)} feels cleaner for prayer and planning.`,
+  });
+  reminders.push({
+    tone: "avoid",
+    title: "Avoid travel now",
+    sub: p?.rahu_start
+      ? `Rahu Kaal runs ${formatRangeShort(p.rahu_start, p.rahu_end, tzName)}. Delay risky launches if possible.`
+      : "Avoid major launches during unsettled windows today.",
+  });
+  reminders.push({
+    tone: "neutral",
+    title: "Good window for focused work",
+    sub: p?.tithi_end
+      ? `${p.tithi} stays active until ${formatTime(p.tithi_end, tzName)}. Use this continuity for structured tasks.`
+      : "Midday hours are better for neutral work, admin, and grounded planning.",
+  });
+  return reminders;
+}
+
+function hydrateReminders(p){
+  if(!els.reminderList) return;
+  const enabled = localStorage.getItem("sms_panchang_reminders") !== "0";
+  const reminders = buildReminders(p);
+  if(!enabled){
+    els.reminderList.classList.remove("is-active", "is-disabled");
+    els.reminderList.innerHTML = "";
+    return;
+  }
+  els.reminderList.classList.add("is-active");
+  els.reminderList.innerHTML = reminders.map((item)=> `
+    <div class="reminder-item reminder-item--${item.tone}">
+      <span class="reminder-item__title">${escapeHtml(item.title)}</span>
+      <span class="reminder-item__sub">${escapeHtml(item.sub)}</span>
+    </div>
+  `).join("");
+}
+
+function evaluateReminderMoment(p){
+  const tzName = p?.location?.tz || getBrowserTz();
+  const now = parseHourMinute(new Date().toISOString(), tzName);
+  const rahuStart = parseHourMinute(p?.rahu_start, tzName);
+  const rahuEnd = parseHourMinute(p?.rahu_end, tzName);
+  const abhijitStart = parseHourMinute(p?.abhijit_start, tzName);
+  const abhijitEnd = parseHourMinute(p?.abhijit_end, tzName);
+  if(now === null) return null;
+  if(rahuStart !== null && rahuEnd !== null && now >= rahuStart && now <= rahuEnd){
+    return {
+      key: `${p?.date}:avoid`,
+      title: "Avoid travel now",
+      body: "Rahu Kaal is active. Delay launches or risky decisions if possible.",
+    };
+  }
+  if(abhijitStart !== null && abhijitEnd !== null && now >= abhijitStart && now <= abhijitEnd){
+    return {
+      key: `${p?.date}:best`,
+      title: "Best time for पूजा",
+      body: "Abhijit Muhurat is active now. This is a favorable band for prayer and focused action.",
+    };
+  }
+  return null;
+}
+
+async function maybeNotifyReminder(p){
+  if(localStorage.getItem("sms_panchang_reminders") === "0") return;
+  if(!("Notification" in window)) return;
+  const moment = evaluateReminderMoment(p);
+  if(!moment || reminderRuntime.lastKey === moment.key) return;
+  if(Notification.permission === "default"){
+    try{ await Notification.requestPermission(); }catch{}
+  }
+  if(Notification.permission !== "granted") return;
+  reminderRuntime.lastKey = moment.key;
+  try{
+    new Notification(moment.title, { body: moment.body, tag: moment.key });
+  }catch{}
+}
+
+function scheduleReminderChecks(){
+  window.clearInterval(reminderRuntime.timer);
+  reminderRuntime.timer = window.setInterval(()=>{
+    if(lastLivePanchang) maybeNotifyReminder(lastLivePanchang);
+  }, 60_000);
+}
+
+function buildTimelineSegments(p){
+  const tzName = p?.location?.tz || getBrowserTz();
+  const sunrise = msOrNull(p?.sunrise);
+  const sunset = msOrNull(p?.sunset);
+  const rahuStart = msOrNull(p?.rahu_start);
+  const rahuEnd = msOrNull(p?.rahu_end);
+  const noon = sunrise && sunset ? sunrise + ((sunset - sunrise) / 2) : null;
+  const segments = [];
+
+  if(sunrise && rahuStart && sunrise < rahuStart){
+    segments.push({
+      tone: "good",
+      label: "Sacred start",
+      time: `${formatTime(p.sunrise, tzName)}–${formatTime(p.rahu_start, tzName)}`,
+      description: "Strong for worship, planning, and calm beginnings before Rahu Kaal opens.",
+    });
+  }
+  if(rahuStart && rahuEnd){
+    segments.push({
+      tone: "avoid",
+      label: "Rahu Kaal",
+      time: `${formatTime(p.rahu_start, tzName)}–${formatTime(p.rahu_end, tzName)}`,
+      description: "Avoid launches, difficult travel, and irreversible commitments in this band.",
+    });
+  }
+  if(rahuEnd && sunset){
+    segments.push({
+      tone: "neutral",
+      label: noon && rahuEnd < noon ? "Recovery window" : "Steady flow",
+      time: `${formatTime(p.rahu_end, tzName)}–${formatTime(p.sunset, tzName)}`,
+      description: "Good for execution, reviews, and deliberate progress after the avoid window clears.",
+    });
+  }
+  if(sunset){
+    segments.push({
+      tone: "good",
+      label: "Evening devotion",
+      time: `${formatTime(p.sunset, tzName)} onward`,
+      description: `${p?.nakshatra || "The lunar mood"} supports softer reflection, prayer, and intentional closure tonight.`,
+    });
+  }
+  return segments.slice(0, 4);
+}
+
+function hydrateTimeline(p){
+  if(!els.timelineBar || !els.timelineDetail) return;
+  const segments = buildTimelineSegments(p);
+  els.timelineBar.style.setProperty("--segments", String(Math.max(segments.length, 1)));
+  els.timelineBar.innerHTML = segments.map((segment, index)=> `
+    <button class="timeline-segment timeline-segment--${segment.tone}${index === 0 ? " is-active" : ""}" type="button" data-index="${index}">
+      <span class="timeline-segment__label">${escapeHtml(segment.label)}</span>
+      <span class="timeline-segment__time">${escapeHtml(segment.time)}</span>
+    </button>
+  `).join("");
+  els.timelineDetail.textContent = segments[0]?.description || "Today’s time bands will appear here.";
+  els.timelineBar.querySelectorAll(".timeline-segment").forEach((button)=>{
+    const activate = ()=>{
+      els.timelineBar.querySelectorAll(".timeline-segment").forEach((node)=> node.classList.remove("is-active"));
+      button.classList.add("is-active");
+      const index = Number(button.dataset.index);
+      els.timelineDetail.textContent = segments[index]?.description || "";
+    };
+    button.addEventListener("mouseenter", activate);
+    button.addEventListener("focus", activate);
+    button.addEventListener("click", activate);
+  });
+}
+
+function initFocusMode(){
+  if(!els.focusModeBtn) return;
+  const stored = localStorage.getItem("sms_panchang_focus_mode") === "1";
+  document.body.classList.toggle("focus-mode", stored);
+  els.focusModeBtn.setAttribute("aria-pressed", stored ? "true" : "false");
+  els.focusModeBtn.textContent = stored ? "Exit focus mode" : "Focus mode";
+  els.focusModeBtn.addEventListener("click", ()=>{
+    const next = !document.body.classList.contains("focus-mode");
+    document.body.classList.toggle("focus-mode", next);
+    localStorage.setItem("sms_panchang_focus_mode", next ? "1" : "0");
+    els.focusModeBtn.setAttribute("aria-pressed", next ? "true" : "false");
+    els.focusModeBtn.textContent = next ? "Exit focus mode" : "Focus mode";
+  });
+}
+
+function initReminderToggle(){
+  if(!els.reminderToggle) return;
+  const enabled = localStorage.getItem("sms_panchang_reminders") !== "0";
+  els.reminderToggle.checked = enabled;
+  els.reminderToggle.closest(".hero-toggle")?.classList.toggle("is-on", enabled);
+  els.reminderList?.classList.toggle("is-active", enabled);
+  els.reminderToggle.addEventListener("change", ()=>{
+    localStorage.setItem("sms_panchang_reminders", els.reminderToggle.checked ? "1" : "0");
+    els.reminderToggle.closest(".hero-toggle")?.classList.toggle("is-on", els.reminderToggle.checked);
+    els.reminderList?.classList.toggle("is-active", els.reminderToggle.checked);
+    if(lastLivePanchang) hydrateReminders(lastLivePanchang);
+  });
+}
+
+function initHeroParallax(){
+  if(!els.heroScene || !els.heroParallax || window.matchMedia("(pointer: coarse)").matches) return;
+  let raf = null;
+  let px = 0;
+  let py = 0;
+
+  const commit = ()=>{
+    raf = null;
+    els.heroParallax.style.setProperty("--px", `${px}px`);
+    els.heroParallax.style.setProperty("--py", `${py}px`);
+  };
+
+  els.heroScene.addEventListener("mousemove", (e)=>{
+    const rect = els.heroScene.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    px = (x - 0.5) * 10;
+    py = (y - 0.5) * 10;
+    if(!raf) raf = requestAnimationFrame(commit);
+  });
+
+  els.heroScene.addEventListener("mouseleave", ()=>{
+    px = 0;
+    py = 0;
+    if(!raf) raf = requestAnimationFrame(commit);
+  });
 }
 
 function buildStars(){
@@ -176,6 +748,36 @@ const glyphState = {
   h: 0,
   lastT: 0,
 };
+
+const sageCarouselState = {
+  items: [],
+  index: 0,
+  timer: null,
+};
+
+const reminderRuntime = {
+  timer: null,
+  lastKey: null,
+};
+
+const placeSearchState = {
+  timer: null,
+  lastQuery: "",
+};
+
+const LIBRARY_SUGGESTIONS = [
+  { slug: "shiv-aarti", title: "Om Jai Shiv Omkara", tags: ["Shivratri", "Shiva", "Krishna Paksha", "Pradosha", "Meditation"] },
+  { slug: "ganesh-aarti", title: "Shree Ganesh Aarti", tags: ["Beginnings", "Planning", "Obstacle removal", "Morning"] },
+  { slug: "durga-chalisa", title: "Durga Chalisa", tags: ["Protection", "Strength", "Navratri", "Focus"] },
+  { slug: "rigveda-selections", title: "Rigveda Selections", tags: ["Nakshatra", "Wisdom", "Recitation", "Study"] },
+  { slug: "ramayan-aranya-kand", title: "Ramayan • Aranya Kand", tags: ["Discipline", "Dharma", "Reflection"] },
+  { slug: "mahabharat-gita-updesh", title: "Mahabharat • Gita Updesh", tags: ["Ekadashi", "Duty", "Clarity", "Decision"] },
+  { slug: null, title: "Hanuman Chalisa", tags: ["Courage", "Protection", "Strength", "Tuesday"] },
+  { slug: null, title: "Mahamrityunjaya Mantra", tags: ["Healing", "Shiva", "Night", "Recovery"] },
+  { slug: null, title: "Gayatri Mantra", tags: ["Morning", "Sunrise", "Study", "Purity"] },
+  { slug: null, title: "Vishnu Sahasranama", tags: ["Ekadashi", "Shukla Paksha", "Stability"] },
+  { slug: null, title: "Aditya Hridayam", tags: ["Vitality", "Sunrise", "Confidence", "Solar"] },
+];
 
 function startGlyphField(){
   if(glyphState.started) return;
@@ -453,6 +1055,7 @@ function moonSvgMarkup({illumination, waxing, size=92, prefix="moon"}){
 function startClock(){
   function tick(){
     if(els.liveClock) els.liveClock.textContent = formatClock(new Date());
+    setGreeting();
   }
   tick();
   window.setInterval(tick, 1000);
@@ -480,7 +1083,7 @@ function scheduleRolloverRefresh(p){
 }
 
 async function loadPanchang(tzOverride){
-  const { lat, lon, tz } = getSavedLocation();
+  const { lat, lon, tz, name } = getSavedLocation();
   const tzName = tzOverride || tz || getBrowserTz();
   const qs = new URLSearchParams({ lat: String(lat), lon: String(lon), tz: tzName });
   const res = await fetch(`${API_URL}?${qs.toString()}`, {headers: {Accept:"application/json"}});
@@ -492,15 +1095,28 @@ async function loadPanchang(tzOverride){
   if(!contentType.includes("application/json")){
     throw new Error(`Unexpected response. ${bodyText.slice(0, 180)}`);
   }
-  return JSON.parse(bodyText);
+  const payload = JSON.parse(bodyText);
+  if(payload?.location && name){
+    payload.location.name = name;
+  }
+  return payload;
 }
 
 function hydrateUI(p){
   const tzName = p?.location?.tz || getBrowserTz();
+  const saved = getSavedLocation();
+  const placeName = p?.location?.name || saved?.name || "Selected location";
+  setGreeting();
   if(els.heroDate) els.heroDate.textContent = formatDateLong(p.date);
   if(els.heroLine1) els.heroLine1.textContent = `${p.month} • ${p.paksha}`;
   if(els.heroLine2) els.heroLine2.textContent = `${p.tithi} • Vikram Samvat ${p.vikram_samvat ?? "—"}`;
-  if(els.heroMeta) els.heroMeta.textContent = `${Number(p.location.lat).toFixed(4)}, ${Number(p.location.lon).toFixed(4)} • ${p.location.tz}`;
+  if(els.heroPlaceName) els.heroPlaceName.textContent = placeName.split(",").slice(0, 2).join(", ").trim() || placeName;
+  if(els.heroCoords) els.heroCoords.textContent = `${fmtNumber(p.location.lat)}, ${fmtNumber(p.location.lon)} • ${p.location.tz}`;
+  if(els.heroNakshatra) els.heroNakshatra.textContent = p.nakshatra || "Nakshatra";
+  if(els.heroDescription) els.heroDescription.textContent = buildHeroDescription(p);
+  if(els.heroMetricTithi) els.heroMetricTithi.textContent = p.tithi || "—";
+  if(els.heroMetricNak) els.heroMetricNak.textContent = p.nakshatra || "—";
+  if(els.heroMetricRahu) els.heroMetricRahu.textContent = formatRangeShort(p.rahu_start, p.rahu_end, tzName);
 
   if(els.sunriseVal) els.sunriseVal.textContent = formatTime(p.sunrise, tzName);
   if(els.sunsetVal) els.sunsetVal.textContent = formatTime(p.sunset, tzName);
@@ -512,14 +1128,24 @@ function hydrateUI(p){
   if(els.monthVal) els.monthVal.textContent = p.month;
 
   const moonPct = Math.round(clamp01(p.moon_phase) * 100);
+  if(els.heroMoonPct) els.heroMoonPct.textContent = `${moonPct}%`;
+  if(els.heroMoonSub) els.heroMoonSub.textContent = p.moon_waxing ? "Waxing phase" : "Waning phase";
+  if(els.heroMetricMoon) els.heroMetricMoon.textContent = `${moonPct}%`;
   if(els.moonPct) els.moonPct.textContent = `${moonPct}%`;
   if(els.moonSub) els.moonSub.textContent = p.moon_waxing ? "Waxing" : "Waning";
   if(els.moonSvg) els.moonSvg.innerHTML = moonSvgMarkup({illumination: p.moon_phase, waxing: !!p.moon_waxing, size: 92, prefix: "card"});
+  if(els.heroMoonSvg) els.heroMoonSvg.innerHTML = moonSvgMarkup({illumination: p.moon_phase, waxing: !!p.moon_waxing, size: 220, prefix: "hero"});
   if(els.moonDisc){
     els.moonDisc.innerHTML = `<div class="moon-glow"></div>${moonSvgMarkup({illumination: p.moon_phase, waxing: !!p.moon_waxing, size: 170, prefix: "sky"})}`;
   }
 
   if(els.rahuVal) els.rahuVal.textContent = `${formatTime(p.rahu_start, tzName)}–${formatTime(p.rahu_end, tzName)}`;
+  hydrateReminders(p);
+  hydrateTimeline(p);
+  hydrateEnergyFlux(p);
+  hydrateRecommendations(p);
+  startSageCarousel(p);
+  refreshAIInsight(p);
 }
 
 const skyState = {
@@ -599,16 +1225,72 @@ function getSavedLocation(){
       const lat = Number(j.lat);
       const lon = Number(j.lon);
       const tz = typeof j.tz === "string" && j.tz ? j.tz : null;
-      if(Number.isFinite(lat) && Number.isFinite(lon)) return { lat, lon, tz };
+      const name = typeof j.name === "string" && j.name.trim() ? j.name.trim() : null;
+      if(Number.isFinite(lat) && Number.isFinite(lon)) return { lat, lon, tz, name };
     }
   }catch{}
-  return { lat: 28.6139, lon: 77.2090, tz: null };
+  return { lat: 28.6139, lon: 77.2090, tz: null, name: "New Delhi, India" };
 }
 
-function saveLocation(lat, lon, tz){
+function saveLocation(lat, lon, tz, name){
   const payload = { lat, lon };
   if(tz) payload.tz = tz;
+  if(name) payload.name = name;
   localStorage.setItem("sms_panchang_location", JSON.stringify(payload));
+}
+
+async function reverseLookupPlace(lat, lon){
+  try{
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${encodeURIComponent(lat)}&lon=${encodeURIComponent(lon)}`;
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if(!res.ok) return null;
+    const data = await res.json();
+    return typeof data?.display_name === "string" && data.display_name.trim() ? data.display_name.trim() : null;
+  }catch{
+    return null;
+  }
+}
+
+async function searchPlaces(query){
+  const q = String(query || "").trim();
+  if(q.length < 3) return [];
+  const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&addressdetails=1&q=${encodeURIComponent(q)}`;
+  const res = await fetch(url, {
+    headers: {
+      Accept: "application/json",
+    },
+  });
+  if(!res.ok) throw new Error("Location lookup failed.");
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
+}
+
+function renderPlaceResults(items){
+  if(!els.placeSearchResults) return;
+  if(!items.length){
+    els.placeSearchResults.innerHTML = `<div class="loc-search-empty">No matching places found.</div>`;
+    return;
+  }
+  els.placeSearchResults.innerHTML = items.map((item)=> `
+    <button class="loc-search-result" type="button" data-lat="${escapeHtml(item.lat)}" data-lon="${escapeHtml(item.lon)}" data-name="${escapeHtml(item.display_name || "")}">
+      <strong>${escapeHtml((item.display_name || "").split(",").slice(0, 2).join(", "))}</strong>
+      <span>${escapeHtml(item.display_name || "")}</span>
+    </button>
+  `).join("");
+
+  els.placeSearchResults.querySelectorAll(".loc-search-result").forEach((button)=>{
+    button.addEventListener("click", ()=>{
+      const lat = Number(button.dataset.lat);
+      const lon = Number(button.dataset.lon);
+      if(!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+      saveLocation(lat, lon, null, button.dataset.name || null);
+      panchangCache.clear();
+      if(els.placeSearchInput) els.placeSearchInput.value = button.dataset.name || "";
+      closeLocationPrompt();
+      renderCalendar(calendarState.year, calendarState.monthIndex);
+      initReload();
+    });
+  });
 }
 
 function isoDateLocal(d){
@@ -638,7 +1320,7 @@ const FESTIVAL_ICONS = {
 const panchangCache = new Map(); // key -> payload
 const coreFestYearCache = new Map(); // key -> list
 const PANCHANG_STORAGE_PREFIX = "sms:panchang:day:v1:";
-const COREFEST_STORAGE_PREFIX = "sms:panchang:corefest:v1:";
+const COREFEST_STORAGE_PREFIX = "sms:panchang:corefest:v2:";
 
 function safeStorageGet(key){
   try{
@@ -741,14 +1423,14 @@ async function loadCoreFestivals(){
     }
 
     let list = coreFestYearCache.get(cacheKey) || null;
-    if(!list){
+    if(!Array.isArray(list) || !list.length){
       const stored = safeStorageGet(COREFEST_STORAGE_PREFIX + cacheKey);
-      if(Array.isArray(stored)){
+      if(Array.isArray(stored) && stored.length){
         list = stored;
         coreFestYearCache.set(cacheKey, list);
       }
     }
-    if(!list){
+    if(!Array.isArray(list) || !list.length){
       const qs = new URLSearchParams({ year: String(year), lat: String(lat), lon: String(lon), tz: tzName });
       const res = await fetch(`/api/core-festivals-dates/?${qs.toString()}`, { headers: { Accept:"application/json" } });
       const bodyText = await res.text();
@@ -1257,11 +1939,33 @@ async function init(){
   buildStars();
   startGlyphField();
   initCalendar();
+  initFocusMode();
+  initReminderToggle();
+  initHeroParallax();
+
+  if(els.aiInsightRefresh){
+    els.aiInsightRefresh.addEventListener("click", ()=>{
+      if(lastLivePanchang) refreshAIInsight(lastLivePanchang, { force: true });
+    });
+  }
+  if(els.sagePrevBtn){
+    els.sagePrevBtn.addEventListener("click", ()=>{
+      if(!sageCarouselState.items.length) return;
+      sageCarouselState.index = (sageCarouselState.index - 1 + sageCarouselState.items.length) % sageCarouselState.items.length;
+      renderSageQuote();
+    });
+  }
+  if(els.sageNextBtn){
+    els.sageNextBtn.addEventListener("click", ()=>{
+      if(!sageCarouselState.items.length) return;
+      sageCarouselState.index = (sageCarouselState.index + 1) % sageCarouselState.items.length;
+      renderSageQuote();
+    });
+  }
 
   // Location prompt (first time)
   const saved = getSavedLocation();
-  if(els.latInput) els.latInput.value = String(saved.lat);
-  if(els.lonInput) els.lonInput.value = String(saved.lon);
+  if(els.placeSearchInput && saved.name) els.placeSearchInput.value = saved.name;
 
   const hasSaved = localStorage.getItem("sms_panchang_location") !== null;
   const onboarded = localStorage.getItem("sms_panchang_loc_onboarded") === "1";
@@ -1276,7 +1980,7 @@ async function init(){
 
   if(els.locDefaultBtn){
     els.locDefaultBtn.addEventListener("click", ()=>{
-      saveLocation(28.6139, 77.2090);
+      saveLocation(28.6139, 77.2090, null, "New Delhi, India");
       panchangCache.clear();
       renderCalendar(calendarState.year, calendarState.monthIndex);
       closeLocationPrompt();
@@ -1284,19 +1988,47 @@ async function init(){
     });
   }
 
-  if(els.locApplyBtn){
-    els.locApplyBtn.addEventListener("click", ()=>{
-      const lat = Number(els.latInput?.value);
-      const lon = Number(els.lonInput?.value);
-      if(!Number.isFinite(lat) || !Number.isFinite(lon)){
-        alert("Please enter valid lat/lon numbers.");
+  const triggerPlaceSearch = async ()=>{
+    const query = els.placeSearchInput?.value || "";
+    const trimmed = query.trim();
+    placeSearchState.lastQuery = trimmed;
+    if(trimmed.length < 3){
+      renderPlaceResults([]);
+      return;
+    }
+    if(els.placeSearchResults){
+      els.placeSearchResults.innerHTML = `<div class="loc-search-empty">Searching locations…</div>`;
+    }
+    try{
+      const places = await searchPlaces(trimmed);
+      if(placeSearchState.lastQuery !== trimmed) return;
+      renderPlaceResults(places);
+    }catch{
+      if(placeSearchState.lastQuery !== trimmed) return;
+      if(els.placeSearchResults){
+        els.placeSearchResults.innerHTML = `<div class="loc-search-empty">Location search failed. Please try again.</div>`;
+      }
+    }
+  };
+
+  if(els.placeSearchBtn){
+    els.placeSearchBtn.addEventListener("click", triggerPlaceSearch);
+  }
+  if(els.placeSearchInput){
+    els.placeSearchInput.addEventListener("input", ()=>{
+      window.clearTimeout(placeSearchState.timer);
+      const q = els.placeSearchInput.value || "";
+      if(q.trim().length < 3){
+        renderPlaceResults([]);
         return;
       }
-      saveLocation(lat, lon);
-      panchangCache.clear();
-      renderCalendar(calendarState.year, calendarState.monthIndex);
-      closeLocationPrompt();
-      initReload();
+      placeSearchState.timer = window.setTimeout(triggerPlaceSearch, 220);
+    });
+    els.placeSearchInput.addEventListener("keydown", (e)=>{
+      if(e.key === "Enter"){
+        e.preventDefault();
+        triggerPlaceSearch();
+      }
     });
   }
 
@@ -1307,11 +2039,11 @@ async function init(){
         return;
       }
       navigator.geolocation.getCurrentPosition(
-        (pos)=>{
+        async (pos)=>{
           localStorage.setItem("sms_panchang_geo_granted", "1");
-          saveLocation(pos.coords.latitude, pos.coords.longitude);
-          if(els.latInput) els.latInput.value = String(pos.coords.latitude);
-          if(els.lonInput) els.lonInput.value = String(pos.coords.longitude);
+          const placeName = await reverseLookupPlace(pos.coords.latitude, pos.coords.longitude);
+          saveLocation(pos.coords.latitude, pos.coords.longitude, null, placeName);
+          if(els.placeSearchInput && placeName) els.placeSearchInput.value = placeName;
           panchangCache.clear();
           renderCalendar(calendarState.year, calendarState.monthIndex);
           closeLocationPrompt();
@@ -1343,7 +2075,7 @@ async function initReload(){
 
     const tzName = weather.tzName || savedTz || getBrowserTz();
     if(weather.tzName && weather.tzName !== savedTz){
-      saveLocation(lat, lon, weather.tzName);
+      saveLocation(lat, lon, weather.tzName, getSavedLocation().name);
     }
 
     const p = await loadPanchang(tzName);

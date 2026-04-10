@@ -21,7 +21,7 @@ def _day_cache_key(*, date: str, lat_r: float, lon_r: float, tz_name: str, rules
 
 
 def _year_cache_key(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str) -> str:
-    return f"panchang:corefest:v2:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}:{rules_version}"
+    return f"panchang:corefest:v3:{year}:{lat_r:.3f}:{lon_r:.3f}:{tz_name}:{rules_version}"
 
 
 def _core_festival_cache_path(*, year: int, lat_r: float, lon_r: float, tz_name: str, rules_version: str) -> Path:
@@ -29,6 +29,22 @@ def _core_festival_cache_path(*, year: int, lat_r: float, lon_r: float, tz_name:
     base = Path(getattr(settings, "PANCHANG_CACHE_DIR", "/tmp/sms_panchang_cache"))
     base.mkdir(parents=True, exist_ok=True)
     return base / f"corefest_{year}_{lat_r:.3f}_{lon_r:.3f}_{safe_tz}_{rules_version}.json"
+
+
+def _bundled_core_festival_cache_path(*, year: int) -> Path:
+    return Path(__file__).resolve().parent / "datasets" / "resolved_core_festivals" / f"{year}.json"
+
+
+@lru_cache(maxsize=24)
+def _load_bundled_core_festival_dates(*, year: int):
+    path = _bundled_core_festival_cache_path(year=year)
+    if not path.exists():
+        return None
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    return raw if isinstance(raw, list) and raw else None
 
 
 def _cached_panchang_for_date(*, date: str, lat_r: float, lon_r: float, tz_name: str, rules_version: str):
@@ -203,7 +219,12 @@ def core_festival_dates_api(request):
             rules_version=rules_ver,
         )
         data = cache.get(cache_key)
-        if data is None:
+        if not isinstance(data, list) or not data:
+            bundled = _load_bundled_core_festival_dates(year=year)
+            if bundled:
+                data = bundled
+                cache.set(cache_key, data, timeout=YEAR_CACHE_TIMEOUT)
+        if not isinstance(data, list) or not data:
             cache_path = _core_festival_cache_path(
                 year=year,
                 lat_r=round(lat, 3),
@@ -216,7 +237,7 @@ def core_festival_dates_api(request):
                     data = json.loads(cache_path.read_text(encoding="utf-8"))
                 except Exception:
                     data = None
-            if data is None:
+            if not isinstance(data, list) or not data:
                 data = _core_festival_dates_for_year(
                     year=year,
                     lat_r=round(lat, 3),

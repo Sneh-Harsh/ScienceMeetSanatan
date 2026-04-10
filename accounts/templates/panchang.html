@@ -8,94 +8,96 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'header.css' %}">
-  <link rel="stylesheet" href="{% static 'baby_names.css' %}">
-  <link rel="stylesheet" href="{% static 'panchang.css' %}">
+  <link rel="stylesheet" href="{% static 'panchang.css' %}?v=7">
 </head>
 
 <body>
   <header class="header">
-      <a href="/welcome/" class="logo">
-        <span class="logo-mark">SMS</span>
-        <span class="logo-text">Science Meet Sanatan</span>
-      </a>
-      <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <a href="/welcome/" class="logo">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-shell" aria-hidden="true">
-    <div class="left-nav">
-
-      <a href="/welcome/" class="nav-link">Home</a>
-
-      <div class="explore-wrap">
-        <a href="#" class="nav-link">Explore ▾</a>
-        <div class="dropdown">
-          <a href="/baby-names/">Baby names</a>
-          <a href="/library/">Library</a>
-          <a href="/quizzes/">Quizzes</a>
-          <a href="/panchang/">Panchang</a>
-          <a href="#">8K Wallpapers</a>
-          <a href="#">Gifs</a>
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Explore ▾</a>
+          <div class="dropdown">
+            <a href="/baby-names/">Baby names</a>
+            <a href="/library/">Library</a>
+            <a href="/quizzes/">Quizzes</a>
+            <a href="/panchang/">Panchang</a>
+            <a href="#">8K Wallpapers</a>
+            <a href="#">Gifs</a>
+          </div>
         </div>
+        <a href="/panchang/" class="nav-link nav-link--active">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <a href="#" class="nav-link">About Us</a>
       </div>
 
-      <a href="/panchang/" class="nav-link nav-link--active">Panchang</a>
-      <div class="explore-wrap">
-        <a href="/kundali/" class="nav-link">Kundali ▾</a>
-        <div class="dropdown">
-          <a href="/kundali/">Generator</a>
-          <a href="/horoscope/">Horoscope</a>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        <div class="profile-wrap">
+          <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/">Logout</a>
+          </div>
         </div>
       </div>
-      <a href="#" class="nav-link">About Us</a>
-    </div>
-
-    <div class="right-nav">
-      <a class="quiz-link" href="/library/">Library</a>
-      <a class="quiz-link" href="/quizzes/">Quizzes</a>
-
-      <div class="profile-wrap">
-        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
-        <div class="profile-card">
-          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-          <p class="profile-status">Logged in</p>
-          <a class="profile-link" href="/profile/">Manage account</a>
-          <a class="logout-btn" href="/">Logout</a>
-        </div>
-      </div>
-    </div>
     </div>
   </header>
 
-  <main id="panchangRoot" class="panchang-page">
+  <main
+    id="panchangRoot"
+    class="panchang-page"
+    data-user-name="{% firstof request.user.first_name request.user.username 'Sneh' %}"
+  >
     <div id="locPrompt" class="loc-prompt" aria-hidden="true">
       <div class="loc-prompt__backdrop"></div>
       <div class="loc-prompt__panel glass-panel">
         <div class="loc-prompt__title">Use your location for accurate Panchang</div>
         <div class="loc-prompt__sub">
-          We use your latitude/longitude to compute sunrise, tithi/nakshatra timings, and show real-time weather visuals.
+          We use your latitude and longitude to compute sunrise, tithi and nakshatra timings, weather mood, and location-aware observances.
         </div>
         <div class="loc-prompt__actions">
           <button id="locAllowBtn" class="loc-btn primary" type="button">Allow Location</button>
           <button id="locDefaultBtn" class="loc-btn" type="button">Use Delhi</button>
         </div>
         <div class="loc-prompt__manual">
-          <div class="loc-prompt__label">Manual (lat/lon)</div>
+          <div class="loc-prompt__label">Search location</div>
           <div class="loc-prompt__row">
-            <input id="latInput" class="loc-input" inputmode="decimal" placeholder="Latitude (e.g. 28.6139)" />
-            <input id="lonInput" class="loc-input" inputmode="decimal" placeholder="Longitude (e.g. 77.2090)" />
-            <button id="locApplyBtn" class="loc-btn" type="button">Apply</button>
+            <input id="placeSearchInput" class="loc-input" placeholder="Search city, town, temple, or address" />
+            <button id="placeSearchBtn" class="loc-btn" type="button">Search</button>
           </div>
-          <div class="loc-prompt__hint">Tip: Open Google Maps → right click → copy coordinates.</div>
+          <div class="loc-prompt__hint">We’ll search using map-style place lookup and store the coordinates automatically.</div>
+          <div id="placeSearchResults" class="loc-search-results" aria-live="polite"></div>
         </div>
       </div>
     </div>
 
-    <section class="panchang-hero">
+    <section class="panchang-hero" id="heroScene">
       <div id="sky" class="sky" aria-hidden="true">
         <div class="sky__gradient"></div>
+        <div class="sky__orb sky__orb--one"></div>
+        <div class="sky__orb sky__orb--two"></div>
+        <div class="sky__grid"></div>
         <div class="sky__glyphs" id="glyphField" aria-hidden="true"></div>
         <div class="sky__stars" id="stars"></div>
         <div class="sky__clouds" id="clouds"></div>
@@ -105,58 +107,181 @@
         <div class="sky__birds" id="birds" aria-hidden="true"></div>
       </div>
 
-      <div class="hero-content glass-panel">
-        <div class="hero-top">
-          <div class="hero-kicker">Panchang Dashboard</div>
-          <div class="hero-clock" id="liveClock">--:--:--</div>
-        </div>
-        <div class="hero-actions">
-          <button id="changeLocBtn" class="mini-btn" type="button">Change location</button>
-          <div class="weather-stack">
-            <div class="weather-pill" id="weatherPill">Weather: —</div>
-            <div class="temp-pill" id="tempPill">—</div>
+      <div class="hero-parallax">
+        <section class="hero-shell glass-panel">
+          <div class="hero-shell__top">
+            <div class="hero-greeting-wrap">
+              <div class="hero-kicker">Celestial Almanac</div>
+              <h1 class="hero-greeting" id="heroGreeting">Good Morning, Sneh</h1>
+              <p class="hero-support">A premium observatory for tithi, nakshatra, auspicious windows, and real-time cosmic atmosphere.</p>
+            </div>
+
+            <div class="hero-command">
+              <button id="focusModeBtn" class="hero-command__button" type="button" aria-pressed="false">Focus mode</button>
+            </div>
           </div>
-        </div>
-        <h1 class="hero-date" id="heroDate">Loading…</h1>
-        <div class="hero-lines">
-          <div class="hero-pill" id="heroLine1">—</div>
-          <div class="hero-pill" id="heroLine2">—</div>
-        </div>
-        <div class="hero-meta" id="heroMeta"></div>
+
+          <div class="hero-observatory">
+            <section class="hero-pane hero-pane--left">
+              <div class="hero-pane__label">Location context</div>
+              <div class="hero-data-row">
+                <span class="hero-data-row__key">Station</span>
+                <span class="hero-data-row__value hero-data-row__value--location" id="heroMeta">
+                  <strong id="heroPlaceName">New Delhi, India</strong>
+                  <em id="heroCoords">28.6139, 77.2090 • Asia/Kolkata</em>
+                </span>
+              </div>
+              <button id="changeLocBtn" class="hero-location-trigger" type="button">Change location</button>
+              <div class="hero-data-row">
+                <span class="hero-data-row__key">Sidereal time</span>
+                <span class="hero-data-row__value hero-data-row__value--accent" id="liveClock">--:--:--</span>
+              </div>
+
+              <article class="sun-telemetry">
+                <div class="sun-telemetry__head">
+                  <span class="sun-telemetry__icon">☀</span>
+                  <h2>Sun Telemetry</h2>
+                </div>
+                <div class="sun-telemetry__body">
+                  <div class="sun-telemetry__stat">
+                    <span class="sun-telemetry__label">Current weather</span>
+                    <strong id="weatherPill">Weather: —</strong>
+                  </div>
+                  <div class="sun-telemetry__stat sun-telemetry__stat--temp">
+                    <span class="sun-telemetry__label">Temperature</span>
+                    <strong id="tempPill">—</strong>
+                  </div>
+                </div>
+                <label class="toggle hero-toggle">
+                  <input type="checkbox" id="reminderToggle">
+                  <span class="toggle__track"></span>
+                  <span class="toggle__label">Smart reminders</span>
+                </label>
+                <div class="reminder-list" id="reminderList"></div>
+              </article>
+            </section>
+
+            <section class="hero-pane hero-pane--center">
+              <div class="nakshatra-sphere">
+                <div class="nakshatra-sphere__orbit-ring nakshatra-sphere__orbit-ring--one">
+                  <div class="nakshatra-sphere__dot nakshatra-sphere__dot--one"></div>
+                </div>
+                <div class="nakshatra-sphere__orbit-ring nakshatra-sphere__orbit-ring--two">
+                  <div class="nakshatra-sphere__dot nakshatra-sphere__dot--two"></div>
+                </div>
+                <div class="nakshatra-sphere__core">
+                  <div class="nakshatra-sphere__label">Nakshatra Phase</div>
+                  <div class="nakshatra-sphere__moon" id="heroMoonSvg"></div>
+                  <div class="nakshatra-sphere__name" id="heroNakshatra">Loading…</div>
+                  <div class="nakshatra-sphere__sub" id="heroMoonSub">Moon synced</div>
+                  <div class="nakshatra-sphere__phase" id="heroMoonPct">—%</div>
+                </div>
+              </div>
+            </section>
+
+            <section class="hero-pane hero-pane--right">
+              <div class="hero-title-block">
+                <div class="hero-date hero-date--observatory" id="heroDate">Loading…</div>
+                <div class="hero-lines hero-lines--stacked">
+                  <div class="hero-pill" id="heroLine1">—</div>
+                  <div class="hero-pill hero-pill--accent" id="heroLine2">—</div>
+                </div>
+                <p class="hero-description" id="heroDescription">
+                  The current lunar alignment supports clarity, steadiness, and intentional movement through the day.
+                </p>
+              </div>
+
+              <div class="hero-metrics">
+                <article class="hero-metric">
+                  <span class="hero-metric__label">Tithi</span>
+                  <strong class="hero-metric__value" id="heroMetricTithi">—</strong>
+                  <span class="hero-metric__sub">Current lunar day</span>
+                </article>
+                <article class="hero-metric">
+                  <span class="hero-metric__label">Nakshatra</span>
+                  <strong class="hero-metric__value" id="heroMetricNak">—</strong>
+                  <span class="hero-metric__sub">Current star field</span>
+                </article>
+                <article class="hero-metric">
+                  <span class="hero-metric__label">Rahu Kaal</span>
+                  <strong class="hero-metric__value" id="heroMetricRahu">—</strong>
+                  <span class="hero-metric__sub">Avoid for launches</span>
+                </article>
+                <article class="hero-metric">
+                  <span class="hero-metric__label">Moon phase</span>
+                  <strong class="hero-metric__value" id="heroMetricMoon">—</strong>
+                  <span class="hero-metric__sub">Illumination</span>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <div class="hero-shell__bottom">
+            <article class="feature-card feature-card--insight glass-panel">
+              <div class="feature-card__head">
+                <div>
+                  <div class="feature-card__eyebrow">AI Daily Insight</div>
+                  <h2>Personalized guidance for today</h2>
+                </div>
+                <button id="aiInsightRefresh" class="feature-card__action" type="button">Refresh</button>
+              </div>
+              <div class="feature-card__body">
+                <p class="ai-insight__text" id="aiInsightText">Aligning today’s spiritual summary…</p>
+                <div class="ai-insight__status" id="aiInsightStatus">Daily refresh</div>
+              </div>
+            </article>
+
+            <article class="feature-card feature-card--timeline glass-panel">
+              <div class="feature-card__head">
+                <div>
+                  <div class="feature-card__eyebrow">Auspicious Activity Timeline</div>
+                  <h2>How the day flows</h2>
+                </div>
+              </div>
+              <div class="timeline-bar" id="timelineBar" aria-label="Auspicious activity timeline"></div>
+              <div class="timeline-detail" id="timelineDetail">Hover or tap a segment to see details.</div>
+            </article>
+          </div>
+        </section>
       </div>
     </section>
 
     <section class="panchang-grid" aria-label="Panchang cards">
-      <div class="state-card glass-panel" id="loadingCard">
+      <div class="state-card glass-panel skeleton-state" id="loadingCard">
         <div class="spinner"></div>
-        <div class="state-text">Fetching Panchang…</div>
+        <div class="state-copy">
+          <div class="state-title">Fetching Panchang</div>
+          <div class="state-text">Synchronizing tithi, nakshatra, weather, and sunrise windows…</div>
+        </div>
       </div>
 
       <div class="state-card glass-panel error" id="errorCard" hidden>
-        <div class="state-title">Could not load Panchang</div>
-        <div class="state-text" id="errorText"></div>
+        <div class="state-copy">
+          <div class="state-title">Could not load Panchang</div>
+          <div class="state-text" id="errorText"></div>
+        </div>
       </div>
 
       <div class="cards" id="cards" hidden>
         <article class="p-card glow-sunrise">
           <div class="p-card__head"><span class="p-ico">🌅</span><span class="p-title">Sunrise</span></div>
           <div class="p-value" id="sunriseVal">—</div>
-          <div class="p-sub">Local time</div>
+          <div class="p-sub">Local start of the sacred day</div>
         </article>
 
         <article class="p-card glow-sunset">
           <div class="p-card__head"><span class="p-ico">🌇</span><span class="p-title">Sunset</span></div>
           <div class="p-value" id="sunsetVal">—</div>
-          <div class="p-sub">Local time</div>
+          <div class="p-sub">Evening transition</div>
         </article>
 
-        <article class="p-card glow-tithi">
+        <article class="p-card glow-tithi p-card--key">
           <div class="p-card__head"><span class="p-ico">📿</span><span class="p-title">Tithi</span></div>
           <div class="p-value" id="tithiVal">—</div>
           <div class="p-sub" id="tithiSub">Ends —</div>
         </article>
 
-        <article class="p-card glow-nak">
+        <article class="p-card glow-nak p-card--key">
           <div class="p-card__head"><span class="p-ico">✨</span><span class="p-title">Nakshatra</span></div>
           <div class="p-value" id="nakVal">—</div>
           <div class="p-sub" id="nakSub">Ends —</div>
@@ -165,13 +290,13 @@
         <article class="p-card glow-paksha">
           <div class="p-card__head"><span class="p-ico">🌙</span><span class="p-title">Paksha</span></div>
           <div class="p-value" id="pakshaVal">—</div>
-          <div class="p-sub">—</div>
+          <div class="p-sub">Moon cycle direction</div>
         </article>
 
         <article class="p-card glow-month">
           <div class="p-card__head"><span class="p-ico">📅</span><span class="p-title">Hindu Month</span></div>
           <div class="p-value" id="monthVal">—</div>
-          <div class="p-sub">Lunar month</div>
+          <div class="p-sub">Lunar month context</div>
         </article>
 
         <article class="p-card glow-moon">
@@ -185,10 +310,10 @@
           </div>
         </article>
 
-        <article class="p-card glow-rahu">
+        <article class="p-card glow-rahu p-card--key">
           <div class="p-card__head"><span class="p-ico">⏰</span><span class="p-title">Rahu Kaal</span></div>
           <div class="p-value" id="rahuVal">—</div>
-          <div class="p-sub">Daytime period</div>
+          <div class="p-sub">Best avoided for launches and travel</div>
         </article>
       </div>
     </section>
@@ -196,8 +321,9 @@
     <section class="panchang-calendar" aria-label="Panchang calendar">
       <div class="calendar-head glass-panel">
         <div>
-          <div class="calendar-kicker">Panchang Calendar</div>
-          <div class="calendar-sub">Tap a date to see full details, festivals and timings.</div>
+          <div class="calendar-kicker">Interactive Calendar Upgrade</div>
+          <div class="calendar-title">Navigate the month with full Panchang context.</div>
+          <div class="calendar-sub">Smooth month transitions, tap for details, and open the full modal for complete day intelligence.</div>
         </div>
         <div class="calendar-controls" aria-label="Calendar controls">
           <button id="calPrevBtn" class="cal-btn" type="button" aria-label="Previous month">‹</button>
@@ -217,6 +343,52 @@
       </div>
     </section>
 
+    <section class="observatory-insights" aria-label="Observatory insights">
+      <div class="observatory-insights__head">
+        <div>
+          <div class="calendar-kicker">Observatory Instruments</div>
+          <div class="observatory-insights__title">Energy Flux</div>
+          <div class="calendar-sub">Dynamic Muhurta potency drawn from sunrise, Rahu Kaal, lunar phase, and current Panchang rhythm.</div>
+        </div>
+        <div class="observatory-insights__meta" id="energyFluxMeta">Live from today's Panchang</div>
+      </div>
+
+      <div class="observatory-insights__grid">
+        <article class="energy-flux glass-panel">
+          <div class="energy-flux__bars" id="energyFluxBars"></div>
+        </article>
+
+        <article class="sage-note glass-panel">
+          <div class="sage-note__eyebrow">The Sage’s Note</div>
+          <div class="sage-note__quote" id="sageQuoteText">Loading today’s contemplative note…</div>
+          <div class="sage-note__author" id="sageQuoteAuthor">—</div>
+          <div class="sage-note__controls">
+            <button class="cal-btn" id="sagePrevBtn" type="button" aria-label="Previous sage note">‹</button>
+            <button class="cal-btn" id="sageNextBtn" type="button" aria-label="Next sage note">›</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="observatory-insights__grid observatory-insights__grid--lower">
+        <article class="recommendations-panel glass-panel">
+          <div class="recommendations-panel__head">
+            <div class="calendar-kicker">Scholarly Recommendations</div>
+            <h2>Rituals and reflections for the current alignment</h2>
+          </div>
+          <div class="recommendations-list" id="recommendationsList"></div>
+        </article>
+
+        <article class="activity-panel glass-panel">
+          <div class="recommendations-panel__head">
+            <div class="calendar-kicker">Peak Optimization</div>
+            <h2 id="peakWindowTitle">Best focused window</h2>
+          </div>
+          <div class="activity-panel__time" id="peakWindowTime">—</div>
+          <div class="activity-panel__copy" id="peakWindowCopy">We will surface the strongest action band as soon as today’s Panchang is loaded.</div>
+        </article>
+      </div>
+    </section>
+
     <div id="dayOverlay" class="day-overlay" aria-hidden="true" role="dialog" aria-label="Day details">
       <div class="day-overlay__backdrop" id="dayOverlayBackdrop"></div>
       <div class="day-overlay__panel glass-panel" id="dayOverlayPanel">
@@ -228,15 +400,15 @@
 
         <div class="day-overlay__scroll">
           <div class="day-overlay__body" id="ovBody">
-          <div class="ov-loading" id="ovLoading">
-            <div class="spinner"></div>
-            <div class="state-text">Loading day details…</div>
-          </div>
-          <div class="ov-error" id="ovError" hidden>
-            <div class="state-title">Could not load day</div>
-            <div class="state-text" id="ovErrorText"></div>
-          </div>
-          <div class="ov-grid" id="ovGrid" hidden></div>
+            <div class="ov-loading" id="ovLoading">
+              <div class="spinner"></div>
+              <div class="state-text">Loading day details…</div>
+            </div>
+            <div class="ov-error" id="ovError" hidden>
+              <div class="state-title">Could not load day</div>
+              <div class="state-text" id="ovErrorText"></div>
+            </div>
+            <div class="ov-grid" id="ovGrid" hidden></div>
           </div>
           <div class="ov-fest" id="ovFest"></div>
         </div>
@@ -279,6 +451,6 @@
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'panchang.js' %}?v=2"></script>
+  <script src="{% static 'panchang.js' %}?v=7"></script>
 </body>
 </html>
