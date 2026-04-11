@@ -4,6 +4,7 @@ from django.urls import include, path
 
 from panchang.urls import urlpatterns as panchang_urls
 from kundali.urls import urlpatterns as kundali_urls
+from gita_site.views import healthz
 
 from accounts.views import (
     api_leaderboard,
@@ -30,6 +31,7 @@ from accounts.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('healthz/', healthz, name='healthz'),
     path('', welcome_page, name='home'),
     path('login/', login_page, name='login'),
     path('welcome/', welcome_page, name='welcome'),
