@@ -1,0 +1,32 @@
+export const DEV_HOROSCOPE_MOCK = {
+  natal: {
+    lagna: "Mithuna",
+    moon_sign: "Simha",
+    sun_sign: "Meena",
+    nakshatra: "Rohini",
+    nakshatra_pada: 2,
+  },
+  daily: {
+    scope: "Daily",
+    cosmic_message: "Krishna says, today is best used for focused inner alignment.",
+    summary: "The chart is asking for calm execution before visible movement.",
+    details: {
+      emotional: "Emotions settle when you reduce external noise.",
+      career: "Career benefits come through disciplined, visible work.",
+      relationships: "Gentle honesty works better than intensity.",
+      finance: "Avoid speculative decisions and favor measured planning.",
+    },
+    advice: "Anchor your day around a single high-value action.",
+    lucky: { color: "Saffron Gold", number: 4, time: "9:12 AM" },
+    scores: { love: 62, career: 74, health: 58, finance: 61 },
+    transit_house: 10,
+    dominant_planet: "Jupiter",
+    mahadasha: "Moon",
+    antardasha: "Venus",
+  },
+  weekly: null,
+  monthly: null,
+  yearly: null,
+  specific_year: null,
+  specific_year_label: 2026,
+};

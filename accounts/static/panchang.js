@@ -379,11 +379,22 @@ function buildEnergyFlux(p){
 function hydrateEnergyFlux(p){
   if(!els.energyFluxBars) return;
   const flux = buildEnergyFlux(p);
+  const scores = flux.map((band)=> Number(band.score) || 0);
+  const peakScore = Math.max(...scores, 0);
+  const minScore = Math.min(...scores, peakScore);
   els.energyFluxBars.innerHTML = flux.map((band)=> `
-    <div class="energy-flux__bar energy-flux__bar--${band.tone}" data-score="${band.score}">
-      <i style="--energy:${band.score}%"></i>
-      <span>${escapeHtml(band.label)}</span>
-      <small>${escapeHtml(band.time)}</small>
+    <div class="energy-bar-wrap energy-bar-wrap--${band.tone}" data-score="${band.score}">
+      <div class="energy-bar energy-bar--${band.tone}${band.score === peakScore ? " is-peak" : ""}" style="--energy:${(() => {
+        const score = Number(band.score) || 0;
+        if(peakScore === minScore) return 58;
+        return Math.round(18 + (((score - minScore) / Math.max(1, peakScore - minScore)) * 82));
+      })()}%">
+        <span class="energy-bar__glow" aria-hidden="true"></span>
+      </div>
+      <div class="energy-bar-info">
+        <div class="eb-name${band.score === peakScore ? " active" : ""}">${escapeHtml(band.label)}</div>
+        <div class="eb-time">${escapeHtml(band.time)}</div>
+      </div>
     </div>
   `).join("");
   if(els.energyFluxMeta){
@@ -1350,6 +1361,30 @@ const FESTIVAL_ICONS = {
   Amavasya: "🌑",
 };
 
+const FESTIVAL_VISUALS = [
+  { match: /diwali|dhanteras|lakshmi/i, theme: "diya", motif: "दीप" },
+  { match: /holi/i, theme: "holi", motif: "रंग" },
+  { match: /navratri|ghatasthapana|kalash/i, theme: "kalash", motif: "शक्ति" },
+  { match: /ram|dussehra|vijaya/i, theme: "rama", motif: "राम" },
+  { match: /shiv|pradosh/i, theme: "shiva", motif: "शिव" },
+  { match: /krishna|janmashtami|govardhan/i, theme: "krishna", motif: "कृष्ण" },
+  { match: /ganesh|vinayak/i, theme: "ganesha", motif: "गणेश" },
+  { match: /makar|pongal|uttarayan|sankranti/i, theme: "grain", motif: "सूर्य" },
+  { match: /karwa|amavasya/i, theme: "dark", motif: "रात्रि" },
+  { match: /purnima|raksha|guru purnima/i, theme: "moon", motif: "चंद्र" },
+];
+
+function getFestivalVisual(item){
+  const name = String(item?.name || "");
+  const byName = FESTIVAL_VISUALS.find((entry)=> entry.match.test(name));
+  const theme = byName?.theme || String(item?.anim || "glow");
+  return {
+    theme,
+    motif: byName?.motif || "उत्सव",
+    icon: String(item?.icon || FESTIVAL_ICONS[name] || "🎉"),
+  };
+}
+
 const panchangCache = new Map(); // key -> payload
 const coreFestYearCache = new Map(); // key -> list
 const kharmasYearCache = new Map();
@@ -1898,12 +1933,36 @@ function hydrateCalendarCell(dateStr, p){
     const details = Array.isArray(p?.festivals_detail) ? p.festivals_detail : null;
     const itemsAll = details ? details : (Array.isArray(p?.festivals) ? p.festivals.map((name)=> ({ name, icon: FESTIVAL_ICONS[name] || "🎉", anim: "glow", source: "unknown" })) : []);
     const coreItems = itemsAll.filter((f)=> String(f?.source || "") === "core");
+    cell.querySelector(".cal-festival-fill")?.remove();
+    cell.classList.remove(
+      "festival-theme--diya",
+      "festival-theme--holi",
+      "festival-theme--kalash",
+      "festival-theme--rama",
+      "festival-theme--shiva",
+      "festival-theme--krishna",
+      "festival-theme--ganesha",
+      "festival-theme--grain",
+      "festival-theme--dark",
+      "festival-theme--moon",
+      "festival-theme--glow",
+    );
 
     cell.classList.toggle("has-core", coreItems.length > 0);
     if(coreItems.length){
       const anim = String(coreItems[0]?.anim || "glow");
       cell.dataset.coreAnim = anim;
       cell.dataset.coreName = String(coreItems[0]?.name || "");
+      const visual = getFestivalVisual(coreItems[0]);
+      cell.classList.add(`festival-theme--${visual.theme}`);
+      const fill = document.createElement("div");
+      fill.className = `cal-festival-fill cal-festival-fill--${visual.theme}`;
+      fill.setAttribute("aria-hidden", "true");
+      fill.innerHTML = `
+        <span class="cal-festival-fill__motif">${escapeHtml(visual.motif)}</span>
+        <span class="cal-festival-fill__icon sticker--${visual.theme}">${escapeHtml(visual.icon)}</span>
+      `;
+      cell.prepend(fill);
     }else{
       delete cell.dataset.coreAnim;
       delete cell.dataset.coreName;
@@ -1923,7 +1982,7 @@ function hydrateCalendarCell(dateStr, p){
     if(primary?.anim){
       cell.dataset.fanim = String(primary.anim);
       cell.dataset.fname = String(primary.name || "");
-      cell.dataset.ficon = String(primary.icon || FESTIVAL_ICONS[primary.name] || "🎉");
+      cell.dataset.ficon = String(getFestivalVisual(primary).icon);
     }else{
       delete cell.dataset.fanim;
       delete cell.dataset.fname;

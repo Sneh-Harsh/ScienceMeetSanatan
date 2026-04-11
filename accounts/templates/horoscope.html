@@ -4,155 +4,275 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horoscope Insights | Science Meet Sanatan</title>
+  <title>Horoscope Experience | Science Meet Sanatan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'header.css' %}">
-  <link rel="stylesheet" href="{% static 'baby_names.css' %}">
-  <link rel="stylesheet" href="{% static 'horoscope/horoscope.css' %}">
+  <link rel="stylesheet" href="{% static 'horoscope/horoscope.css' %}?v=6">
 </head>
-<body>
+<body class="horoscope-body">
   <header class="header">
-      <a href="/welcome/" class="logo">
-        <span class="logo-mark">SMS</span>
-        <span class="logo-text">Science Meet Sanatan</span>
-      </a>
-      <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <a href="/welcome/" class="logo">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-shell" aria-hidden="true">
-    <div class="left-nav">
-      <a href="/welcome/" class="nav-link">Home</a>
-
-      <div class="explore-wrap">
-        <a href="#" class="nav-link">Explore ▾</a>
-        <div class="dropdown">
-          <a href="/baby-names/">Baby names</a>
-          <a href="/library/">Library</a>
-          <a href="/quizzes/">Quizzes</a>
-          <a href="/panchang/">Panchang</a>
-          <a href="#">8K Wallpapers</a>
-          <a href="#">Gifs</a>
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Explore ▾</a>
+          <div class="dropdown">
+            <a href="/baby-names/">Baby names</a>
+            <a href="/library/">Library</a>
+            <a href="/quizzes/">Quizzes</a>
+            <a href="/panchang/">Panchang</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link nav-link--active">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <a href="#" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        <div class="profile-wrap">
+          <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/login/">Logout</a>
+          </div>
         </div>
       </div>
-
-      <a href="/panchang/" class="nav-link">Panchang</a>
-      <div class="explore-wrap">
-        <a href="/kundali/" class="nav-link nav-link--active">Kundali ▾</a>
-        <div class="dropdown">
-          <a href="/kundali/">Generator</a>
-          <a href="/horoscope/">Horoscope</a>
-        </div>
-      </div>
-      <a href="#" class="nav-link">About Us</a>
-    </div>
-
-    <div class="right-nav">
-      <a class="quiz-link" href="/library/">Library</a>
-      <a class="quiz-link" href="/quizzes/">Quizzes</a>
-      <div class="profile-wrap">
-        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
-        <div class="profile-card">
-          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-          <p class="profile-status">Logged in</p>
-          <a class="profile-link" href="/profile/">Manage account</a>
-          <a class="logout-btn" href="/">Logout</a>
-        </div>
-      </div>
-    </div>
     </div>
   </header>
 
-  <main class="horoscope-page" id="horoscopePage">
-    <section class="hero-shell">
-      <div class="cosmic-layer layer-one"></div>
-      <div class="cosmic-layer layer-two"></div>
-      <div class="cosmic-layer layer-three"></div>
-      <div class="hero-panel">
+  <main
+    class="horoscope-page"
+    id="horoscopePage"
+    data-display-name="{% firstof request.user.first_name request.user.username 'Seeker' %}"
+  >
+    <div class="ambient-grid" aria-hidden="true"></div>
+    <div class="cursor-bloom" id="cursorBloom" aria-hidden="true"></div>
+
+    <section class="hero-shell glass-panel" id="heroSection">
+      <canvas class="hero-particles" id="heroParticles" aria-hidden="true"></canvas>
+      <div class="hero-veil"></div>
+      <div class="hero-inner">
         <div class="hero-copy">
-          <div class="hero-kicker">Premium Horoscope Insights</div>
-          <h1>Cosmic guidance shaped by your Kundali, dasha, and live transits.</h1>
-          <p class="hero-text">Daily to yearly readings with a more personal, emotionally rich tone built from your moon sign, ascendant, current timing, and transit pressure points.</p>
+          <div class="hero-kicker">Luxury Celestial Observatory</div>
+          <h1>Where your Kundali becomes a living, breathing universe.</h1>
+          <p class="hero-subtitle">
+            Deeply personal horoscope guidance shaped by your natal chart, dasha flow, and current transit pressure —
+            designed as an editorial instrument, not a generic dashboard.
+          </p>
+          <div class="hero-actions">
+            <button class="primary-cta" type="button" id="heroRevealBtn">Reveal Horoscope</button>
+            <button class="ghost-cta" type="button" id="heroOracleBtn">Ask the Oracle</button>
+            <button class="sound-ghost" type="button" id="ambientToggleBtn" aria-pressed="false">
+              Ambient sound • Soon
+            </button>
+          </div>
+          <div class="hero-chip-row" id="heroChipRow"></div>
         </div>
-        <div class="hero-badge">
-          <div class="hero-badge__ring"></div>
-          <div class="hero-badge__text">Cosmic Energy</div>
-          <div class="hero-badge__meter" id="energyMeterValue">--</div>
+
+        <div class="hero-instrument glass-subpanel" id="heroInstrument">
+          <div class="instrument-head">
+            <div>
+              <div class="instrument-label">Live observatory</div>
+              <div class="instrument-greeting" id="heroGreeting">Good Evening</div>
+            </div>
+            <div class="instrument-clock" id="heroClock">--:--</div>
+          </div>
+
+          <div class="instrument-weather-row">
+            <div>
+              <div class="instrument-weather" id="heroWeather">Clear</div>
+              <div class="instrument-location" id="heroLocation">Awaiting profile</div>
+            </div>
+            <div class="instrument-energy" id="heroEnergyMeter">
+              <div class="energy-ring energy-ring--outer"></div>
+              <div class="energy-ring energy-ring--inner"></div>
+              <div class="energy-core">
+                <span class="energy-value" id="energyMeterValue">--</span>
+                <span class="energy-caption">Cosmic Energy</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="instrument-signal-grid" id="heroSignalTiles"></div>
         </div>
       </div>
     </section>
 
-    <section class="input-shell glass-card">
-      <div class="input-head">
-        <div>
-          <h2>Your Birth Details</h2>
-          <p>Horoscope insights are derived from your natal chart, transit movement, and active dasha timing.</p>
+    <section class="birth-shell">
+      <div class="glass-panel birth-panel">
+        <div class="section-head birth-panel-head">
+          <div>
+            <div class="section-kicker">Birth Portal</div>
+            <h2>Enter your moment of arrival.</h2>
+            <p class="section-copy">Set the exact birth date, time, and place once. Every summary, timing lens, and oracle answer is then grounded in the same live kundali context.</p>
+          </div>
+          <button class="text-link" type="button" id="backToKundaliBtn">Open Kundali Generator</button>
         </div>
-        <button class="link-btn" type="button" id="backToKundaliBtn">Open Kundali Generator</button>
+
+        <form class="birth-form" id="horoscopeForm" autocomplete="off">
+          {% csrf_token %}
+          <label class="field field--date">
+            <span>Date of birth</span>
+            <input id="hDate" type="date" required>
+          </label>
+          <label class="field field--time">
+            <span>Time of birth</span>
+            <input id="hTime" type="time" step="60" required>
+          </label>
+          <label class="field field--place">
+            <span>Place of birth</span>
+            <input id="hPlace" type="text" placeholder="Search place like Google Maps" spellcheck="false">
+            <div class="place-results" id="hPlaceResults" hidden></div>
+          </label>
+          <label class="field field--year">
+            <span>Specific year lens</span>
+            <input id="hYear" type="number" min="1900" max="2200" value="2026" required>
+          </label>
+          <input id="hLat" type="hidden">
+          <input id="hLon" type="hidden">
+          <label class="field field--coord">
+            <span>Timezone</span>
+            <input id="hTz" required>
+          </label>
+        </form>
+
+        <div class="birth-actions">
+          <button class="ghost-cta" type="button" id="horoscopeUseCurrent">Use current location</button>
+          <button class="primary-cta" type="button" id="generateHoroscopeBtn">Generate Horoscope</button>
+        </div>
       </div>
-      <form class="birth-grid" id="horoscopeForm">
-        <label>
-          <span>Date of Birth</span>
-          <input id="hDate" type="date" required>
-        </label>
-        <label>
-          <span>Time of Birth</span>
-          <input id="hTime" type="time" step="60" required>
-        </label>
-        <label>
-          <span>Latitude</span>
-          <input id="hLat" inputmode="decimal" placeholder="28.6139" required>
-        </label>
-        <label>
-          <span>Longitude</span>
-          <input id="hLon" inputmode="decimal" placeholder="77.2090" required>
-        </label>
-        <label>
-          <span>Timezone</span>
-          <input id="hTz" placeholder="Asia/Kolkata" required>
-        </label>
-        <label>
-          <span>Specific Year</span>
-          <input id="hYear" type="number" min="1900" max="2200" value="2026" required>
-        </label>
-      </form>
-      <div class="input-actions">
-        <button class="secondary-btn" type="button" id="horoscopeUseCurrent">Use current location</button>
-        <button class="primary-btn" type="button" id="generateHoroscopeBtn">Reveal Horoscope</button>
-      </div>
-      <div class="loader-card" id="horoscopeLoading" hidden>
-        <div class="shimmer-line w-40"></div>
-        <div class="shimmer-line w-90"></div>
-        <div class="shimmer-line w-75"></div>
-      </div>
-      <div class="error-text" id="horoscopeError" hidden></div>
+
+      <aside class="birth-side">
+        <div class="glass-panel saved-profile-card" id="savedProfileCard"></div>
+        <div class="glass-panel focus-preview-card" id="focusPreviewCard"></div>
+      </aside>
     </section>
+
+    <section class="loading-shell glass-panel" id="horoscopeLoading" hidden>
+      <div class="loading-heading">Calibrating your cosmic field</div>
+      <div class="loading-grid">
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+        <div class="shimmer-card"></div>
+      </div>
+    </section>
+
+    <div class="error-shell glass-panel" id="horoscopeError" hidden></div>
 
     <section class="results-shell" id="horoscopeResults" hidden>
-      <div class="summary-row">
-        <div class="summary-card glass-card" id="natalSummary"></div>
-        <div class="summary-card glass-card" id="cosmicMessageCard"></div>
+      <div class="summary-grid">
+        <div class="glass-panel" id="natalSummary"></div>
+        <div class="glass-panel" id="cosmicMessageCard"></div>
+        <div class="glass-panel" id="timingLensCard"></div>
       </div>
 
-      <div class="tab-row" id="scopeTabs"></div>
+      <div class="glass-panel period-shell">
+        <div class="section-head section-head--compact">
+          <div>
+            <div class="section-kicker">Period Lenses</div>
+            <h2>Daily through yearly, with smooth editorial transitions.</h2>
+          </div>
+          <div class="period-meta" id="periodMeta"></div>
+        </div>
+        <div class="period-tabs-scroll">
+          <div class="tab-row" id="scopeTabs"></div>
+        </div>
+      </div>
 
       <div class="content-grid">
-        <div class="insights-column">
-          <div class="glass-card insight-card" id="scopeSummary"></div>
-          <div class="glass-card insight-card" id="scoreCard"></div>
-          <div class="glass-card insight-card" id="detailsCard"></div>
-          <div class="glass-card insight-card" id="adviceCard"></div>
+        <div class="content-main">
+          <div class="glass-panel analysis-card" id="scopeSummary"></div>
+          <div class="glass-panel analysis-card" id="detailsCard"></div>
+          <div class="split-grid">
+            <div class="glass-panel" id="adviceCard"></div>
+            <div class="glass-panel" id="luckyCard"></div>
+          </div>
         </div>
-        <aside class="side-column">
-          <div class="glass-card side-card" id="luckyCard"></div>
-          <div class="glass-card side-card" id="timelineCard"></div>
+
+        <aside class="content-side">
+          <div class="glass-panel metrics-card" id="scoreCard"></div>
+          <div class="glass-panel metrics-card" id="timingMiniCard"></div>
         </aside>
       </div>
+
+      <section class="glass-panel oracle-shell oracle-card" id="oracleCard">
+        <div class="oracle-topline">
+          <span></span>
+          AI Oracle
+        </div>
+
+        <div class="oracle-shell-head">
+          <div>
+            <h2>Ask the <em>Oracle</em></h2>
+            <p class="oracle-subcopy">A grounded conversation from your live kundali, dasha flow, and current transit field.</p>
+          </div>
+          <div class="oracle-status" id="oracleProfileStatus">Waiting for birth profile</div>
+        </div>
+
+        <div class="oracle-identity">
+          <div class="oracle-avatar">✦</div>
+          <div class="oracle-identity-copy">
+            <div class="oracle-identity-title">The Oracle Speaks</div>
+            <div class="oracle-identity-meta" id="oracleProfileMeta">Add your date and time of birth to begin.</div>
+          </div>
+        </div>
+
+        <div class="oracle-workspace">
+          <aside class="oracle-sidebar">
+            <div class="oracle-toolbar-group">
+              <div class="history-head"><span>Suggested prompts</span></div>
+              <div class="prompt-chip-column" id="oraclePromptChips"></div>
+            </div>
+            <div class="oracle-toolbar-group" hidden>
+              <div class="history-head"><span>Recent prompts</span></div>
+              <div class="history-list history-list--column" id="oracleHistory"></div>
+            </div>
+            <button class="ghost-cta oracle-reset-btn" type="button" id="oracleClearBtn">New chat</button>
+          </aside>
+
+          <div class="oracle-chat-stage">
+            <div class="oracle-conversation" id="oracleConversation"></div>
+
+            <div class="oracle-composer-shell">
+              <form class="oracle-form" id="oracleForm">
+                {% csrf_token %}
+                <label class="oracle-input-wrap" for="oracleQuestion">
+                  <span class="visually-hidden">Ask your question</span>
+                  <textarea id="oracleQuestion" rows="1" placeholder="Message the Oracle"></textarea>
+                </label>
+                <div class="oracle-actions">
+                  <button class="primary-cta oracle-send-btn" type="submit" id="oracleSubmitBtn">
+                    ↑
+                    <span class="typing-dot" id="oracleTypingDot" hidden></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
     </section>
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script type="module" src="{% static 'horoscope/page.js' %}"></script>
+  <script type="module" src="{% static 'horoscope/page.js' %}?v=6"></script>
 </body>
 </html>

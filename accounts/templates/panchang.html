@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'header.css' %}">
-  <link rel="stylesheet" href="{% static 'panchang.css' %}?v=9">
+  <link rel="stylesheet" href="{% static 'panchang.css' %}?v=11">
 </head>
 
 <body>
@@ -157,6 +157,12 @@
                   <span class="toggle__track"></span>
                   <span class="toggle__label">Smart reminders</span>
                 </label>
+              </article>
+              <article class="hero-reminders-panel glass-panel" aria-label="Smart reminders panel">
+                <div class="hero-reminders-panel__head">
+                  <span class="hero-reminders-panel__eyebrow">Smart reminders</span>
+                  <span class="hero-reminders-panel__status">Live Panchang cues</span>
+                </div>
                 <div class="reminder-list" id="reminderList"></div>
               </article>
             </section>
@@ -523,6 +529,6 @@
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'panchang.js' %}?v=9"></script>
+  <script src="{% static 'panchang.js' %}?v=11"></script>
 </body>
 </html>

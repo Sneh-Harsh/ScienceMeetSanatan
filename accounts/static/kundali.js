@@ -5,6 +5,7 @@ const els = {
 
   dob: document.querySelector("#dobInput"),
   tob: document.querySelector("#tobInput"),
+  place: document.querySelector("#placeInput"),
   lat: document.querySelector("#latInput"),
   lon: document.querySelector("#lonInput"),
   tz: document.querySelector("#tzInput"),
@@ -812,6 +813,7 @@ function loadSavedInputs(){
     const j = JSON.parse(raw);
     if(els.dob && j.dob) els.dob.value = String(j.dob);
     if(els.tob && j.tob) els.tob.value = String(j.tob);
+    if(els.place && j.place) els.place.value = String(j.place);
     if(els.lat && j.lat) els.lat.value = String(j.lat);
     if(els.lon && j.lon) els.lon.value = String(j.lon);
     if(els.tz && j.tz) els.tz.value = String(j.tz);
@@ -823,6 +825,7 @@ function saveInputs(){
     localStorage.setItem("sms_kundali_inputs", JSON.stringify({
       dob: els.dob?.value || "",
       tob: els.tob?.value || "",
+      place: els.place?.value || "",
       lat: els.lat?.value || "",
       lon: els.lon?.value || "",
       tz: els.tz?.value || "",
@@ -949,6 +952,7 @@ function initDefaults(){
   if(els.tob && !els.tob.value) els.tob.value = isoNowTime();
   if(els.dob && params.get("dob")) els.dob.value = String(params.get("dob"));
   if(els.tob && params.get("tob")) els.tob.value = String(params.get("tob"));
+  if(els.place && params.get("place")) els.place.value = String(params.get("place"));
   if(els.lat && params.get("lat")) els.lat.value = String(params.get("lat"));
   if(els.lon && params.get("lon")) els.lon.value = String(params.get("lon"));
   if(els.tz && params.get("tz")) els.tz.value = String(params.get("tz"));
@@ -977,6 +981,7 @@ function init(){
       const params = new URLSearchParams({
         dob: String(els.dob?.value || ""),
         tob: String(els.tob?.value || ""),
+        place: String(els.place?.value || ""),
         lat: String(els.lat?.value || ""),
         lon: String(els.lon?.value || ""),
         tz: String(els.tz?.value || ""),
