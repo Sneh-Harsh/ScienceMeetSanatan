@@ -98,6 +98,7 @@ const state = {
   lastPlaceQuery: "",
   oracleHistory: [],
   profile: null,
+  profileOrigin: "default",
   aiSummaries: {},
   activeSummaryRequestId: 0,
   suppressPlaceFocusUntil: 0,
@@ -132,11 +133,11 @@ function getDisplayName() {
 function updateOracleProfileState() {
   const hasBirthCore = Boolean(state.profile?.date && state.profile?.time);
   if (els.oracleProfileStatus) {
-    els.oracleProfileStatus.textContent = hasBirthCore ? "Birth profile ready" : "Waiting for birth profile";
+    els.oracleProfileStatus.textContent = hasBirthCore && state.profileOrigin !== "default" ? "Birth profile ready" : "Enter birth details first";
   }
   if (els.oracleProfileMeta) {
-    if (!hasBirthCore) {
-      els.oracleProfileMeta.textContent = "Add your date and time of birth to begin.";
+    if (!hasBirthCore || state.profileOrigin === "default") {
+      els.oracleProfileMeta.textContent = "Set date, time, and place before asking the Oracle.";
       return;
     }
     const parts = [
@@ -176,6 +177,8 @@ function fillDefaults() {
   const query = readQueryDefaults();
   const saved = getSavedBirthProfile() || {};
   const now = new Date();
+  const hasQueryProfile = Boolean(query.date || query.time || query.place || query.lat || query.lon || query.tz);
+  const hasSavedProfile = Boolean(saved.date || saved.time || saved.place || saved.lat || saved.lon || saved.tz);
 
   const chosenDate = query.date || saved.date || now.toISOString().slice(0, 10);
   const chosenTime = query.time || saved.time || `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
@@ -193,6 +196,7 @@ function fillDefaults() {
   if (els.tz) els.tz.value = chosenTz;
   if (els.year) els.year.value = chosenYear;
 
+  state.profileOrigin = hasQueryProfile ? "query" : hasSavedProfile ? "saved" : "default";
   state.profile = collectProfile();
   renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
   renderFocusPreview(els.focusPreviewCard, buildFocusPreview({}));
@@ -462,10 +466,10 @@ function renderActiveScope() {
   updateHero(state.payload, scope);
   renderPromptChips(els.oraclePromptChips, buildPromptSuggestions(state.payload, state.activeScope));
   renderOracleConversation(els.oracleConversation, state.oracleConversation, {
-    title: state.profile?.date && state.profile?.time ? "Ask anything grounded in your birth chart." : "Enter your moment of arrival above.",
+    title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Ask anything grounded in your birth chart." : "Enter your moment of arrival above.",
     body: state.profile?.date && state.profile?.time
       ? "The Oracle interprets your active kundali, dasha, and transits. It does not invent new astrology."
-      : "Generate your horoscope first. The Oracle only answers after it has your actual birth profile and live horoscope context.",
+      : "Set your birth details first. The Oracle only answers after it has your actual birth profile and live horoscope context.",
   });
   scrollOracleToBottom();
   bindTabEvents();
@@ -490,6 +494,7 @@ async function generateHoroscope() {
     state.payload = payload;
     state.activeScope = "daily";
     state.profile = profile;
+    state.profileOrigin = "manual";
     state.aiSummaries = {};
     saveBirthProfile(profile);
     state.oracleHistory = getOracleHistory(profile).map(normalizeOracleEntry).filter(Boolean);
@@ -510,17 +515,17 @@ function resetOracleOutput() {
   state.oracleConversation = [];
   renderOracleHistory(els.oracleHistory, []);
   renderOracleConversation(els.oracleConversation, state.oracleConversation, {
-    title: state.profile?.date && state.profile?.time ? "Start a conversation." : "Birth details required.",
+    title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Start a conversation." : "Birth details required.",
     body: state.profile?.date && state.profile?.time
       ? ""
-      : "Enter date and time of birth above, then generate the horoscope.",
+      : "Enter date, time, and place of birth above, then generate the horoscope.",
   });
   bindOracleConversationEvents();
 }
 
 async function handleOracleSubmit(event) {
   event?.preventDefault?.();
-  if (!els.date?.value || !els.time?.value) {
+  if (!els.date?.value || !els.time?.value || state.profileOrigin === "default") {
     resetOracleOutput();
     document.querySelector(".birth-shell")?.scrollIntoView({ behavior: "smooth", block: "start" });
     els.date?.focus();
@@ -634,6 +639,7 @@ function bindEvents() {
       if (els.lon) els.lon.value = Number(current.lon).toFixed(5);
       if (els.tz) els.tz.value = current.tz || getBrowserTimezone();
       state.profile = collectProfile();
+      state.profileOrigin = "current";
       renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
       updateOracleProfileState();
     } catch (error) {
@@ -659,6 +665,11 @@ function bindEvents() {
   });
 
   els.heroOracleBtn?.addEventListener("click", async () => {
+    if (state.profileOrigin === "default") {
+      document.querySelector(".birth-shell")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      els.date?.focus();
+      return;
+    }
     if (!state.payload) await generateHoroscope();
     document.querySelector("#oracleCard")?.scrollIntoView({ behavior: "smooth", block: "start" });
     els.oracleQuestion?.focus();
@@ -675,7 +686,7 @@ function bindEvents() {
     state.oracleConversation = [];
     if (els.oracleQuestion) els.oracleQuestion.value = "";
     renderOracleConversation(els.oracleConversation, state.oracleConversation, {
-      title: state.profile?.date && state.profile?.time ? "Start a new conversation." : "Birth details required.",
+      title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Start a new conversation." : "Birth details required.",
       body: state.profile?.date && state.profile?.time ? "Ask a fresh question grounded in the same birth profile." : "Enter date and time of birth above, then generate the horoscope.",
     });
     scrollOracleToBottom();
@@ -722,6 +733,7 @@ function bindEvents() {
     const input = els[key];
     input?.addEventListener("change", () => {
       state.profile = collectProfile();
+      state.profileOrigin = "manual";
       renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
       updateOracleProfileState();
       resetOracleOutput();
@@ -742,4 +754,6 @@ startHeroParticles();
 bindEvents();
 resetOracleOutput();
 autoResizeOracleInput();
-generateHoroscope();
+if (state.profileOrigin !== "default") {
+  generateHoroscope();
+}

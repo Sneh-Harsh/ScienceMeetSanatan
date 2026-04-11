@@ -1527,11 +1527,11 @@ body.horoscope-body{
 }
 
 .oracle-form{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) auto;
+  display:flex;
   gap:.75rem;
   align-items:end;
   margin-top:0;
+  width:100%;
   padding:.8rem;
   border-radius:30px;
   background:rgba(12,15,21,.98);
@@ -1542,6 +1542,7 @@ body.horoscope-body{
 .oracle-input-wrap{
   display:flex;
   min-width:0;
+  flex:1 1 auto;
 }
 
 .oracle-input-wrap textarea{
@@ -1568,6 +1569,7 @@ body.horoscope-body{
   gap:.55rem;
   justify-content:flex-end;
   align-items:center;
+  flex:0 0 auto;
 }
 
 .oracle-reset-btn{
@@ -1583,6 +1585,7 @@ body.horoscope-body{
   border-radius:50%;
   font-size:1.3rem;
   line-height:1;
+  flex:0 0 56px;
 }
 
 .oracle-composer-shell::before{
@@ -1729,7 +1732,8 @@ body.horoscope-body{
   }
 
   .oracle-form{
-    grid-template-columns:1fr;
+    display:flex;
+    align-items:flex-end;
   }
 
   .oracle-actions{

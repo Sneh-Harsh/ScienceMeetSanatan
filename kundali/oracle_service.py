@@ -12,8 +12,7 @@ from zoneinfo import ZoneInfo
 from .calculations import build_kundali
 from .horoscope_engine import _transit_planets, build_horoscope
 
-ORACLE_MODEL = os.getenv("OPENAI_ORACLE_MODEL", "gpt-4.1-mini")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+DEFAULT_ORACLE_MODEL = "gpt-4.1-mini"
 
 ORACLE_SCHEMA = {
     "type": "object",
@@ -78,6 +77,14 @@ SUMMARY_SCHEMA = {
     "required": ["headline", "summary", "timingCue", "dominantPlanet"],
     "additionalProperties": False,
 }
+
+
+def _openai_api_key() -> str:
+    return os.getenv("OPENAI_API_KEY", "").strip()
+
+
+def _oracle_model() -> str:
+    return os.getenv("OPENAI_ORACLE_MODEL", DEFAULT_ORACLE_MODEL).strip() or DEFAULT_ORACLE_MODEL
 
 
 def _safe_text(value: object, fallback: str = "") -> str:
@@ -315,8 +322,11 @@ def _parse_json_from_text(text: str) -> Optional[Dict]:
 
 
 def _openai_chat_json(*, system_prompt: str, user_payload: Dict, user_identifier: str) -> Dict:
+    api_key = _openai_api_key()
+    if not api_key:
+        raise RuntimeError("OPENAI_API_KEY is not configured.")
     payload = {
-        "model": ORACLE_MODEL,
+        "model": _oracle_model(),
         "messages": [
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
@@ -329,7 +339,7 @@ def _openai_chat_json(*, system_prompt: str, user_payload: Dict, user_identifier
         "https://api.openai.com/v1/chat/completions",
         data=json.dumps(payload).encode("utf-8"),
         headers={
-            "Authorization": f"Bearer {OPENAI_API_KEY}",
+            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
         },
         method="POST",
@@ -376,14 +386,7 @@ def ask_oracle(*, question: str, astro_context: Dict, history: Optional[List[Dic
     question = _safe_text(question)
     if not question:
         raise ValueError("Question is required.")
-
-    if not OPENAI_API_KEY:
-        return _fallback_oracle_answer(question, astro_context)
-
-    try:
-        return _call_openai(question, astro_context, history, user_identifier)
-    except (HTTPError, URLError, TimeoutError, ValueError, KeyError, json.JSONDecodeError):
-        return _fallback_oracle_answer(question, astro_context)
+    return _call_openai(question, astro_context, history, user_identifier)
 
 
 def _fallback_summary(astro_context: Dict, scope_key: str) -> Dict:
@@ -401,26 +404,21 @@ def generate_personalized_summary(*, astro_context: Dict, scope_key: str, user_i
     scope_key = _safe_text(scope_key, "daily").lower()
     if scope_key not in {"daily", "weekly", "monthly", "yearly", "specific_year"}:
         scope_key = "daily"
-    if not OPENAI_API_KEY:
-        return _fallback_summary(astro_context, scope_key)
-    try:
-        parsed = _openai_chat_json(
-            system_prompt=SUMMARY_SYSTEM_PROMPT,
-            user_payload={
-                "scope": scope_key,
-                "astroContext": astro_context,
-                "target": "Create a premium personalized summary for the requested horoscope scope using only this astrology data.",
-            },
-            user_identifier=user_identifier,
-        )
-        return {
-            "headline": _safe_text(parsed.get("headline")) or _fallback_summary(astro_context, scope_key)["headline"],
-            "summary": _safe_text(parsed.get("summary")) or _fallback_summary(astro_context, scope_key)["summary"],
-            "timingCue": _safe_text(parsed.get("timingCue")) or _fallback_summary(astro_context, scope_key)["timingCue"],
-            "dominantPlanet": _safe_text(parsed.get("dominantPlanet")) or _fallback_summary(astro_context, scope_key)["dominantPlanet"],
-        }
-    except (HTTPError, URLError, TimeoutError, ValueError, KeyError, json.JSONDecodeError):
-        return _fallback_summary(astro_context, scope_key)
+    parsed = _openai_chat_json(
+        system_prompt=SUMMARY_SYSTEM_PROMPT,
+        user_payload={
+            "scope": scope_key,
+            "astroContext": astro_context,
+            "target": "Create a premium personalized summary for the requested horoscope scope using only this astrology data.",
+        },
+        user_identifier=user_identifier,
+    )
+    return {
+        "headline": _safe_text(parsed.get("headline")),
+        "summary": _safe_text(parsed.get("summary")),
+        "timingCue": _safe_text(parsed.get("timingCue")),
+        "dominantPlanet": _safe_text(parsed.get("dominantPlanet")),
+    }
 
 
 def profile_fingerprint(profile: Dict) -> str:
