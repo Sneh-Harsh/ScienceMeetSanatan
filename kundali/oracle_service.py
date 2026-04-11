@@ -13,6 +13,8 @@ from .calculations import build_kundali
 from .horoscope_engine import _transit_planets, build_horoscope
 
 DEFAULT_ORACLE_MODEL = "gpt-4.1-mini"
+ORACLE_SCHEMA_NAME = "oracle_answer"
+SUMMARY_SCHEMA_NAME = "horoscope_summary"
 
 ORACLE_SCHEMA = {
     "type": "object",
@@ -53,6 +55,9 @@ Rules:
 - Explain the astrological basis in simple human language.
 - Never mention being an AI language model.
 - Never give medical, legal, or financial certainty.
+- Write complete, informative text in every required field.
+- Keep each field concise but substantive. Avoid one-line fragments.
+- Ground every point in the provided lagna, moon sign, dasha, transits, scores, and active scope summaries.
 - Return only valid JSON matching the schema.
 """.strip()
 
@@ -63,6 +68,7 @@ Rules:
 - Use only the astrology JSON provided.
 - Do not invent chart data or timings.
 - Be concise, elegant, and emotionally intelligent.
+- Write a real summary, not a placeholder.
 - Return only valid JSON matching the schema.
 """.strip()
 
@@ -97,6 +103,121 @@ def _as_number(value: object, fallback: float = 0.0) -> float:
         return float(value)
     except Exception:
         return fallback
+
+
+def _http_error_message(error: HTTPError) -> str:
+    try:
+      body = error.read().decode("utf-8", errors="replace").strip()
+    except Exception:
+      body = ""
+    message = f"OpenAI request failed ({error.code})"
+    if body:
+        message = f"{message}: {body}"
+    elif error.reason:
+        message = f"{message}: {error.reason}"
+    return message
+
+
+def _response_format_json_schema(name: str, schema: Dict) -> Dict:
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": name,
+            "strict": True,
+            "schema": schema,
+        },
+    }
+
+
+def _compact_planetary_positions(planets: List[Dict]) -> List[Dict]:
+    compact: List[Dict] = []
+    for planet in list(planets or []):
+        compact.append(
+            {
+                "planet": _safe_text(planet.get("planet")),
+                "sign": _safe_text(planet.get("rashi")),
+                "house": int(planet.get("house") or 0),
+                "degree": round(_as_number(planet.get("degree"), 0.0), 2),
+            }
+        )
+    return compact
+
+
+def _scope_payload(scope: Dict) -> Dict:
+    return {
+        "scope": _safe_text(scope.get("scope")),
+        "summary": _safe_text(scope.get("summary")),
+        "cosmicMessage": _safe_text(scope.get("cosmic_message")),
+        "dominantPlanet": _safe_text(scope.get("dominant_planet")),
+        "transitHouse": int(scope.get("transit_house") or 0),
+        "mahadasha": _safe_text(scope.get("mahadasha")),
+        "antardasha": _safe_text(scope.get("antardasha")),
+        "scores": scope.get("scores") or {},
+        "details": scope.get("details") or {},
+        "advice": _safe_text(scope.get("advice")),
+        "lucky": scope.get("lucky") or {},
+    }
+
+
+def _oracle_prompt_context(astro_context: Dict) -> Dict:
+    horoscope = astro_context.get("horoscope") or {}
+    return {
+        "profile": astro_context.get("profile") or {},
+        "chartIdentity": {
+            "lagna": _safe_text(astro_context.get("lagna")),
+            "moonSign": _safe_text(astro_context.get("moonSign")),
+            "sunSign": _safe_text(astro_context.get("sunSign")),
+            "nakshatra": _safe_text(astro_context.get("nakshatra")),
+            "nakshatraPada": _safe_text(astro_context.get("nakshatraPada")),
+            "ayanamsa": _safe_text(astro_context.get("ayanamsa")),
+        },
+        "timing": {
+            "mahadasha": _safe_text(astro_context.get("mahadasha")),
+            "antardasha": _safe_text(astro_context.get("antardasha")),
+            "cautionFlags": list(astro_context.get("cautionFlags") or []),
+        },
+        "natalPlanets": _compact_planetary_positions(astro_context.get("planetaryPositions") or []),
+        "currentTransits": astro_context.get("currentTransits") or {},
+        "yearlyTransits": astro_context.get("yearlyTransits") or {},
+        "luckyElements": astro_context.get("luckyElements") or {},
+        "activeScopes": {
+            "daily": _scope_payload(horoscope.get("daily") or {}),
+            "weekly": _scope_payload(horoscope.get("weekly") or {}),
+            "monthly": _scope_payload(horoscope.get("monthly") or {}),
+            "yearly": _scope_payload(horoscope.get("yearly") or {}),
+            "specificYear": _scope_payload(horoscope.get("specific_year") or {}),
+        },
+    }
+
+
+def _summary_prompt_context(astro_context: Dict, scope_key: str) -> Dict:
+    horoscope = astro_context.get("horoscope") or {}
+    scope = horoscope.get(scope_key) or horoscope.get("daily") or {}
+    return {
+        "profile": astro_context.get("profile") or {},
+        "chartIdentity": {
+            "lagna": _safe_text(astro_context.get("lagna")),
+            "moonSign": _safe_text(astro_context.get("moonSign")),
+            "sunSign": _safe_text(astro_context.get("sunSign")),
+            "nakshatra": _safe_text(astro_context.get("nakshatra")),
+            "nakshatraPada": _safe_text(astro_context.get("nakshatraPada")),
+        },
+        "timing": {
+            "mahadasha": _safe_text(scope.get("mahadasha") or astro_context.get("mahadasha")),
+            "antardasha": _safe_text(scope.get("antardasha") or astro_context.get("antardasha")),
+            "dominantPlanet": _safe_text(scope.get("dominant_planet")),
+            "transitHouse": int(scope.get("transit_house") or 0),
+        },
+        "summary": _scope_payload(scope),
+        "cautionFlags": list(astro_context.get("cautionFlags") or []),
+        "luckyElements": astro_context.get("luckyElements") or {},
+    }
+
+
+def _validate_required_text_fields(parsed: Dict, fields: List[str]) -> None:
+    missing = [field for field in fields if not _safe_text(parsed.get(field))]
+    if missing:
+        raise ValueError(f"OpenAI returned empty required fields: {', '.join(missing)}")
 
 
 def build_astro_context(*, date_str: str, time_str: str, lat: float, lon: float, tz_name: str, specific_year: int) -> Dict:
@@ -321,7 +442,7 @@ def _parse_json_from_text(text: str) -> Optional[Dict]:
     return None
 
 
-def _openai_chat_json(*, system_prompt: str, user_payload: Dict, user_identifier: str) -> Dict:
+def _openai_chat_json(*, system_prompt: str, user_payload: Dict, user_identifier: str, schema_name: str, schema: Dict) -> Dict:
     api_key = _openai_api_key()
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is not configured.")
@@ -331,8 +452,8 @@ def _openai_chat_json(*, system_prompt: str, user_payload: Dict, user_identifier
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
         ],
-        "response_format": {"type": "json_object"},
-        "temperature": 0.7,
+        "response_format": _response_format_json_schema(schema_name, schema),
+        "temperature": 0.45,
         "user": user_identifier,
     }
     request = Request(
@@ -344,8 +465,11 @@ def _openai_chat_json(*, system_prompt: str, user_payload: Dict, user_identifier
         },
         method="POST",
     )
-    with urlopen(request, timeout=40) as response:
-        raw = json.loads(response.read().decode("utf-8"))
+    try:
+        with urlopen(request, timeout=40) as response:
+            raw = json.loads(response.read().decode("utf-8"))
+    except HTTPError as error:
+        raise RuntimeError(_http_error_message(error)) from error
     text = _safe_text(raw.get("choices", [{}])[0].get("message", {}).get("content"))
     parsed = _parse_json_from_text(text)
     if not parsed:
@@ -358,11 +482,14 @@ def _call_openai(question: str, astro_context: Dict, history: Optional[List[Dict
         system_prompt=ORACLE_SYSTEM_PROMPT,
         user_payload={
             "question": question,
-            "astroContext": astro_context,
+            "astroContext": _oracle_prompt_context(astro_context),
             "history": _history_digest(history),
         },
         user_identifier=user_identifier,
+        schema_name=ORACLE_SCHEMA_NAME,
+        schema=ORACLE_SCHEMA,
     )
+    _validate_required_text_fields(parsed, ["directAnswer", "chartBasis", "opportunities", "cautions", "bestTiming", "remedy"])
     return {
         "directAnswer": _safe_text(parsed.get("directAnswer")),
         "chartBasis": _safe_text(parsed.get("chartBasis")),
@@ -408,11 +535,14 @@ def generate_personalized_summary(*, astro_context: Dict, scope_key: str, user_i
         system_prompt=SUMMARY_SYSTEM_PROMPT,
         user_payload={
             "scope": scope_key,
-            "astroContext": astro_context,
+            "astroContext": _summary_prompt_context(astro_context, scope_key),
             "target": "Create a premium personalized summary for the requested horoscope scope using only this astrology data.",
         },
         user_identifier=user_identifier,
+        schema_name=SUMMARY_SCHEMA_NAME,
+        schema=SUMMARY_SCHEMA,
     )
+    _validate_required_text_fields(parsed, ["headline", "summary", "timingCue", "dominantPlanet"])
     return {
         "headline": _safe_text(parsed.get("headline")),
         "summary": _safe_text(parsed.get("summary")),
