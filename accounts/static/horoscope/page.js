@@ -29,12 +29,12 @@ import {
   renderOracleHistory,
   renderOracleConversation,
   renderPromptChips,
-  renderSavedProfile,
   renderScores,
   renderTabs,
   renderTimeline,
   renderPeriodSummary,
 } from "./ui-components.js";
+import { renderWealthAlignment } from "./wealth-alignment.js";
 import { getOracleHistory, saveOracleHistory, streamOracleAnswer } from "./oracle-client.js";
 
 const els = {
@@ -66,7 +66,6 @@ const els = {
   generateBtn: document.querySelector("#generateHoroscopeBtn"),
   useCurrentBtn: document.querySelector("#horoscopeUseCurrent"),
   backToKundaliBtn: document.querySelector("#backToKundaliBtn"),
-  savedProfileCard: document.querySelector("#savedProfileCard"),
   focusPreviewCard: document.querySelector("#focusPreviewCard"),
   tabs: document.querySelector("#scopeTabs"),
   natalSummary: document.querySelector("#natalSummary"),
@@ -76,7 +75,7 @@ const els = {
   detailsCard: document.querySelector("#detailsCard"),
   adviceCard: document.querySelector("#adviceCard"),
   luckyCard: document.querySelector("#luckyCard"),
-  timingLensCard: document.querySelector("#timingLensCard"),
+  wealthAlignmentCard: document.querySelector("#wealthAlignmentCard"),
   timingMiniCard: document.querySelector("#timingMiniCard"),
   periodMeta: document.querySelector("#periodMeta"),
   oracleForm: document.querySelector("#oracleForm"),
@@ -198,7 +197,6 @@ function fillDefaults() {
 
   state.profileOrigin = hasQueryProfile ? "query" : hasSavedProfile ? "saved" : "default";
   state.profile = collectProfile();
-  renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
   renderFocusPreview(els.focusPreviewCard, buildFocusPreview({}));
   updateOracleProfileState();
 }
@@ -308,7 +306,6 @@ function renderPlaceResults(items, message = "") {
       state.suppressPlaceFocusUntil = Date.now() + 250;
       els.place?.blur();
       state.profile = collectProfile();
-      renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
     });
   });
 }
@@ -458,7 +455,7 @@ function renderActiveScope() {
   renderDetails(els.detailsCard, scope);
   renderAdvice(els.adviceCard, scope);
   renderLucky(els.luckyCard, scope);
-  renderTimeline(els.timingLensCard, scope);
+  renderWealthAlignment(els.wealthAlignmentCard, state.payload.wealth_alignment);
   renderTimeline(els.timingMiniCard, scope);
   if (els.periodMeta) {
     els.periodMeta.textContent = `${scope.scope} • Confidence ${confidenceFromScope(scope)}%`;
@@ -499,7 +496,6 @@ async function generateHoroscope() {
     saveBirthProfile(profile);
     state.oracleHistory = getOracleHistory(profile).map(normalizeOracleEntry).filter(Boolean);
     state.oracleConversation = [];
-    renderSavedProfile(els.savedProfileCard, profile, formatPlaceSummary(profile));
     renderFocusPreview(els.focusPreviewCard, buildFocusPreview(payload));
     updateOracleProfileState();
     renderOracleHistory(els.oracleHistory, []);
@@ -640,7 +636,6 @@ function bindEvents() {
       if (els.tz) els.tz.value = current.tz || getBrowserTimezone();
       state.profile = collectProfile();
       state.profileOrigin = "current";
-      renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
       updateOracleProfileState();
     } catch (error) {
       setUiState({ loading: false, error: String(error.message || error) });
@@ -734,7 +729,6 @@ function bindEvents() {
     input?.addEventListener("change", () => {
       state.profile = collectProfile();
       state.profileOrigin = "manual";
-      renderSavedProfile(els.savedProfileCard, state.profile, formatPlaceSummary(state.profile));
       updateOracleProfileState();
       resetOracleOutput();
     });

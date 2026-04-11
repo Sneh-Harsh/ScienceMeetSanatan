@@ -47,6 +47,7 @@ export function renderHeroChips(target, chips) {
 }
 
 export function renderSavedProfile(target, profile, profileSummary) {
+  if (!target) return;
   if (!profile) {
     target.innerHTML = `
       <div class="profile-badge">Awaiting profile</div>
@@ -154,34 +155,64 @@ export function renderDetails(target, scope) {
 }
 
 export function renderAdvice(target, scope) {
+  const timingLine = scope?.lucky?.time ? `Use your stronger rhythm around ${scope.lucky.time}.` : "";
+  target.classList.add("feature-card", "feature-card--advice");
+  target.classList.remove("feature-card--lucky");
   target.innerHTML = `
-    <div class="card-title"><strong>Advice & Remedy</strong></div>
-    <div class="analysis-list">
-      <p>${escapeHtml(scope.advice)}</p>
-      <p>Move deliberately during your stronger window, and let ${escapeHtml(scope.dominant_planet)} set the tone instead of reacting impulsively.</p>
+    <div class="card-title"><strong>Advice & Remedy</strong><span class="period-meta">${escapeHtml(scope.dominant_planet)} guidance</span></div>
+    <div class="feature-card-body">
+      <div class="feature-headline">
+        <div class="pill-label">Primary alignment</div>
+        <h3>${escapeHtml(scope.advice)}</h3>
+        <p>${escapeHtml(timingLine || "Work inside your calmer and clearer hours, not inside reaction loops.")}</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-tile">
+          <div class="pill-label">Timing discipline</div>
+          <p>Choose the steadier window and act when the mind is clear.</p>
+        </article>
+        <article class="feature-tile">
+          <div class="pill-label">Planetary posture</div>
+          <p>Let ${escapeHtml(scope.dominant_planet)} set the tone. Move deliberately, reduce noise, and avoid forcing outcomes.</p>
+        </article>
+      </div>
+      <div class="feature-foot">
+        <span></span>
+        <p>Choose one focused action and let the remedy become a ritual instead of a rushed correction.</p>
+      </div>
     </div>
   `;
 }
 
 export function renderLucky(target, scope) {
+  const colorValue = String(scope?.lucky?.color || "").trim() || "Golden Saffron";
+  target.classList.add("feature-card", "feature-card--lucky");
+  target.classList.remove("feature-card--advice");
   target.innerHTML = `
-    <div class="card-title"><strong>Lucky Elements</strong></div>
-    <div class="lucky-grid">
-      <div class="lucky-pill">
-        <div class="pill-label">Color</div>
-        <strong>${escapeHtml(scope.lucky.color)}</strong>
+    <div class="card-title"><strong>Lucky Elements</strong><span class="period-meta">Activated for ${escapeHtml(scope.scope)}</span></div>
+    <div class="feature-card-body">
+      <div class="feature-headline">
+        <div class="pill-label">Current frequency</div>
+        <h3>${escapeHtml(colorValue)}</h3>
+        <p>Work with tone, timing, and repetition so the day feels aligned rather than forced.</p>
       </div>
-      <div class="lucky-pill">
-        <div class="pill-label">Number</div>
-        <strong>${escapeHtml(scope.lucky.number)}</strong>
-      </div>
-      <div class="lucky-pill">
-        <div class="pill-label">Time</div>
-        <strong>${escapeHtml(scope.lucky.time)}</strong>
-      </div>
-      <div class="lucky-pill">
-        <div class="pill-label">Energy Cue</div>
-        <strong>${escapeHtml(scope.dominant_planet)}</strong>
+      <div class="feature-grid">
+        <div class="feature-tile">
+          <div class="pill-label">Number</div>
+          <strong>${escapeHtml(scope.lucky.number)}</strong>
+        </div>
+        <div class="feature-tile">
+          <div class="pill-label">Time</div>
+          <strong>${escapeHtml(scope.lucky.time)}</strong>
+        </div>
+        <div class="feature-tile">
+          <div class="pill-label">Planetary cue</div>
+          <strong>${escapeHtml(scope.dominant_planet)}</strong>
+        </div>
+        <div class="feature-tile">
+          <div class="pill-label">Use it for</div>
+          <strong>Intentional action</strong>
+        </div>
       </div>
     </div>
   `;

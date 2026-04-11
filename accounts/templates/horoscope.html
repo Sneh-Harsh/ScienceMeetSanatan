@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'header.css' %}">
-  <link rel="stylesheet" href="{% static 'horoscope/horoscope.css' %}?v=7">
+  <link rel="stylesheet" href="{% static 'horoscope/horoscope.css' %}?v=22">
 </head>
 <body class="horoscope-body">
   <header class="header">
@@ -160,10 +160,7 @@
         </div>
       </div>
 
-      <aside class="birth-side">
-        <div class="glass-panel saved-profile-card" id="savedProfileCard"></div>
-        <div class="glass-panel focus-preview-card" id="focusPreviewCard"></div>
-      </aside>
+      <aside class="glass-panel focus-preview-card" id="focusPreviewCard"></aside>
     </section>
 
     <section class="loading-shell glass-panel" id="horoscopeLoading" hidden>
@@ -181,7 +178,6 @@
       <div class="summary-grid">
         <div class="glass-panel" id="natalSummary"></div>
         <div class="glass-panel" id="cosmicMessageCard"></div>
-        <div class="glass-panel" id="timingLensCard"></div>
       </div>
 
       <div class="glass-panel period-shell">
@@ -197,20 +193,25 @@
         </div>
       </div>
 
-      <div class="content-grid">
-        <div class="content-main">
-          <div class="glass-panel analysis-card" id="scopeSummary"></div>
-          <div class="glass-panel analysis-card" id="detailsCard"></div>
-          <div class="split-grid">
-            <div class="glass-panel" id="adviceCard"></div>
-            <div class="glass-panel" id="luckyCard"></div>
+      <div class="glass-panel content-shell">
+        <div class="content-grid">
+          <div class="content-main">
+            <div class="content-panel analysis-card" id="scopeSummary"></div>
+            <div class="content-panel analysis-card" id="detailsCard"></div>
           </div>
-        </div>
 
-        <aside class="content-side">
-          <div class="glass-panel metrics-card" id="scoreCard"></div>
-          <div class="glass-panel metrics-card" id="timingMiniCard"></div>
-        </aside>
+          <aside class="content-side">
+            <div class="content-panel metrics-card" id="scoreCard"></div>
+            <div class="content-panel metrics-card" id="timingMiniCard"></div>
+          </aside>
+        </div>
+      </div>
+
+      <section class="glass-panel wealth-shell" id="wealthAlignmentCard"></section>
+
+      <div class="feature-row">
+        <div class="glass-panel" id="adviceCard"></div>
+        <div class="glass-panel" id="luckyCard"></div>
       </div>
 
       <section class="glass-panel oracle-shell oracle-card" id="oracleCard">
@@ -273,6 +274,6 @@
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script type="module" src="{% static 'horoscope/page.js' %}?v=7"></script>
+  <script type="module" src="{% static 'horoscope/page.js' %}?v=22"></script>
 </body>
 </html>

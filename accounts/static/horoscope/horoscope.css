@@ -441,23 +441,19 @@ body.horoscope-body{
 }
 
 .birth-panel,
-.saved-profile-card,
 .focus-preview-card,
 .summary-grid > .glass-panel,
+.content-shell,
 .period-shell,
-.analysis-card,
-.metrics-card,
 .oracle-card{
   border-radius:28px;
 }
 
 .birth-panel,
-.saved-profile-card,
 .focus-preview-card,
 .summary-grid > .glass-panel,
+.content-shell,
 .period-shell,
-.analysis-card,
-.metrics-card,
 .oracle-card{
   padding:1.25rem;
 }
@@ -593,13 +589,15 @@ body.horoscope-body{
   margin-top:1rem;
 }
 
-.saved-profile-card,
 .focus-preview-card{
   min-height:220px;
 }
 
-.saved-profile-card{
-  margin-bottom:1rem;
+.focus-preview-card{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
 .profile-badge{
@@ -674,7 +672,7 @@ body.horoscope-body{
 
 .summary-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:1rem;
 }
 
@@ -744,10 +742,487 @@ body.horoscope-body{
   gap:1rem;
 }
 
-.split-grid{
+.content-shell{
+  padding:1rem;
+}
+
+.content-panel{
+  border-radius:24px;
+  padding:1.1rem;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
+    rgba(255,255,255,.028);
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.feature-row{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
   gap:1rem;
+  align-items:stretch;
+}
+
+.wealth-shell{
+  position:relative;
+  overflow:hidden;
+  padding:1.2rem;
+  border-radius:30px;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(242,202,80,.11), transparent 28%),
+    radial-gradient(circle at 88% 10%, rgba(131,170,255,.12), transparent 24%),
+    radial-gradient(circle at 78% 80%, rgba(255,183,121,.08), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015)),
+    rgba(14,19,27,.82);
+}
+
+.wealth-shell::before{
+  content:"";
+  position:absolute;
+  inset:auto -8% -28% auto;
+  width:240px;
+  height:240px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(242,202,80,.16), transparent 72%);
+  filter:blur(6px);
+  animation:floatHalo 10s ease-in-out infinite;
+  pointer-events:none;
+}
+
+.wealth-grid{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  gap:1rem;
+}
+
+.wealth-hero-panel,
+.wealth-list-panel,
+.wealth-side-panel{
+  border-radius:24px;
+  padding:1rem;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.02)),
+    rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 20px 42px rgba(3,7,14,.18);
+}
+
+.wealth-hero-panel{
+  display:grid;
+  gap:.9rem;
+  align-content:start;
+}
+
+.wealth-hero-top{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:1rem;
+  align-items:start;
+}
+
+.wealth-kicker{
+  font-family:"Space Grotesk",monospace;
+  font-size:.72rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(242,202,80,.8);
+  margin-bottom:.5rem;
+}
+
+.wealth-hero-panel h3{
+  margin:0 0 .6rem;
+  font-family:"Newsreader",serif;
+  font-size:clamp(2rem, 3vw, 3.2rem);
+  line-height:.95;
+  letter-spacing:-.04em;
+}
+
+.wealth-copy,
+.wealth-basis-block p,
+.wealth-rank-card p,
+.wealth-caution-item p,
+.wealth-disclaimer{
+  margin:0;
+  color:var(--text-soft);
+  line-height:1.72;
+}
+
+.wealth-copy{
+  margin-bottom:.35rem;
+}
+
+.wealth-meta-pills,
+.wealth-chip-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.6rem;
+}
+
+.wealth-meta-pill,
+.wealth-chip{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  padding:.58rem .8rem;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.08);
+  font-family:"Space Grotesk",monospace;
+  font-size:.74rem;
+  letter-spacing:.08em;
+  color:var(--text);
+}
+
+.wealth-meta-pill--timing.is-strong{
+  color:var(--success);
+}
+
+.wealth-meta-pill--timing.is-selective{
+  color:var(--gold);
+}
+
+.wealth-meta-pill--timing.is-cautious{
+  color:var(--danger);
+}
+
+.wealth-confidence{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+}
+
+.wealth-confidence-ring{
+  --wealth-score:60;
+  width:132px;
+  height:132px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(var(--gold) calc(var(--wealth-score) * 1%), rgba(255,255,255,.08) 0);
+  box-shadow:0 0 36px rgba(242,202,80,.15);
+}
+
+.wealth-confidence-ring::before{
+  content:"";
+  width:96px;
+  height:96px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(12,16,23,.96), rgba(12,16,23,.84));
+  box-shadow:inset 0 0 22px rgba(255,255,255,.04);
+}
+
+.wealth-confidence-core{
+  position:absolute;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.2rem;
+}
+
+.wealth-confidence-core strong{
+  font-family:"Newsreader",serif;
+  font-size:1.45rem;
+}
+
+.wealth-confidence-core span{
+  font-family:"Space Grotesk",monospace;
+  font-size:.76rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--text-faint);
+}
+
+.wealth-list-panel,
+.wealth-side-panel{
+  display:grid;
+  gap:.9rem;
+}
+
+.wealth-side-panel--execution{
+  gap:.7rem;
+}
+
+.wealth-side-panel--execution .wealth-basis-grid{
+  gap:.65rem;
+}
+
+.wealth-side-panel--execution .wealth-basis-block{
+  padding:.82rem;
+}
+
+.wealth-side-panel--execution .wealth-action-list{
+  gap:.65rem;
+}
+
+.wealth-side-panel--execution .wealth-action-item{
+  padding:.82rem;
+}
+
+.wealth-side-panel--wide{
+  grid-column:1 / -1;
+}
+
+.wealth-meter-row{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.8rem;
+}
+
+.wealth-meter-card{
+  padding:.85rem .95rem;
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.07);
+  display:grid;
+  gap:.65rem;
+}
+
+.wealth-meter-card strong{
+  font-family:"Newsreader",serif;
+  font-size:1.22rem;
+  font-weight:500;
+}
+
+.wealth-meter-track{
+  height:8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.wealth-meter-track span{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg, rgba(242,202,80,.92), rgba(255,183,121,.92));
+  box-shadow:0 0 16px rgba(242,202,80,.22);
+}
+
+.wealth-meter-track--timing span{
+  background:linear-gradient(90deg, rgba(131,170,255,.92), rgba(141,218,247,.92));
+  box-shadow:0 0 16px rgba(131,170,255,.22);
+}
+
+.wealth-meter-note,
+.wealth-pulse-note{
+  margin:0;
+  color:var(--text-soft);
+  line-height:1.55;
+  font-size:.88rem;
+}
+
+.wealth-pulse-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:.7rem;
+}
+
+.wealth-pulse-card{
+  min-height:144px;
+  padding:.85rem .75rem;
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.065);
+  display:grid;
+  gap:.6rem;
+  align-content:start;
+}
+
+.wealth-pulse-card strong{
+  font-family:"Newsreader",serif;
+  font-size:1.35rem;
+  font-weight:500;
+}
+
+.wealth-pulse-bar{
+  align-self:end;
+  min-height:68px;
+  display:flex;
+  align-items:flex-end;
+}
+
+.wealth-pulse-bar span{
+  width:100%;
+  min-height:10px;
+  border-radius:16px 16px 8px 8px;
+  background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(242,202,80,.94));
+  box-shadow:0 10px 28px rgba(242,202,80,.14);
+  transition:height .35s ease;
+}
+
+.wealth-pulse-card--blue .wealth-pulse-bar span{
+  background:linear-gradient(180deg, rgba(226,242,255,.9), rgba(131,170,255,.95));
+  box-shadow:0 10px 28px rgba(131,170,255,.18);
+}
+
+.wealth-pulse-card--copper .wealth-pulse-bar span{
+  background:linear-gradient(180deg, rgba(255,226,205,.92), rgba(255,183,121,.95));
+  box-shadow:0 10px 28px rgba(255,183,121,.18);
+}
+
+.wealth-pulse-card--soft .wealth-pulse-bar span{
+  background:linear-gradient(180deg, rgba(240,240,250,.85), rgba(176,184,206,.9));
+  box-shadow:0 10px 28px rgba(176,184,206,.14);
+}
+
+.wealth-panel-head{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:1rem;
+}
+
+.wealth-rank-list,
+.wealth-caution-list,
+.wealth-basis-grid{
+  display:grid;
+  gap:.8rem;
+}
+
+.wealth-caution-list{
+  height:100%;
+  align-content:center;
+}
+
+.wealth-rank-card{
+  --industry-score:50;
+  display:grid;
+  gap:.7rem;
+  padding:.95rem;
+  border-radius:20px;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.07);
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.wealth-rank-card:hover,
+.wealth-caution-item:hover,
+.wealth-basis-block:hover{
+  transform:translateY(-2px);
+  border-color:rgba(242,202,80,.18);
+  box-shadow:0 18px 34px rgba(3,7,14,.16);
+}
+
+.wealth-rank-top{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  gap:.85rem;
+  align-items:start;
+}
+
+.wealth-rank-index{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:rgba(242,202,80,.14);
+  color:var(--gold);
+  font-family:"Space Grotesk",monospace;
+  font-size:.78rem;
+  letter-spacing:.08em;
+}
+
+.wealth-rank-top h4,
+.wealth-caution-item strong{
+  margin:0;
+  font-family:"Newsreader",serif;
+  font-size:1.3rem;
+  font-weight:500;
+}
+
+.wealth-rank-top strong{
+  font-family:"Newsreader",serif;
+  font-size:1.4rem;
+  color:var(--gold);
+}
+
+.wealth-bar{
+  height:9px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.wealth-bar span{
+  display:block;
+  width:calc(var(--industry-score) * 1%);
+  height:100%;
+  border-radius:inherit;
+  background:linear-gradient(90deg, rgba(131,170,255,.9), rgba(242,202,80,.94), rgba(255,183,121,.9));
+  box-shadow:0 0 18px rgba(242,202,80,.18);
+}
+
+.wealth-caution-item,
+.wealth-basis-block{
+  padding:.95rem;
+  border-radius:20px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.wealth-caution-item{
+  display:grid;
+  gap:.45rem;
+  align-content:center;
+  justify-items:center;
+  text-align:center;
+  min-height:168px;
+}
+
+.wealth-caution-item span{
+  display:inline-block;
+  font-family:"Space Grotesk",monospace;
+  font-size:.76rem;
+  letter-spacing:.12em;
+  color:var(--text-faint);
+}
+
+.wealth-basis-grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.wealth-basis-block--wide{
+  grid-column:1 / -1;
+}
+
+.wealth-signal-list{
+  margin:.4rem 0 0;
+  padding-left:1rem;
+  color:var(--text-soft);
+  line-height:1.72;
+}
+
+.wealth-disclaimer{
+  position:relative;
+  z-index:1;
+  margin-top:1rem;
+  font-size:.9rem;
+  opacity:.86;
+}
+
+.wealth-action-list{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.8rem;
+}
+
+.wealth-action-item{
+  padding:1rem;
+  border-radius:18px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)),
+    rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.07);
+  color:var(--text-soft);
+  line-height:1.68;
+}
+
+.wealth-empty-state{
+  padding:1.4rem 0 .4rem;
+  color:var(--text-soft);
 }
 
 .card-title{
@@ -887,6 +1362,127 @@ body.horoscope-body{
   gap:.75rem;
 }
 
+.feature-card{
+  height:100%;
+  position:relative;
+  overflow:hidden;
+  padding:1.25rem;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at top left, rgba(242,202,80,.1), transparent 34%),
+    radial-gradient(circle at 88% 16%, rgba(131,170,255,.1), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.018)),
+    rgba(18,24,32,.76);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 26px 54px rgba(3,7,14,.22), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.feature-card .card-title{
+  margin-bottom:.8rem;
+  position:relative;
+  z-index:1;
+}
+
+.feature-card::before{
+  position:relative;
+  content:"";
+  position:absolute;
+  inset:auto -12% -38% auto;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(242,202,80,.16), transparent 70%);
+  pointer-events:none;
+}
+
+.feature-card--lucky::before{
+  width:220px;
+  height:220px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.14), transparent 24%),
+    radial-gradient(circle, rgba(131,170,255,.18), transparent 72%);
+}
+
+.feature-card-body{
+  position:relative;
+  z-index:1;
+  display:grid;
+  gap:1rem;
+}
+
+.feature-headline{
+  position:relative;
+  display:grid;
+  gap:.5rem;
+  align-items:start;
+}
+
+.feature-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(120deg, transparent 0%, rgba(255,255,255,.06) 48%, transparent 62%);
+  filter:blur(4px);
+  opacity:.16;
+  transform:translateX(-35%);
+  animation:featureSweep 12s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes featureSweep{
+  0%, 100%{ transform:translateX(-35%); opacity:.1; }
+  50%{ transform:translateX(35%); opacity:.2; }
+}
+
+.feature-headline h3{
+  margin:.35rem 0 0;
+  font-family:"Newsreader",serif;
+  font-size:clamp(1.35rem, 2.4vw, 1.85rem);
+  line-height:.98;
+  letter-spacing:-.03em;
+}
+
+.feature-headline p,
+.feature-tile p,
+.feature-foot p{
+  margin:0;
+  color:var(--text-soft);
+  line-height:1.72;
+}
+
+.feature-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:1rem;
+}
+
+.feature-tile{
+  border-radius:20px;
+  padding:1rem;
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.feature-foot{
+  display:flex;
+  align-items:flex-start;
+  gap:.75rem;
+  padding-top:1rem;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.feature-foot span{
+  width:10px;
+  height:10px;
+  flex:0 0 auto;
+  border-radius:50%;
+  margin-top:.45rem;
+  background:var(--gold);
+  box-shadow:0 0 18px rgba(242,202,80,.4);
+}
+
 .meter-grid{
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -984,18 +1580,13 @@ body.horoscope-body{
   font-size:1.02rem;
 }
 
-.lucky-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:.8rem;
-}
-
-.lucky-pill strong{
+.feature-tile strong{
   display:block;
   margin-top:.45rem;
   font-family:"Newsreader",serif;
-  font-size:1.45rem;
-  line-height:1;
+  font-size:1.38rem;
+  line-height:.98;
+  letter-spacing:-.02em;
 }
 
 .oracle-card{
@@ -1642,6 +2233,14 @@ body.horoscope-body{
     grid-template-columns:1fr;
   }
 
+  .wealth-grid{
+    grid-template-columns:1fr;
+  }
+
+  .wealth-action-list{
+    grid-template-columns:1fr;
+  }
+
   .hero-instrument{
     min-height:unset;
   }
@@ -1664,9 +2263,12 @@ body.horoscope-body{
 
   .birth-form,
   .snapshot-grid,
-  .split-grid,
+  .feature-row,
   .meter-grid,
-  .lucky-grid{
+  .feature-grid,
+  .wealth-basis-grid,
+  .wealth-meter-row,
+  .wealth-pulse-grid{
     grid-template-columns:1fr;
   }
 
@@ -1685,6 +2287,10 @@ body.horoscope-body{
   }
 
   .oracle-workspace{
+    grid-template-columns:1fr;
+  }
+
+  .wealth-hero-top{
     grid-template-columns:1fr;
   }
 }

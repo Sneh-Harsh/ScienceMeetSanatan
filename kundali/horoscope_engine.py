@@ -22,6 +22,7 @@ from .calculations import (
     _sidereal_lon,
     build_kundali,
 )
+from .wealth_alignment import build_wealth_alignment
 
 
 TRANSIT_BODIES = {
@@ -390,7 +391,7 @@ def build_horoscope(*, date_str: str, time_str: str, lat: float, lon: float, tz_
     yearly_dt = datetime(now_local.year, 7, 1, 12, 0, tzinfo=tz)
     specific_dt = datetime(specific_year, 7, 1, 12, 0, tzinfo=tz)
 
-    return {
+    payload = {
         "natal": {
             "lagna": natal["lagna"],
             "moon_sign": next(p["rashi"] for p in natal["planets"] if p["planet"] == "Moon"),
@@ -405,3 +406,13 @@ def build_horoscope(*, date_str: str, time_str: str, lat: float, lon: float, tz_
         "specific_year": _build_scope("Specific Year", natal, specific_dt, year=specific_year),
         "specific_year_label": specific_year,
     }
+    payload["wealth_alignment"] = build_wealth_alignment(
+        date_str=date_str,
+        time_str=time_str,
+        lat=lat,
+        lon=lon,
+        tz_name=tz_name,
+        kundali=natal,
+        horoscope=payload,
+    )
+    return payload
