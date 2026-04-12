@@ -5,8 +5,12 @@ from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.http import require_GET, require_POST
 
 from .calculations import build_kundali
+from .dasha_engine import build_dasha_experience
+from .dosha_engine import analyze_doshas
+from .experience_engine import build_kundali_experience
 from .horoscope_engine import build_horoscope
 from .oracle_service import ask_oracle, build_astro_context, generate_personalized_summary, get_suggested_prompts, profile_fingerprint
+from .remedies_engine import build_remedies
 
 
 @require_GET
@@ -29,6 +33,26 @@ def kundali_api(request):
 
     try:
         payload = build_kundali(date_str=date_str, time_str=time_str, lat=lat, lon=lon, tz_name=tz)
+        payload["experience"] = build_kundali_experience(
+            date_str=date_str,
+            time_str=time_str,
+            lat=lat,
+            lon=lon,
+            tz_name=tz,
+            kundali=payload,
+        )
+        payload["dasha_experience"] = build_dasha_experience(
+            date_str=date_str,
+            time_str=time_str,
+            tz_name=tz,
+            kundali=payload,
+        )
+        payload["dosha_analysis"] = analyze_doshas(payload)
+        payload["remedies_analysis"] = build_remedies(
+            doshas=payload["dosha_analysis"],
+            dasha_experience=payload["dasha_experience"],
+            climate=payload["experience"]["planetary_climate"],
+        )
     except Exception as exc:
         return JsonResponse({"error": str(exc)}, status=500)
 

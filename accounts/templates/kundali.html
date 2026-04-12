@@ -8,11 +8,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="{% static 'header.css' %}">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
-  <link rel="stylesheet" href="{% static 'kundali.css' %}">
+  <link rel="stylesheet" href="{% static 'kundali.css' %}?v=19">
 </head>
 
 <body>
@@ -71,81 +71,124 @@
 
   <main class="kundali-page" id="kundaliRoot">
     <section class="k-hero glass-panel">
+      <div class="k-hero__video-shell" aria-hidden="true">
+        <video
+          id="heroVideo"
+          class="k-hero__video"
+          autoplay
+          muted
+          loop
+          playsinline
+          webkit-playsinline="true"
+          disablepictureinpicture
+          disableremoteplayback
+          crossorigin="anonymous"
+          preload="auto"
+        >
+          <source src="https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776004063/videoplayback_3_vvctpq.mp4" type="video/mp4">
+        </video>
+      </div>
       <div class="k-hero__bg" aria-hidden="true"></div>
       <div class="k-hero__top">
-        <div>
+        <div class="k-hero__copy">
           <div class="k-kicker">Vedic Astrology</div>
-          <h1 class="k-title">🕉️ Janma Kundali Generator</h1>
+          <div class="k-title-row">
+            <div class="k-badge k-badge--hero" aria-hidden="true">
+              <div class="k-badge__halo"></div>
+              <div class="k-badge__pulse"></div>
+              <div class="k-badge__ring"></div>
+              <div class="k-badge__glyph">ॐ</div>
+            </div>
+            <h1 class="k-title">Janma Kundali Generator</h1>
+          </div>
           <div class="k-sub">Sidereal (Lahiri) • Whole Sign Houses • D1 + D9 • Nakshatra + Vimshottari</div>
+          <div class="k-hero__cta-row">
+            <div class="k-hero__stat">
+              <span>Chart mode</span>
+              <strong>Luxury cosmic console</strong>
+            </div>
+            <div class="k-hero__stat">
+              <span>Reading flow</span>
+              <strong>Chart → Timing → Dosha → Remedies</strong>
+            </div>
+          </div>
         </div>
-        <div class="k-badge" aria-hidden="true">
-          <div class="k-badge__ring"></div>
-          <div class="k-badge__glyph">ॐ</div>
-        </div>
+        <aside class="k-guide glass-panel" id="kGuidePanel">
+          <h2>Read your chart like a living console.</h2>
+          <div class="k-guide__list">
+            <div class="k-guide__item"><strong>1</strong><span>Chart stage with premium North / South Indian rendering</span></div>
+            <div class="k-guide__item"><strong>2</strong><span>Life timeline for Mahadasha and Antardasha flow</span></div>
+            <div class="k-guide__item"><strong>3</strong><span>Deterministic dosha, remedies, and house activation layers</span></div>
+          </div>
+          <div class="k-guide__footer">The engine stays the same. The presentation becomes clearer, richer, and more actionable.</div>
+        </aside>
       </div>
     </section>
 
     <section class="k-shell">
-      <div class="k-input glass-panel">
-        <div class="k-input__head">
-          <div class="k-input__title">Birth Details</div>
-          <div class="k-input__hint">Enter accurate time + place for correct Lagna.</div>
-        </div>
-
-        <div class="k-form" aria-label="Kundali inputs">
-          <input id="placeInput" type="hidden" />
-          <label class="k-field">
-            <span>Date of birth</span>
-            <input id="dobInput" type="date" class="k-control" />
-          </label>
-
-          <label class="k-field">
-            <span>Time of birth (24h)</span>
-            <input id="tobInput" type="time" class="k-control" step="60" />
-          </label>
-
-          <label class="k-field">
-            <span>Latitude</span>
-            <input id="latInput" class="k-control" inputmode="decimal" placeholder="28.6139" />
-          </label>
-
-          <label class="k-field">
-            <span>Longitude</span>
-            <input id="lonInput" class="k-control" inputmode="decimal" placeholder="77.2090" />
-          </label>
-
-          <label class="k-field k-field--wide">
-            <span>Timezone</span>
-            <input id="tzInput" class="k-control" list="tzList" placeholder="Asia/Kolkata" />
-            <datalist id="tzList">
-              <option value="Asia/Kolkata"></option>
-              <option value="America/New_York"></option>
-              <option value="Europe/London"></option>
-              <option value="Asia/Dubai"></option>
-              <option value="Asia/Singapore"></option>
-              <option value="Australia/Sydney"></option>
-            </datalist>
-          </label>
-        </div>
-
-        <div class="k-actions">
-          <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button">Use current location</button>
-          <button id="todayBtn" class="k-btn" type="button">Today</button>
-          <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
-          <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate Kundali</button>
-        </div>
-
-        <div class="k-state" id="kState">
-          <div class="k-state__loading" id="kLoading" hidden>
-            <div class="spinner"></div>
-            <div>Calculating chart…</div>
+      <div class="k-input-grid">
+        <div class="k-input glass-panel">
+          <div class="k-input__head">
+            <div>
+              <div class="k-input__title">Birth Portal</div>
+              <div class="k-input__hint">Enter the exact arrival moment. The page keeps your existing kundali logic untouched and upgrades only the experience around it.</div>
+            </div>
+            <div class="k-mini-chip">Precision first</div>
           </div>
-          <div class="k-state__error" id="kError" hidden></div>
-        </div>
-      </div>
 
-      <div class="k-output" id="kOutput" hidden>
-        <div class="k-summary glass-panel">
+          <div class="k-form" aria-label="Kundali inputs">
+            <input id="placeInput" type="hidden" />
+            <label class="k-field">
+              <span>Date of birth</span>
+              <input id="dobInput" type="date" class="k-control" />
+            </label>
+
+            <label class="k-field">
+              <span>Time of birth (24h)</span>
+              <input id="tobInput" type="time" class="k-control" step="60" />
+            </label>
+
+            <label class="k-field">
+              <span>Latitude</span>
+              <input id="latInput" class="k-control" inputmode="decimal" placeholder="28.6139" />
+            </label>
+
+            <label class="k-field">
+              <span>Longitude</span>
+              <input id="lonInput" class="k-control" inputmode="decimal" placeholder="77.2090" />
+            </label>
+
+            <label class="k-field k-field--wide">
+              <span>Timezone</span>
+              <input id="tzInput" class="k-control" list="tzList" placeholder="Asia/Kolkata" />
+              <datalist id="tzList">
+                <option value="Asia/Kolkata"></option>
+                <option value="America/New_York"></option>
+                <option value="Europe/London"></option>
+                <option value="Asia/Dubai"></option>
+                <option value="Asia/Singapore"></option>
+                <option value="Australia/Sydney"></option>
+              </datalist>
+            </label>
+          </div>
+
+          <div class="k-actions">
+            <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button">Use current location</button>
+            <button id="todayBtn" class="k-btn" type="button">Today</button>
+            <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
+            <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate Kundali</button>
+          </div>
+
+          <div class="k-state" id="kState">
+            <div class="k-state__loading" id="kLoading" hidden>
+              <div class="spinner"></div>
+              <div>Calibrating your destiny map…</div>
+            </div>
+            <div class="k-state__error" id="kError" hidden></div>
+          </div>
+        </div>
+
+        <div class="k-summary glass-panel k-summary--portal">
           <div class="k-summary__left">
             <div class="k-summary__title">Chart Summary</div>
             <div class="k-chips" id="summaryChips"></div>
@@ -165,50 +208,43 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="k-grid">
-          <div class="k-chart glass-panel">
-            <div class="k-chart__head">
-              <div class="k-chart__title" id="chartTitle">D1 • North Indian</div>
-              <div class="k-chart__sub" id="chartSub">Tap a house to view details.</div>
-            </div>
-
-            <div class="chart-shell">
-              <div class="north-chart" id="northChart">
-                <svg class="north-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                  <rect x="1" y="1" width="98" height="98" rx="8" ry="8" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="1.6"></rect>
-                  <path d="M1 50 L50 1 L99 50 L50 99 Z" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.2"></path>
-                  <path d="M1 1 L99 99" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="1.1"></path>
-                  <path d="M99 1 L1 99" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="1.1"></path>
-                </svg>
-                <div class="house h1" data-house="1"></div>
-                <div class="house h2" data-house="2"></div>
-                <div class="house h3" data-house="3"></div>
-                <div class="house h4" data-house="4"></div>
-                <div class="house h5" data-house="5"></div>
-                <div class="house h6" data-house="6"></div>
-                <div class="house h7" data-house="7"></div>
-                <div class="house h8" data-house="8"></div>
-                <div class="house h9" data-house="9"></div>
-                <div class="house h10" data-house="10"></div>
-                <div class="house h11" data-house="11"></div>
-                <div class="house h12" data-house="12"></div>
+      <div class="k-output" id="kOutput" hidden>
+        <div class="k-main-grid">
+          <div class="k-chart-zone">
+            <div class="k-chart glass-panel">
+              <div class="k-chart__head">
+                <div>
+                  <div class="k-chart__title" id="chartTitle">D1 • North Indian</div>
+                  <div class="k-chart__sub" id="chartSub">Tap a house to view details.</div>
+                </div>
+                <div class="k-chart__legend" id="chartLegend"></div>
               </div>
 
-              <div class="south-chart is-hidden" id="southChart"></div>
+              <div class="chart-shell">
+                <div class="north-chart" id="northChart"></div>
+                <div class="south-chart is-hidden" id="southChart"></div>
+              </div>
             </div>
           </div>
 
-          <div class="k-side">
-            <div class="k-panel glass-panel" id="housePanel">
+          <div class="k-side k-side--compact">
+            <div class="k-panel glass-panel k-panel--sticky" id="housePanel">
               <div class="k-panel__title">House Details</div>
               <div class="k-panel__body" id="houseBody">Select a house from the chart.</div>
             </div>
-            <div class="k-panel glass-panel" id="planetPanelSide">
-              <div class="k-panel__title">Planets</div>
-              <div class="k-table" id="planetTableSide"></div>
-            </div>
+            <div class="k-panel glass-panel" id="heatmapPanel"></div>
           </div>
+        </div>
+
+        <div class="k-insight-row">
+          <div class="k-panel glass-panel" id="planetPanelSide">
+            <div class="k-panel__title">Planets</div>
+            <div class="k-table" id="planetTableSide"></div>
+          </div>
+          <div class="k-insight-card glass-panel" id="phaseShiftPanel"></div>
+          <div class="k-insight-card glass-panel" id="planetClimatePanel"></div>
         </div>
 
         <div class="k-tabs glass-panel" aria-label="Kundali details">
@@ -243,6 +279,6 @@
   </main>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'kundali.js' %}"></script>
+  <script src="{% static 'kundali.js' %}?v=13"></script>
 </body>
 </html>

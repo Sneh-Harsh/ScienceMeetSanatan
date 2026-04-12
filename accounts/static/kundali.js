@@ -2,6 +2,7 @@ const API_URL = "/api/kundali";
 
 const els = {
   root: document.querySelector("#kundaliRoot"),
+  heroVideo: document.querySelector("#heroVideo"),
 
   dob: document.querySelector("#dobInput"),
   tob: document.querySelector("#tobInput"),
@@ -20,6 +21,10 @@ const els = {
 
   output: document.querySelector("#kOutput"),
   summaryChips: document.querySelector("#summaryChips"),
+  phaseShiftPanel: document.querySelector("#phaseShiftPanel"),
+  climatePanel: document.querySelector("#planetClimatePanel"),
+  heatmapPanel: document.querySelector("#heatmapPanel"),
+  chartLegend: document.querySelector("#chartLegend"),
 
   chartTitle: document.querySelector("#chartTitle"),
   chartSub: document.querySelector("#chartSub"),
@@ -46,6 +51,57 @@ function isoToday(){
 function isoNowTime(){
   const d = new Date();
   return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+
+function initHeroVideo(){
+  const video = els.heroVideo;
+  if(!video) return;
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("autoplay", "");
+  video.setAttribute("playsinline", "");
+  video.currentTime = 0.05;
+  video.load();
+  const tryPlay = () => {
+    if(video.readyState === 0) video.load();
+    const playPromise = video.play();
+    if(playPromise && typeof playPromise.catch === "function"){
+      playPromise.catch(() => {});
+    }
+  };
+  if(video.readyState >= 2){
+    tryPlay();
+  } else {
+    video.addEventListener("canplay", tryPlay, { once:true });
+    video.addEventListener("loadeddata", tryPlay, { once:true });
+  }
+  document.addEventListener("visibilitychange", () => {
+    if(document.visibilityState === "visible"){
+      tryPlay();
+    }
+  });
+  ["pointerdown", "touchstart", "click"].forEach((eventName) => {
+    window.addEventListener(eventName, tryPlay, { once:true, passive:true });
+  });
+  let attempts = 0;
+  const keepAlive = window.setInterval(() => {
+    attempts += 1;
+    if(!video.paused && !video.ended){
+      window.clearInterval(keepAlive);
+      return;
+    }
+    tryPlay();
+    if(attempts >= 10){
+      window.clearInterval(keepAlive);
+    }
+  }, 1500);
+  if(video.paused){
+    video.addEventListener("error", () => {
+      video.style.display = "none";
+    }, { once:true });
+  }
 }
 
 function setState({ loading=false, error=null, ready=false } = {}){
@@ -209,8 +265,9 @@ function renderStaticLabels(){
   const houseTitle = document.querySelector("#housePanel .k-panel__title");
   if(houseTitle) houseTitle.textContent = t("houseDetails");
 
+  const observatoryTitle = kundaliState.lang === "hi" ? "ग्रह वेधशाला" : "Planetary Observatory";
   const sidePlanetsTitle = document.querySelector("#planetPanelSide .k-panel__title");
-  if(sidePlanetsTitle) sidePlanetsTitle.textContent = t("planetsTab");
+  if(sidePlanetsTitle) sidePlanetsTitle.textContent = observatoryTitle;
 
   if(els.todayBtn) els.todayBtn.textContent = t("today");
 
@@ -237,13 +294,129 @@ function renderSummary(){
   if(!els.summaryChips || !kundaliState.data) return;
   const d = kundaliState.data;
   const input = d.input || {};
-  const chips = [
-    `${t("lagna")}: ${trRashi(d.lagna)}`,
-    `${t("nakshatra")}: ${String(d.nakshatra)} (${t("pada")} ${String(d.nakshatra_pada)})`,
-    `${t("ayanamsa")}: ${fmtDeg(d.ayanamsa)}`,
-    `${t("dob")}: ${String(input.date || "")} ${String(input.time || "")}`,
+  const phase = d.experience?.phase_shift || {};
+  const moon = (Array.isArray(d.planets) ? d.planets : []).find((planet)=> String(planet?.planet || "") === "Moon");
+  const placeValue = String(input.place || els.place?.value || "").trim() || (kundaliState.lang === "hi" ? "स्थान समन्वयित हो रहा है" : "Location syncing");
+  const cards = [
+    { label: t("lagna"), value: trRashi(d.lagna) },
+    { label: kundaliState.lang === "hi" ? "राशि" : "Raashi", value: trRashi(moon?.rashi || "—") },
+    { label: t("nakshatra"), value: `${String(d.nakshatra || "—")} • ${t("pada")} ${String(d.nakshatra_pada || "—")}` },
+    { label: t("ayanamsa"), value: fmtDeg(d.ayanamsa) },
+    { label: t("dob"), value: `${String(input.date || "—")} • ${String(input.time || "—")}` },
+    { label: kundaliState.lang === "hi" ? "स्थान" : "Place", value: placeValue },
+    { label: kundaliState.lang === "hi" ? "समय क्षेत्र" : "Timezone", value: String(input.tz || "—") },
+    { label: kundaliState.lang === "hi" ? "सक्रिय चक्र" : "Active Cycle", value: phase.active ? String(phase.active) : (kundaliState.lang === "hi" ? "संरेखित हो रहा है" : "Aligning") },
   ];
-  els.summaryChips.innerHTML = chips.map((c)=> `<span class="chip">${escapeHtml(c)}</span>`).join("");
+  els.summaryChips.innerHTML = cards.map((card)=> `
+    <div class="summary-chip">
+      <span class="summary-chip__label">${escapeHtml(card.label)}</span>
+      <strong class="summary-chip__value">${escapeHtml(card.value)}</strong>
+    </div>
+  `).join("");
+}
+
+function renderPhaseShift(){
+  if(!els.phaseShiftPanel) return;
+  const phase = kundaliState.data?.experience?.phase_shift;
+  if(!phase){
+    els.phaseShiftPanel.innerHTML = `<div class="k-panel__title">Past · Present · Next</div><div class="k-panel__body">Generate the chart to reveal the timing shift panel.</div>`;
+    return;
+  }
+  const transition = phase.transition_date ? shortDt(phase.transition_date) : "—";
+  els.phaseShiftPanel.innerHTML = `
+    <div class="k-insight-card__kicker">Past / Present / Next Shift</div>
+    <div class="k-panel__title">Timing transition</div>
+    <div class="shift-track">
+      <div class="shift-pill">
+        <span>Fading</span>
+        <strong>${escapeHtml(trPlanet(phase.fading || "—"))}</strong>
+      </div>
+      <div class="shift-pill shift-pill--active">
+        <span>Active</span>
+        <strong>${escapeHtml(trPlanet(phase.active || "—"))}</strong>
+      </div>
+      <div class="shift-pill">
+        <span>Next</span>
+        <strong>${escapeHtml(trPlanet(phase.next || "—"))}</strong>
+      </div>
+    </div>
+    <div class="k-note">Next major transition window begins around ${escapeHtml(transition)}.</div>
+  `;
+}
+
+function renderPlanetClimate(){
+  if(!els.climatePanel) return;
+  const climate = kundaliState.data?.experience?.planetary_climate;
+  if(!climate){
+    els.climatePanel.innerHTML = `<div class="k-panel__title">Planetary Climate</div><div class="k-panel__body">Generate the chart to inspect current support and pressure.</div>`;
+    return;
+  }
+  const support = Array.isArray(climate.supportive) ? climate.supportive.slice(0, 3) : [];
+  const pressure = Array.isArray(climate.pressurizing) ? climate.pressurizing.slice(0, 2) : [];
+  els.climatePanel.innerHTML = `
+    <div class="k-insight-card__kicker">Planetary Climate</div>
+    <div class="k-panel__title">Support vs pressure now</div>
+    <div class="climate-meters">
+      <div class="climate-meter">
+        <span>Chart stability</span>
+        <strong>${escapeHtml(Math.round(Number(climate.stability_score || 0)))}%</strong>
+        <div class="climate-meter__bar"><span style="width:${Number(climate.stability_score || 0)}%"></span></div>
+      </div>
+      <div class="climate-meter">
+        <span>Period sensitivity</span>
+        <strong>${escapeHtml(Math.round(Number(climate.sensitivity_score || 0)))}%</strong>
+        <div class="climate-meter__bar is-copper"><span style="width:${Number(climate.sensitivity_score || 0)}%"></span></div>
+      </div>
+    </div>
+    <div class="climate-grid">
+      <div>
+        <div class="pill-label">Supporting planets</div>
+        <div class="climate-chip-row">
+          ${support.map((row)=> `<span class="climate-chip climate-chip--support">${escapeHtml(row.glyph || "")} ${escapeHtml(trPlanet(row.planet))}</span>`).join("")}
+        </div>
+      </div>
+      <div>
+        <div class="pill-label">Pressurizing planets</div>
+        <div class="climate-chip-row">
+          ${pressure.map((row)=> `<span class="climate-chip climate-chip--pressure">${escapeHtml(row.glyph || "")} ${escapeHtml(trPlanet(row.planet))}</span>`).join("")}
+        </div>
+      </div>
+    </div>
+    <div class="k-note">${escapeHtml(climate.summary || "")}</div>
+  `;
+}
+
+function renderHeatmapPanel(){
+  if(!els.heatmapPanel) return;
+  const heatmap = Array.isArray(kundaliState.data?.experience?.house_heatmap) ? kundaliState.data.experience.house_heatmap : [];
+  if(!heatmap.length){
+    els.heatmapPanel.innerHTML = `<div class="k-panel__title">House Focus Map</div><div class="k-panel__body">Generate the chart to reveal which houses are most activated now.</div>`;
+    return;
+  }
+  els.heatmapPanel.innerHTML = `
+    <div class="k-panel__title">House Focus Map</div>
+    <div class="heatmap-grid">
+      ${heatmap
+        .map(
+          (item)=> `
+            <button type="button" class="heat-cell ${heatToneClass(item.tone)}${Number(item.house) === Number(kundaliState.selectedHouse) ? " is-selected" : ""}" data-heat-house="${escapeHtml(item.house)}">
+              <span class="heat-cell__house">H${escapeHtml(item.house)}</span>
+              <strong>${escapeHtml(Math.round(Number(item.score || 0)))}%</strong>
+              <span class="heat-cell__label">${escapeHtml(houseLabel(item.house))}</span>
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+  els.heatmapPanel.querySelectorAll("[data-heat-house]").forEach((button)=>{
+    button.addEventListener("click", ()=>{
+      const houseNum = Number(button.getAttribute("data-heat-house"));
+      if(!Number.isFinite(houseNum)) return;
+      kundaliState.selectedHouse = houseNum;
+      renderChart();
+    });
+  });
 }
 
 function buildPlanetTableRows(planets){
@@ -253,26 +426,104 @@ function buildPlanetTableRows(planets){
     const rashi = String(p?.rashi || "—");
     const house = Number(p?.house);
     const degIn = fmtDeg(p?.degree_in_sign ?? (Number(p?.degree) % 30));
+    const dignity = String(p?.dignity || "Neutral");
+    const style = planetStyle(name);
     return `
-      <div class="k-row">
+      <button class="k-row k-row--planet" type="button" data-planet-house="${Number.isFinite(house) ? house : ""}">
         <div class="k-row__l">
-          <div class="k-row__sym" aria-hidden="true">${escapeHtml(sym)}</div>
-          <div class="k-row__name">${escapeHtml(trPlanet(name))}</div>
+          <div class="k-row__sym planet-badge planet-badge--${escapeHtml(style)}" aria-hidden="true">${escapeHtml(sym)}</div>
+          <div>
+            <div class="k-row__name">${escapeHtml(trPlanet(name))}</div>
+            <div class="k-row__dignity">${escapeHtml(dignity)}</div>
+          </div>
         </div>
         <div class="k-row__meta">${escapeHtml(trRashi(rashi))} • ${escapeHtml(t("house"))}${Number.isFinite(house) ? house : "—"} • ${escapeHtml(degIn)}</div>
-      </div>
+      </button>
     `;
   }).join("");
   return rows || `<div class="k-panel__body">No planets found.</div>`;
 }
 
+function zodiacLongitude(planet){
+  const signIndex = Number(planet?.rashi_index);
+  const degreeInSign = Number(
+    planet?.degree_in_sign ?? (((Number(planet?.degree) || 0) % 30 + 30) % 30),
+  );
+  const signBase = Number.isFinite(signIndex) ? signIndex * 30 : 0;
+  return (signBase + (Number.isFinite(degreeInSign) ? degreeInSign : 0) + 360) % 360;
+}
+
+let kundaliPlanetariumModulePromise = null;
+
+function ensureKundaliPlanetariumModule(){
+  if(!kundaliPlanetariumModulePromise){
+    kundaliPlanetariumModulePromise = import("/static/kundali-planetarium.js?v=2");
+  }
+  return kundaliPlanetariumModulePromise;
+}
+
 function renderPlanetTable(){
   if(!kundaliState.data) return;
   const active = getActiveData();
-  const planets = Array.isArray(active?.planets) ? active.planets : (kundaliState.chart === "d1" ? kundaliState.data.planets : []);
-  const html = buildPlanetTableRows(planets);
-  if(els.planetTable) els.planetTable.innerHTML = html;
-  if(els.planetTableSide) els.planetTableSide.innerHTML = html;
+  const experience = kundaliState.chart === "d1" ? (kundaliState.data?.experience?.house_details || {}) : {};
+  const rawPlanets = Array.isArray(active?.planets) ? active.planets : (kundaliState.chart === "d1" ? kundaliState.data.planets : []);
+  const planets = rawPlanets.map((planet)=> {
+    const houseInfo = experience[String(planet.house)] || {};
+    const enriched = (Array.isArray(houseInfo.planets) ? houseInfo.planets : []).find((row)=> String(row.planet) === String(planet.planet));
+    return {
+      ...planet,
+      dignity: enriched?.dignity || "Neutral",
+      displayName: trPlanet(planet?.planet || "—"),
+      signLabel: trRashi(planet?.rashi || "—"),
+      degreeLabel: fmtDeg(planet?.degree_in_sign ?? (Number(planet?.degree) % 30)),
+    };
+  });
+  if(els.planetTable){
+    const html = buildPlanetTableRows(planets);
+    els.planetTable.innerHTML = html;
+    els.planetTable.querySelectorAll("[data-planet-house]").forEach((row)=>{
+      row.addEventListener("click", ()=>{
+        const houseNum = Number(row.getAttribute("data-planet-house"));
+        if(!Number.isFinite(houseNum)) return;
+        kundaliState.selectedHouse = houseNum;
+        renderChart();
+      });
+    });
+  }
+  if(els.planetTableSide){
+    els.planetTableSide.innerHTML = `
+      <div class="kundali-planetarium-shell">
+        <div class="kundali-planetarium-copy">
+          <span class="kundali-planetarium-copy__kicker">${escapeHtml(kundaliState.lang === "hi" ? "ग्रह वेधशाला" : "Planetary Observatory")}</span>
+          <p>${escapeHtml(kundaliState.lang === "hi" ? "यह सूर्य-केंद्रित मॉडल नहीं है। ग्रह अपनी वैदिक राशि-डिग्री स्थिति पर स्थिर हैं। दृश्य को घुमाकर निरीक्षण करें।" : "This is not a solar-system view. Each planet is fixed to its Vedic sign-degree position on the zodiac field. Drag to inspect the field.")}</p>
+        </div>
+        <div class="kundali-planetarium" id="kundaliPlanetariumMount">
+          <div class="kundali-planetarium-canvas"></div>
+          <div class="kundali-planetarium-stage kundali-planetarium-stage--fallback">
+            <div class="kundali-planetarium-core">ॐ</div>
+          </div>
+        </div>
+      </div>
+    `;
+    const mount = els.planetTableSide.querySelector(".kundali-planetarium");
+    ensureKundaliPlanetariumModule()
+      .then((mod)=> {
+        mod.renderKundaliPlanetarium?.(mount, planets, {
+          chart: kundaliState.chart,
+          lang: kundaliState.lang,
+          onSelectHouse: (houseNum)=>{
+            if(!Number.isFinite(houseNum)) return;
+            kundaliState.selectedHouse = houseNum;
+            renderChart();
+          },
+        });
+      })
+      .catch(()=>{
+        if(mount){
+          mount.classList.add("is-fallback-only");
+        }
+      });
+  }
 }
 
 function getPlanetsByHouse(active){
@@ -298,27 +549,212 @@ const PLANET_KIND = {
   Ketu: "malefic",
 };
 
+const PLANET_STYLE = {
+  Sun: "sun",
+  Moon: "moon",
+  Mars: "mars",
+  Mercury: "mercury",
+  Jupiter: "jupiter",
+  Venus: "venus",
+  Saturn: "saturn",
+  Rahu: "rahu",
+  Ketu: "ketu",
+};
+
+const HOUSE_CARD_LAYOUT = [
+  { house: 2, top: 6, left: 18, width: 24, height: 14 },
+  { house: 1, top: 11, left: 36, width: 28, height: 15 },
+  { house: 12, top: 6, left: 58, width: 24, height: 14 },
+  { house: 3, top: 21, left: 4, width: 16, height: 18 },
+  { house: 4, top: 39, left: 4, width: 19, height: 18 },
+  { house: 5, top: 61, left: 4, width: 16, height: 18 },
+  { house: 6, top: 80, left: 18, width: 24, height: 13 },
+  { house: 7, top: 75, left: 36, width: 28, height: 17 },
+  { house: 8, top: 80, left: 58, width: 24, height: 13 },
+  { house: 9, top: 61, left: 80, width: 16, height: 18 },
+  { house: 10, top: 39, left: 77, width: 19, height: 18 },
+  { house: 11, top: 21, left: 80, width: 16, height: 18 },
+];
+
+const HOUSE_LABELS = {
+  en: {
+    1: "Self",
+    2: "Wealth",
+    3: "Courage",
+    4: "Home",
+    5: "Creativity",
+    6: "Work",
+    7: "Partnership",
+    8: "Change",
+    9: "Fortune",
+    10: "Career",
+    11: "Gains",
+    12: "Release",
+  },
+  hi: {
+    1: "स्व",
+    2: "धन",
+    3: "पराक्रम",
+    4: "सुख",
+    5: "विद्या",
+    6: "ऋण",
+    7: "संबंध",
+    8: "रूपांतरण",
+    9: "भाग्य",
+    10: "कर्म",
+    11: "लाभ",
+    12: "मोक्ष",
+  },
+};
+
 function planetKind(name){
   return PLANET_KIND[String(name)] || "neutral";
 }
 
+function planetStyle(name){
+  return PLANET_STYLE[String(name)] || "neutral";
+}
+
+function houseLabel(houseNum){
+  const lang = kundaliState.lang === "hi" ? "hi" : "en";
+  return HOUSE_LABELS[lang]?.[Number(houseNum)] || `H${houseNum}`;
+}
+
+function formatIsoRange(start, end){
+  return `${shortDt(start)} → ${shortDt(end)}`;
+}
+
+function severityTone(label){
+  const v = String(label || "").toLowerCase();
+  if(v.includes("strong") || v.includes("high")) return "warn";
+  if(v.includes("medium") || v.includes("moderate")) return "mixed";
+  if(v.includes("mild")) return "soft";
+  return "ok";
+}
+
+function heatToneClass(tone){
+  const v = String(tone || "quiet");
+  if(v === "support") return "is-support";
+  if(v === "stress") return "is-stress";
+  if(v === "active") return "is-active";
+  return "is-quiet";
+}
+
+function buildPlanetChip(planet, { compact=false } = {}){
+  const name = String(planet?.planet || "—");
+  const glyph = String(planet?.glyph || planet?.symbol || "");
+  const sign = String(planet?.sign || planet?.rashi || "—");
+  const degree = String(planet?.degree || fmtDeg(planet?.degree_in_sign ?? (Number(planet?.degree) % 30)));
+  const title = `${trPlanet(name)} • ${trRashi(sign)} • ${degree}`;
+  return `
+    <span class="planet-chip planet-chip--${escapeHtml(planetStyle(name))}${compact ? " is-compact" : ""}" title="${escapeHtml(title)}">
+      <span class="planet-chip__glyph" aria-hidden="true">${escapeHtml(glyph)}</span>
+      <span class="planet-chip__name">${escapeHtml(trPlanet(name))}</span>
+      ${compact ? "" : `<span class="planet-chip__meta">${escapeHtml(degree)}</span>`}
+    </span>
+  `;
+}
+
+function planetShortLabel(name){
+  const value = String(name || "").trim();
+  if(!value) return "—";
+  const map = {
+    Sun: "Su",
+    Moon: "Mo",
+    Mars: "Ma",
+    Mercury: "Me",
+    Jupiter: "Ju",
+    Venus: "Ve",
+    Saturn: "Sa",
+    Rahu: "Ra",
+    Ketu: "Ke",
+  };
+  return map[value] || value.slice(0, 2);
+}
+
+function buildNorthPlanetMark(planet){
+  const name = String(planet?.planet || "—");
+  const glyph = String(planet?.glyph || planet?.symbol || "");
+  const sign = String(planet?.sign || planet?.rashi || "—");
+  const degree = String(planet?.degree || fmtDeg(planet?.degree_in_sign ?? (Number(planet?.degree) % 30)));
+  const title = `${trPlanet(name)} • ${trRashi(sign)} • ${degree}`;
+  return `
+    <span class="north-planet-mark planet-chip--${escapeHtml(planetStyle(name))}" title="${escapeHtml(title)}">
+      <span class="north-planet-mark__glyph" aria-hidden="true">${escapeHtml(glyph)}</span>
+      <span class="north-planet-mark__name">${escapeHtml(planetShortLabel(name))}</span>
+    </span>
+  `;
+}
+
+function getHouseExperience(houseNum, activeData){
+  if(kundaliState.chart === "d1"){
+    return kundaliState.data?.experience?.house_details?.[String(houseNum)] || null;
+  }
+  const houses = Array.isArray(activeData?.houses) ? activeData.houses : [];
+  const planets = Array.isArray(activeData?.planets) ? activeData.planets : [];
+  const house = houses.find((row)=> Number(row?.house) === Number(houseNum));
+  if(!house) return null;
+  const occupants = planets.filter((row)=> Number(row?.house) === Number(houseNum));
+  return {
+    house: houseNum,
+    sign: String(house?.rashi || "—"),
+    signLabel: String(house?.rashi || "—").slice(0, 2),
+    signRuler: "—",
+    theme: houseLabel(houseNum),
+    tags: occupants.length ? ["occupied"] : ["quiet"],
+    supportiveAspects: [],
+    pressuringAspects: [],
+    planets: occupants.map((row)=> ({
+      planet: String(row?.planet || "—"),
+      glyph: String(row?.symbol || ""),
+      style: planetStyle(row?.planet),
+      sign: String(row?.rashi || "—"),
+      house: Number(row?.house || houseNum),
+      degree: fmtDeg(row?.degree_in_sign ?? (Number(row?.degree) % 30)),
+      dignity: "Navamsa view",
+    })),
+  };
+}
+
 function renderDasha(){
   if(!els.dashaList || !kundaliState.data) return;
-  const dasha = Array.isArray(kundaliState.data?.dasha) ? kundaliState.data.dasha : [];
-  const items = dasha.slice(0, 9).map((x)=>{
-    const name = String(x?.planet || "—");
-    const years = Number(x?.years);
-    const start = String(x?.start || "");
-    const end = String(x?.end || "");
-    const range = start && end ? `${shortDt(start)} → ${shortDt(end)}` : "—";
+  const dashaExp = kundaliState.data?.dasha_experience;
+  const timeline = Array.isArray(dashaExp?.timeline) ? dashaExp.timeline : [];
+  const currentSummary = dashaExp?.current_summary || {};
+  const currentAntara = dashaExp?.current_antardasha || {};
+  const items = timeline.map((item)=>{
+    const summary = item.summary || {};
+    const range = formatIsoRange(item.start, item.end);
     return `
-      <div class="dasha-item">
-        <div class="dasha-item__name">${escapeHtml(trPlanet(name))}${Number.isFinite(years) ? ` • ${years.toFixed(2)}y` : ""}</div>
-        <div class="dasha-item__range">${escapeHtml(range)}</div>
-      </div>
+      <button class="dasha-item${item.isCurrent ? " is-current" : ""}" type="button">
+        <div class="dasha-item__rail"></div>
+        <div class="dasha-item__content">
+          <div class="dasha-item__top">
+            <div class="dasha-item__name">${escapeHtml(trPlanet(item.planet || "—"))}</div>
+            <div class="dasha-item__range">${escapeHtml(range)}</div>
+          </div>
+          <div class="dasha-item__meta">Age ${escapeHtml(item.ageStart)} → ${escapeHtml(item.ageEnd)} • ${escapeHtml(Number(item.years || 0).toFixed(2))} years</div>
+          <div class="dasha-item__headline">${escapeHtml(summary.headline || "")}</div>
+          <div class="dasha-item__tone">${escapeHtml(summary.periodTone || "")}</div>
+        </div>
+      </button>
     `;
   }).join("");
-  els.dashaList.innerHTML = items || `<div class="k-panel__body">Dasha not available.</div>`;
+  els.dashaList.innerHTML = `
+    <div class="dasha-hero">
+      <div class="dasha-hero__current">
+        <div class="pill-label">Current Antardasha</div>
+        <h3>${escapeHtml(trPlanet(currentAntara.planet || "—"))}</h3>
+        <p>${escapeHtml(dashaExp?.why_now || "")}</p>
+      </div>
+      <div class="dasha-hero__summary">
+        <div class="pill-label">This period feels like</div>
+        <strong>${escapeHtml(currentSummary.headline || "Dasha insight")}</strong>
+        <p>${escapeHtml(currentSummary.advice || "")}</p>
+      </div>
+    </div>
+    <div class="dasha-timeline">${items || `<div class="k-panel__body">Dasha not available.</div>`}</div>
+  `;
 }
 
 function getHouseMap(houses){
@@ -387,37 +823,98 @@ function buildNorthPlanetContent(planets, config){
   `;
 }
 
+function parseNorthPoints(points){
+  return String(points || "")
+    .trim()
+    .split(/\s+/)
+    .map((pair)=> pair.split(",").map(Number))
+    .filter((pair)=> pair.length === 2 && pair.every((value)=> Number.isFinite(value)));
+}
+
+function northRegionBounds(points){
+  const parsed = parseNorthPoints(points);
+  const xs = parsed.map((pair)=> pair[0]);
+  const ys = parsed.map((pair)=> pair[1]);
+  const minX = Math.min(...xs);
+  const maxX = Math.max(...xs);
+  const minY = Math.min(...ys);
+  const maxY = Math.max(...ys);
+  return {
+    minX,
+    maxX,
+    minY,
+    maxY,
+    width: maxX - minX,
+    height: maxY - minY,
+    parsed,
+  };
+}
+
+function northClipPath(points, bounds){
+  return bounds.parsed
+    .map(([x, y])=>{
+      const relX = ((x - bounds.minX) / Math.max(bounds.width, 1)) * 100;
+      const relY = ((y - bounds.minY) / Math.max(bounds.height, 1)) * 100;
+      return `${relX}% ${relY}%`;
+    })
+    .join(", ");
+}
+
+function northCardStyle(cfg){
+  const bounds = northRegionBounds(cfg.points);
+  return {
+    style: `top:${bounds.minY}%;left:${bounds.minX}%;width:${bounds.width}%;height:${bounds.height}%;clip-path:polygon(${northClipPath(cfg.points, bounds)});`,
+    alignClass: cfg.lineAnchor === "start" ? "north-card--start" : cfg.lineAnchor === "end" ? "north-card--end" : "north-card--center",
+  };
+}
+
+function renderChartLegend(){
+  if(!els.chartLegend) return;
+  els.chartLegend.innerHTML = `
+    <span class="legend-chip"><span class="legend-chip__dot is-support"></span>Support</span>
+    <span class="legend-chip"><span class="legend-chip__dot is-pressure"></span>Pressure</span>
+    <span class="legend-chip"><span class="legend-chip__dot is-selected"></span>Selected</span>
+  `;
+}
+
 function renderNorthChart(houses, lagna){
   if(!els.northChart) return;
   const map = getHouseMap(houses);
-  const active = getActiveData();
-  const planetsByHouse = getPlanetsByHouse(active);
-  const svg = `
-    <svg class="north-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-label="North Indian Kundali chart">
+  const activeData = getActiveData();
+  const html = `
+    <div class="north-chart__glow" aria-hidden="true"></div>
+    <svg class="north-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <rect x="4" y="4" width="92" height="92" class="north-frame"></rect>
       <path d="M4 4 L96 96" class="north-grid"></path>
       <path d="M96 4 L4 96" class="north-grid"></path>
       <path d="M4 50 L50 4 L96 50 L50 96 Z" class="north-grid"></path>
-      ${NORTH_HOUSE_REGIONS.map((config)=>{
-        const houseNum = Number(config.house);
+    </svg>
+    <div class="north-layer">
+      ${NORTH_HOUSE_REGIONS.map((regionCfg)=>{
+        const houseNum = Number(regionCfg.house);
+        const info = getHouseExperience(houseNum, activeData) || {};
         const houseData = map.get(houseNum) || null;
-        const planets = planetsByHouse.get(houseNum) || [];
-        const sign = String(houseData?.rashi || "—");
         const selected = houseNum === Number(kundaliState.selectedHouse);
-        const lagnaHouse = houseNum === 1;
+        const planets = Array.isArray(info.planets) ? info.planets : [];
+        const region = northCardStyle(regionCfg);
         return `
-          <g class="north-region${selected ? " is-selected" : ""}${lagnaHouse ? " is-lagna" : ""}" data-house="${houseNum}" role="button" tabindex="0" aria-label="House ${houseNum}">
-            <polygon points="${config.points}" class="north-region__fill"></polygon>
-            <polygon points="${config.points}" class="north-region__hit"></polygon>
-            <text x="${config.corner.x}" y="${config.corner.y}" text-anchor="${config.anchor}" class="north-sign-num">${houseNum}</text>
-            ${buildNorthPlanetContent(planets, config)}
-          </g>
+          <button class="north-card ${region.alignClass}${selected ? " is-selected" : ""}${houseNum === 1 ? " is-lagna" : ""}" style="${region.style}" data-house="${houseNum}" type="button" aria-label="House ${houseNum}">
+            <div class="north-card__inner">
+              <div class="north-card__head">
+                <span class="north-card__num">H${houseNum}</span>
+                <span class="north-card__sign">${escapeHtml(trRashi(info.sign || houseData?.rashi || lagna || "—"))}</span>
+              </div>
+              <div class="north-card__chips">
+                ${planets.length ? planets.map((planet)=> buildNorthPlanetMark(planet)).join("") : `<span class="north-card__empty"></span>`}
+              </div>
+            </div>
+          </button>
         `;
       }).join("")}
-    </svg>
+    </div>
   `;
-  els.northChart.innerHTML = svg;
-  els.northChart.querySelectorAll(".north-region").forEach((el)=>{
+  els.northChart.innerHTML = html;
+  els.northChart.querySelectorAll(".north-card").forEach((el)=>{
     const activate = ()=>{
       const houseNum = Number(el.getAttribute("data-house"));
       if(!Number.isFinite(houseNum)) return;
@@ -445,10 +942,9 @@ const SOUTH_SIGN_POSITIONS = [
 
 function renderSouthChart(houses, lagna){
   if(!els.southChart) return;
-  const active = getActiveData();
-  const planetsByHouse = getPlanetsByHouse(active);
   const houseBySign = new Map();
   (Array.isArray(houses) ? houses : []).forEach((h)=> houseBySign.set(Number(h?.rashi_index), h));
+  const activeData = getActiveData();
 
   const lagnaSignIdx = (Array.isArray(houses) ? houses : []).find((h)=> Number(h?.house) === 1)?.rashi_index;
 
@@ -461,19 +957,8 @@ function renderSouthChart(houses, lagna){
     const houseNum = Number(h?.house);
     const isLagna = Number(signIdx) === Number(lagnaSignIdx);
     const isSelected = Number(houseNum) === Number(kundaliState.selectedHouse);
-    const planets = planetsByHouse.get(houseNum) || [];
-    const planetLines = planets.length
-      ? planets.map((p)=>{
-          const nm = String(p?.planet || "");
-          const degIn = fmtDeg(p?.degree_in_sign ?? (Number(p?.degree) % 30));
-          return `
-            <div class="house-line">
-              <span class="house-line__n">${escapeHtml(trPlanet(nm))}</span>
-              <span class="house-line__d">${escapeHtml(degIn)}</span>
-            </div>
-          `;
-        }).join("")
-      : `<div class="house-empty">—</div>`;
+    const info = getHouseExperience(houseNum, activeData) || {};
+    const planets = Array.isArray(info.planets) ? info.planets : [];
 
     return `
       <div class="s-cell${isLagna ? " is-lagna" : ""}${isSelected ? " is-selected" : ""}" data-house="${Number.isFinite(houseNum) ? houseNum : ""}">
@@ -481,7 +966,9 @@ function renderSouthChart(houses, lagna){
           <div class="s-sign">${escapeHtml(trRashi(sign))}</div>
           <div class="s-house">H${Number.isFinite(houseNum) ? houseNum : "—"}</div>
         </div>
-        <div class="house-lines" aria-label="${escapeHtml(t("planets"))}">${planetLines}</div>
+        <div class="south-card__chips" aria-label="${escapeHtml(t("planets"))}">
+          ${planets.length ? planets.slice(0, 3).map((planet)=> buildPlanetChip(planet, { compact: true })).join("") : `<div class="house-empty">${escapeHtml(houseLabel(houseNum))}</div>`}
+        </div>
       </div>
     `;
   }).join("");
@@ -500,35 +987,51 @@ function renderSouthChart(houses, lagna){
 
 function renderHousePanel(){
   if(!els.housePanelBody || !kundaliState.data) return;
-  const active = getActiveData();
-  const houses = Array.isArray(active?.houses) ? active.houses : [];
-  const planets = Array.isArray(active?.planets) ? active.planets : [];
   const houseNum = kundaliState.selectedHouse || 1;
-  const h = houses.find((x)=> Number(x?.house) === Number(houseNum)) || null;
-  if(!h){
+  const detail = getHouseExperience(houseNum, getActiveData());
+  if(!detail){
     els.housePanelBody.innerHTML = "House not found.";
     return;
   }
-  const sign = String(h?.rashi || "—");
-  const inHouse = planets.filter((p)=> Number(p?.house) === Number(houseNum));
-  const list = inHouse.map((p)=>{
-    const nm = String(p?.planet || "—");
-    const sym = String(p?.symbol || "");
-    const degIn = fmtDeg(p?.degree_in_sign ?? (Number(p?.degree) % 30));
-    const cls = planetKind(nm);
-    return `
+  const planets = Array.isArray(detail.planets) ? detail.planets : [];
+  const list = planets.map((planet)=> `
       <div class="k-planetline">
-        <div class="k-planetline__sym planet-badge planet-badge--${escapeHtml(cls)}" aria-hidden="true">${escapeHtml(sym)}</div>
-        <div class="k-planetline__name">${escapeHtml(trPlanet(nm))}</div>
-        <div class="k-planetline__deg">${escapeHtml(degIn)}</div>
+        <div class="k-planetline__sym planet-badge planet-badge--${escapeHtml(planet.style || planetStyle(planet.planet))}" aria-hidden="true">${escapeHtml(planet.glyph || "")}</div>
+        <div>
+          <div class="k-planetline__name">${escapeHtml(trPlanet(planet.planet || "—"))}</div>
+          <div class="k-planetline__dignity">${escapeHtml(planet.dignity || "Neutral")} • ${escapeHtml(trRashi(planet.sign || "—"))}</div>
+        </div>
+        <div class="k-planetline__deg">${escapeHtml(planet.degree || "—")}</div>
       </div>
-    `;
-  }).join("");
+    `).join("");
   els.housePanelBody.innerHTML = `
-    <div class="k-panel__body">
-      <div class="k-househead">${escapeHtml(t("house"))} ${escapeHtml(String(houseNum))} • ${escapeHtml(trRashi(sign))}</div>
+    <div class="detail-console">
+      <div class="detail-console__top">
+        <div>
+          <div class="detail-console__eyebrow">${escapeHtml(t("house"))} ${escapeHtml(String(houseNum))}</div>
+          <div class="k-househead">${escapeHtml(trRashi(detail.sign || "—"))}</div>
+        </div>
+        <div class="detail-console__ruler">
+          <span>Ruler</span>
+          <strong>${escapeHtml(trPlanet(detail.signRuler || "—"))}</strong>
+        </div>
+      </div>
+      <p class="detail-console__theme">${escapeHtml(detail.theme || "")}</p>
+      <div class="detail-console__tags">
+        ${(Array.isArray(detail.tags) ? detail.tags : []).map((tag)=> `<span class="detail-tag">${escapeHtml(tag)}</span>`).join("")}
+      </div>
       <div class="k-houselist">
         ${list || `<div class="k-empty">${escapeHtml(t("noPlanets"))}</div>`}
+      </div>
+      <div class="detail-console__footer">
+        <div>
+          <span>Support</span>
+          <strong>${escapeHtml((detail.supportiveAspects || []).map((planet)=> trPlanet(planet)).join(", ") || "—")}</strong>
+        </div>
+        <div>
+          <span>Pressure</span>
+          <strong>${escapeHtml((detail.pressuringAspects || []).map((planet)=> trPlanet(planet)).join(", ") || "—")}</strong>
+        </div>
       </div>
     </div>
   `;
@@ -547,6 +1050,7 @@ function renderChart(){
   if(els.chartSub){
     els.chartSub.textContent = t("selectHouse");
   }
+  renderChartLegend();
 
   if(els.northChart){
     els.northChart.classList.toggle("is-hidden", kundaliState.style !== "north");
@@ -564,6 +1068,7 @@ function renderChart(){
   }
 
   renderHousePanel();
+  renderHeatmapPanel();
 }
 
 function getMoonFromActive(){
@@ -576,109 +1081,36 @@ function renderOverviewPane(){
   const pane = document.querySelector("#tabOverview");
   if(!pane || !kundaliState.data) return;
   const d = kundaliState.data;
-  const active = getActiveData();
-  const lagna = String(active?.lagna || d.lagna || "—");
-  const moon = getMoonFromActive();
+  const climate = d?.experience?.planetary_climate || {};
+  const heatmap = Array.isArray(d?.experience?.house_heatmap) ? d.experience.house_heatmap.slice().sort((a,b)=> Number(b.score||0) - Number(a.score||0)).slice(0,3) : [];
+  const lagna = String(d.lagna || "—");
+  const moon = (Array.isArray(d?.planets) ? d.planets : []).find((p)=> String(p?.planet) === "Moon") || null;
   const chandra = String(moon?.rashi || "—");
   pane.innerHTML = `
     <div class="k-section">
       <div class="k-section__title">${escapeHtml(t("overview"))}</div>
-      <div class="k-kv">
+      <div class="k-overview-hero">
+        <div class="k-overview-message">
+          <div class="k-overview-message__kicker">Destiny console</div>
+          <h3>${escapeHtml(trRashi(lagna))} rising with ${escapeHtml(String(d.nakshatra || "—"))} nakshatra.</h3>
+          <p>${escapeHtml(climate.summary || "Your chart climate becomes clearer once the houses, planets, and timing cycles are read together.")}</p>
+        </div>
+        <div class="k-kv">
         <div class="k-kv__item"><div class="k-kv__k">${escapeHtml(t("lagna"))}</div><div class="k-kv__v">${escapeHtml(trRashi(lagna))}</div></div>
         <div class="k-kv__item"><div class="k-kv__k">Chandra Rashi</div><div class="k-kv__v">${escapeHtml(trRashi(chandra))}</div></div>
         <div class="k-kv__item"><div class="k-kv__k">${escapeHtml(t("nakshatra"))}</div><div class="k-kv__v">${escapeHtml(String(d.nakshatra))} • ${escapeHtml(t("pada"))} ${escapeHtml(String(d.nakshatra_pada))}</div></div>
         <div class="k-kv__item"><div class="k-kv__k">${escapeHtml(t("ayanamsa"))}</div><div class="k-kv__v">${escapeHtml(fmtDeg(d.ayanamsa))}</div></div>
       </div>
+      </div>
+      <div class="k-cards k-cards--overview">
+        ${heatmap.map((item)=> `
+          <div class="k-card k-card--glow ${heatToneClass(item.tone)}">
+            <div class="k-card__t">House ${escapeHtml(item.house)} • ${escapeHtml(houseLabel(item.house))}</div>
+            <div class="k-card__b">${escapeHtml(item.label || "")}</div>
+          </div>
+        `).join("")}
+      </div>
       <div class="k-note">${escapeHtml(kundaliState.lang === "hi" ? "चार्ट में किसी भाव पर टैप करें — उसका विवरण कार्ड खुलेगा।" : "Tap any house in the chart to open its details card.")}</div>
-    </div>
-  `;
-}
-
-function buildDoshaHtml(){
-  const d1 = getD1Data();
-  const planets = Array.isArray(d1?.planets) ? d1.planets : [];
-  if(!planets.length) return "";
-
-  const getPlanet = (name)=> planets.find((p)=> String(p?.planet) === name) || null;
-  const mars = getPlanet("Mars");
-  const moon = getPlanet("Moon");
-  const venus = getPlanet("Venus");
-  const saturn = getPlanet("Saturn");
-  const rahu = getPlanet("Rahu");
-  const ketu = getPlanet("Ketu");
-
-  const relHouseFromSign = (refSignIdx, targetSignIdx)=>{
-    const a = Number(refSignIdx);
-    const b = Number(targetSignIdx);
-    if(!Number.isFinite(a) || !Number.isFinite(b)) return null;
-    return ((b - a + 12) % 12) + 1;
-  };
-
-  const manglikHouses = new Set([1, 2, 4, 7, 8, 12]);
-  const lagnaManglik = Number(mars?.house);
-  const moonManglik = relHouseFromSign(moon?.rashi_index, mars?.rashi_index);
-  const venusManglik = relHouseFromSign(venus?.rashi_index, mars?.rashi_index);
-  const manglikRefs = [];
-  if(Number.isFinite(lagnaManglik) && manglikHouses.has(lagnaManglik)) manglikRefs.push(`Lagna ${t("house")}${lagnaManglik}`);
-  if(Number.isFinite(moonManglik) && manglikHouses.has(moonManglik)) manglikRefs.push(`Moon ${t("house")}${moonManglik}`);
-  if(Number.isFinite(venusManglik) && manglikHouses.has(venusManglik)) manglikRefs.push(`Venus ${t("house")}${venusManglik}`);
-  const hasManglik = manglikRefs.length > 0;
-  const hasManglikException = new Set(["Mesha", "Vrischika", "Makara"]).has(String(mars?.rashi || ""));
-
-  const inArc = (lon, start, end)=>{
-    lon = ((lon % 360) + 360) % 360;
-    start = ((start % 360) + 360) % 360;
-    end = ((end % 360) + 360) % 360;
-    if(start <= end) return lon >= start && lon <= end;
-    return lon >= start || lon <= end;
-  };
-  const classical = planets.filter((p)=> ["Sun","Moon","Mercury","Venus","Mars","Jupiter","Saturn"].includes(String(p?.planet)));
-  const rahuLon = Number(rahu?.degree);
-  const ketuLon = Number(ketu?.degree);
-  let kaalDir = "";
-  if(Number.isFinite(rahuLon) && Number.isFinite(ketuLon) && classical.length === 7){
-    const rahuToKetu = classical.every((p)=> inArc(Number(p.degree), rahuLon, ketuLon));
-    const ketuToRahu = classical.every((p)=> inArc(Number(p.degree), ketuLon, rahuLon));
-    if(rahuToKetu) kaalDir = kundaliState.lang === "hi" ? "राहु से केतु" : "Rahu to Ketu";
-    if(ketuToRahu) kaalDir = kundaliState.lang === "hi" ? "केतु से राहु" : "Ketu to Rahu";
-  }
-
-  const saturnHouse = Number(saturn?.house);
-  const saturnFromMoon = relHouseFromSign(moon?.rashi_index, saturn?.rashi_index);
-  const hasShaniDosha =
-    (Number.isFinite(saturnHouse) && [1, 4, 7, 8, 10].includes(saturnHouse)) ||
-    (Number.isFinite(saturnFromMoon) && [1, 4, 7, 8].includes(saturnFromMoon));
-
-  const items = [];
-  if(hasManglik){
-    items.push({
-      name: kundaliState.lang === "hi" ? "मांगलिक दोष" : "Manglik Dosha",
-      detail: `${manglikRefs.join(" • ")}${hasManglikException ? (kundaliState.lang === "hi" ? " • संभावित अपवाद राशि" : " • possible sign exception") : ""}`,
-    });
-  }
-  if(kaalDir){
-    items.push({
-      name: kundaliState.lang === "hi" ? "कालसर्प दोष" : "Kaal Sarp Dosha",
-      detail: kundaliState.lang === "hi" ? `सभी 7 ग्रह ${kaalDir} अक्ष में आते हैं।` : `All 7 classical planets fall on the ${kaalDir} axis.`,
-    });
-  }
-  if(hasShaniDosha){
-    items.push({
-      name: kundaliState.lang === "hi" ? "शनि प्रभाव" : "Shani Dosha",
-      detail: kundaliState.lang === "hi" ? "शनि संवेदनशील भाव या चंद्र संबंध में है।" : "Saturn is placed in a sensitive house or Moon-linked position.",
-    });
-  }
-
-  if(!items.length) return "";
-
-  return `
-    <div class="k-alerts">
-      ${items.map((x)=> `
-        <div class="k-alert k-alert--warn">
-          <div class="k-alert__name">${escapeHtml(x.name)}</div>
-          <div class="k-alert__desc">${escapeHtml(x.detail)}</div>
-        </div>
-      `).join("")}
     </div>
   `;
 }
@@ -686,10 +1118,21 @@ function buildDoshaHtml(){
 function renderDoshaPane(){
   const pane = document.querySelector("#tabDosha");
   if(!pane || !kundaliState.data) return;
-  const doshaHtml = buildDoshaHtml();
+  const items = Array.isArray(kundaliState.data?.dosha_analysis) ? kundaliState.data.dosha_analysis : [];
   pane.innerHTML = `
     <div class="k-section">
-      ${doshaHtml ? `<div class="k-section__title">${escapeHtml(t("dosha"))}</div>${doshaHtml}` : ""}
+      <div class="k-section__title">${escapeHtml(t("dosha"))}</div>
+      <div class="k-alerts">
+        ${items.map((item)=> `
+          <div class="k-alert k-alert--${severityTone(item.severity)}">
+            <div class="k-alert__name">${escapeHtml(item.name || "")}</div>
+            <div class="k-alert__badge">${escapeHtml(item.severity || "none")}</div>
+            <div class="k-alert__desc">${escapeHtml(item.whyDetected || "")}</div>
+            <div class="k-alert__desc">${escapeHtml(item.likelyThemes || "")}</div>
+            <div class="k-alert__meta">${escapeHtml((item.mitigatingFactors || []).join(" • ") || "")}</div>
+          </div>
+        `).join("") || `<div class="k-note">No dosha pattern detected.</div>`}
+      </div>
     </div>
   `;
 }
@@ -725,16 +1168,37 @@ function buildPredictionsHtml(){
     ? `विवाह/साझेदारी भाव 7 (${trRashi(h7.rashi)}) से देखी जाती है। भाव 7 में ${p7.length ? p7.map(trPlanet).join(", ") : "कोई ग्रह नहीं"} — संबंधों की प्रकृति पर असर डालते हैं।`
     : `Relationships are seen from H7 (${trRashi(h7.rashi)}). Planets in H7 (${p7.length ? p7.map(trPlanet).join(", ") : "none"}) influence partnership dynamics and expectations.`;
 
-  return `<div class="k-cards">${mk(lang==="hi" ? "व्यक्तित्व" : "Personality", personality)}${mk(lang==="hi" ? "करियर" : "Career", career)}${mk(lang==="hi" ? "विवाह/संबंध" : "Marriage", marriage)}</div>`;
+  return `${mk(lang==="hi" ? "व्यक्तित्व" : "Personality", personality)}${mk(lang==="hi" ? "करियर" : "Career", career)}${mk(lang==="hi" ? "विवाह/संबंध" : "Marriage", marriage)}`;
 }
 
 function renderPredictionsPane(){
   const pane = document.querySelector("#tabPredictions");
   if(!pane || !kundaliState.data) return;
+  const dashaExp = kundaliState.data?.dasha_experience || {};
+  const current = dashaExp?.current_summary || {};
+  const climate = kundaliState.data?.experience?.planetary_climate || {};
   pane.innerHTML = `
     <div class="k-section">
       <div class="k-section__title">${escapeHtml(t("predictions"))}</div>
-      ${buildPredictionsHtml()}
+      <div class="k-cards">
+        ${buildPredictionsHtml()}
+        <div class="k-card">
+          <div class="k-card__t">Current period tone</div>
+          <div class="k-card__b">${escapeHtml(current.periodTone || "Timing becomes clearer once the current Mahadasha and Antardasha are active.")}</div>
+        </div>
+        <div class="k-card">
+          <div class="k-card__t">Career focus now</div>
+          <div class="k-card__b">${escapeHtml(current.career || "Career themes are read through the houses activated by the period lords.")}</div>
+        </div>
+        <div class="k-card">
+          <div class="k-card__t">Relationship atmosphere</div>
+          <div class="k-card__b">${escapeHtml(current.relationships || "Relationships are influenced by the current dasha climate and house support.")}</div>
+        </div>
+        <div class="k-card">
+          <div class="k-card__t">Planetary climate</div>
+          <div class="k-card__b">${escapeHtml(climate.summary || "Planetary support and pressure help explain where life feels smooth or effortful.")}</div>
+        </div>
+      </div>
     </div>
   `;
 }
@@ -762,10 +1226,23 @@ function buildRemediesHtml(){
 function renderRemediesPane(){
   const pane = document.querySelector("#tabRemedies");
   if(!pane || !kundaliState.data) return;
+  const remedies = Array.isArray(kundaliState.data?.remedies_analysis) ? kundaliState.data.remedies_analysis : [];
   pane.innerHTML = `
     <div class="k-section">
       <div class="k-section__title">${escapeHtml(t("remedies"))}</div>
-      ${buildRemediesHtml()}
+      <div class="k-cards">
+        ${remedies.map((item)=> `
+          <div class="k-card k-card--remedy">
+            <div class="k-card__eyebrow">${escapeHtml(item.category || "")}</div>
+            <div class="k-card__t">${escapeHtml(item.title || "")}</div>
+            <div class="k-card__b">${escapeHtml(item.why || "")}</div>
+            <div class="k-card__footer">
+              <span>${escapeHtml(item.target || "")}</span>
+              <span>${escapeHtml(item.frequency || "")}</span>
+            </div>
+          </div>
+        `).join("") || buildRemediesHtml()}
+      </div>
     </div>
   `;
 }
@@ -780,6 +1257,8 @@ function renderExtraPanes(){
 function hydrateAll(){
   renderStaticLabels();
   renderSummary();
+  renderPhaseShift();
+  renderPlanetClimate();
   renderChart();
   renderPlanetTable();
   renderDasha();
@@ -970,6 +1449,7 @@ function init(){
   }catch{}
   loadSavedInputs();
   initDefaults();
+  initHeroVideo();
   initToggles();
   if(els.useCurrentBtn) els.useCurrentBtn.addEventListener("click", useCurrentLocation);
   if(els.todayBtn) els.todayBtn.addEventListener("click", ()=>{
