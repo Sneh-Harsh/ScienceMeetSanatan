@@ -7,10 +7,10 @@
   <title>{{ item_name }} | Spiritual Library</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'header.css' %}" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
-  <link rel="stylesheet" href="{% static 'library/library.css' %}" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=24" />
 </head>
 <body>
   <header class="header">
@@ -65,51 +65,96 @@
   <main class="library-detail" id="libraryDetailPage" data-slug="{{ item_slug|escape }}">
     <div class="detail-backdrop"></div>
     <section class="detail-hero">
-      <a class="detail-back-link" href="/library/">← Back to Library</a>
-      <div class="detail-meta">Sacred Viewer</div>
-      <h1 id="detailTitle">{{ item_name }}</h1>
-      <p id="detailExcerpt">Loading sacred text...</p>
-
-      <div class="detail-toolbar">
-        <div class="language-toggle" id="languageToggle">
-          <button type="button" data-language="hindi" class="active">Hindi</button>
-          <button type="button" data-language="english">English</button>
-          <button type="button" data-language="transliteration">Transliteration</button>
-        </div>
-
-        <div class="language-toggle reading-toggle" id="readingModeToggle" hidden>
-          <button type="button" data-mode="pdf" class="active">PDF</button>
-          <button type="button" data-mode="chapter">Chapter Wise</button>
-          <button type="button" data-mode="shloka">Shloka Wise</button>
-        </div>
-
+      <div class="detail-hero__head">
+        <a class="detail-back-link" href="/library/">← Back to Library</a>
         <div class="detail-actions">
+            <button type="button" id="openAudioBtn" class="detail-action-btn" hidden>Listen</button>
           <button type="button" id="copyTextBtn" class="detail-action-btn">Copy</button>
           <button type="button" id="bookmarkBtn" class="detail-action-btn">Bookmark</button>
           <button type="button" id="shareBtn" class="detail-action-btn">Share</button>
         </div>
       </div>
+
+      <div class="detail-hero__body">
+        <div class="detail-hero__copy">
+          <div class="detail-meta">Sacred Viewer</div>
+          <h1 id="detailTitle">{{ item_name }}</h1>
+          <p id="detailExcerpt">Loading sacred text...</p>
+        </div>
+
+        <div class="detail-hero__rail">
+          <div class="detail-rail-card">
+            <p class="sidebar-kicker">Category</p>
+            <h3 id="detailCategory">Loading...</h3>
+          </div>
+          <div class="detail-rail-card">
+            <p class="sidebar-kicker">Deity / Theme</p>
+            <h3 id="detailDeity">Loading...</h3>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="detail-reader">
-      <aside class="detail-sidebar">
+    <section class="reader-shell">
+      <aside class="reader-sidebar">
         <div class="sidebar-card">
-          <p class="sidebar-kicker">Category</p>
-          <h3 id="detailCategory">Loading...</h3>
+          <p class="sidebar-kicker">Reading Controls</p>
+          <div class="language-toggle" id="languageToggle">
+            <button type="button" data-language="hindi" class="active">Hindi</button>
+            <button type="button" data-language="english">English</button>
+            <button type="button" data-language="transliteration">Transliteration</button>
+          </div>
+
+          <div class="language-toggle reading-toggle" id="readingModeToggle" hidden>
+            <button type="button" data-mode="pdf" class="active">PDF</button>
+            <button type="button" data-mode="chapter">Chapter Wise</button>
+            <button type="button" data-mode="shloka">Shloka Wise</button>
+          </div>
         </div>
-        <div class="sidebar-card">
-          <p class="sidebar-kicker">Deity / Theme</p>
-          <h3 id="detailDeity">Loading...</h3>
+
+        <div class="sidebar-card reader-settings">
+          <p class="sidebar-kicker">Reader Settings</p>
+          <div class="settings-grid">
+            <label class="setting-control">
+              <span>Font size</span>
+              <input id="fontSizeControl" type="range" min="16" max="30" value="20" />
+            </label>
+            <label class="setting-control">
+              <span>Line spacing</span>
+              <input id="lineHeightControl" type="range" min="1.4" max="2.3" step="0.05" value="1.8" />
+            </label>
+          </div>
+          <div class="reader-theme-toggle" id="readerThemeToggle">
+            <button type="button" class="active" data-theme="dark">Dark</button>
+            <button type="button" data-theme="sepia">Sepia</button>
+            <button type="button" data-theme="light">Light</button>
+          </div>
+          <div class="reader-theme-toggle" id="readerFlowToggle">
+            <button type="button" class="active" data-flow="page">Page Mode</button>
+            <button type="button" data-flow="scroll">Scroll Mode</button>
+          </div>
+          <button type="button" class="detail-action-btn detail-action-btn--full" id="focusModeBtn">Focus Mode</button>
+        </div>
+
+        <div class="sidebar-card reader-progress-card">
+          <p class="sidebar-kicker">Reading Journey</p>
+          <div class="reader-progress-card__meta">
+            <strong id="readerProgressLabel">0%</strong>
+            <span id="readerLastRead">Not started</span>
+          </div>
+          <div class="reader-progress-card__bar">
+            <span id="readerProgressBar"></span>
+          </div>
         </div>
       </aside>
 
-      <article class="reader-card">
-        <div class="reader-header">
+      <article class="reader-card" id="readerCard" data-theme="dark" data-flow="page">
+        <div class="reader-header" id="readerHeader">
           <div>
             <p class="reader-kicker">Sacred text</p>
             <h2 id="readerHeading">Preparing your reading space</h2>
           </div>
-          <div class="reader-fade">Smooth scroll enabled</div>
+          <div class="reader-fade">Immersive reader active</div>
         </div>
 
         <div class="reader-nav" id="readerNav">
@@ -135,7 +180,145 @@
     </section>
   </main>
 
+  <section class="audio-player-shell" id="audioPlayerShell" hidden aria-live="polite">
+    <div class="audio-mini-player" id="audioMiniPlayer">
+      <button type="button" class="audio-mini-cover" id="audioMiniExpandBtn" aria-label="Open audio player">
+        <img id="audioMiniCoverImage" alt="" />
+      </button>
+      <div class="audio-mini-meta">
+        <div class="audio-mini-title" id="audioMiniTitle">Audio sanctuary</div>
+        <div class="audio-mini-subtitle" id="audioMiniSubtitle">Select a sacred track to begin.</div>
+        <div class="audio-mini-state" id="audioMiniState">Ready to stream</div>
+      </div>
+      <div class="audio-mini-progress">
+        <span class="audio-mini-progress__buffer" id="audioMiniBufferedFill"></span>
+        <span id="audioMiniProgressFill"></span>
+      </div>
+      <div class="audio-mini-actions">
+        <button type="button" class="audio-mini-btn" id="audioMiniPrevBtn" aria-label="Previous track">⏮</button>
+        <button type="button" class="audio-mini-btn audio-mini-btn--primary" id="audioMiniPlayBtn" aria-label="Play or pause">▶</button>
+        <button type="button" class="audio-mini-btn" id="audioMiniNextBtn" aria-label="Next track">⏭</button>
+        <button type="button" class="audio-mini-btn audio-mini-btn--close" id="audioMiniCloseBtn" aria-label="Stop audio">✕</button>
+      </div>
+    </div>
+
+    <div class="audio-fullscreen" id="audioFullscreen" hidden>
+      <button type="button" class="audio-fullscreen__backdrop" id="audioCloseBackdrop" aria-label="Close audio player"></button>
+      <div class="audio-fullscreen__panel" id="audioFullscreenPanel">
+        <div class="audio-fullscreen__ambient" id="audioAmbient"></div>
+        <div class="audio-fullscreen__topbar">
+          <div>
+            <p class="audio-kicker">Spiritual Library Audio</p>
+            <h2>Listening Sanctuary</h2>
+          </div>
+          <div class="audio-topbar-actions">
+            <button type="button" class="detail-action-btn" id="audioBookmarkTimeBtn">Bookmark time</button>
+            <button type="button" class="detail-action-btn" id="audioFavoriteBtn">Favorite</button>
+            <button type="button" class="detail-action-btn" id="audioMinimizeBtn">Minimize</button>
+            <button type="button" class="detail-action-btn detail-action-btn--danger" id="audioStopBtn">Stop</button>
+          </div>
+        </div>
+
+        <div class="audio-fullscreen__body">
+          <div class="audio-art-stage">
+            <div class="audio-art-glow"></div>
+            <div class="audio-art-frame">
+              <img id="audioCoverImage" alt="" />
+            </div>
+            <div class="audio-visualizer" id="audioVisualizer" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="audio-main-console">
+            <div class="audio-track-meta">
+              <p class="audio-kicker" id="audioTrackKicker">Cloud sanctuary stream</p>
+              <h3 id="audioTrackTitle">Choose a sacred audio stream</h3>
+              <p id="audioTrackSubtitle">Aarti, book narration, or devotional audio can live here.</p>
+              <div class="audio-track-meta__row">
+                <span class="audio-track-counter" id="audioTrackCounter">Track 0 of 0</span>
+                <span class="audio-track-state" id="audioTrackState">Idle</span>
+              </div>
+              <div class="audio-error-banner" id="audioErrorBanner" hidden>
+                <strong>Playback issue</strong>
+                <span id="audioErrorMessage">This stream could not be loaded.</span>
+              </div>
+            </div>
+
+            <div class="audio-progress-card">
+              <div class="audio-progress-time">
+                <span id="audioCurrentTime">0:00</span>
+                <span id="audioDuration">0:00</span>
+              </div>
+              <div class="audio-progress-shell">
+                <span class="audio-progress-buffer" id="audioBufferedFill"></span>
+                <span class="audio-progress-played" id="audioPlayedFill"></span>
+                <input id="audioProgressRange" class="audio-progress-range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek audio" />
+              </div>
+              <div class="audio-progress-labels">
+                <span id="audioProgressLabel">Ready to stream</span>
+                <span id="audioSpeedLabel">1×</span>
+              </div>
+            </div>
+
+            <div class="audio-controls">
+              <button type="button" class="audio-control-btn" id="audioPrevBtn" aria-label="Previous track">⏮</button>
+              <button type="button" class="audio-control-btn" id="audioBack10Btn" aria-label="Seek back 10 seconds">↺10</button>
+              <button type="button" class="audio-control-btn audio-control-btn--hero" id="audioPlayBtn" aria-label="Play or pause">▶</button>
+              <button type="button" class="audio-control-btn" id="audioForward10Btn" aria-label="Seek forward 10 seconds">10↻</button>
+              <button type="button" class="audio-control-btn" id="audioNextBtn" aria-label="Next track">⏭</button>
+            </div>
+
+            <div class="audio-secondary-controls">
+              <button type="button" class="audio-pill-btn" id="audioRepeatBtn">Repeat Off</button>
+              <button type="button" class="audio-pill-btn" id="audioSpeedBtn">Speed 1×</button>
+              <button type="button" class="audio-pill-btn" id="audioMuteBtn">Mute</button>
+              <label class="audio-volume-shell" for="audioVolumeRange">
+                <span>Volume</span>
+                <input id="audioVolumeRange" class="audio-volume-range" type="range" min="0" max="1" value="1" step="0.01" aria-label="Volume" />
+              </label>
+            </div>
+
+            <div class="audio-insight-grid">
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Playback mode</p>
+                <h4 id="audioPlaybackMode">Streaming from Cloudinary</h4>
+                <p id="audioPlaybackMeta">Adaptive HTML5 audio stream with saved position.</p>
+              </div>
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Resume state</p>
+                <h4 id="audioResumeMeta">No saved timestamp yet</h4>
+                <p>Return later and the player restores your last sacred pause.</p>
+              </div>
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Buffer</p>
+                <h4 id="audioBufferMeta">0%</h4>
+                <p>Shows how much of the current stream is ready for uninterrupted playback.</p>
+              </div>
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Volume</p>
+                <h4 id="audioVolumeMeta">100%</h4>
+                <p>Adjust this to keep the listening room calm across mobile and desktop.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="audio-queue-panel">
+            <div class="audio-queue-head">
+              <div>
+                <p class="audio-kicker">Queue</p>
+                <h4>Now flowing</h4>
+              </div>
+              <div class="audio-queue-meta" id="audioQueueMeta">1 track</div>
+            </div>
+            <div class="audio-queue-list" id="audioQueueList"></div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=12"></script>
+  <script src="{% static 'library/library.js' %}?v=24"></script>
 </body>
 </html>

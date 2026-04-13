@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spiritual Library | Science Meet Sanatan</title>
+  <title>{% if library_collection %}{{ library_collection.label }} | Spiritual Library{% else %}Spiritual Library | Science Meet Sanatan{% endif %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'header.css' %}" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
-  <link rel="stylesheet" href="{% static 'library/library.css' %}" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=24" />
 </head>
 <body>
   <header class="header">
@@ -64,60 +64,131 @@
     </div>
   </header>
 
-  <main class="library-page" id="libraryPage" data-error="{{ library_error|escape }}">
+  <main class="library-page" id="libraryPage" data-error="{{ library_error|escape }}" data-initial-category="{% if library_collection %}{{ library_collection.api_category }}{% else %}all{% endif %}" data-collection-slug="{{ library_collection_slug|default:'' }}">
     <div class="sky-layer sky-layer--one"></div>
     <div class="sky-layer sky-layer--two"></div>
     <div class="particle-field" id="particleField" aria-hidden="true"></div>
 
-    <section class="library-hero">
-      <div class="hero-copy">
-        <span class="hero-kicker">Digital Spiritual Library</span>
-        <h1>Read sacred wisdom with a premium, immersive library experience.</h1>
-        <p>
-          Discover aartis, Vedic verses, epic passages, and devotional texts in a calm, modern space designed for deep reading.
-        </p>
-        <div class="hero-actions">
-          <a class="hero-btn hero-btn--primary" href="#libraryGrid" id="exploreCollectionBtn">Explore Collection</a>
-          <button class="hero-btn hero-btn--ghost" type="button" id="featuredScrollBtn">Today’s Featured Aarti</button>
+    <div class="library-layout">
+      <aside class="library-side-nav">
+        <div class="library-side-nav__intro">
+          <h3>Celestial Library</h3>
+          <p>Vedic Archives</p>
         </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <span>Total Texts</span>
-            <strong id="heroTotalCount">{{ library_payload_obj.total|default:0 }}</strong>
-          </div>
-          <div class="hero-stat">
-            <span>Categories</span>
-            <strong id="heroCategoryCount">8</strong>
-          </div>
-          <div class="hero-stat">
-            <span>Reading Mode</span>
-            <strong>Hindi • English • Transliteration</strong>
-          </div>
+        <div class="library-side-nav__group">
+          <a href="/library/" class="side-nav-item {% if not library_collection %}is-active{% endif %}"><span>✦</span><span>All Texts</span><strong id="sideTotalCount">{{ library_payload_obj.total|default:0 }}</strong></a>
+          <a href="/library/collections/samhitas/" class="side-nav-item {% if library_collection_slug == 'samhitas' %}is-active{% endif %}"><span>📘</span><span>Samhitas</span></a>
+          <a href="/library/collections/upanishads/" class="side-nav-item {% if library_collection_slug == 'upanishads' %}is-active{% endif %}"><span>🕉</span><span>Upanishads</span></a>
+          <a href="/library/collections/puranas/" class="side-nav-item {% if library_collection_slug == 'puranas' %}is-active{% endif %}"><span>🪔</span><span>Puranas</span></a>
+          <a href="/library/collections/aartis/" class="side-nav-item {% if library_collection_slug == 'aartis' %}is-active{% endif %}"><span>☸</span><span>Aartis</span></a>
+          <a href="/library/collections/audios/" class="side-nav-item {% if library_collection_slug == 'audios' %}is-active{% endif %}"><span>🎧</span><span>Audios</span></a>
+          <a href="/library/collections/sacred-hymns/" class="side-nav-item {% if library_collection_slug == 'sacred-hymns' %}is-active{% endif %}"><span>📜</span><span>Sacred Hymns</span></a>
         </div>
-      </div>
+        <div class="side-reading-progress">
+          <p class="sidebar-kicker">Continue Reading</p>
+          <h4 id="sideProgressTitle">Your latest sacred pause</h4>
+          <p class="side-reading-progress__meta" id="sideProgressMeta">Open any text to build your shelf.</p>
+          <div class="progress-bar-bg"><span class="progress-bar-fill" id="sideProgressBar"></span></div>
+          <div class="progress-pct" id="sideProgressPct">0%</div>
+        </div>
+      </aside>
 
-      <div class="hero-featured" id="featuredRail">
-        {% for item in library_payload_obj.featured %}
-          <a class="featured-card" href="/library/{{ item.slug|urlencode }}/">
-            <span class="featured-label">✨ {% if item.content_type == 'pdf' %}Scripture{% else %}Featured{% endif %}</span>
-            <h3>{{ item.name }}</h3>
-            <p>{{ item.excerpt|default:item.category }}</p>
-          </a>
-        {% empty %}
-          <div class="featured-card">
-            <span class="featured-label">✨ Library</span>
-            <h3>No items yet</h3>
-            <p>Add local library files to begin populating this section.</p>
+      <div class="library-main">
+        <section class="page-hero anim">
+          <div>
+            <h1>The <em>Great</em> Hall</h1>
+            <p class="hero-sub">Illuminated manuscripts • celestial wisdom • sacred discovery</p>
           </div>
-        {% endfor %}
-      </div>
-    </section>
+          <div class="hero-stats hero-stats--editorial">
+            <div class="stat">
+              <div class="stat-num" id="heroTotalCount">{{ library_payload_obj.total|default:0 }}</div>
+              <div class="stat-label">Texts</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num" id="heroCategoryCount">8</div>
+              <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num" id="heroLanguageCount">3</div>
+              <div class="stat-label">Languages</div>
+            </div>
+          </div>
+        </section>
 
-    <section class="library-panel">
+        <section class="library-hero">
+          <div class="hero-copy">
+            <div class="hero-copy__main">
+              <span class="hero-kicker">{% if library_collection %}{{ library_collection.hero_kicker }}{% else %}Celestial Library • Digital Sanctuary{% endif %}</span>
+              <h1>{% if library_collection %}{{ library_collection.hero_title }}{% else %}Enter a sacred reading sanctuary designed for deep stillness and luminous discovery.{% endif %}</h1>
+              <p>{% if library_collection %}{{ library_collection.hero_description }}{% else %}Browse scriptures, aartis, hymns, and devotional archives in a cinematic library shaped like an observatory of wisdom.{% endif %}</p>
+              <div class="hero-actions">
+                <a class="hero-btn hero-btn--primary" href="#libraryGrid" id="exploreCollectionBtn">Explore Collection</a>
+                <button class="hero-btn hero-btn--ghost" type="button" id="heroContinueBtn">Continue Reading</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-featured">
+            <div class="hero-featured__head">
+              <div>
+                <p class="panel-kicker">{% if library_collection %}{{ library_collection.label }} Collection{% else %}Featured Collection{% endif %}</p>
+                <h2>{% if library_collection %}{{ library_collection.panel_title }}{% else %}Curated manuscripts in motion{% endif %}</h2>
+              </div>
+              <button class="hero-btn hero-btn--ghost hero-btn--mini" type="button" id="featuredScrollBtn">Open Featured</button>
+            </div>
+            <div class="featured-rail" id="featuredRail">
+              {% for item in library_payload_obj.featured %}
+                <a class="featured-card" href="/library/{{ item.slug|urlencode }}/">
+                  <span class="featured-label">✨ {% if item.content_type == 'pdf' %}Scripture{% else %}Featured{% endif %}</span>
+                  <h3>{{ item.name }}</h3>
+                  <p>{{ item.excerpt|default:item.category }}</p>
+                </a>
+              {% empty %}
+                <div class="featured-card">
+                  <span class="featured-label">✨ Library</span>
+                  <h3>No items yet</h3>
+                  <p>Add local library files to begin populating this section.</p>
+                </div>
+              {% endfor %}
+            </div>
+          </aside>
+        </section>
+
+        {% if library_collection_slug == 'audios' %}
+        <section class="audio-hub-shell library-section" id="audioHubRoot"></section>
+        {% else %}
+        <section class="continue-reading-grid library-section">
+          <div class="cr-books">
+            <div class="section-header">
+              <div class="section-title">Continue <span>Reading</span></div>
+              <div class="section-actions">
+                <button class="circle-btn" type="button" id="continueBackBtn">‹</button>
+                <button class="circle-btn" type="button" id="continueForwardBtn">›</button>
+              </div>
+            </div>
+            <div class="continue-rail continue-rail--arcanum" id="continueReadingRail"></div>
+          </div>
+
+          <div class="scholar-plus">
+            <div class="splus-icon">
+              <span class="featured-label">Arcanum Plus</span>
+            </div>
+            <div class="splus-heading">Deepen your <em>knowledge</em> with a premium scholarly layer</div>
+            <div class="splus-desc">Advanced annotations, curated reading paths, audio room access, and sacred archive insights can live here later when login-linked features are enabled.</div>
+            <div class="splus-features">
+              <div class="splus-feature"><span>✦</span><span>Scholar notes and commentary layers</span></div>
+              <div class="splus-feature"><span>✦</span><span>Advanced cross-text linking</span></div>
+              <div class="splus-feature"><span>✦</span><span>Priority archive recommendations</span></div>
+            </div>
+            <button class="btn-upgrade" type="button" id="continueReadingJumpBtn">Preview Arcanum Plus</button>
+          </div>
+        </section>
+
+        <section class="library-panel">
       <div class="panel-top">
         <div>
           <p class="panel-kicker">Search the sacred archive</p>
-          <h2>Find by name, deity, category, or verse fragment.</h2>
+          <h2>{% if library_collection %}Find within {{ library_collection.label }} by name, deity, category, or verse fragment.{% else %}Find by name, deity, category, or verse fragment.{% endif %}</h2>
         </div>
         <div class="panel-meta" id="libraryStatus">Ready to explore</div>
       </div>
@@ -146,22 +217,39 @@
           <option value="english">English</option>
           <option value="transliteration">Transliteration</option>
         </select>
+
+        <div class="view-toggle" id="bookshelfToggle" role="tablist" aria-label="Collection view">
+          <button type="button" class="view-toggle__btn is-active" data-view="grid">Grid</button>
+          <button type="button" class="view-toggle__btn" data-view="shelf">Bookshelf</button>
+        </div>
       </div>
 
       <div class="collection-shell">
         <aside class="collection-sidebar">
           <div class="sidebar-card">
-            <p class="sidebar-kicker">Today’s Cosmic Message</p>
-            <h3>Let devotion become a rhythm, not a rush.</h3>
-            <p>The right text at the right moment can become a doorway into quietness, focus, and gratitude.</p>
+              <p class="sidebar-kicker">{% if library_collection %}{{ library_collection.label }} Atmosphere{% else %}Today’s Cosmic Message{% endif %}</p>
+              <h3>{% if library_collection %}{{ library_collection.panel_subtitle }}{% else %}Let devotion become a rhythm, not a rush.{% endif %}</h3>
+              <p>{% if library_collection %}This focused shelf keeps the same cinematic reading flow while narrowing discovery to one sacred stream of knowledge.{% else %}The right text at the right moment can become a doorway into quietness, focus, and gratitude.{% endif %}</p>
           </div>
           <div class="sidebar-card">
             <p class="sidebar-kicker">Recently viewed</p>
             <div id="recentlyViewed" class="recently-viewed"></div>
           </div>
+          <div class="sidebar-card sidebar-card--ambient">
+            <p class="sidebar-kicker">Reader ambience</p>
+            <h3>Kindle calm, temple stillness</h3>
+            <p>Open any text to enter a distraction-free reading space with progress memory, fullscreen, theme controls, and immersive reader flow.</p>
+          </div>
         </aside>
 
         <div class="collection-main">
+          <div class="collection-topbar">
+            <div class="collection-topbar__copy">
+              <p class="panel-kicker">Archive shelf</p>
+              <h3>Every text arranged for discovery</h3>
+            </div>
+            <div class="panel-meta" id="resultsCount">{{ library_payload_obj.total|default:0 }} texts</div>
+          </div>
           <div id="libraryEmpty" class="library-empty" {% if library_payload_obj.items %}hidden{% endif %}>No texts matched your search yet.</div>
           <div id="libraryGrid" class="library-grid">
             {% for item in library_payload_obj.items %}
@@ -194,11 +282,261 @@
           </div>
         </div>
       </div>
-    </section>
+        </section>
+
+        <section class="karmic-grid library-section">
+          <div class="karmic-panel">
+            <div class="section-header">
+              <div class="section-title">Karmic <span>Representation</span></div>
+            </div>
+            <div class="karmic-dasha-badge">Current Cycle • Reflection View</div>
+            <div class="karmic-list">
+              <div class="karmic-item k-gold">
+                <div class="karmic-thumb">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSpylc4bIDzyGBUkLWzETpjF1T5XQIYw1DCHv9OPROPu_3rArGfvZryjAtBwqWGNE-Su5ABNM2uC1_7wEhxXU1sMm6wt49v_mbbdKbAtdFGsgafflZFP2QxG7bgFHZrZ3nxuLgz0s9tZC5QFie8CoSM22kfdNBQtGAwwc0jzSvlkjY9d1M5K_haxZKocy0b0SK4Ds6RA3GVHajAN_7etw_4kt9fig5-8WwpRzKXEKnGgQ2Bw3zYlfrE1dUhp8LDqsuI0vs2cNOP_YK" alt="Sacred manuscript art">
+                </div>
+                <div class="karmic-body">
+                  <div class="karmic-title">Bhagavad Gita — Reflection Path</div>
+                  <div class="karmic-reason k-reason-gold">For inner steadiness, discipline, and clarity in action</div>
+                </div>
+              </div>
+              <div class="karmic-item k-copper">
+                <div class="karmic-thumb">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5mPZ8neflsd0RjKvYNAUOMZd4IdjSXFip7IiQ5mFG6r35Qg9ocLKQMqKr1xYwebwZy7gtv9aHEag6EKQGUMwik2U2fjvsdmFaYJCFBIB_t-lULSf1Eu0KeHD9-6az83e68C2FDy4EcUEAZN6uIzpU843DM4qUoYtwVSUJ9658MWixyElljCxQ-yygHcv4sQGiw_Lmh8OTLS6W5nxug7_kD9dvH8foEHelkoCuUaetjxxOcM_luOnsePVjeOdGkZ7oFy9DqboLsQ" alt="Ascetic scholar portrait">
+                </div>
+                <div class="karmic-body">
+                  <div class="karmic-title">Shiva Tandava — Energy Channel</div>
+                  <div class="karmic-reason k-reason-copper">For intensity, courage, and transmuting emotional pressure</div>
+                </div>
+              </div>
+              <div class="karmic-item k-sky">
+                <div class="karmic-thumb">
+                  <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOGyva3303proDeUscVSBb9AH6aKQB77bnDAPJrBrPeTkTPrW9c-sQY9fewQ3nytx_gcb2EghJ3kwQeTdgEedwriWz5sZyipxJ-ddc6jhiFnSm2al7E6PdJx3g8V6Rz9R0DnGkwxI6FNq5be5NiCyKPwyukrMt0g2w9U4lD32HgsM4OczprXBYLjF_U_KyaBoWa6vNFt3XnX7SKquswjS928bGAHB--0lYRRpoAEmnxNKCklftDeQXxItsEkLFGaWXPGVGZGDB5BWQ" alt="Rigvedic texture">
+                </div>
+                <div class="karmic-body">
+                  <div class="karmic-title">Isha Upanishad — Silence Window</div>
+                  <div class="karmic-reason k-reason-sky">For contemplation, minimalism, and deeper inward attention</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="resonance-panel hologram-grid">
+            <div class="section-header">
+              <div class="section-title">Reading <span>Resonance</span></div>
+            </div>
+            <div class="resonance-chart-area">
+              <svg viewBox="0 0 500 180" width="100%" height="100%" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="goldLine" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#f2ca50" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#f2ca50" stop-opacity="1"/>
+                  </linearGradient>
+                  <linearGradient id="copperLine" x1="0" x2="1">
+                    <stop offset="0%" stop-color="#ffb779" stop-opacity="0.15"/>
+                    <stop offset="100%" stop-color="#ffb779" stop-opacity="1"/>
+                  </linearGradient>
+                </defs>
+                <path d="M10 145 C90 120, 120 95, 185 100 S300 155, 360 115 S445 55, 490 72" fill="none" stroke="url(#goldLine)" stroke-width="3"/>
+                <path d="M10 118 C90 92, 130 135, 200 118 S300 90, 360 108 S440 145, 490 128" fill="none" stroke="url(#copperLine)" stroke-width="2"/>
+                <circle cx="185" cy="100" r="4" fill="#f2ca50"/>
+                <circle cx="360" cy="115" r="4" fill="#f2ca50"/>
+                <circle cx="300" cy="90" r="4" fill="#ffb779"/>
+              </svg>
+              <div class="resonance-x-labels">
+                <span>Calm</span><span>Focus</span><span>Bhakti</span><span>Depth</span><span>Insight</span>
+              </div>
+            </div>
+            <div class="resonance-legend">
+              <div style="display:flex;align-items:center;gap:8px;"><span class="legend-dot" style="background:#f2ca50"></span><span class="legend-label">Devotional pull</span></div>
+              <div style="display:flex;align-items:center;gap:8px;"><span class="legend-dot" style="background:#ffb779"></span><span class="legend-label">Reflective pull</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="vault-section library-section">
+          <div class="section-header">
+            <div class="section-title">Vault of <span>Wisdom</span></div>
+          </div>
+          <div class="vault-grid">
+            <div class="vault-card">
+              <div class="vault-card-top">
+                <div class="vault-quote-icon vault-quote-icon-gold">✦</div>
+                <div class="vault-ref">Gita 2.47</div>
+              </div>
+              <div class="vault-quote">“You have a right to action alone, never to its fruits.”</div>
+              <div class="vault-card-divider"></div>
+              <div class="vault-note">A reminder to read for alignment, not performance.</div>
+            </div>
+            <div class="vault-card">
+              <div class="vault-card-top">
+                <div class="vault-quote-icon vault-quote-icon-copper">🪔</div>
+                <div class="vault-ref">Isha Upanishad</div>
+              </div>
+              <div class="vault-quote">“All this is pervaded by the Lord.”</div>
+              <div class="vault-card-divider"></div>
+              <div class="vault-note">Useful when the mind needs a wider view beyond urgency.</div>
+            </div>
+            <div class="vault-card">
+              <div class="vault-card-top">
+                <div class="vault-quote-icon vault-quote-icon-sky">☸</div>
+                <div class="vault-ref">Rigveda</div>
+              </div>
+              <div class="vault-quote">“Let noble thoughts come to us from every side.”</div>
+              <div class="vault-card-divider"></div>
+              <div class="vault-note">A fitting cue for discovery, openness, and research.</div>
+            </div>
+            <div class="vault-add-card">
+              <div class="vault-add-btn">＋</div>
+              <div class="vault-add-label">Sample Wisdom Card</div>
+            </div>
+          </div>
+        </section>
+        {% endif %}
+      </div>
+    </div>
   </main>
+
+  <section class="audio-player-shell" id="audioPlayerShell" hidden aria-live="polite">
+    <div class="audio-mini-player" id="audioMiniPlayer">
+      <button type="button" class="audio-mini-cover" id="audioMiniExpandBtn" aria-label="Open audio player">
+        <img id="audioMiniCoverImage" alt="" />
+      </button>
+      <div class="audio-mini-meta">
+        <div class="audio-mini-title" id="audioMiniTitle">Audio sanctuary</div>
+        <div class="audio-mini-subtitle" id="audioMiniSubtitle">Select a sacred track to begin.</div>
+        <div class="audio-mini-state" id="audioMiniState">Ready to stream</div>
+      </div>
+      <div class="audio-mini-progress">
+        <span class="audio-mini-progress__buffer" id="audioMiniBufferedFill"></span>
+        <span id="audioMiniProgressFill"></span>
+      </div>
+      <div class="audio-mini-actions">
+        <button type="button" class="audio-mini-btn" id="audioMiniPrevBtn" aria-label="Previous track">⏮</button>
+        <button type="button" class="audio-mini-btn audio-mini-btn--primary" id="audioMiniPlayBtn" aria-label="Play or pause">▶</button>
+        <button type="button" class="audio-mini-btn" id="audioMiniNextBtn" aria-label="Next track">⏭</button>
+        <button type="button" class="audio-mini-btn audio-mini-btn--close" id="audioMiniCloseBtn" aria-label="Stop audio">✕</button>
+      </div>
+    </div>
+
+    <div class="audio-fullscreen" id="audioFullscreen" hidden>
+      <button type="button" class="audio-fullscreen__backdrop" id="audioCloseBackdrop" aria-label="Close audio player"></button>
+      <div class="audio-fullscreen__panel" id="audioFullscreenPanel">
+        <div class="audio-fullscreen__ambient" id="audioAmbient"></div>
+        <div class="audio-fullscreen__topbar">
+          <div>
+            <p class="audio-kicker">Spiritual Library Audio</p>
+            <h2>Listening Sanctuary</h2>
+          </div>
+          <div class="audio-topbar-actions">
+            <button type="button" class="detail-action-btn" id="audioBookmarkTimeBtn">Bookmark time</button>
+            <button type="button" class="detail-action-btn" id="audioFavoriteBtn">Favorite</button>
+            <button type="button" class="detail-action-btn" id="audioMinimizeBtn">Minimize</button>
+            <button type="button" class="detail-action-btn detail-action-btn--danger" id="audioStopBtn">Stop</button>
+          </div>
+        </div>
+
+        <div class="audio-fullscreen__body">
+          <div class="audio-art-stage">
+            <div class="audio-art-glow"></div>
+            <div class="audio-art-frame">
+              <img id="audioCoverImage" alt="" />
+            </div>
+            <div class="audio-visualizer" id="audioVisualizer" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="audio-main-console">
+            <div class="audio-track-meta">
+              <p class="audio-kicker" id="audioTrackKicker">Cloud sanctuary stream</p>
+              <h3 id="audioTrackTitle">Choose a sacred audio stream</h3>
+              <p id="audioTrackSubtitle">Aarti, book narration, or devotional audio can live here.</p>
+              <div class="audio-track-meta__row">
+                <span class="audio-track-counter" id="audioTrackCounter">Track 0 of 0</span>
+                <span class="audio-track-state" id="audioTrackState">Idle</span>
+              </div>
+              <div class="audio-error-banner" id="audioErrorBanner" hidden>
+                <strong>Playback issue</strong>
+                <span id="audioErrorMessage">This stream could not be loaded.</span>
+              </div>
+            </div>
+
+            <div class="audio-progress-card">
+              <div class="audio-progress-time">
+                <span id="audioCurrentTime">0:00</span>
+                <span id="audioDuration">0:00</span>
+              </div>
+              <div class="audio-progress-shell">
+                <span class="audio-progress-buffer" id="audioBufferedFill"></span>
+                <span class="audio-progress-played" id="audioPlayedFill"></span>
+                <input id="audioProgressRange" class="audio-progress-range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek audio" />
+              </div>
+              <div class="audio-progress-labels">
+                <span id="audioProgressLabel">Ready to stream</span>
+                <span id="audioSpeedLabel">1×</span>
+              </div>
+            </div>
+
+            <div class="audio-controls">
+              <button type="button" class="audio-control-btn" id="audioPrevBtn" aria-label="Previous track">⏮</button>
+              <button type="button" class="audio-control-btn" id="audioBack10Btn" aria-label="Seek back 10 seconds">↺10</button>
+              <button type="button" class="audio-control-btn audio-control-btn--hero" id="audioPlayBtn" aria-label="Play or pause">▶</button>
+              <button type="button" class="audio-control-btn" id="audioForward10Btn" aria-label="Seek forward 10 seconds">10↻</button>
+              <button type="button" class="audio-control-btn" id="audioNextBtn" aria-label="Next track">⏭</button>
+            </div>
+
+            <div class="audio-secondary-controls">
+              <button type="button" class="audio-pill-btn" id="audioRepeatBtn">Repeat Off</button>
+              <button type="button" class="audio-pill-btn" id="audioSpeedBtn">Speed 1×</button>
+              <button type="button" class="audio-pill-btn" id="audioMuteBtn">Mute</button>
+              <label class="audio-volume-shell" for="audioVolumeRange">
+                <span>Volume</span>
+                <input id="audioVolumeRange" class="audio-volume-range" type="range" min="0" max="1" value="1" step="0.01" aria-label="Volume" />
+              </label>
+            </div>
+
+            <div class="audio-insight-grid">
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Playback mode</p>
+                <h4 id="audioPlaybackMode">Streaming from Cloudinary</h4>
+                <p id="audioPlaybackMeta">Adaptive HTML5 audio stream with saved position.</p>
+              </div>
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Resume state</p>
+                <h4 id="audioResumeMeta">No saved timestamp yet</h4>
+                <p>Return later and the player restores your last sacred pause.</p>
+              </div>
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Buffer</p>
+                <h4 id="audioBufferMeta">0%</h4>
+                <p>Shows how much of the current stream is ready for uninterrupted playback.</p>
+              </div>
+              <div class="audio-insight-card">
+                <p class="audio-kicker">Volume</p>
+                <h4 id="audioVolumeMeta">100%</h4>
+                <p>Adjust this to keep the listening room calm across mobile and desktop.</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="audio-queue-panel">
+            <div class="audio-queue-head">
+              <div>
+                <p class="audio-kicker">Queue</p>
+                <h4>Now flowing</h4>
+              </div>
+              <div class="audio-queue-meta" id="audioQueueMeta">1 track</div>
+            </div>
+            <div class="audio-queue-list" id="audioQueueList"></div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
 
   {{ library_payload|json_script:"libraryPayloadData" }}
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=12"></script>
+  <script src="{% static 'library/library.js' %}?v=24"></script>
 </body>
 </html>

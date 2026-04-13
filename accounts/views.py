@@ -84,6 +84,70 @@ GREGORIAN_TO_LUNAR_HINTS = {
     12: ["Margashirsha", "Paush"],
 }
 
+LIBRARY_COLLECTIONS = {
+    "samhitas": {
+        "label": "Samhitas",
+        "nav_icon": "📘",
+        "api_category": "vedas",
+        "hero_kicker": "Vedic canon • primordial revelation",
+        "hero_title": "Enter the Samhitas like a ceremonial archive of sound, fire, and invocation.",
+        "hero_description": "Browse the mantra-born foundations of Vedic knowledge in the same cinematic sanctuary, focused on revelation, ritual language, and cosmic order.",
+        "panel_title": "Samhita Archive",
+        "panel_subtitle": "Rig • Sama • Yajur • Atharva aligned for deep study",
+    },
+    "upanishads": {
+        "label": "Upanishads",
+        "nav_icon": "🕉",
+        "api_category": "upanishads",
+        "hero_kicker": "Inner wisdom • contemplative doctrine",
+        "hero_title": "Read the Upanishads as a still, luminous corridor of self-inquiry.",
+        "hero_description": "This collection is tuned for philosophical reading, subtle contemplation, and the interior movements of Vedantic insight.",
+        "panel_title": "Upanishadic Chamber",
+        "panel_subtitle": "Mahavakyas, contemplative passages, and teacher-student wisdom",
+    },
+    "puranas": {
+        "label": "Puranas",
+        "nav_icon": "🪔",
+        "api_category": "books",
+        "hero_kicker": "Epic memory • living mythology",
+        "hero_title": "Move through the Puranas as a richly illustrated corridor of story, devotion, and dharmic memory.",
+        "hero_description": "Discover narrative scripture, cosmic histories, and devotional storytelling in a reading space shaped for immersive return visits.",
+        "panel_title": "Puranic Treasury",
+        "panel_subtitle": "Narrative scripture, epics, and devotional story cycles",
+    },
+    "aartis": {
+        "label": "Aartis",
+        "nav_icon": "☸",
+        "api_category": "aartis",
+        "hero_kicker": "Daily devotion • luminous ritual",
+        "hero_title": "Keep the Aartis close as a glowing devotional shelf for everyday return.",
+        "hero_description": "A focused sanctuary for singing, recitation, and ritual rhythm across the most familiar sacred invocations.",
+        "panel_title": "Aarti Gallery",
+        "panel_subtitle": "Temple rhythms, daily chants, and devotional refrains",
+    },
+    "audios": {
+        "label": "Audios",
+        "nav_icon": "🎧",
+        "api_category": "audios",
+        "filter_mode": "audio_only",
+        "hero_kicker": "Cloud sanctuary • sacred listening",
+        "hero_title": "Enter the audio sanctuary where aartis and spiritual streams flow like a premium listening room.",
+        "hero_description": "This collection gathers only items that have Cloudinary-backed audio attached, so the listening experience stays curated and intentional.",
+        "panel_title": "Audio Sanctuary",
+        "panel_subtitle": "Streaming aartis, recitations, and future narration tracks",
+    },
+    "sacred-hymns": {
+        "label": "Sacred Hymns",
+        "nav_icon": "📜",
+        "api_category": "sacred hymns",
+        "hero_kicker": "Invocation • praise • mantraic resonance",
+        "hero_title": "Study sacred hymns inside a chamber designed for repetition, reverence, and sonic stillness.",
+        "hero_description": "This view gathers hymn-based texts into a more focused discovery experience, tuned for prayer, recitation, and meditative reading.",
+        "panel_title": "Hymnal Vault",
+        "panel_subtitle": "Stotras, hymns, and praise-texts in a premium reading sanctuary",
+    },
+}
+
 
 def _house_from_sign(target_idx, base_idx):
     return ((int(target_idx) - int(base_idx)) % 12) + 1
@@ -800,6 +864,52 @@ def library_page(request):
             "library_payload_obj": payload,
             "library_categories": PRESET_LIBRARY_CATEGORIES,
             "library_error": library_error,
+            "library_collection": None,
+            "library_collection_slug": "",
+        },
+    )
+
+
+def library_collection_page(request, collection_slug: str):
+    collection = LIBRARY_COLLECTIONS.get((collection_slug or "").strip().lower())
+    if not collection:
+        return redirect("/library/")
+
+    library_error = ""
+    payload = {"items": [], "featured": [], "categories": [], "total": 0}
+    try:
+        full_payload = build_library_payload()
+        if collection.get("filter_mode") == "audio_only":
+            filtered_items = [
+                item
+                for item in full_payload.get("items", [])
+                if str(item.get("audio_url") or "").strip()
+            ]
+        else:
+            filtered_items = [
+                item
+                for item in full_payload.get("items", [])
+                if str(item.get("category") or "").strip().lower() == collection["api_category"]
+            ]
+        payload = {
+            **full_payload,
+            "items": filtered_items,
+            "featured": [item for item in filtered_items if item.get("featured")] or filtered_items[:8],
+            "total": len(filtered_items),
+        }
+    except Exception as exc:
+        library_error = str(exc)
+
+    return render(
+        request,
+        "library.html",
+        {
+            "library_payload": json.dumps(payload),
+            "library_payload_obj": payload,
+            "library_categories": PRESET_LIBRARY_CATEGORIES,
+            "library_error": library_error,
+            "library_collection": collection,
+            "library_collection_slug": collection_slug,
         },
     )
 

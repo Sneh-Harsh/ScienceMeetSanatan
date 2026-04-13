@@ -29,6 +29,20 @@
       }
     },
     {
+      "slug": "hanuman-aarti",
+      "name": "Shri Hanuman Ji Ki Aarti",
+      "category": "Aartis",
+      "deity": "Lord Hanuman",
+      "featured": true,
+      "popularity": 97,
+      "excerpt": "A powerful Hanuman aarti invoking courage, devotion, protection, and unwavering strength in service.",
+      "languages": {
+        "hindi": "आरती कीजै हनुमान लला की। दुष्ट दलन रघुनाथ कला की॥\n\nजाके बल से गिरिवर काँपे। रोग दोष जाके निकट न झाँके॥\n\nअंजनि पुत्र महाबलदायी। संतन के प्रभु सदा सहाई॥\n\nबाएँ भुजा असुर दल मारे। दाहिने भुजा संतजन तारे॥\n\nआरती कीजै हनुमान लला की॥",
+        "english": "Offer the aarti to Hanuman, radiant servant of Rama, destroyer of fear and guardian of devotion.\n\nBy his strength even mountains tremble, and disease and negativity do not come near.\n\nHe is the mighty son of Anjani, always protecting seekers and uplifting the devoted.",
+        "sanskrit": "मनोजवं मारुततुल्यवेगं जितेन्द्रियं बुद्धिमतां वरिष्ठम्।\nवातात्मजं वानरयूथमुख्यं श्रीरामदूतं शरणं प्रपद्ये॥"
+      }
+    },
+    {
       "slug": "durga-chalisa",
       "name": "Durga Chalisa",
       "category": "Chalisas",

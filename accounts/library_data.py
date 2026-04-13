@@ -8,9 +8,10 @@ from django.templatetags.static import static
 from django.utils.text import slugify
 
 
-LIBRARY_CACHE_KEY = "library::items::local::v4"
+LIBRARY_CACHE_KEY = "library::items::local::v6"
 LIBRARY_DATA_DIR = Path(settings.BASE_DIR) / "accounts" / "data" / "library"
 LIBRARY_SEED_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_seed.json"
+LIBRARY_AUDIO_LINKS_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_audio_links.json"
 LIBRARY_ASSETS_DIR = Path(settings.BASE_DIR) / "accounts" / "static" / "library" / "assets"
 MANIFESTS_DIR = LIBRARY_DATA_DIR / "manifests"
 PRESET_LIBRARY_CATEGORIES = [
@@ -20,6 +21,7 @@ PRESET_LIBRARY_CATEGORIES = [
     "Bhajans",
     "Vedas",
     "Upanishads",
+    "Sacred Hymns",
 ]
 
 PDF_CATALOG = {
@@ -80,6 +82,38 @@ def _language_payload(source: Dict) -> Dict:
     }
 
 
+def _load_audio_links() -> Dict[str, Dict]:
+    if not LIBRARY_AUDIO_LINKS_PATH.exists():
+        return {}
+    try:
+        payload = json.loads(LIBRARY_AUDIO_LINKS_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+    if not isinstance(payload, dict):
+        return {}
+    normalized = {}
+    for slug, raw in payload.items():
+        if not isinstance(raw, dict):
+            continue
+        key = str(slug or "").strip().lower()
+        if not key:
+            continue
+        normalized[key] = {
+            "audio_url": str(raw.get("audio_url") or "").strip(),
+            "cover_image": str(raw.get("cover_image") or "").strip(),
+            "duration": raw.get("duration"),
+        }
+    return normalized
+
+
+def _attach_audio_fields(item: Dict, audio_links: Dict[str, Dict]) -> Dict:
+    link_meta = audio_links.get(str(item.get("slug") or "").strip().lower(), {})
+    item["audio_url"] = str(link_meta.get("audio_url") or "").strip()
+    item["cover_image"] = str(link_meta.get("cover_image") or "").strip()
+    item["duration"] = link_meta.get("duration")
+    return item
+
+
 def _normalize_aarti_item(item: Dict) -> Dict:
     name = str(item.get("name") or item.get("title") or "").strip()
     slug = str(item.get("slug") or slugify(name) or "").strip()
@@ -130,11 +164,12 @@ def _load_aarti_items() -> List[Dict]:
     else:
         items = []
 
+    audio_links = _load_audio_links()
     normalized = []
     for raw in items:
         if not isinstance(raw, dict):
             continue
-        item = _normalize_aarti_item(raw)
+        item = _attach_audio_fields(_normalize_aarti_item(raw), audio_links)
         if item["slug"] and item["name"]:
             normalized.append(item)
     return normalized
@@ -175,6 +210,9 @@ def _build_pdf_item(file_name: str, meta: Dict) -> Dict:
         "languages": {"hindi": "", "english": "", "sanskrit": ""},
         "pdf_url": static("library/assets/{0}".format(file_name)),
         "structure": manifest,
+        "audio_url": "",
+        "cover_image": "",
+        "duration": None,
     }
 
 
