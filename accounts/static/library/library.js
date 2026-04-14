@@ -129,6 +129,13 @@ const formatDuration = (value) => {
 
 const getAudioFavorites = () => new Set(safeJson(localStorage.getItem(AUDIO_FAVORITES_KEY), []));
 
+const appendCollectionQuery = (href, collectionSlug = "") => {
+  const normalized = String(collectionSlug || "").trim().toLowerCase();
+  if (!normalized || normalized === "all") return href;
+  const joiner = href.includes("?") ? "&" : "?";
+  return `${href}${joiner}from_collection=${encodeURIComponent(normalized)}`;
+};
+
 const buildAudioTrackFromItem = (item) => {
   if (!item?.slug) return null;
   const audioUrl = String(item.audio_url || "").trim();
@@ -178,6 +185,7 @@ const createLibraryAudioPlayer = () => {
     miniState: document.getElementById("audioMiniState"),
     miniProgressFill: document.getElementById("audioMiniProgressFill"),
     miniBufferedFill: document.getElementById("audioMiniBufferedFill"),
+    miniProgressRange: document.getElementById("audioMiniProgressRange"),
     miniPrevBtn: document.getElementById("audioMiniPrevBtn"),
     miniPlayBtn: document.getElementById("audioMiniPlayBtn"),
     miniNextBtn: document.getElementById("audioMiniNextBtn"),
@@ -239,12 +247,16 @@ const createLibraryAudioPlayer = () => {
   let isMuted = false;
   let isLoading = false;
   let playerError = "";
+  let hasStreamError = false;
   let pendingAutoplay = false;
   let isSeeking = false;
+  let isMiniSeeking = false;
+  let playerHistoryPushed = false;
   const favoriteSet = getAudioFavorites();
 
   const getTrack = () => queue[currentIndex] || null;
   const repeatModeLabel = () => repeatMode === "one" ? "Repeat One" : repeatMode === "all" ? "Repeat All" : "Repeat Off";
+  const hasBlockingError = () => hasStreamError && Boolean(playerError);
   const bufferedPct = () => {
     const duration = Number(audio.duration || 0);
     if (!duration || !audio.buffered?.length) return 0;
@@ -280,11 +292,31 @@ const createLibraryAudioPlayer = () => {
     document.body.classList.toggle("library-audio-open", isExpanded);
     shell.classList.toggle("is-playing", !audio.paused);
     shell.classList.toggle("is-loading", isLoading);
-    shell.classList.toggle("has-error", Boolean(playerError));
+    shell.classList.toggle("has-error", hasBlockingError());
   };
 
   const clearSession = () => {
     localStorage.removeItem(AUDIO_SESSION_KEY);
+  };
+
+  const pushPlayerHistoryState = () => {
+    if (playerHistoryPushed) return;
+    try {
+      window.history.pushState({ ...(window.history.state || {}), smsAudioPlayerOpen: true }, "", window.location.href);
+      playerHistoryPushed = true;
+    } catch (error) {
+      playerHistoryPushed = false;
+    }
+  };
+
+  const closeExpandedPlayerState = () => {
+    if (!isExpanded) return;
+    if (playerHistoryPushed) {
+      window.history.back();
+      return;
+    }
+    isExpanded = false;
+    render();
   };
 
   const updateQueue = () => {
@@ -333,7 +365,7 @@ const createLibraryAudioPlayer = () => {
     refs.trackKicker.textContent = track.sourceLabel;
     refs.trackCounter.textContent = `Track ${currentIndex + 1} of ${queue.length}`;
     refs.playbackMode.textContent = track.hasExplicitAudio ? "Cloudinary source attached" : "Preview stream";
-    refs.playbackMeta.textContent = playerError
+    refs.playbackMeta.textContent = hasBlockingError()
       ? "The active stream hit a playback issue. Retry or move to the next track."
       : "Streaming live from your hosted Cloudinary audio asset.";
     refs.ambient.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,16,.18), rgba(7,10,16,.82)), url('${track.coverImage}')`;
@@ -346,6 +378,8 @@ const createLibraryAudioPlayer = () => {
     refs.duration.textContent = formatDuration(duration);
     refs.progressRange.max = String(duration || 100);
     if (!isSeeking) refs.progressRange.value = String(currentTime);
+    refs.miniProgressRange.max = String(duration || 100);
+    if (!isMiniSeeking) refs.miniProgressRange.value = String(currentTime);
     refs.miniProgressFill.style.width = `${progressPct}%`;
     refs.miniBufferedFill.style.width = `${bufferPct}%`;
     refs.playedFill.style.width = `${progressPct}%`;
@@ -360,28 +394,28 @@ const createLibraryAudioPlayer = () => {
     refs.volumeMeta.textContent = `${Math.round((isMuted ? 0 : volume) * 100)}%`;
     refs.bufferMeta.textContent = `${Math.round(bufferPct)}%`;
     refs.resumeMeta.textContent = currentTime > 1 ? `Saved at ${formatDuration(currentTime)}` : "No saved timestamp yet";
-    refs.progressLabel.textContent = playerError
+    refs.progressLabel.textContent = hasBlockingError()
       ? "Playback issue"
       : isLoading
         ? "Buffering sacred audio…"
         : audio.paused
           ? "Paused in your listening room"
           : "Now flowing";
-    refs.trackState.textContent = playerError
+    refs.trackState.textContent = hasBlockingError()
       ? "Error"
       : isLoading
         ? "Loading"
         : audio.paused
           ? "Paused"
           : "Playing";
-    refs.miniState.textContent = playerError
+    refs.miniState.textContent = hasBlockingError()
       ? "Playback issue"
       : isLoading
         ? "Loading…"
         : audio.paused
           ? "Paused"
           : "Now flowing";
-    refs.errorBanner.hidden = !playerError;
+    refs.errorBanner.hidden = !hasBlockingError();
     refs.errorMessage.textContent = playerError || "This stream could not be loaded.";
     if ("mediaSession" in navigator && window.MediaMetadata) {
       navigator.mediaSession.metadata = new window.MediaMetadata({
@@ -445,6 +479,7 @@ const createLibraryAudioPlayer = () => {
     const queueIndex = normalizedQueue.findIndex((entry) => entry.slug === track.slug);
     currentIndex = queueIndex >= 0 ? queueIndex : 0;
     isExpanded = options.expand ?? true;
+    if (isExpanded) pushPlayerHistoryState();
     persist();
     loadCurrentTrack(options.autoPlay !== false, options.restoreTime || 0);
   };
@@ -471,6 +506,13 @@ const createLibraryAudioPlayer = () => {
   };
 
   const toggleExpanded = (nextState = !isExpanded) => {
+    if (nextState === isExpanded) return;
+    if (nextState) {
+      pushPlayerHistoryState();
+    } else if (playerHistoryPushed) {
+      window.history.back();
+      return;
+    }
     isExpanded = nextState;
     render();
   };
@@ -492,7 +534,9 @@ const createLibraryAudioPlayer = () => {
     isExpanded = false;
     pendingAutoplay = false;
     playerError = "";
+    hasStreamError = false;
     isLoading = false;
+    playerHistoryPushed = false;
     shell.hidden = true;
     clearSession();
     render();
@@ -504,8 +548,8 @@ const createLibraryAudioPlayer = () => {
     toggleExpanded(true);
   });
   refs.miniExpandBtn?.addEventListener("click", () => toggleExpanded(true));
-  refs.minimizeBtn?.addEventListener("click", () => toggleExpanded(false));
-  refs.closeBackdrop?.addEventListener("click", () => toggleExpanded(false));
+  refs.minimizeBtn?.addEventListener("click", closeExpandedPlayerState);
+  refs.closeBackdrop?.addEventListener("click", closeExpandedPlayerState);
   refs.prevBtn?.addEventListener("click", () => goToTrack(-1));
   refs.nextBtn?.addEventListener("click", () => goToTrack(1));
   refs.miniPrevBtn?.addEventListener("click", () => goToTrack(-1));
@@ -605,13 +649,32 @@ const createLibraryAudioPlayer = () => {
     render();
   });
 
+  refs.miniProgressRange?.addEventListener("input", () => {
+    isMiniSeeking = true;
+    refs.currentTime.textContent = formatDuration(refs.miniProgressRange.value);
+  });
+  refs.miniProgressRange?.addEventListener("change", () => {
+    if (Number.isFinite(audio.duration)) {
+      audio.currentTime = Number(refs.miniProgressRange.value || 0);
+      persist();
+    }
+    isMiniSeeking = false;
+    render();
+  });
+
   audio.addEventListener("timeupdate", () => {
+    if (audio.currentSrc && audio.readyState >= 2 && playerError) {
+      playerError = "";
+      hasStreamError = false;
+    }
     persist();
     render();
   });
   audio.addEventListener("progress", render);
   audio.addEventListener("loadedmetadata", () => {
     isLoading = false;
+    hasStreamError = false;
+    playerError = "";
     audio.playbackRate = speed;
     audio.volume = volume;
     audio.muted = isMuted;
@@ -620,11 +683,13 @@ const createLibraryAudioPlayer = () => {
   audio.addEventListener("canplay", () => {
     isLoading = false;
     playerError = "";
+    hasStreamError = false;
     render();
   });
   audio.addEventListener("play", () => {
     isLoading = false;
     playerError = "";
+    hasStreamError = false;
     render();
   });
   audio.addEventListener("pause", render);
@@ -639,11 +704,13 @@ const createLibraryAudioPlayer = () => {
   audio.addEventListener("playing", () => {
     isLoading = false;
     playerError = "";
+    hasStreamError = false;
     render();
   });
   audio.addEventListener("error", () => {
     isLoading = false;
-    playerError = "The current audio stream could not be loaded from the source URL.";
+    hasStreamError = !(audio.currentSrc && audio.readyState >= 2);
+    playerError = hasStreamError ? "This stream could not be loaded." : "";
     render();
   });
   audio.addEventListener("ended", () => {
@@ -689,6 +756,15 @@ const createLibraryAudioPlayer = () => {
 
   window.addEventListener("pagehide", persist);
   window.addEventListener("beforeunload", persist);
+  window.addEventListener("popstate", () => {
+    if (!isExpanded) {
+      playerHistoryPushed = false;
+      return;
+    }
+    isExpanded = false;
+    playerHistoryPushed = false;
+    render();
+  });
   window.addEventListener("pageshow", () => {
     if (!getTrack()) restoreSession();
     render();
@@ -771,6 +847,7 @@ const initLibraryListPage = () => {
   const presetCategories = [...FIXED_LIBRARY_CATEGORIES];
   const initialCategory = String(libraryPage.dataset.initialCategory || "all").trim().toLowerCase();
   const collectionSlug = String(libraryPage.dataset.collectionSlug || "").trim().toLowerCase();
+  const buildLibraryItemHref = (slug) => appendCollectionQuery(`/library/${encodeURIComponent(slug)}/`, collectionSlug);
   const isAudioCollection = collectionSlug === "audios";
 
   let items = Array.isArray(seed.items) ? seed.items : [];
@@ -822,7 +899,7 @@ const initLibraryListPage = () => {
       ? recent
           .map(
             (item) => `
-              <a class="recent-chip" href="/library/${encodeURIComponent(item.slug)}/">
+              <a class="recent-chip" href="${buildLibraryItemHref(item.slug)}">
                 <span>${escapeHtml(item.name)}</span>
                 <span>${escapeHtml(item.category)}</span>
               </a>
@@ -871,7 +948,7 @@ const initLibraryListPage = () => {
         const accent = accents[index % accents.length];
         const cover = CONTINUE_READING_COVERS[index % CONTINUE_READING_COVERS.length];
         return `
-        <a class="cr-book${index === 0 ? " is-spotlight" : ""}" href="/library/${encodeURIComponent(item.slug)}/">
+        <a class="cr-book${index === 0 ? " is-spotlight" : ""}" href="${buildLibraryItemHref(item.slug)}">
           <div class="cr-book-wrap ${accent.glow}">
             <div class="cr-book-cover ${accent.border}">
               <div class="cr-book-spine"></div>
@@ -907,7 +984,7 @@ const initLibraryListPage = () => {
     }])
       .map(
         (item, index) => `
-          <a class="featured-card" href="${item.slug ? `/library/${encodeURIComponent(item.slug)}/` : '#'}" style="animation-delay:${index * 90}ms">
+          <a class="featured-card" href="${item.slug ? buildLibraryItemHref(item.slug) : '#'}" style="animation-delay:${index * 90}ms">
             <span class="featured-label">✨ ${escapeHtml(item.content_type === "pdf" ? "Scripture" : "Featured")}</span>
             <h3>${escapeHtml(item.name)}</h3>
             <p>${escapeHtml(item.excerpt || item.category)}</p>
@@ -945,7 +1022,7 @@ const initLibraryListPage = () => {
         <span>${escapeHtml(item.deity || item.category || "Spiritual audio")} • ${escapeHtml(item.category || "Audio")}</span>
       </div>
       <div class="audio-list-row__actions">
-        <a href="/library/${encodeURIComponent(item.slug)}/" class="detail-action-btn">Open</a>
+        <a href="${buildLibraryItemHref(item.slug)}" class="detail-action-btn">Open</a>
         <button type="button" class="library-audio-trigger" data-audio-slug="${escapeHtml(item.slug)}">Listen</button>
       </div>
     </article>
@@ -990,7 +1067,7 @@ const initLibraryListPage = () => {
           <p>${escapeHtml(lead?.excerpt || "Only items with mapped Cloudinary audio appear here. Add links in the audio registry and this sanctuary updates automatically.")}</p>
           <div class="audio-hub-spotlight__actions">
             ${lead ? `<button type="button" class="hero-btn hero-btn--primary" data-audio-slug="${escapeHtml(lead.slug)}">Play now</button>` : `<button type="button" class="hero-btn hero-btn--primary" disabled>No audio yet</button>`}
-            ${lead ? `<a href="/library/${encodeURIComponent(lead.slug)}/" class="hero-btn hero-btn--ghost">Open details</a>` : `<span class="hero-btn hero-btn--ghost">Map audio to begin</span>`}
+            ${lead ? `<a href="${buildLibraryItemHref(lead.slug)}" class="hero-btn hero-btn--ghost">Open details</a>` : `<span class="hero-btn hero-btn--ghost">Map audio to begin</span>`}
           </div>
           <div class="audio-hub-spotlight__chips">
             <span>Cloudinary streams</span>
@@ -1088,7 +1165,7 @@ const initLibraryListPage = () => {
     grid.innerHTML = visible
       .map(
         (item) => `
-          <a class="library-card" href="/library/${encodeURIComponent(item.slug)}/">
+          <a class="library-card" href="${buildLibraryItemHref(item.slug)}">
             <div class="library-card__head">
               <span class="library-card__badge">${escapeHtml(item.category)}</span>
               <span>${item.content_type === "pdf" ? "📘 PDF Reader" : "🪔 Aarti Reader"}</span>
@@ -1160,7 +1237,7 @@ const initLibraryListPage = () => {
   featuredScrollBtn?.addEventListener("click", () => {
     const firstFeatured = (Array.isArray(seed.featured) && seed.featured.length ? seed.featured[0] : items[0]) || null;
     if (firstFeatured?.slug) {
-      window.location.href = `/library/${encodeURIComponent(firstFeatured.slug)}/`;
+      window.location.href = buildLibraryItemHref(firstFeatured.slug);
       return;
     }
     featuredRail?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1169,7 +1246,7 @@ const initLibraryListPage = () => {
   heroContinueBtn?.addEventListener("click", () => {
     const first = getReadingProgress()[0];
     if (first?.slug) {
-      window.location.href = `/library/${encodeURIComponent(first.slug)}/`;
+      window.location.href = buildLibraryItemHref(first.slug);
       return;
     }
     document.getElementById("continueReadingRail")?.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -1177,7 +1254,7 @@ const initLibraryListPage = () => {
 
   continueReadingJumpBtn?.addEventListener("click", () => {
     const first = getReadingProgress()[0];
-    if (first?.slug) window.location.href = `/library/${encodeURIComponent(first.slug)}/`;
+    if (first?.slug) window.location.href = buildLibraryItemHref(first.slug);
   });
 
   exploreCollectionBtn?.addEventListener("click", (event) => {

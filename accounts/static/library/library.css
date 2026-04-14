@@ -1639,6 +1639,7 @@ body{
 
 body.library-audio-open{
   overflow:hidden;
+  overscroll-behavior:none;
 }
 
 .audio-player-shell{
@@ -1755,6 +1756,15 @@ body.library-audio-open{
   box-shadow:none;
 }
 
+.audio-mini-progress__range{
+  position:absolute;
+  inset:-8px 0;
+  width:100%;
+  margin:0;
+  opacity:0;
+  cursor:pointer;
+}
+
 .audio-mini-actions,
 .audio-controls,
 .audio-secondary-controls,
@@ -1805,6 +1815,7 @@ body.library-audio-open{
   inset:0;
   pointer-events:auto;
   z-index:2401;
+  overscroll-behavior:contain;
 }
 
 .audio-fullscreen__backdrop{
@@ -1819,11 +1830,14 @@ body.library-audio-open{
   position:relative;
   z-index:1;
   width:min(1400px, calc(100vw - 2rem));
-  min-height:min(860px, calc(100vh - 2rem));
+  height:min(860px, calc(100dvh - 2rem));
+  max-height:calc(100dvh - 2rem);
   margin:1rem auto;
   border-radius:36px;
   overflow:hidden;
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
   padding:1.35rem;
 }
 

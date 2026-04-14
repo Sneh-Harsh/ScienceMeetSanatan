@@ -2,308 +2,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanatan Quiz | Science Meet Sanatan</title>
-
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Dharma Trials | Celestial Aether</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  {# Reuse existing header styling #}
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'header.css' %}">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
-  <link rel="stylesheet" href="{% static 'quizzes.css' %}">
+  <link rel="stylesheet" href="{% static 'quizzes.css' %}?v=3">
 </head>
-
 <body>
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="achievement-toast" id="achievement-toast" aria-hidden="true">
+    <div class="toast-icon" id="toast-icon">🏅</div>
+    <div class="toast-text">
+      <h5 id="toast-title">Achievement Unlocked</h5>
+      <p id="toast-desc">You completed your first quiz!</p>
+    </div>
+  </div>
+
   <header class="header">
-      <a href="/welcome/" class="logo">
-        <span class="logo-mark">SMS</span>
-        <span class="logo-text">Science Meet Sanatan</span>
-      </a>
-      <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+    <a href="/welcome/" class="logo">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <div class="nav-shell" aria-hidden="true">
-    <div class="left-nav">
-
-      <a href="/welcome/" class="nav-link">Home</a>
-
-      <div class="explore-wrap">
-        <a href="#" class="nav-link">Explore ▾</a>
-        <div class="dropdown">
-          <a href="/baby-names/">Baby names</a>
-          <a href="/library/">Library</a>
-          <a href="/quizzes/">Quizzes</a>
-          <a href="/panchang/">Panchang</a>
-          <a href="#">8K Wallpapers</a>
-          <a href="#">Gifs</a>
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Explore ▾</a>
+          <div class="dropdown">
+            <a href="/baby-names/">Baby names</a>
+            <a href="/library/">Library</a>
+            <a href="/quizzes/">Quizzes</a>
+            <a href="/panchang/">Panchang</a>
+            <a href="#">8K Wallpapers</a>
+            <a href="#">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <a href="#" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        <div class="profile-wrap">
+          <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/">Logout</a>
+          </div>
         </div>
       </div>
-
-      <a href="/panchang/" class="nav-link">Panchang</a>
-      <div class="explore-wrap">
-        <a href="/kundali/" class="nav-link">Kundali ▾</a>
-        <div class="dropdown">
-          <a href="/kundali/">Generator</a>
-          <a href="/horoscope/">Horoscope</a>
-        </div>
-      </div>
-      <a href="#" class="nav-link">About Us</a>
-    </div>
-
-    <div class="right-nav">
-      <a class="quiz-link" href="/library/">Library</a>
-      <a class="quiz-link" href="/quizzes/">Quizzes</a>
-
-      <div class="profile-wrap">
-        <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
-        <div class="profile-card">
-          <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-          <p class="profile-status">Logged in</p>
-          <a class="profile-link" href="/profile/">Manage account</a>
-          <a class="logout-btn" href="/">Logout</a>
-        </div>
-      </div>
-    </div>
     </div>
   </header>
 
-  <main class="quiz-page">
-    <!-- LANDING -->
-    <section id="quizLanding" class="quiz-landing">
-      <div class="landing-hero">
-        <div class="mandala" aria-hidden="true"></div>
-        <h1 class="landing-title">🕉️ Sanatan Quiz – Test Your Dharma Knowledge</h1>
-        <p class="landing-subtitle">
-          A fast-paced, game-like quiz experience for students, youth, and spiritual learners.
-          Pick a category, keep your streak alive, and level up your Dharma IQ.
-        </p>
-
-        <div class="category-grid" role="list">
-          <button class="category-card" type="button" data-category="gita" role="listitem">
-            <div class="category-top">
-              <div class="category-icon">📜</div>
-              <div class="category-badge">Bhagavad Gita</div>
-            </div>
-            <div class="category-meta">
-              <div class="meta-row"><span>Mode</span><strong>MCQ</strong></div>
-              <div class="meta-row"><span>Questions</span><strong>10</strong></div>
-              <div class="meta-row"><span>Timer</span><strong>12s</strong></div>
-            </div>
-          </button>
-
-          <button class="category-card" type="button" data-category="ramayana" role="listitem">
-            <div class="category-top">
-              <div class="category-icon">🏹</div>
-              <div class="category-badge">Ramayana</div>
-            </div>
-            <div class="category-meta">
-              <div class="meta-row"><span>Mode</span><strong>MCQ</strong></div>
-              <div class="meta-row"><span>Questions</span><strong>10</strong></div>
-              <div class="meta-row"><span>Timer</span><strong>12s</strong></div>
-            </div>
-          </button>
-
-          <button class="category-card" type="button" data-category="mahabharata" role="listitem">
-            <div class="category-top">
-              <div class="category-icon">🛡️</div>
-              <div class="category-badge">Mahabharata</div>
-            </div>
-            <div class="category-meta">
-              <div class="meta-row"><span>Mode</span><strong>MCQ</strong></div>
-              <div class="meta-row"><span>Questions</span><strong>10</strong></div>
-              <div class="meta-row"><span>Timer</span><strong>12s</strong></div>
-            </div>
-          </button>
-
-          <button class="category-card" type="button" data-category="vedic_science" role="listitem">
-            <div class="category-top">
-              <div class="category-icon">🔬</div>
-              <div class="category-badge">Vedic Science</div>
-            </div>
-            <div class="category-meta">
-              <div class="meta-row"><span>Mode</span><strong>MCQ</strong></div>
-              <div class="meta-row"><span>Questions</span><strong>10</strong></div>
-              <div class="meta-row"><span>Timer</span><strong>12s</strong></div>
-            </div>
-          </button>
-        </div>
-
-        <div class="landing-actions">
-          <button id="startQuizBtn" class="btn btn-primary" type="button" disabled>
-            Start Quiz
-          </button>
-          <button id="soundToggleBtn" class="btn btn-ghost" type="button" aria-pressed="true">
-            Sound: On
-          </button>
-        </div>
-
-        <div class="landing-foot">
-          <div class="mini-stat">
-            <span>High Score</span>
-            <strong id="highScoreText">—</strong>
-          </div>
-          <div class="mini-stat">
-            <span>Best Streak</span>
-            <strong id="bestStreakText">—</strong>
-          </div>
-          <div class="mini-stat">
-            <span>Tip</span>
-            <strong>Stay calm, read carefully.</strong>
-          </div>
-        </div>
-      </div>
-
-      <aside class="leaderboard" aria-label="Leaderboard">
-        <div class="leaderboard-head">
-          <h2>🏆 Leaderboard</h2>
-          <p id="leaderboardSub">Top learners by total score.</p>
-        </div>
-
-        <div id="leaderboardLoading" class="lb-loading" aria-hidden="true">
-          <div class="spinner" aria-hidden="true"></div>
-          <div class="lb-loading-text">Loading leaderboard…</div>
-        </div>
-
-        <div id="leaderboardEmpty" class="lb-empty" hidden>
-          No attempts yet. Be the first to set a score.
-        </div>
-
-        <div id="leaderboardError" class="lb-error" hidden>
-          Could not load leaderboard. Please try again.
-        </div>
-
-        <div id="leaderboardPodium" class="podium" hidden>
-          <div class="podium-card place-2">
-            <div class="podium-rank">🥈</div>
-            <div class="podium-avatar" data-avatar="2"></div>
-            <div class="podium-name" data-name="2">—</div>
-            <div class="podium-score" data-score="2">0</div>
-          </div>
-          <div class="podium-card place-1">
-            <div class="podium-crown" aria-hidden="true">👑</div>
-            <div class="podium-rank">🥇</div>
-            <div class="podium-avatar" data-avatar="1"></div>
-            <div class="podium-name" data-name="1">—</div>
-            <div class="podium-score" data-score="1">0</div>
-          </div>
-          <div class="podium-card place-3">
-            <div class="podium-rank">🥉</div>
-            <div class="podium-avatar" data-avatar="3"></div>
-            <div class="podium-name" data-name="3">—</div>
-            <div class="podium-score" data-score="3">0</div>
-          </div>
-        </div>
-
-        <div id="leaderboardRows" class="lb-rows" hidden></div>
-      </aside>
-    </section>
-
-    <!-- FULLSCREEN MODAL QUIZ EXPERIENCE -->
-    <div id="quizModal" class="quiz-modal" aria-hidden="true">
-      <div class="quiz-modal__backdrop" data-close="1"></div>
-      <div class="quiz-modal__panel" role="dialog" aria-modal="true" aria-label="Quiz modal">
-        <button id="modalCloseBtn" class="quiz-modal__close" type="button" aria-label="Close" data-close="1">✕</button>
-
-        <!-- Modal: Category start -->
-        <section id="modalStart" class="modal-start">
-          <div class="modal-start__kicker">Choose • Learn • Level Up</div>
-          <h2 id="modalCategoryTitle" class="modal-start__title">Category</h2>
-          <p class="modal-start__sub">
-            You’ll get <strong>10 questions</strong> with a <strong>12s timer</strong> each.
-            Keep your <strong>streak</strong> alive for bonus XP.
-          </p>
-          <div class="modal-start__actions">
-            <button id="modalStartBtn" class="btn btn-primary" type="button">Start Quiz</button>
-            <button id="modalCancelBtn" class="btn btn-ghost" type="button" data-close="1">Cancel</button>
-          </div>
-        </section>
-
-        <!-- Modal: Quiz stage -->
-        <section id="quizStage" class="quiz-stage" hidden>
-          <div class="stage-top">
-            <div class="stage-left">
-              <div class="stage-chip" id="categoryChip">Category</div>
-              <div class="stage-chip subtle" id="progressText">Question 1/10</div>
-            </div>
-            <div class="stage-right">
-              <div class="stage-chip timer" id="timerText">12s</div>
-            </div>
-          </div>
-
-          <div class="progress-wrap" aria-label="Progress">
-            <div id="progressBar" class="progress-bar"></div>
-          </div>
-
-          <div class="stats-row">
-            <div class="stat-pill">
-              <span>Score</span>
-              <strong id="scoreText">0</strong>
-            </div>
-            <div class="stat-pill streak">
-              <span>Streak</span>
-              <strong id="streakText">0</strong>
-            </div>
-            <div class="stat-pill">
-              <span>XP</span>
-              <strong id="xpText">0</strong>
-            </div>
-          </div>
-
-          <div id="questionCard" class="question-card">
-            <div class="question-top">
-              <div class="question-kicker" id="questionKicker">Focus • Dharma</div>
-              <h2 id="questionText" class="question-text">Question</h2>
-            </div>
-
-            <div id="optionsGrid" class="options-grid" role="list"></div>
-
-            <div class="feedback" aria-live="polite">
-              <div id="feedbackText" class="feedback-text"></div>
-            </div>
-
-            <div class="stage-bottom">
-              <button id="nextBtn" class="btn btn-primary" type="button" disabled>Next</button>
-              <button id="quitBtn" class="btn btn-ghost" type="button" data-close="1">Quit</button>
-            </div>
-          </div>
-        </section>
-
-        <!-- Modal: Results -->
-        <section id="quizResult" class="quiz-result" hidden>
-          <div class="result-card">
-            <div class="result-badge" id="resultTitle">Beginner 🧘</div>
-            <h2 class="result-score" id="finalScoreText">0/10</h2>
-            <p class="result-sub" id="resultSubText">Keep practicing, your Dharma knowledge will grow.</p>
-
-            <div class="result-metrics">
-              <div class="metric">
-                <span>Streak</span>
-                <strong id="resultBestStreak">0</strong>
-              </div>
-              <div class="metric">
-                <span>XP Gained</span>
-                <strong id="resultXp">0</strong>
-              </div>
-              <div class="metric">
-                <span>Category</span>
-                <strong id="resultCategory">—</strong>
-              </div>
-            </div>
-
-            <div class="result-actions">
-              <button id="playAgainBtn" class="btn btn-primary" type="button">Play Again</button>
-              <button id="backToLandingBtn" class="btn btn-ghost" type="button" data-close="1">Close</button>
-            </div>
-          </div>
-        </section>
+  <div class="app">
+    <div class="nav nav--quiz">
+      <div class="nav-logo">Dharma Trials</div>
+      <div class="nav-actions">
+        <div class="nav-stat"><span class="icon">🏆</span><span class="val" id="nav-rank">#14</span></div>
+        <div class="nav-stat streak-badge"><span class="icon">🔥</span><span class="val" id="nav-streak">0</span></div>
+        <div class="nav-stat"><span class="icon">✦</span><span class="val" id="nav-xp">0 XP</span></div>
+        <div class="nav-stat"><span class="icon">🪙</span><span class="val" id="nav-coins">0</span></div>
       </div>
     </div>
-  </main>
+
+    <div class="screen active" id="hub-screen">
+      <section class="hero">
+        <div class="hero-ambient"></div>
+        <div class="hero-eyebrow">Ancient Wisdom Challenges</div>
+        <h1 class="hero-title">The <span>Dharma</span> Trials</h1>
+        <p class="hero-sub">Navigate the celestial labyrinth of Vedic knowledge. Every answer echoes through the observatory of time.</p>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="hero-stat-val" id="hero-rank">#14</div><div class="hero-stat-lab">Global Rank</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--copper)" id="hero-streak">0</div><div class="hero-stat-lab">Day Streak</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--blue)" id="hero-accuracy">0%</div><div class="hero-stat-lab">Accuracy</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--violet)" id="hero-league">Bronze</div><div class="hero-stat-lab">League</div></div>
+        </div>
+        <div class="hero-cta">
+          <button class="btn btn-primary" id="play-now-btn">▶ Play Now</button>
+          <button class="btn btn-ghost" id="continue-btn">Continue Challenge</button>
+        </div>
+      </section>
+
+      <div class="daily-strip">
+        <div class="daily-card" id="daily-card">
+          <div class="daily-pill">⚡ Daily Destiny</div>
+          <div class="daily-text">
+            <h4 id="daily-title">The Cosmic Alignment Challenge</h4>
+            <p id="daily-sub">Limited time · 3× XP bonus · Leaderboard tie-in</p>
+          </div>
+          <div class="daily-reward">
+            <div class="xp" id="daily-reward">+120 XP</div>
+            <div class="label">Reward</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div>
+          <div class="section-header">
+            <h2>Choose Your Trial</h2>
+            <a id="view-all-link">View all →</a>
+          </div>
+          <div class="cards-grid">
+            <div class="section-card gold-accent" data-category="gita">
+              <div class="card-glow"></div>
+              <div class="card-top">
+                <div class="card-icon">📜</div>
+                <div class="card-badges">
+                  <span class="badge badge-trending">Trending</span>
+                  <span class="badge badge-diff">Intermediate</span>
+                </div>
+              </div>
+              <div class="card-title">Bhagavad Gita</div>
+              <div class="card-desc">Decode duty, detachment, and the psychology of right action under pressure.</div>
+              <div class="card-meta">
+                <div class="card-progress">
+                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="gita" style="width:0%;background:linear-gradient(90deg,var(--gold),var(--copper))"></div></div>
+                  <div class="card-progress-label"><span data-progress-label-for="gita">0% complete</span> · 1,240 plays</div>
+                </div>
+                <div class="card-reward">
+                  <div class="card-reward-val">+120 XP</div>
+                  <div class="card-reward-lab">Reward</div>
+                </div>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
+
+            <div class="section-card blue-accent" data-category="ramayana">
+              <div class="card-glow"></div>
+              <div class="card-top">
+                <div class="card-icon">🏹</div>
+                <div class="card-badges">
+                  <span class="badge badge-hot">Hard</span>
+                  <span class="badge badge-diff">Advanced</span>
+                </div>
+              </div>
+              <div class="card-title">Ramayana</div>
+              <div class="card-desc">Test ideal conduct, devotion, and the epic choices that define dharma.</div>
+              <div class="card-meta">
+                <div class="card-progress">
+                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="ramayana" style="width:0%;background:linear-gradient(90deg,var(--blue),var(--violet))"></div></div>
+                  <div class="card-progress-label"><span data-progress-label-for="ramayana">0% complete</span> · 876 plays</div>
+                </div>
+                <div class="card-reward">
+                  <div class="card-reward-val">+120 XP</div>
+                  <div class="card-reward-lab">Reward</div>
+                </div>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
+
+            <div class="section-card violet-accent" data-category="mahabharata">
+              <div class="card-glow"></div>
+              <div class="card-top">
+                <div class="card-icon">🛡️</div>
+                <div class="card-badges">
+                  <span class="badge badge-new">New</span>
+                  <span class="badge badge-diff">Initiate</span>
+                </div>
+              </div>
+              <div class="card-title">Mahabharata</div>
+              <div class="card-desc">Explore consequence, strategy, and the moral weight of epic decisions.</div>
+              <div class="card-meta">
+                <div class="card-progress">
+                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="mahabharata" style="width:0%;background:linear-gradient(90deg,var(--violet),var(--blue))"></div></div>
+                  <div class="card-progress-label"><span data-progress-label-for="mahabharata">0% complete</span> · 2,100 plays</div>
+                </div>
+                <div class="card-reward">
+                  <div class="card-reward-val">+120 XP</div>
+                  <div class="card-reward-lab">Reward</div>
+                </div>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
+
+            <div class="section-card copper-accent" data-category="vedic_science">
+              <div class="card-glow"></div>
+              <div class="card-top">
+                <div class="card-icon">🔬</div>
+                <div class="card-badges">
+                  <span class="badge badge-diff">Expert</span>
+                </div>
+              </div>
+              <div class="card-title">Vedic Science</div>
+              <div class="card-desc">Journey through Ayurveda, astronomy, and the architecture of ancient knowledge systems.</div>
+              <div class="card-meta">
+                <div class="card-progress">
+                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="vedic_science" style="width:0%;background:linear-gradient(90deg,var(--copper),var(--gold))"></div></div>
+                  <div class="card-progress-label"><span data-progress-label-for="vedic_science">0% complete</span> · 430 plays</div>
+                </div>
+                <div class="card-reward">
+                  <div class="card-reward-val">+120 XP</div>
+                  <div class="card-reward-lab">Reward</div>
+                </div>
+              </div>
+              <div class="card-arrow">→</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="leaderboard">
+            <div class="lb-header">
+              <h3>Seekers of Light</h3>
+              <div class="lb-toggle">
+                <button class="active" id="lb-weekly" type="button">Weekly</button>
+                <button id="lb-alltime" type="button">All Time</button>
+              </div>
+            </div>
+
+            <div id="leaderboardLoading" class="lb-loading" aria-hidden="true">
+              <div class="spinner" aria-hidden="true"></div>
+              <div>Loading leaderboard…</div>
+            </div>
+            <div id="leaderboardEmpty" class="lb-empty" hidden>No attempts yet. Be the first to set a score.</div>
+            <div id="leaderboardError" class="lb-error" hidden>Could not load leaderboard. Please try again.</div>
+            <div id="leaderboardSub" class="lb-copy">Top learners by total score.</div>
+
+            <div class="podium" id="leaderboardPodium" hidden>
+              <div class="podium-item p2">
+                <div class="podium-avatar" data-avatar="2">—</div>
+                <div class="podium-name" data-name="2">—</div>
+                <div class="podium-platform" data-score="2">2</div>
+              </div>
+              <div class="podium-item p1">
+                <div class="podium-avatar" data-avatar="1">—</div>
+                <div class="podium-name" data-name="1">—</div>
+                <div class="podium-platform" data-score="1">1</div>
+              </div>
+              <div class="podium-item p3">
+                <div class="podium-avatar" data-avatar="3">—</div>
+                <div class="podium-name" data-name="3">—</div>
+                <div class="podium-platform" data-score="3">3</div>
+              </div>
+            </div>
+
+            <div class="lb-entries" id="leaderboardRows" hidden></div>
+
+            <div class="league-card">
+              <div class="league-top">
+                <span class="league-name" id="league-name">Bronze League</span>
+                <span class="league-tier" id="league-tier">→ Silver in 250 pts</span>
+              </div>
+              <div class="league-bar"><div class="league-fill" id="league-fill"></div></div>
+              <div class="league-labels"><span>Bronze</span><span id="league-pct">0%</span><span>Silver</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="quiz-screen">
+      <div class="quiz-wrapper">
+        <div class="quiz-header">
+          <div>
+            <div class="quiz-section-label" id="quiz-section-name">Bhagavad Gita</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem">
+            <div class="quiz-progress-text">Question <span id="q-current">1</span> of <span>5</span></div>
+            <button class="btn btn-ghost" style="padding:0.4rem 0.9rem;font-size:0.75rem" id="exitQuizBtn" type="button">✕ Exit</button>
+          </div>
+        </div>
+
+        <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+
+        <div class="quiz-meters">
+          <div class="combo-badge" id="combo-badge">✦ Combo ×<span id="combo-val">1</span></div>
+          <div class="streak-meter">
+            <div class="streak-dots" id="streak-dots"></div>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;gap:0.4rem">
+            <span style="font-size:0.65rem;font-family:var(--font-mono);color:var(--dimmer)">Brain Heat</span>
+            <div class="momentum-bar-wrap"><div class="momentum-fill" id="momentum-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="question-card" id="question-card">
+          <div class="timer-wrap">
+            <svg class="timer-ring-svg" viewBox="0 0 56 56">
+              <circle class="timer-bg" cx="28" cy="28" r="22"/>
+              <circle class="timer-fill" cx="28" cy="28" r="22" id="timer-ring" stroke-dasharray="138.2" stroke-dashoffset="0"/>
+              <defs>
+                <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#a78bfa"/>
+                  <stop offset="100%" stop-color="#4fc3f7"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="timer-text" id="timer-text">12</div>
+          </div>
+          <div class="q-number" id="q-number">Question 1</div>
+          <div class="q-text" id="q-text">Loading question...</div>
+        </div>
+
+        <div class="answers-grid" id="answers-grid"></div>
+        <div class="feedback-bubble" id="feedback-bubble"></div>
+        <div style="text-align:center;font-family:var(--font-mono);font-size:0.75rem;color:var(--dimmer)">
+          Score: <span id="live-score" style="color:var(--gold);font-weight:700">0</span> pts
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="result-screen">
+      <div class="result-wrapper">
+        <div class="result-hero">
+          <div class="result-grade" id="result-grade">A+</div>
+          <div class="result-title" id="result-title">Outstanding Performance!</div>
+          <p class="result-sub" id="result-sub">You completed the Bhagavad Gita trial</p>
+        </div>
+
+        <div style="text-align:center;margin-bottom:2rem">
+          <div class="result-score-ring">
+            <svg viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="8"/>
+              <circle cx="60" cy="60" r="50" fill="none" stroke="url(#scoreGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="314" id="score-ring-fill" stroke-dashoffset="314" style="transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 1.5s cubic-bezier(.4,0,.2,1)"/>
+              <defs>
+                <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#f2ca50"/>
+                  <stop offset="100%" stop-color="#ffb779"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div>
+              <div class="result-score-val" id="result-score-val">0</div>
+              <div class="result-score-lab">Score</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-stats-grid">
+          <div class="result-stat-card"><div class="result-stat-val text-green" id="res-correct">0/5</div><div class="result-stat-lab">Correct</div></div>
+          <div class="result-stat-card"><div class="result-stat-val text-blue" id="res-accuracy">0%</div><div class="result-stat-lab">Accuracy</div></div>
+          <div class="result-stat-card"><div class="result-stat-val text-copper" id="res-streak">0</div><div class="result-stat-lab">Best Streak</div></div>
+          <div class="result-stat-card"><div class="result-stat-val text-gold" id="res-speed">–</div><div class="result-stat-lab">Fastest Answer</div></div>
+          <div class="result-stat-card"><div class="result-stat-val text-violet" id="res-xp">+0 XP</div><div class="result-stat-lab">XP Earned</div></div>
+          <div class="result-stat-card"><div class="result-stat-val" id="res-coins" style="color:var(--gold)">+0 🪙</div><div class="result-stat-lab">Coins</div></div>
+        </div>
+
+        <div class="rank-change">
+          <div class="rank-arrow up" id="rank-arrow">▲</div>
+          <div class="rank-text" id="rank-text">You rose in the weekly field</div>
+        </div>
+
+        <div class="achievements-row" id="achievements-row"></div>
+
+        <div class="mystery-card" id="mystery-card">
+          <div class="mystery-glow"></div>
+          <h4>✦ Mystery Reward Revealed</h4>
+          <div class="mystery-reward" id="mystery-reward">+2× XP Boost (24h)</div>
+          <p>Tap to claim your bonus</p>
+        </div>
+
+        <div class="share-card">
+          <div class="share-card-title">Share Your Result</div>
+          <div class="share-row">
+            <div class="share-metrics">
+              <div><div class="share-metric-val" id="share-score">0</div><div class="share-metric-lab">Score</div></div>
+              <div><div class="share-metric-val" id="share-acc">0%</div><div class="share-metric-lab">Accuracy</div></div>
+              <div><div class="share-metric-val" id="share-rank">#—</div><div class="share-metric-lab">Rank</div></div>
+            </div>
+            <button class="btn btn-ghost" style="font-size:0.78rem" id="shareBtn" type="button">⬆ Share</button>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" id="playAgainBtn" type="button">↺ Play Again</button>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="backToHubBtn" type="button">← Back to Hub</button>
+            <button class="btn btn-ghost" id="tryAnotherBtn" type="button">Try Another</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'quizzes.js' %}"></script>
+  <script src="{% static 'quizzes.js' %}?v=3"></script>
 </body>
 </html>

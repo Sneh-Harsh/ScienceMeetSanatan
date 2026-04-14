@@ -866,6 +866,7 @@ def library_page(request):
             "library_error": library_error,
             "library_collection": None,
             "library_collection_slug": "",
+            "library_collection_path": "/library/",
         },
     )
 
@@ -910,6 +911,7 @@ def library_collection_page(request, collection_slug: str):
             "library_error": library_error,
             "library_collection": collection,
             "library_collection_slug": collection_slug,
+            "library_collection_path": f"/library/collections/{collection_slug}/",
         },
     )
 
@@ -919,12 +921,19 @@ def library_detail_page(request, slug: str):
     if item is None:
         return redirect("/library/")
 
+    from_collection = str(request.GET.get("from_collection") or "").strip().lower()
+    back_to_library_href = "/library/"
+    if from_collection and from_collection in LIBRARY_COLLECTIONS:
+        back_to_library_href = f"/library/collections/{from_collection}/"
+
     return render(
         request,
         "library_detail.html",
         {
             "item_slug": item["slug"],
             "item_name": item["name"],
+            "back_to_library_href": back_to_library_href,
+            "from_collection": from_collection,
         },
     )
 

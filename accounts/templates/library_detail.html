@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'header.css' %}" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
-  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=25" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=30" />
 </head>
 <body>
   <header class="header">
@@ -46,7 +46,7 @@
     </div>
 
     <div class="right-nav">
-      <a class="quiz-link library-link library-link--active" href="/library/">Library</a>
+      <a class="quiz-link library-link library-link--active" href="{{ back_to_library_href }}">Library</a>
       <a class="quiz-link" href="/quizzes/">Quizzes</a>
 
       <div class="profile-wrap">
@@ -62,11 +62,11 @@
     </div>
   </header>
 
-  <main class="library-detail" id="libraryDetailPage" data-slug="{{ item_slug|escape }}">
+  <main class="library-detail" id="libraryDetailPage" data-slug="{{ item_slug|escape }}" data-from-collection="{{ from_collection|default:'' }}">
     <div class="detail-backdrop"></div>
     <section class="detail-hero">
       <div class="detail-hero__head">
-        <a class="detail-back-link" href="/library/">← Back to Library</a>
+        <a class="detail-back-link" href="{{ back_to_library_href }}">← Back to Library</a>
         <div class="detail-actions">
             <button type="button" id="openAudioBtn" class="detail-action-btn" hidden>Listen</button>
           <button type="button" id="copyTextBtn" class="detail-action-btn">Copy</button>
@@ -193,6 +193,7 @@
       <div class="audio-mini-progress">
         <span class="audio-mini-progress__buffer" id="audioMiniBufferedFill"></span>
         <span id="audioMiniProgressFill"></span>
+        <input id="audioMiniProgressRange" class="audio-mini-progress__range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek audio from mini player" />
       </div>
       <div class="audio-mini-actions">
         <button type="button" class="audio-mini-btn" id="audioMiniPrevBtn" aria-label="Previous track">⏮</button>
@@ -319,6 +320,6 @@
   </section>
 
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=25"></script>
+  <script src="{% static 'library/library.js' %}?v=30"></script>
 </body>
 </html>

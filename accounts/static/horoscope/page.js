@@ -388,11 +388,15 @@ function updateHero(payload, scope) {
 }
 
 function bindTabEvents() {
-  els.tabs?.querySelectorAll("[data-scope]").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      state.activeScope = tab.getAttribute("data-scope") || "daily";
-      renderActiveScope();
-    });
+  if (!els.tabs || els.tabs.dataset.bound === "true") return;
+  els.tabs.dataset.bound = "true";
+  els.tabs.addEventListener("click", (event) => {
+    const tab = event.target instanceof Element ? event.target.closest("[data-scope]") : null;
+    if (!tab) return;
+    const nextScope = tab.getAttribute("data-scope") || "daily";
+    if (nextScope === state.activeScope) return;
+    state.activeScope = nextScope;
+    renderActiveScope();
   });
 }
 
@@ -458,7 +462,8 @@ function renderActiveScope() {
   renderWealthAlignment(els.wealthAlignmentCard, state.payload.wealth_alignment);
   renderTimeline(els.timingMiniCard, scope);
   if (els.periodMeta) {
-    els.periodMeta.textContent = `${scope.scope} • Confidence ${confidenceFromScope(scope)}%`;
+    const rangeLabel = scope?.dateRange?.label ? ` • ${scope.dateRange.label}` : "";
+    els.periodMeta.textContent = `${scope.scope}${rangeLabel} • Confidence ${confidenceFromScope(scope)}%`;
   }
   updateHero(state.payload, scope);
   renderPromptChips(els.oraclePromptChips, buildPromptSuggestions(state.payload, state.activeScope));
@@ -475,6 +480,8 @@ function renderActiveScope() {
   updateOracleProfileState();
   loadAiSummary(state.activeScope);
 }
+
+bindTabEvents();
 
 async function generateHoroscope() {
   const profile = collectProfile();

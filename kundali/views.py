@@ -72,6 +72,7 @@ def horoscope_api(request):
         lat = float(request.GET.get("lat") or 28.6139)
         lon = float(request.GET.get("lon") or 77.2090)
         specific_year = int(request.GET.get("year") or 2026)
+        debug = str(request.GET.get("debug") or "").strip().lower() in {"1", "true", "yes", "debug"}
     except Exception:
         return JsonResponse({"error": "Invalid input values."}, status=400)
 
@@ -83,6 +84,7 @@ def horoscope_api(request):
             lon=lon,
             tz_name=tz,
             specific_year=specific_year,
+            debug=debug,
         )
     except Exception as exc:
         return JsonResponse({"error": str(exc)}, status=500)

@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'header.css' %}" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
-  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=25" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=30" />
 </head>
 <body>
   <header class="header">
@@ -64,7 +64,7 @@
     </div>
   </header>
 
-  <main class="library-page" id="libraryPage" data-error="{{ library_error|escape }}" data-initial-category="{% if library_collection %}{{ library_collection.api_category }}{% else %}all{% endif %}" data-collection-slug="{{ library_collection_slug|default:'' }}">
+  <main class="library-page" id="libraryPage" data-error="{{ library_error|escape }}" data-initial-category="{% if library_collection %}{{ library_collection.api_category }}{% else %}all{% endif %}" data-collection-slug="{{ library_collection_slug|default:'' }}" data-collection-path="{{ library_collection_path|default:'/library/' }}">
     <div class="sky-layer sky-layer--one"></div>
     <div class="sky-layer sky-layer--two"></div>
     <div class="particle-field" id="particleField" aria-hidden="true"></div>
@@ -138,7 +138,7 @@
             </div>
             <div class="featured-rail" id="featuredRail">
               {% for item in library_payload_obj.featured %}
-                <a class="featured-card" href="/library/{{ item.slug|urlencode }}/">
+                <a class="featured-card" href="/library/{{ item.slug|urlencode }}/{% if library_collection_slug %}?from_collection={{ library_collection_slug|urlencode }}{% endif %}">
                   <span class="featured-label">✨ {% if item.content_type == 'pdf' %}Scripture{% else %}Featured{% endif %}</span>
                   <h3>{{ item.name }}</h3>
                   <p>{{ item.excerpt|default:item.category }}</p>
@@ -253,7 +253,7 @@
           <div id="libraryEmpty" class="library-empty" {% if library_payload_obj.items %}hidden{% endif %}>No texts matched your search yet.</div>
           <div id="libraryGrid" class="library-grid">
             {% for item in library_payload_obj.items %}
-              <a class="library-card" href="/library/{{ item.slug|urlencode }}/">
+              <a class="library-card" href="/library/{{ item.slug|urlencode }}/{% if library_collection_slug %}?from_collection={{ library_collection_slug|urlencode }}{% endif %}">
                 <div class="library-card__head">
                   <span class="library-card__badge">{{ item.category }}</span>
                   <span>{% if item.content_type == 'pdf' %}📘 PDF Reader{% else %}🪔 Aarti Reader{% endif %}</span>
@@ -410,6 +410,7 @@
       <div class="audio-mini-progress">
         <span class="audio-mini-progress__buffer" id="audioMiniBufferedFill"></span>
         <span id="audioMiniProgressFill"></span>
+        <input id="audioMiniProgressRange" class="audio-mini-progress__range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek audio from mini player" />
       </div>
       <div class="audio-mini-actions">
         <button type="button" class="audio-mini-btn" id="audioMiniPrevBtn" aria-label="Previous track">⏮</button>
@@ -537,6 +538,6 @@
 
   {{ library_payload|json_script:"libraryPayloadData" }}
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=25"></script>
+  <script src="{% static 'library/library.js' %}?v=30"></script>
 </body>
 </html>
