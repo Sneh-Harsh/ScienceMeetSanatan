@@ -4,6 +4,13 @@ from django.db import models
 from accounts.models import GuestProfile
 
 
+def _check_constraint(*, name: str, condition):
+    try:
+        return models.CheckConstraint(condition=condition, name=name)
+    except TypeError:
+        return models.CheckConstraint(check=condition, name=name)
+
+
 class QuizCategory(models.Model):
     name = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
@@ -75,7 +82,10 @@ class QuizAttempt(models.Model):
     class Meta:
         ordering = ['-started_at']
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='quiz_attempt_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='quiz_attempt_actor_required',
+            ),
         ]
 
 

@@ -5,6 +5,13 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def _check_constraint(*, name, condition):
+    try:
+        return models.CheckConstraint(condition=condition, name=name)
+    except TypeError:
+        return models.CheckConstraint(check=condition, name=name)
+
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -354,8 +361,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="recommendationcache",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("user__isnull", False),
                     ("guest_profile__isnull", False),
                     _connector="OR",
@@ -365,8 +372,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="readingprogress",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("user__isnull", False),
                     ("guest_profile__isnull", False),
                     _connector="OR",
@@ -392,8 +399,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="dailypersonalizationsnapshot",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("user__isnull", False),
                     ("guest_profile__isnull", False),
                     _connector="OR",
@@ -416,8 +423,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="contentinteraction",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("user__isnull", False),
                     ("guest_profile__isnull", False),
                     _connector="OR",
@@ -434,8 +441,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="bookmark",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("user__isnull", False),
                     ("guest_profile__isnull", False),
                     _connector="OR",

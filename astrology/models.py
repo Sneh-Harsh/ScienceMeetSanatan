@@ -5,6 +5,13 @@ from accounts.models import GuestProfile, PersonProfile
 from core.utils.constants import HoroscopeSignType, HoroscopeType
 
 
+def _check_constraint(*, name: str, condition):
+    try:
+        return models.CheckConstraint(condition=condition, name=name)
+    except TypeError:
+        return models.CheckConstraint(check=condition, name=name)
+
+
 class SavedKundali(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='saved_kundalis')
     person_profile = models.ForeignKey(PersonProfile, on_delete=models.CASCADE, related_name='saved_kundalis')
@@ -42,7 +49,10 @@ class SavedPanchaangPreference(models.Model):
 
     class Meta:
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='panchaang_preference_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='panchaang_preference_actor_required',
+            ),
             models.UniqueConstraint(fields=['user'], condition=models.Q(user__isnull=False), name='unique_user_panchaang_preference'),
             models.UniqueConstraint(fields=['guest_profile'], condition=models.Q(guest_profile__isnull=False), name='unique_guest_panchaang_preference'),
         ]

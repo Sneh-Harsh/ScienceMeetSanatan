@@ -5,6 +5,13 @@ from accounts.models import GuestProfile
 from core.utils.constants import ContentType, InteractionType, ProgressContentType, RecommendationType
 
 
+def _check_constraint(*, name: str, condition):
+    try:
+        return models.CheckConstraint(condition=condition, name=name)
+    except TypeError:
+        return models.CheckConstraint(check=condition, name=name)
+
+
 class UserPreference(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='preferences')
     preferred_language = models.CharField(max_length=20, default='en')
@@ -40,7 +47,10 @@ class ContentInteraction(models.Model):
             models.Index(fields=['occurred_at']),
         ]
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='interaction_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='interaction_actor_required',
+            ),
         ]
 
 
@@ -56,7 +66,10 @@ class Bookmark(models.Model):
         ordering = ['-created_at']
         indexes = [models.Index(fields=['content_type', 'object_id'])]
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='bookmark_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='bookmark_actor_required',
+            ),
             models.UniqueConstraint(fields=['user', 'content_type', 'object_id'], condition=models.Q(user__isnull=False), name='unique_user_bookmark'),
             models.UniqueConstraint(fields=['guest_profile', 'content_type', 'object_id'], condition=models.Q(guest_profile__isnull=False), name='unique_guest_bookmark'),
         ]
@@ -77,7 +90,10 @@ class ReadingProgress(models.Model):
     class Meta:
         ordering = ['-last_opened_at']
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='progress_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='progress_actor_required',
+            ),
             models.UniqueConstraint(fields=['user', 'content_type', 'object_id'], condition=models.Q(user__isnull=False), name='unique_user_progress'),
             models.UniqueConstraint(fields=['guest_profile', 'content_type', 'object_id'], condition=models.Q(guest_profile__isnull=False), name='unique_guest_progress'),
         ]
@@ -97,7 +113,10 @@ class RecommendationCache(models.Model):
         ordering = ['-generated_at']
         indexes = [models.Index(fields=['recommendation_type', 'expires_at'])]
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='recommendation_cache_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='recommendation_cache_actor_required',
+            ),
         ]
 
 
@@ -111,5 +130,8 @@ class DailyPersonalizationSnapshot(models.Model):
     class Meta:
         ordering = ['-snapshot_date', '-generated_at']
         constraints = [
-            models.CheckConstraint(check=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False), name='daily_snapshot_actor_required'),
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='daily_snapshot_actor_required',
+            ),
         ]
