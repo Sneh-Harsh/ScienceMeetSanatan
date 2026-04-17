@@ -1,41 +1,14 @@
-const QUIZ_BANK = {
-  gita: [
-    { q:"In the Bhagavad Gita, who is Arjuna’s charioteer during the Kurukshetra war?", opts:["Bhishma","Krishna","Dronacharya","Karna"], ans:1, hint:"Krishna becomes Arjuna’s charioteer and teacher in the Gita." },
-    { q:"What does 'Dharma' primarily refer to in the Gita’s context?", opts:["A festival","Duty / righteous path","A weapon","A place"], ans:1, hint:"Dharma is your righteous duty and the path of right action." },
-    { q:"Which Yoga does Krishna emphasize as selfless action?", opts:["Bhakti Yoga","Jnana Yoga","Karma Yoga","Raja Yoga"], ans:2, hint:"Karma Yoga is acting without attachment to results." },
-    { q:"What is the key message of 'Nishkama Karma'?", opts:["Do nothing at all","Work only for rewards","Do your duty without attachment to results","Avoid responsibilities"], ans:2, hint:"Work sincerely, but don’t cling to outcomes." },
-    { q:"Which concept describes the eternal nature of the soul (Atman)?", opts:["Anitya","Nitya","Maya","Samsara"], ans:1, hint:"Nitya means eternal/everlasting." },
-    { q:"Krishna advises performing action while being ______ to results.", opts:["attached","angry","detached","confused"], ans:2, hint:"The Gita teaches action with detachment to results." },
-  ],
-  ramayana: [
-    { q:"Who is the author traditionally credited for the Ramayana?", opts:["Valmiki","Vyasa","Tulsidas","Kalidasa"], ans:0, hint:"Maharshi Valmiki is traditionally considered the author." },
-    { q:"What is the name of Lord Rama’s wife?", opts:["Draupadi","Sita","Rukmini","Kunti"], ans:1, hint:"Sita is Lord Rama’s wife." },
-    { q:"Who is the devoted vanara who leaps to Lanka?", opts:["Sugriva","Vibhishana","Hanuman","Jambavan"], ans:2, hint:"Hanuman is known for his devotion and strength." },
-    { q:"Which kingdom is associated with Lord Rama’s rule?", opts:["Dwarka","Ayodhya","Hastinapur","Mathura"], ans:1, hint:"Rama is the prince/king of Ayodhya." },
-    { q:"What is 'Maryada Purushottam' associated with?", opts:["Ravana","Rama","Bharata","Lakshmana"], ans:1, hint:"It is a title for Lord Rama, symbolizing ideal conduct." },
-  ],
-  mahabharata: [
-    { q:"Who composed the Mahabharata according to tradition?", opts:["Valmiki","Vyasa","Tulsidas","Chanakya"], ans:1, hint:"Maharshi Vyasa is traditionally credited." },
-    { q:"How many Pandavas are there?", opts:["3","5","7","9"], ans:1, hint:"There are five Pandavas." },
-    { q:"Who is the eldest Pandava?", opts:["Arjuna","Bhima","Yudhishthira","Nakula"], ans:2, hint:"Yudhishthira is the eldest and known for righteousness." },
-    { q:"Which war is central to the Mahabharata?", opts:["Kurukshetra War","Lanka War","Kalinga War","Trojan War"], ans:0, hint:"The epic centers around the Kurukshetra war." },
-    { q:"Which character is known as 'Vrkodara'?", opts:["Bhima","Arjuna","Karna","Duryodhana"], ans:0, hint:"Bhima is called Vrkodara (wolf-bellied)." },
-  ],
-  vedic_science: [
-    { q:"In traditional Indian thought, which element is associated with space?", opts:["Prithvi","Jala","Akasha","Agni"], ans:2, hint:"Akasha refers to ether/space in Pancha Mahabhutas." },
-    { q:"What does 'Yoga' literally mean?", opts:["Union","Separation","Food","Weapon"], ans:0, hint:"Yoga means union (yuj)." },
-    { q:"Which text is a foundational work of Ayurveda?", opts:["Charaka Samhita","Arthashastra","Natya Shastra","Meghaduta"], ans:0, hint:"Charaka Samhita is a core Ayurvedic text." },
-    { q:"Which is NOT one of the Pancha Mahabhutas?", opts:["Akasha","Vayu","Manas","Agni"], ans:2, hint:"Manas (mind) is not among the five great elements." },
-    { q:"Surya Siddhanta is traditionally associated with which domain?", opts:["Astronomy","Cooking","Poetry","Dance"], ans:0, hint:"Surya Siddhanta is a classic work on astronomy." },
-  ],
-};
+const QUIZ_BANK = {};
 
 const CATEGORY_META = {
-  gita:{ name:"Bhagavad Gita", icon:"📜", accent:"gold-accent", progress:65, plays:"1,240 plays", reward:"+120 XP" },
-  ramayana:{ name:"Ramayana", icon:"🏹", accent:"blue-accent", progress:20, plays:"876 plays", reward:"+120 XP" },
-  mahabharata:{ name:"Mahabharata", icon:"🛡️", accent:"violet-accent", progress:45, plays:"2,100 plays", reward:"+120 XP" },
-  vedic_science:{ name:"Vedic Science", icon:"🔬", accent:"copper-accent", progress:10, plays:"430 plays", reward:"+120 XP" },
+  mythology:{ name:"Spiritual & Mythology", icon:"🕉️", accent:"gold-accent", progress:0, plays:"Dynamic pool", reward:"+120 XP" },
+  astrology:{ name:"Astrology & Destiny", icon:"🪐", accent:"blue-accent", progress:0, plays:"Adaptive mix", reward:"+120 XP" },
+  brain:{ name:"Brain Games & Logic", icon:"♟️", accent:"violet-accent", progress:0, plays:"Fresh each run", reward:"+120 XP" },
+  knowledge:{ name:"General Knowledge", icon:"🌍", accent:"copper-accent", progress:0, plays:"Weighted pool", reward:"+120 XP" },
 };
+const CATEGORY_ROWS = Array.isArray(window.SMS_QUIZ_CATEGORY_ROWS) ? window.SMS_QUIZ_CATEGORY_ROWS : [];
+const IS_AUTHENTICATED = Boolean(window.APP_CONTEXT?.isAuthenticated);
+const QUIZ_PROFILE = window.APP_CONTEXT?.quizProfile || {};
 
 const QUESTIONS_PER_GAME = 5;
 const SECONDS_PER_QUESTION = 12;
@@ -61,8 +34,10 @@ const state = {
   timeLeft:SECONDS_PER_QUESTION,
   answered:false,
   xpEarned:0,
-  coins: Number(localStorage.getItem("smsQuizCoins") || "0"),
-  totalXP: Number(localStorage.getItem("smsQuizXP") || "0"),
+  sessionId:"",
+  coins: 0,
+  totalXP: Number(QUIZ_PROFILE.totalScore || 0),
+  currentPeriod:"weekly",
 };
 
 const heroRank = $("#hero-rank");
@@ -76,12 +51,6 @@ const navCoins = $("#nav-coins");
 const dailyTitle = $("#daily-title");
 const dailySub = $("#daily-sub");
 const dailyReward = $("#daily-reward");
-const leaderboardLoading = $("#leaderboardLoading");
-const leaderboardEmpty = $("#leaderboardEmpty");
-const leaderboardError = $("#leaderboardError");
-const leaderboardSub = $("#leaderboardSub");
-const leaderboardPodium = $("#leaderboardPodium");
-const leaderboardRows = $("#leaderboardRows");
 const lbWeekly = $("#lb-weekly");
 const lbAlltime = $("#lb-alltime");
 const playNowBtn = $("#play-now-btn");
@@ -129,6 +98,39 @@ const leagueName = $("#league-name");
 const leagueTier = $("#league-tier");
 const leagueFill = $("#league-fill");
 const leaguePct = $("#league-pct");
+const leaderboardSection = $("#leaderboardSection");
+const categoryBrowser = $("#categoryBrowser");
+const browseStartBtn = $("#browseStartBtn");
+const browseLeaderboardBtn = $("#browseLeaderboardBtn");
+const achievementToast = $("#achievement-toast");
+const toastIcon = $("#toast-icon");
+const toastTitle = $("#toast-title");
+const toastDesc = $("#toast-desc");
+
+const leaderboardBoards = {
+  global: {
+    key:"global",
+    board:"global",
+    loading: $("#globalLeaderboardLoading"),
+    empty: $("#globalLeaderboardEmpty"),
+    error: $("#globalLeaderboardError"),
+    sub: $("#globalLeaderboardSub"),
+    podium: $("#globalLeaderboardPodium"),
+    rows: $("#globalLeaderboardRows"),
+    notice: null,
+  },
+  league: {
+    key:"league",
+    board:"league",
+    loading: $("#leagueLeaderboardLoading"),
+    empty: $("#leagueLeaderboardEmpty"),
+    error: $("#leagueLeaderboardError"),
+    sub: $("#leagueLeaderboardSub"),
+    podium: $("#leagueLeaderboardPodium"),
+    rows: $("#leagueLeaderboardRows"),
+    notice: $("#leagueLeaderboardNotice"),
+  },
+};
 
 function shuffle(array){
   const copy = array.slice();
@@ -163,6 +165,13 @@ async function apiFetch(url, { method = "GET", body = null } = {}){
   return res.json();
 }
 
+async function fetchQuizSession(category){
+  return apiFetch("/api/quiz-session/", {
+    method:"POST",
+    body:{ category },
+  });
+}
+
 function highScoreKey(category){ return `smsQuizHighestScore:${category}`; }
 function bestStreakKey(category){ return `smsQuizBestStreak:${category}`; }
 function getHighScore(category){ return Number(localStorage.getItem(highScoreKey(category)) || "0") || 0; }
@@ -175,8 +184,159 @@ function refreshSectionProgress(){
     const pct = Math.max(meta.progress, Math.round((getHighScore(key) / QUESTIONS_PER_GAME) * 100));
     const fill = document.querySelector(`[data-progress-for="${key}"]`);
     const label = document.querySelector(`[data-progress-label-for="${key}"]`);
+    const browseFill = document.querySelectorAll(`[data-browse-progress-for="${key}"]`);
+    const browseLabel = document.querySelectorAll(`[data-browse-progress-label-for="${key}"]`);
     if(fill) fill.style.width = `${pct}%`;
     if(label) label.textContent = `${pct}% complete`;
+    browseFill.forEach((node) => { node.style.width = `${pct}%`; });
+    browseLabel.forEach((node) => { node.textContent = `${pct}% mastery`; });
+  });
+}
+
+function showToast(title, description, icon = "✨"){
+  if(!achievementToast) return;
+  if(toastIcon) toastIcon.textContent = icon;
+  if(toastTitle) toastTitle.textContent = title;
+  if(toastDesc) toastDesc.textContent = description;
+  achievementToast.classList.add("show");
+  window.clearTimeout(showToast._timeout);
+  showToast._timeout = window.setTimeout(() => {
+    achievementToast.classList.remove("show");
+  }, 2200);
+}
+
+function categoryCardMeta(card){
+  const difficultyTone = String(card.difficulty || "Medium").toLowerCase();
+  const toneClass = difficultyTone.includes("hard") || difficultyTone.includes("expert") ? "is-hard"
+    : difficultyTone.includes("easy") || difficultyTone.includes("starter") ? "is-easy"
+    : "is-medium";
+  const liveCategory = card.liveCategory || "";
+  const progressValue = liveCategory && CATEGORY_META[liveCategory] ? Math.max(CATEGORY_META[liveCategory].progress, Math.round((getHighScore(liveCategory) / QUESTIONS_PER_GAME) * 100)) : 0;
+  return {
+    toneClass,
+    progressValue,
+    progressLabel: liveCategory ? `${progressValue}% mastery` : "Sample set",
+  };
+}
+
+function renderCategoryBrowser(){
+  if(!categoryBrowser) return;
+  if(!CATEGORY_ROWS.length){
+    categoryBrowser.innerHTML = "";
+    return;
+  }
+  categoryBrowser.innerHTML = CATEGORY_ROWS.map((row) => `
+    <section class="browse-row fade-in" data-row-id="${row.id}">
+      <div class="browse-row__head">
+        <div>
+          <h3>${row.title}</h3>
+          <p>${row.subtitle || ""}</p>
+        </div>
+        <button class="browse-row__view" type="button" data-row-view="${row.id}">View all</button>
+      </div>
+      <div class="browse-row__shell">
+        <button class="browse-row__arrow browse-row__arrow--left" type="button" aria-label="Scroll ${row.title} left" data-row-arrow="${row.id}" data-dir="-1">‹</button>
+        <div class="browse-track" id="browse-track-${row.id}" tabindex="0" aria-label="${row.title}">
+          ${row.cards.map((card) => {
+            const meta = categoryCardMeta(card);
+            return `
+              <button
+                class="browse-card"
+                type="button"
+                data-card-slug="${card.slug}"
+                data-live-category="${card.liveCategory || ""}"
+                style="--browse-accent:${card.accent}"
+                aria-label="${card.title} quiz card"
+              >
+                <div class="browse-card__shine"></div>
+                <div class="browse-card__icon">${card.icon || "✦"}</div>
+                <div class="browse-card__badges">
+                  ${card.badge ? `<span class="browse-pill">${card.badge}</span>` : ""}
+                  ${card.isComingSoon ? `<span class="browse-pill browse-pill--ghost">Coming Soon</span>` : ""}
+                </div>
+                <div class="browse-card__body">
+                  <h4>${card.title}</h4>
+                  <p>${card.subtitle || ""}</p>
+                </div>
+                <div class="browse-card__meta">
+                  <span class="difficulty-pill ${meta.toneClass}">${card.difficulty}</span>
+                  <span class="xp-pill">+${card.xpReward} XP</span>
+                  <span class="count-pill">${card.questionCount} Q</span>
+                </div>
+                <div class="browse-card__foot">
+                  <div class="browse-card__progress">
+                    <div class="browse-card__progress-bar">
+                      <div class="browse-card__progress-fill" ${card.liveCategory ? `data-browse-progress-for="${card.liveCategory}"` : ""} style="width:${meta.progressValue}%"></div>
+                    </div>
+                    <span ${card.liveCategory ? `data-browse-progress-label-for="${card.liveCategory}"` : ""}>${meta.progressLabel}</span>
+                  </div>
+                  <strong>${card.liveCategory ? "Play now" : "Preview lane"}</strong>
+                </div>
+              </button>
+            `;
+          }).join("")}
+        </div>
+        <button class="browse-row__arrow browse-row__arrow--right" type="button" aria-label="Scroll ${row.title} right" data-row-arrow="${row.id}" data-dir="1">›</button>
+      </div>
+    </section>
+  `).join("");
+}
+
+function scrollBrowseRow(rowId, direction){
+  const track = document.getElementById(`browse-track-${rowId}`);
+  if(!track) return;
+  const card = track.querySelector(".browse-card");
+  const amount = card ? (card.getBoundingClientRect().width + 16) * 3 : 840;
+  track.scrollBy({ left: amount * direction, behavior: "smooth" });
+}
+
+function handleCategoryCard(card){
+  const liveCategory = String(card.dataset.liveCategory || "").trim();
+  if(liveCategory && CATEGORY_META[liveCategory]){
+    state.category = liveCategory;
+    setCategorySelection(liveCategory);
+    showQuiz(liveCategory);
+    return;
+  }
+  card.classList.add("browse-card--peek");
+  window.setTimeout(() => card.classList.remove("browse-card--peek"), 480);
+  showToast("Sample category ready", "This lane is structured for future question bank expansion.", "🎬");
+}
+
+function bindCategoryBrowser(){
+  if(!categoryBrowser || categoryBrowser.dataset.bound === "true") return;
+  categoryBrowser.dataset.bound = "true";
+  categoryBrowser.addEventListener("click", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    if(!target) return;
+    const arrow = target.closest("[data-row-arrow]");
+    if(arrow){
+      scrollBrowseRow(arrow.getAttribute("data-row-arrow"), Number(arrow.getAttribute("data-dir") || "1"));
+      return;
+    }
+    const view = target.closest("[data-row-view]");
+    if(view){
+      const rowId = view.getAttribute("data-row-view");
+      scrollBrowseRow(rowId, 1);
+      return;
+    }
+    const card = target.closest(".browse-card");
+    if(card){
+      handleCategoryCard(card);
+    }
+  });
+  categoryBrowser.addEventListener("keydown", (event) => {
+    const target = event.target instanceof Element ? event.target : null;
+    const track = target?.closest(".browse-track");
+    if(!track) return;
+    const rowId = track.id.replace("browse-track-", "");
+    if(event.key === "ArrowRight"){
+      event.preventDefault();
+      scrollBrowseRow(rowId, 1);
+    }else if(event.key === "ArrowLeft"){
+      event.preventDefault();
+      scrollBrowseRow(rowId, -1);
+    }
   });
 }
 
@@ -213,24 +373,51 @@ function showFeedback(message, kind){
 }
 
 function updateTopChrome(){
+  if(!IS_AUTHENTICATED){
+    if(heroAccuracy) heroAccuracy.textContent = "Login";
+    if(heroStreak) heroStreak.textContent = "—";
+    if(navStreak) navStreak.textContent = "—";
+    if(navXp) navXp.textContent = "Login";
+    if(navCoins) navCoins.textContent = "—";
+    if(heroRank) heroRank.textContent = "—";
+    if(navRank) navRank.textContent = "—";
+    if(shareRank) shareRank.textContent = "Login";
+    if(heroLeague) heroLeague.textContent = "Guest";
+    return;
+  }
   const totalAttempts = state.answers.length;
-  const accuracy = totalAttempts ? Math.round((state.correct / totalAttempts) * 100) : 0;
-  if(heroAccuracy) heroAccuracy.textContent = `${accuracy}%`;
-  if(heroStreak) heroStreak.textContent = String(state.bestStreak || 0);
-  if(navStreak) navStreak.textContent = String(state.bestStreak || 0);
+  const liveAccuracy = totalAttempts ? Math.round((state.correct / totalAttempts) * 100) : Number(QUIZ_PROFILE.averageAccuracy || 0);
+  const globalRank = Number(QUIZ_PROFILE.globalRank || 0);
+  if(heroStreak) heroStreak.textContent = String(Math.max(state.bestStreak || 0, Number(QUIZ_PROFILE.bestStreak || 0)));
+  if(navStreak) navStreak.textContent = String(Math.max(state.bestStreak || 0, Number(QUIZ_PROFILE.bestStreak || 0)));
   if(navXp) navXp.textContent = `${state.totalXP} XP`;
-  if(navCoins) navCoins.textContent = String(state.coins);
+  if(navCoins) navCoins.textContent = "—";
+  if(heroRank) heroRank.textContent = globalRank > 0 ? `#${globalRank}` : "—";
+  if(navRank) navRank.textContent = globalRank > 0 ? `#${globalRank}` : "—";
+  if(shareRank) shareRank.textContent = globalRank > 0 ? `#${globalRank}` : "—";
+  if(heroAccuracy) heroAccuracy.textContent = `${liveAccuracy}%`;
 }
 
-function setLeaderboardState({ loading = false, empty = false, error = false, ready = false } = {}){
-  if(leaderboardLoading){
-    leaderboardLoading.hidden = !loading;
-    leaderboardLoading.setAttribute("aria-hidden", loading ? "false" : "true");
+function computeLeagueMeta(totalScore){
+  const score = Number(totalScore || 0);
+  if(score >= 4000) return { name:"Cosmic", next_name:null, next_at:null, progress_pct:100 };
+  if(score >= 2400) return { name:"Diamond", next_name:"Cosmic", next_at:4000, progress_pct:Math.max(0, Math.min(100, Math.round(((score - 2400) / 1599) * 100))) };
+  if(score >= 1200) return { name:"Gold", next_name:"Diamond", next_at:2400, progress_pct:Math.max(0, Math.min(100, Math.round(((score - 1200) / 1199) * 100))) };
+  if(score >= 600) return { name:"Silver", next_name:"Gold", next_at:1200, progress_pct:Math.max(0, Math.min(100, Math.round(((score - 600) / 599) * 100))) };
+  return { name:"Bronze", next_name:"Silver", next_at:600, progress_pct:Math.max(0, Math.min(100, Math.round((score / 599) * 100))) };
+}
+
+function setLeaderboardState(refs, { loading = false, empty = false, error = false, ready = false, notice = false } = {}){
+  if(!refs) return;
+  if(refs.loading){
+    refs.loading.hidden = !loading;
+    refs.loading.setAttribute("aria-hidden", loading ? "false" : "true");
   }
-  if(leaderboardEmpty) leaderboardEmpty.hidden = !empty;
-  if(leaderboardError) leaderboardError.hidden = !error;
-  if(leaderboardPodium) leaderboardPodium.hidden = !ready;
-  if(leaderboardRows) leaderboardRows.hidden = !ready;
+  if(refs.empty) refs.empty.hidden = !empty;
+  if(refs.error) refs.error.hidden = !error;
+  if(refs.podium) refs.podium.hidden = !ready;
+  if(refs.rows) refs.rows.hidden = !ready;
+  if(refs.notice) refs.notice.hidden = !notice;
 }
 
 function avatarLetter(username){
@@ -238,57 +425,72 @@ function avatarLetter(username){
   return text ? text[0].toUpperCase() : "—";
 }
 
-function setPodium(place, row){
-  const avatarEl = leaderboardPodium?.querySelector(`[data-avatar="${place}"]`);
-  const nameEl = leaderboardPodium?.querySelector(`[data-name="${place}"]`);
-  const scoreEl = leaderboardPodium?.querySelector(`[data-score="${place}"]`);
+function setPodium(refs, place, row){
+  const avatarEl = refs?.podium?.querySelector(`[data-avatar="${place}"]`);
+  const nameEl = refs?.podium?.querySelector(`[data-name="${place}"]`);
+  const scoreEl = refs?.podium?.querySelector(`[data-score="${place}"]`);
   const username = row?.username || "—";
   if(avatarEl) avatarEl.textContent = avatarLetter(username);
   if(nameEl) nameEl.textContent = username;
   if(scoreEl) scoreEl.textContent = String(row?.score ?? place);
 }
 
-function renderRows(rows){
-  if(!leaderboardRows) return;
-  leaderboardRows.innerHTML = "";
+function renderRows(refs, rows){
+  if(!refs?.rows) return;
+  refs.rows.innerHTML = "";
   rows.forEach((row, index) => {
     const div = document.createElement("div");
     div.className = "lb-entry";
     div.innerHTML = `
-      <div class="lb-rank">${index + 4}</div>
+      <div class="lb-rank">${row.rank || (index + 4)}</div>
       <div class="lb-avatar" style="background:rgba(167,139,250,0.15);color:var(--violet)">${avatarLetter(row.username)}</div>
-      <div class="lb-info"><div class="lb-name">${row.username}</div><div class="lb-title">Wisdom Seeker</div></div>
-      <div class="lb-score"><div class="lb-score-val">${row.score}</div><div class="lb-score-lab">Karma</div></div>
+      <div class="lb-info"><div class="lb-name">${row.username}</div><div class="lb-title">${row.league || "Wisdom Seeker"}</div></div>
+      <div class="lb-score"><div class="lb-score-val">${row.score}</div><div class="lb-score-lab">${row.attempts || 0} runs</div></div>
     `;
-    leaderboardRows.appendChild(div);
+    refs.rows.appendChild(div);
   });
 }
 
-async function loadLeaderboard(categoryOrNull){
-  const url = categoryOrNull ? `/api/leaderboard/${categoryOrNull}/` : "/api/leaderboard/";
-  setLeaderboardState({ loading:true });
+async function loadBoard(boardKey){
+  const refs = leaderboardBoards[boardKey];
+  if(!refs) return;
+  const params = new URLSearchParams({
+    period: state.currentPeriod,
+    board: refs.board,
+  });
+  setLeaderboardState(refs, { loading:true });
   try{
-    const rows = await apiFetch(url);
-    const list = Array.isArray(rows) ? rows : [];
+    const payload = await apiFetch(`/api/leaderboard/?${params.toString()}`);
+    const list = Array.isArray(payload?.entries) ? payload.entries : [];
+    if(refs.sub) refs.sub.textContent = String(payload?.message || "");
+    if(refs.notice){
+      refs.notice.hidden = !payload?.requiresLogin;
+      refs.notice.textContent = payload?.requiresLogin
+        ? "Log in to compete for your personal league rank. Showing a preview league until then."
+        : "";
+    }
     if(!list.length){
-      setLeaderboardState({ empty:true });
-      if(heroRank) heroRank.textContent = "#—";
-      if(navRank) navRank.textContent = "#—";
-      if(shareRank) shareRank.textContent = "#—";
+      setLeaderboardState(refs, { empty:true, notice:Boolean(payload?.requiresLogin) });
       return;
     }
-    setPodium(1, list[0] || null);
-    setPodium(2, list[1] || null);
-    setPodium(3, list[2] || null);
-    renderRows(list.slice(3, 10));
-    setLeaderboardState({ ready:true });
-    const myRank = Math.min(list.length, 14);
-    if(heroRank) heroRank.textContent = `#${myRank}`;
-    if(navRank) navRank.textContent = `#${myRank}`;
-    if(shareRank) shareRank.textContent = `#${myRank}`;
+    setPodium(refs, 1, list[0] || null);
+    setPodium(refs, 2, list[1] || null);
+    setPodium(refs, 3, list[2] || null);
+    renderRows(refs, list.slice(3, 10));
+    setLeaderboardState(refs, { ready:true, notice:Boolean(payload?.requiresLogin) });
   }catch(error){
-    setLeaderboardState({ error:true });
+    if(refs.notice && !IS_AUTHENTICATED && refs.board === "league"){
+      refs.notice.hidden = false;
+      refs.notice.textContent = "Log in to compete for your league rank. Global rankings are still available above.";
+      setLeaderboardState(refs, { notice:true });
+      return;
+    }
+    setLeaderboardState(refs, { error:true });
   }
+}
+
+function loadLeaderboards(){
+  return Promise.all([loadBoard("global"), loadBoard("league")]);
 }
 
 function startTimer(){
@@ -317,10 +519,11 @@ function updateTimer(){
 
 function loadQuestion(){
   const q = state.questions[state.current];
+  if(!q) return;
   state.answered = false;
   if(qCurrent) qCurrent.textContent = String(state.current + 1);
   if(qNumber) qNumber.textContent = `Question ${state.current + 1}`;
-  if(qText) qText.textContent = q.q;
+  if(qText) qText.textContent = q.question;
   if(quizProgressFill) quizProgressFill.style.width = `${(state.current / QUESTIONS_PER_GAME) * 100}%`;
   if(questionCard){
     questionCard.style.animation = "none";
@@ -330,7 +533,7 @@ function loadQuestion(){
   if(answersGrid){
     answersGrid.innerHTML = "";
     const keys = ["A","B","C","D"];
-    q.opts.forEach((opt, i) => {
+    q.options.forEach((opt, i) => {
       const btn = document.createElement("button");
       btn.className = "answer-btn";
       btn.type = "button";
@@ -344,12 +547,18 @@ function loadQuestion(){
   startTimer();
 }
 
-function showQuiz(category){
+async function showQuiz(category){
   const meta = CATEGORY_META[category];
   if(!meta) return;
+  if(!IS_AUTHENTICATED){
+    window.SMSLoginPopup?.open("quiz_start");
+    return;
+  }
+  clearInterval(state.timerInterval);
   state.category = category;
   state.section = meta.name;
-  state.questions = shuffle([...(QUIZ_BANK[category] || [])]).slice(0, QUESTIONS_PER_GAME);
+  state.questions = [];
+  state.sessionId = "";
   state.current = 0;
   state.score = 0;
   state.correct = 0;
@@ -363,24 +572,48 @@ function showQuiz(category){
   state.xpEarned = 0;
   if(quizSectionName) quizSectionName.textContent = meta.name;
   if(liveScore) liveScore.textContent = "0";
-  if(leaderboardSub) leaderboardSub.textContent = `Top learners in ${meta.name}.`;
   showScreen("quiz-screen");
-  loadLeaderboard(category).catch(() => {});
-  loadQuestion();
+  if(qCurrent) qCurrent.textContent = "1";
+  if(qNumber) qNumber.textContent = "Preparing Quiz";
+  if(qText) qText.textContent = "Selecting a fresh question set from your personalized pool…";
+  if(quizProgressFill) quizProgressFill.style.width = "0%";
+  if(answersGrid) answersGrid.innerHTML = "";
+  renderStreakDots();
+  updateComboUI();
+  updateTopChrome();
+  try{
+    const session = await fetchQuizSession(category);
+    const questions = Array.isArray(session?.questions) ? session.questions : [];
+    if(!questions.length) throw new Error("No questions returned for this category.");
+    state.sessionId = String(session.sessionId || "");
+    state.questions = questions.slice(0, QUESTIONS_PER_GAME);
+    if(quizSectionName) quizSectionName.textContent = session.categoryLabel || meta.name;
+    loadQuestion();
+  }catch(error){
+    showToast("Quiz unavailable", "Could not load a fresh question set. Please try again.", "⚠️");
+    exitQuiz();
+  }
 }
 
 function exitQuiz(){
   clearInterval(state.timerInterval);
   showScreen("hub-screen");
-  loadLeaderboard(null).catch(() => {});
+  loadLeaderboards().catch(() => {});
 }
 
 function updateLeague(){
-  let pct = 18;
-  let label = "Bronze League";
-  let toward = "→ Silver in 250 pts";
-  if(state.totalXP >= 1200){ pct = 85; label = "Gold League"; toward = "→ Diamond in 1,200 pts"; }
-  else if(state.totalXP >= 600){ pct = 54; label = "Silver League"; toward = "→ Gold in 600 pts"; }
+  if(!IS_AUTHENTICATED){
+    if(leagueName) leagueName.textContent = "Guest Mode";
+    if(heroLeague) heroLeague.textContent = "Guest";
+    if(leagueTier) leagueTier.textContent = "Log in to track your personal league.";
+    if(leagueFill) leagueFill.style.width = "0%";
+    if(leaguePct) leaguePct.textContent = "0%";
+    return;
+  }
+  const league = QUIZ_PROFILE.league || { name:"Bronze", next_name:"Silver", next_at:600, progress_pct:0 };
+  const pct = Number(league.progress_pct || 0);
+  const label = `${league.name} League`;
+  const toward = league.next_name ? `→ ${league.next_name} at ${league.next_at} XP` : "→ Final tier reached";
   if(leagueName) leagueName.textContent = label;
   if(heroLeague) heroLeague.textContent = label.replace(" League", "");
   if(leagueTier) leagueTier.textContent = toward;
@@ -395,10 +628,6 @@ function updateResult(){
   const xp = (state.correct * 40) + (state.bestStreak * 10) + Math.max(0, (state.maxCombo - 1) * 12);
   const coins = state.correct * 8;
   state.xpEarned = xp;
-  state.totalXP += xp;
-  state.coins += coins;
-  localStorage.setItem("smsQuizXP", String(state.totalXP));
-  localStorage.setItem("smsQuizCoins", String(state.coins));
   setHighScore(state.category, Math.max(getHighScore(state.category), state.correct));
   setBestStreak(state.category, Math.max(getBestStreak(state.category), state.bestStreak));
 
@@ -429,18 +658,17 @@ function updateResult(){
     if(accuracy === 100) items.push("Quiz Master");
     achievementsRow.innerHTML = items.map((item) => `<div class="achievement-pill">${item}</div>`).join("");
   }
-  updateTopChrome();
-  updateLeague();
   refreshSectionProgress();
 }
 
 async function submitScoreToBackend(){
-  await apiFetch("/api/submit-score/", {
+  if(!IS_AUTHENTICATED) return null;
+  return apiFetch("/api/submit-score/", {
     method:"POST",
     body:{
       category: state.category,
-      score: state.correct,
-      total: QUESTIONS_PER_GAME,
+      session_id: state.sessionId,
+      answers: state.answers,
       best_streak: state.bestStreak,
     },
   });
@@ -450,8 +678,28 @@ function showResults(){
   clearInterval(state.timerInterval);
   updateResult();
   showScreen("result-screen");
+  window.dispatchEvent(new CustomEvent("sms:quiz-completed", {
+    detail: {
+      category: state.category,
+      score: state.score,
+      correct: state.correct,
+      xpEarned: state.xpEarned,
+    },
+  }));
   submitScoreToBackend()
-    .then(() => loadLeaderboard(null))
+    .then((payload) => {
+      const stats = payload?.user_stats || null;
+      if(stats && IS_AUTHENTICATED){
+        state.totalXP = Number(stats.total_score || state.totalXP || 0);
+        QUIZ_PROFILE.totalScore = Number(stats.total_score || 0);
+        QUIZ_PROFILE.bestStreak = Number(stats.best_streak || QUIZ_PROFILE.bestStreak || 0);
+        QUIZ_PROFILE.globalRank = Number(payload?.global_rank || QUIZ_PROFILE.globalRank || 0);
+        QUIZ_PROFILE.league = payload?.league || computeLeagueMeta(QUIZ_PROFILE.totalScore);
+      }
+      updateTopChrome();
+      updateLeague();
+      return loadLeaderboards();
+    })
     .catch(() => {});
 }
 
@@ -460,7 +708,7 @@ function selectAnswer(idx, btn, timedOut){
   state.answered = true;
   clearInterval(state.timerInterval);
   const q = state.questions[state.current];
-  const correct = idx === q.ans;
+  const correct = idx === q.answerIndex;
   const timeTaken = SECONDS_PER_QUESTION - state.timeLeft;
   const allBtns = document.querySelectorAll(".answer-btn");
   allBtns.forEach((button) => { button.disabled = true; });
@@ -487,7 +735,7 @@ function selectAnswer(idx, btn, timedOut){
       const icon = btn.querySelector(".answer-result-icon");
       if(icon) icon.textContent = "✗";
     }
-    const correctBtn = allBtns[q.ans];
+    const correctBtn = allBtns[q.answerIndex];
     if(correctBtn){
       correctBtn.classList.add("correct");
       const icon = correctBtn.querySelector(".answer-result-icon");
@@ -499,7 +747,15 @@ function selectAnswer(idx, btn, timedOut){
     showFeedback(timedOut ? "⏳ Time’s up" : "✗ So close...", timedOut ? "timeout" : "incorrect");
   }
 
-  state.answers.push({ idx, correct, timeTaken, timedOut });
+  state.answers.push({
+    questionId: q.id,
+    selectedIndex: idx,
+    correct,
+    timeTaken,
+    timedOut,
+    difficulty: q.difficulty,
+    subcategory: q.subcategory,
+  });
   if(liveScore) liveScore.textContent = state.score.toLocaleString();
   updateComboUI();
   renderStreakDots();
@@ -567,37 +823,34 @@ function setCategorySelection(category){
   $$(".section-card").forEach((card) => card.classList.toggle("selected", card.dataset.category === category));
 }
 
-$$(".section-card").forEach((card) => {
-  card.addEventListener("click", () => {
-    const category = card.dataset.category;
-    if(!category) return;
-    state.category = category;
-    setCategorySelection(category);
-    leaderboardSub.textContent = `Top learners in ${CATEGORY_META[category].name}.`;
-    showQuiz(category);
-  });
-});
-
 playNowBtn?.addEventListener("click", () => {
-  const category = state.category || "gita";
+  const category = state.category || "mythology";
   setCategorySelection(category);
   showQuiz(category);
 });
 
 continueBtn?.addEventListener("click", () => {
-  const category = state.category || "gita";
+  const category = state.category || "mythology";
   setCategorySelection(category);
   showQuiz(category);
 });
 
 dailyCard?.addEventListener("click", () => {
-  const category = state.category || "gita";
+  const category = state.category || "mythology";
   setCategorySelection(category);
   showQuiz(category);
 });
+browseStartBtn?.addEventListener("click", () => {
+  const category = state.category || "mythology";
+  setCategorySelection(category);
+  showQuiz(category);
+});
+browseLeaderboardBtn?.addEventListener("click", () => {
+  leaderboardSection?.scrollIntoView({ behavior:"smooth", block:"start" });
+});
 
 exitQuizBtn?.addEventListener("click", exitQuiz);
-playAgainBtn?.addEventListener("click", () => showQuiz(state.category || "gita"));
+playAgainBtn?.addEventListener("click", () => showQuiz(state.category || "mythology"));
 backToHubBtn?.addEventListener("click", exitQuiz);
 tryAnotherBtn?.addEventListener("click", exitQuiz);
 shareBtn?.addEventListener("click", async () => {
@@ -616,20 +869,24 @@ shareBtn?.addEventListener("click", async () => {
 });
 
 lbWeekly?.addEventListener("click", () => {
+  state.currentPeriod = "weekly";
   lbWeekly.classList.add("active");
   lbAlltime?.classList.remove("active");
-  loadLeaderboard(state.category || "gita").catch(() => {});
+  loadLeaderboards().catch(() => {});
 });
 
 lbAlltime?.addEventListener("click", () => {
+  state.currentPeriod = "alltime";
   lbAlltime.classList.add("active");
   lbWeekly?.classList.remove("active");
-  loadLeaderboard(null).catch(() => {});
+  loadLeaderboards().catch(() => {});
 });
 
 renderAmbientCanvas();
+renderCategoryBrowser();
+bindCategoryBrowser();
 refreshSectionProgress();
 setDailyCard();
 updateLeague();
 updateTopChrome();
-loadLeaderboard(null).catch(() => {});
+loadLeaderboards().catch(() => {});

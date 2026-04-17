@@ -1,0 +1,525 @@
+.sms-login-popup {
+  --sms-login-bg: rgba(7, 10, 18, 0.82);
+  --sms-login-panel: linear-gradient(180deg, rgba(18, 22, 33, 0.96), rgba(11, 14, 22, 0.94));
+  --sms-login-border: rgba(255, 255, 255, 0.1);
+  --sms-login-gold: #d4af37;
+  --sms-login-copper: #d99d61;
+  --sms-login-violet: #9b86ff;
+  --sms-login-blue: #7ea9ff;
+  --sms-login-copy: rgba(230, 234, 245, 0.86);
+  position: fixed;
+  inset: 0;
+  z-index: 1600;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+}
+
+.sms-login-popup::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(212, 175, 55, 0.18), transparent 38%),
+    radial-gradient(circle at 82% 14%, rgba(126, 169, 255, 0.16), transparent 34%),
+    radial-gradient(circle at 50% 100%, rgba(155, 134, 255, 0.14), transparent 45%);
+  opacity: 0.92;
+}
+
+.sms-login-popup[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sms-login-popup[data-state="closing"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sms-login-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--sms-login-bg);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.sms-login-popup__dialog {
+  position: relative;
+  width: min(980px, calc(100vw - 32px));
+  min-height: min(680px, calc(100vh - 48px));
+  border-radius: 30px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.92fr) minmax(0, 1.08fr);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0)),
+    var(--sms-login-panel);
+  border: 1px solid var(--sms-login-border);
+  box-shadow:
+    0 28px 90px rgba(0, 0, 0, 0.45),
+    0 18px 48px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transform: translateY(24px) scale(0.95);
+  opacity: 0;
+  transition:
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 240ms ease;
+}
+
+.sms-login-popup[data-state="open"] .sms-login-popup__dialog {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.sms-login-popup__visual,
+.sms-login-popup__content {
+  position: relative;
+  min-width: 0;
+}
+
+.sms-login-popup__visual {
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(5, 7, 12, 0.04), rgba(5, 7, 12, 0.38)),
+    linear-gradient(135deg, rgba(12, 15, 22, 0.96), rgba(24, 28, 40, 0.88));
+}
+
+.sms-login-popup__visual-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(145deg, rgba(8, 10, 16, 0.12), rgba(8, 10, 16, 0.72));
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.62;
+  transform: scale(1.08);
+}
+
+.sms-login-popup__visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 9, 16, 0.18), rgba(5, 9, 16, 0.82)),
+    linear-gradient(135deg, rgba(212, 175, 55, 0.08), transparent 45%, rgba(155, 134, 255, 0.1));
+}
+
+.sms-login-popup__visual-glow,
+.sms-login-popup__visual-ring,
+.sms-login-popup__brand,
+.sms-login-popup__sigil {
+  position: absolute;
+}
+
+.sms-login-popup__visual-glow {
+  border-radius: 999px;
+  filter: blur(22px);
+}
+
+.sms-login-popup__visual-glow--gold {
+  width: 220px;
+  height: 220px;
+  top: 10%;
+  left: -12%;
+  background: rgba(212, 175, 55, 0.26);
+}
+
+.sms-login-popup__visual-glow--violet {
+  width: 220px;
+  height: 220px;
+  right: -15%;
+  bottom: 8%;
+  background: rgba(155, 134, 255, 0.22);
+}
+
+.sms-login-popup__visual-ring {
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  animation: sms-login-orbit 18s linear infinite;
+}
+
+.sms-login-popup__visual-ring--one {
+  width: 240px;
+  height: 240px;
+  right: 32px;
+  top: 72px;
+}
+
+.sms-login-popup__visual-ring--two {
+  width: 340px;
+  height: 340px;
+  right: -18px;
+  top: 28px;
+  animation-duration: 24s;
+  animation-direction: reverse;
+}
+
+.sms-login-popup__brand {
+  left: 36px;
+  right: 36px;
+  bottom: 42px;
+  z-index: 1;
+}
+
+.sms-login-popup__eyebrow,
+.sms-login-popup__kicker {
+  margin: 0 0 10px;
+  font-family: "Space Grotesk", "Space Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(212, 175, 55, 0.78);
+}
+
+.sms-login-popup__brand-title {
+  margin: 0 0 12px;
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #fff8e8;
+  text-shadow: 0 18px 36px rgba(0, 0, 0, 0.32);
+}
+
+.sms-login-popup__brand-copy {
+  margin: 0;
+  max-width: 320px;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: rgba(230, 234, 245, 0.82);
+}
+
+.sms-login-popup__sigil {
+  left: 42px;
+  top: 42px;
+  width: 82px;
+  height: 82px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.28), rgba(212, 175, 55, 0.18), rgba(9, 12, 20, 0.72));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 16px 42px rgba(0, 0, 0, 0.32),
+    0 0 26px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.sms-login-popup__sigil span {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 2rem;
+  color: #fff7d8;
+  text-shadow: 0 0 18px rgba(212, 175, 55, 0.42);
+}
+
+.sms-login-popup__content {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 44px 40px 36px;
+  gap: 24px;
+}
+
+.sms-login-popup__content-top {
+  display: grid;
+  gap: 8px;
+}
+
+.sms-login-popup__title {
+  margin: 0;
+  font-family: "Newsreader", Georgia, serif;
+  font-size: clamp(2rem, 3vw, 3.05rem);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: #f9fbff;
+}
+
+.sms-login-popup__subtitle {
+  margin: 0;
+  max-width: 480px;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--sms-login-copy);
+}
+
+.sms-login-popup__unlock {
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sms-login-popup__unlock-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.92rem;
+  color: rgba(232, 236, 245, 0.84);
+}
+
+.sms-login-popup__unlock-meta strong {
+  color: #fff5d8;
+  font-family: "Space Grotesk", "Space Mono", monospace;
+  font-size: 0.84rem;
+  letter-spacing: 0.12em;
+}
+
+.sms-login-popup__unlock-bar {
+  position: relative;
+  height: 9px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sms-login-popup__unlock-bar span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--sms-login-gold), var(--sms-login-copper) 45%, var(--sms-login-violet));
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.28);
+  transition: width 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sms-login-popup__benefits {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sms-login-popup__benefits li {
+  position: relative;
+  padding-left: 28px;
+  color: rgba(232, 236, 245, 0.9);
+  font-size: 0.97rem;
+  line-height: 1.6;
+}
+
+.sms-login-popup__benefits li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.64rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 35%, #fff7dc, var(--sms-login-gold));
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.4);
+}
+
+.sms-login-popup__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.sms-login-popup__btn,
+.sms-login-popup__continue,
+.sms-login-popup__close {
+  appearance: none;
+  border: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sms-login-popup__btn {
+  min-height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 0.97rem;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.sms-login-popup__btn:hover,
+.sms-login-popup__btn:focus-visible,
+.sms-login-popup__continue:hover,
+.sms-login-popup__continue:focus-visible,
+.sms-login-popup__close:hover,
+.sms-login-popup__close:focus-visible {
+  transform: translateY(-1px);
+}
+
+.sms-login-popup__btn:focus-visible,
+.sms-login-popup__continue:focus-visible,
+.sms-login-popup__close:focus-visible {
+  outline: 2px solid rgba(212, 175, 55, 0.72);
+  outline-offset: 2px;
+}
+
+.sms-login-popup__btn--primary {
+  color: #111319;
+  background: linear-gradient(135deg, #f3d578, var(--sms-login-gold));
+  box-shadow: 0 14px 28px rgba(212, 175, 55, 0.2);
+}
+
+.sms-login-popup__btn--secondary {
+  color: #eef2ff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sms-login-popup__continue {
+  justify-self: start;
+  padding: 0;
+  background: transparent;
+  color: rgba(223, 228, 240, 0.78);
+  font-size: 0.95rem;
+}
+
+.sms-login-popup__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 1.65rem;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+body.sms-login-popup-lock {
+  overflow: hidden;
+}
+
+.sms-login-popup[data-variant="insight"] .sms-login-popup__btn--primary {
+  background: linear-gradient(135deg, #8fb2ff, #d9b66f 80%);
+}
+
+.sms-login-popup[data-variant="insight"] .sms-login-popup__unlock-bar span {
+  background: linear-gradient(90deg, var(--sms-login-blue), var(--sms-login-violet), var(--sms-login-gold));
+}
+
+@keyframes sms-login-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .sms-login-popup {
+    padding: 18px;
+    align-items: end;
+  }
+
+  .sms-login-popup__dialog {
+    width: min(720px, calc(100vw - 24px));
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .sms-login-popup__visual {
+    min-height: 240px;
+  }
+
+  .sms-login-popup__brand {
+    bottom: 26px;
+  }
+
+  .sms-login-popup__content {
+    padding: 32px 24px 26px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sms-login-popup {
+    padding: 0;
+  }
+
+  .sms-login-popup__dialog {
+    width: 100vw;
+    max-height: min(92vh, 760px);
+    border-radius: 24px 24px 0 0;
+    transform: translateY(36px);
+  }
+
+  .sms-login-popup__visual {
+    min-height: 188px;
+  }
+
+  .sms-login-popup__sigil {
+    top: 24px;
+    left: 24px;
+    width: 68px;
+    height: 68px;
+  }
+
+  .sms-login-popup__brand {
+    left: 24px;
+    right: 24px;
+    bottom: 22px;
+  }
+
+  .sms-login-popup__brand-title {
+    font-size: 1.9rem;
+  }
+
+  .sms-login-popup__brand-copy {
+    max-width: none;
+    font-size: 0.93rem;
+  }
+
+  .sms-login-popup__content {
+    gap: 18px;
+    padding: 24px 18px 22px;
+  }
+
+  .sms-login-popup__title {
+    font-size: 2rem;
+  }
+
+  .sms-login-popup__subtitle,
+  .sms-login-popup__benefits li {
+    font-size: 0.93rem;
+  }
+
+  .sms-login-popup__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .sms-login-popup__continue {
+    justify-self: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sms-login-popup,
+  .sms-login-popup__dialog,
+  .sms-login-popup__unlock-bar span,
+  .sms-login-popup__btn,
+  .sms-login-popup__continue,
+  .sms-login-popup__close {
+    transition: none !important;
+  }
+
+  .sms-login-popup__visual-ring {
+    animation: none !important;
+  }
+}

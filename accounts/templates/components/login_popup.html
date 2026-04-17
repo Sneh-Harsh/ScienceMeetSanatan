@@ -1,0 +1,87 @@
+<div
+  class="sms-login-popup"
+  id="smsLoginPopup"
+  aria-hidden="true"
+  data-state="closed"
+  data-variant="control"
+>
+  <div class="sms-login-popup__backdrop" data-login-popup-close></div>
+  <section
+    class="sms-login-popup__dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="smsLoginPopupTitle"
+    aria-describedby="smsLoginPopupSubtitle"
+    tabindex="-1"
+  >
+    <button
+      class="sms-login-popup__close"
+      id="smsLoginPopupClose"
+      type="button"
+      aria-label="Close login popup"
+      data-login-popup-close
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <div class="sms-login-popup__visual" aria-hidden="true">
+      <div
+        class="sms-login-popup__visual-bg"
+        data-bg="https://res.cloudinary.com/dmnm8z8dc/image/upload/v1776006859/universe-revealed-img_oalmxr.jpg"
+      ></div>
+      <div class="sms-login-popup__visual-glow sms-login-popup__visual-glow--gold"></div>
+      <div class="sms-login-popup__visual-glow sms-login-popup__visual-glow--violet"></div>
+      <div class="sms-login-popup__visual-ring sms-login-popup__visual-ring--one"></div>
+      <div class="sms-login-popup__visual-ring sms-login-popup__visual-ring--two"></div>
+      <div class="sms-login-popup__brand">
+        <p class="sms-login-popup__eyebrow" id="smsLoginPopupEyebrow">Science Meets Sanatan</p>
+        <h3 class="sms-login-popup__brand-title">Your sacred path deserves a living account.</h3>
+        <p class="sms-login-popup__brand-copy">
+          Save your rhythm, continue where you left off, and unlock a quieter, more personal spiritual experience.
+        </p>
+      </div>
+      <div class="sms-login-popup__sigil">
+        <span>ॐ</span>
+      </div>
+    </div>
+
+    <div class="sms-login-popup__content">
+      <div class="sms-login-popup__content-top">
+        <p class="sms-login-popup__kicker" id="smsLoginPopupContextLabel">Unlock full experience</p>
+        <h2 class="sms-login-popup__title" id="smsLoginPopupTitle">Start your spiritual journey</h2>
+        <p class="sms-login-popup__subtitle" id="smsLoginPopupSubtitle">
+          Get personalized recommendations and insights.
+        </p>
+      </div>
+
+      <div class="sms-login-popup__unlock">
+        <div class="sms-login-popup__unlock-meta">
+          <span>Unlock full experience</span>
+          <strong id="smsLoginPopupProgressLabel">72%</strong>
+        </div>
+        <div class="sms-login-popup__unlock-bar">
+          <span id="smsLoginPopupProgressFill"></span>
+        </div>
+      </div>
+
+      <ul class="sms-login-popup__benefits" id="smsLoginPopupBenefits">
+        <li>Save your progress across devices.</li>
+        <li>Get smarter recommendations tailored to your journey.</li>
+        <li>Keep your spiritual tools and history in one place.</li>
+      </ul>
+
+      <div class="sms-login-popup__actions">
+        <a class="sms-login-popup__btn sms-login-popup__btn--primary" id="smsLoginPopupLoginBtn" href="/login/?mode=login">
+          Log in
+        </a>
+        <a class="sms-login-popup__btn sms-login-popup__btn--secondary" id="smsLoginPopupSignupBtn" href="/login/?mode=signup">
+          Sign up
+        </a>
+      </div>
+
+      <button class="sms-login-popup__continue" id="smsLoginPopupContinueBtn" type="button" data-login-popup-close>
+        Continue without login
+      </button>
+    </div>
+  </section>
+</div>

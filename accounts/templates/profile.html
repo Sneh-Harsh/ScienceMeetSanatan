@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'header.css' %}" />
     <link rel="stylesheet" href="{% static 'profile.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=1" />
   </head>
   <body>
     <header class="header">
@@ -46,15 +47,20 @@
         <div class="right-nav">
           <a class="quiz-link" href="/library/">Library</a>
           <a class="quiz-link" href="/quizzes/">Quizzes</a>
+          {% if request.user.is_authenticated %}
           <div class="profile-wrap">
             <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
             <div class="profile-card">
               <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
               <p class="profile-status">Logged in</p>
               <a class="profile-link" href="/profile/">Manage account</a>
-              <a class="logout-btn" href="/">Logout</a>
+              <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
             </div>
           </div>
+          {% else %}
+          <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+          <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+          {% endif %}
         </div>
       </div>
     </header>
@@ -125,6 +131,14 @@
       </section>
     </main>
 
+    {% include 'components/login_popup.html' %}
+    <script>
+      window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
+        isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+        pageType: "general"
+      });
+    </script>
+    <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
     <script src="{% static 'header.js' %}"></script>
   </body>
 </html>

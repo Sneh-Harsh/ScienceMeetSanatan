@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 
 from .models import LoginAttempt
+from .services import ensure_user_account
 
 
 def set_social_username_and_fields(backend, details, *args, **kwargs):
@@ -28,6 +29,8 @@ def set_social_username_and_fields(backend, details, *args, **kwargs):
 def record_social_login(backend, user=None, details=None, *args, **kwargs):
     if user is None:
         return
+
+    ensure_user_account(user)
 
     provider = LoginAttempt.PROVIDER_GOOGLE
     backend_name = getattr(backend, 'name', '')

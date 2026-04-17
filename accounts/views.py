@@ -1,25 +1,30 @@
 import json
+from datetime import timedelta
 from datetime import date as dt_date
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 
 from django.conf import settings
+from django.core.cache import cache
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Sum
-from django.core.cache import cache
+from django.db import transaction
+from django.db.models import Avg, Count, Max, Sum
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils import timezone as dj_timezone
 from django.views.decorators.http import require_GET, require_POST
 
 from .models import LoginAttempt
 from .baby_names_data import load_baby_names_json
 from .library_data import PRESET_LIBRARY_CATEGORIES, build_library_payload, get_library_item, load_library_items
-from .models import Category, QuizAttempt, UserStats
+from .models import Category, QuizAttempt, QuizQuestionMemory, UserStats
+from .quiz_engine import CATEGORY_LABELS, build_quiz_session_payload, resolve_category_slug
 from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
 from panchang.festival_rules import rules_version as festival_rules_version
 from panchang.views import _cached_panchang_for_date, _load_core_festival_rules
@@ -62,6 +67,14 @@ PLANET_ORBITS = {
     "Rahu": 7,
     "Ketu": 8,
 }
+
+QUIZ_LEAGUES = (
+    {"name": "Bronze", "min_score": 0, "max_score": 599, "next_name": "Silver", "next_at": 600},
+    {"name": "Silver", "min_score": 600, "max_score": 1199, "next_name": "Gold", "next_at": 1200},
+    {"name": "Gold", "min_score": 1200, "max_score": 2399, "next_name": "Diamond", "next_at": 2400},
+    {"name": "Diamond", "min_score": 2400, "max_score": 3999, "next_name": "Cosmic", "next_at": 4000},
+    {"name": "Cosmic", "min_score": 4000, "max_score": None, "next_name": None, "next_at": None},
+)
 TIME_RULE_LABELS = {
     "sunrise": "Sunrise rule",
     "sunset": "Sunset window",
@@ -644,13 +657,14 @@ def login_page(request):
                 if ' ' in full_name:
                     first_name, last_name = full_name.split(' ', 1)
 
-                User.objects.create_user(
+                created_user = User.objects.create_user(
                     username=username,
                     email=email,
                     password=password,
                     first_name=first_name,
                     last_name=last_name,
                 )
+                ensure_user_account(created_user)
                 messages.success(request, 'Signup successful. Please log in with your new account.')
                 return redirect('/login/?mode=login')
 
@@ -689,6 +703,7 @@ def login_page(request):
             LoginAttempt.objects.create(username=username or 'unknown', provider=LoginAttempt.PROVIDER_PASSWORD, success=success)
 
             if success and user is not None:
+                ensure_user_account(user)
                 auth_login(request, user)
 
                 if user.is_staff or user.is_superuser:
@@ -708,6 +723,15 @@ def login_page(request):
             'apple_oauth_configured': settings.APPLE_OAUTH_CONFIGURED,
         },
     )
+
+
+def logout_page(request):
+    next_url = request.GET.get('next', '').strip() or request.POST.get('next', '').strip() or '/welcome/'
+    if not next_url.startswith('/'):
+        next_url = '/welcome/'
+    auth_logout(request)
+    messages.success(request, 'You have been logged out.')
+    return redirect(next_url)
 
 
 def google_login_start(request):
@@ -774,8 +798,73 @@ def baby_names_page(request):
     )
 
 
+def _quiz_league_meta(total_score: int) -> dict:
+    score = max(int(total_score or 0), 0)
+    for league in QUIZ_LEAGUES:
+        max_score = league["max_score"]
+        if max_score is None or score <= max_score:
+            floor = league["min_score"]
+            ceiling = max_score if max_score is not None else max(score, floor + 1)
+            width = max(ceiling - floor, 1)
+            progress = 100 if league["next_at"] is None else round(((score - floor) / width) * 100)
+            progress = max(0, min(progress, 100))
+            return {
+                "name": league["name"],
+                "min_score": floor,
+                "max_score": max_score,
+                "next_name": league["next_name"],
+                "next_at": league["next_at"],
+                "progress_pct": progress,
+            }
+    return {
+        "name": "Bronze",
+        "min_score": 0,
+        "max_score": 599,
+        "next_name": "Silver",
+        "next_at": 600,
+        "progress_pct": 0,
+    }
+
+
+def _quiz_profile_payload(user) -> dict:
+    if not user or not user.is_authenticated:
+        return {
+            "isAuthenticated": False,
+            "totalScore": 0,
+            "bestStreak": 0,
+            "averageAccuracy": 0,
+            "globalRank": None,
+            "league": _quiz_league_meta(0),
+        }
+
+    stats = UserStats.objects.filter(user=user).first()
+    total_score = int(stats.total_score) if stats else 0
+    best_streak = int(stats.best_streak) if stats else 0
+    avg_accuracy = (
+        QuizAttempt.objects.filter(user=user).aggregate(avg_accuracy=Avg("accuracy")).get("avg_accuracy") or 0
+    )
+    global_rank = None
+    if total_score > 0:
+        global_rank = UserStats.objects.filter(total_score__gt=total_score).count() + 1
+
+    return {
+        "isAuthenticated": True,
+        "totalScore": total_score,
+        "bestStreak": best_streak,
+        "averageAccuracy": round(float(avg_accuracy) * 100),
+        "globalRank": global_rank,
+        "league": _quiz_league_meta(total_score),
+    }
+
+
 def quizzes_page(request):
-    return render(request, "quizzes.html")
+    return render(
+        request,
+        "quizzes.html",
+        {
+            "quiz_profile_json": json.dumps(_quiz_profile_payload(request.user)),
+        },
+    )
 
 
 def panchang_page(request):
@@ -990,43 +1079,148 @@ def api_library_detail(request, slug: str):
 
 
 def _category_display_name(category_slug: str) -> str:
-    mapping = {
-        "gita": "Bhagavad Gita",
-        "ramayana": "Ramayana",
-        "mahabharata": "Mahabharata",
-        "vedic_science": "Vedic Science",
+    resolved = resolve_category_slug(category_slug)
+    return CATEGORY_LABELS.get(resolved, resolved.replace("_", " ").title())
+
+
+def _quiz_session_cache_key(user_id: int, session_id: str) -> str:
+    return f"quiz:session:{user_id}:{session_id}"
+
+
+def _leaderboard_period_value(period: str) -> str:
+    return "alltime" if str(period or "").strip().lower() == "alltime" else "weekly"
+
+
+def _leaderboard_base_queryset(period: str, category=None):
+    attempts = QuizAttempt.objects.select_related("user", "category").all()
+    if category is not None:
+        attempts = attempts.filter(category=category)
+    if period == "weekly":
+        attempts = attempts.filter(created_at__gte=dj_timezone.now() - timedelta(days=7))
+    return attempts
+
+
+def _serialize_leaderboard_rows(rows):
+    payload = []
+    for index, row in enumerate(rows, start=1):
+        lifetime_score = int(row.get("lifetime_score") or row.get("total_score") or 0)
+        payload.append(
+            {
+                "rank": index,
+                "username": row.get("user__username") or "Seeker",
+                "score": int(row.get("total_score") or 0),
+                "attempts": int(row.get("attempts") or 0),
+                "best_score": int(row.get("best_score") or 0),
+                "league": _quiz_league_meta(lifetime_score)["name"],
+            }
+        )
+    return payload
+
+
+def _build_leaderboard_payload(request, *, period: str = "weekly", board: str = "global", category=None):
+    period_value = _leaderboard_period_value(period)
+    attempts = _leaderboard_base_queryset(period_value, category=category)
+
+    target_league = None
+    requires_login = False
+    if board == "league":
+        if request.user.is_authenticated:
+            user_profile = _quiz_profile_payload(request.user)
+            target_league = user_profile["league"]
+        else:
+            target_league = _quiz_league_meta(0)
+            requires_login = True
+
+        attempts = attempts.filter(user__user_stats__total_score__gte=target_league["min_score"])
+        max_score = target_league["max_score"]
+        if max_score is not None:
+            attempts = attempts.filter(user__user_stats__total_score__lte=max_score)
+
+    rows = (
+        attempts.values("user_id", "user__username")
+        .annotate(
+            total_score=Sum("score"),
+            attempts=Count("id"),
+            best_score=Max("score"),
+            lifetime_score=Max("user__user_stats__total_score"),
+        )
+        .order_by("-total_score", "-best_score", "user__username")[:20]
+    )
+
+    entries = _serialize_leaderboard_rows(rows)
+    payload = {
+        "board": board,
+        "period": period_value,
+        "entries": entries,
+        "requiresLogin": requires_login,
+        "league": target_league,
+        "message": "",
     }
-    return mapping.get(category_slug, category_slug.replace("_", " ").title())
+
+    if board == "league":
+        league_name = target_league["name"] if target_league else "League"
+        if requires_login:
+            payload["message"] = f"Log in to compete in your personal league. Previewing {league_name} standings."
+        else:
+            payload["message"] = f"Players in your {league_name} League for the {period_value} board."
+    else:
+        payload["message"] = f"Top seekers across the {period_value} global board."
+
+    return payload
 
 
 @login_required
+@require_POST
+def api_quiz_session(request):
+    try:
+        payload = json.loads(request.body.decode("utf-8") or "{}")
+    except Exception:
+        return JsonResponse({"error": "Invalid JSON payload."}, status=400)
+
+    category_slug = resolve_category_slug(payload.get("category") or "")
+    if not category_slug:
+        return JsonResponse({"error": "Missing category."}, status=400)
+
+    try:
+        session_payload = build_quiz_session_payload(request.user, category_slug)
+    except Exception as exc:
+        return JsonResponse({"error": str(exc)}, status=400)
+
+    cache.set(
+        _quiz_session_cache_key(request.user.id, session_payload["session_id"]),
+        session_payload,
+        timeout=60 * 60,
+    )
+    return JsonResponse(
+        {
+            "sessionId": session_payload["session_id"],
+            "category": session_payload["category"],
+            "categoryLabel": session_payload["category_label"],
+            "questions": session_payload["questions"],
+        }
+    )
+
+
 @require_GET
 def api_leaderboard(request):
-    top = (
-        UserStats.objects.select_related("user")
-        .order_by("-total_score", "-highest_score", "user__username")[:20]
-    )
-    data = [{"username": row.user.username, "score": row.total_score} for row in top]
-    return JsonResponse(data, safe=False)
+    period = request.GET.get("period", "weekly")
+    board = request.GET.get("board", "global")
+    payload = _build_leaderboard_payload(request, period=period, board=board)
+    return JsonResponse(payload)
 
 
-@login_required
 @require_GET
 def api_leaderboard_category(request, category_slug: str):
     category_slug = (category_slug or "").strip().lower()
     try:
         category = Category.objects.get(slug=category_slug)
     except Category.DoesNotExist:
-        return JsonResponse([], safe=False)
+        return JsonResponse({"board": "global", "period": "weekly", "entries": [], "requiresLogin": False, "league": None, "message": ""})
 
-    rows = (
-        QuizAttempt.objects.filter(category=category)
-        .values("user__username")
-        .annotate(score=Sum("score"))
-        .order_by("-score", "user__username")[:20]
-    )
-    data = [{"username": r["user__username"], "score": int(r["score"] or 0)} for r in rows]
-    return JsonResponse(data, safe=False)
+    period = request.GET.get("period", "weekly")
+    board = request.GET.get("board", "global")
+    payload = _build_leaderboard_payload(request, period=period, board=board, category=category)
+    return JsonResponse(payload)
 
 
 @login_required
@@ -1037,46 +1231,148 @@ def api_submit_score(request):
     except Exception:
         return JsonResponse({"error": "Invalid JSON payload."}, status=400)
 
-    category_slug = str(payload.get("category") or "").strip().lower()
+    category_slug = resolve_category_slug(payload.get("category") or "")
     if not category_slug:
         return JsonResponse({"error": "Missing category."}, status=400)
-
-    try:
-        score = int(payload.get("score"))
-        total = int(payload.get("total"))
-    except Exception:
-        return JsonResponse({"error": "score and total must be integers."}, status=400)
 
     try:
         attempt_best_streak = int(payload.get("best_streak") or 0)
     except Exception:
         attempt_best_streak = 0
 
-    if total <= 0 or score < 0 or score > total:
-        return JsonResponse({"error": "Invalid score/total range."}, status=400)
-
     category, _ = Category.objects.get_or_create(
         slug=category_slug,
         defaults={"name": _category_display_name(category_slug)},
     )
 
-    QuizAttempt.objects.create(
-        user=request.user,
-        category=category,
-        score=score,
-        total_questions=total,
-        attempt_best_streak=max(attempt_best_streak, 0),
-    )
+    session_id = str(payload.get("session_id") or "").strip()
+    answers = payload.get("answers") or []
 
-    stats, _ = UserStats.objects.get_or_create(user=request.user)
-    stats.total_score = int(stats.total_score) + score
-    stats.highest_score = max(int(stats.highest_score), score)
-    stats.best_streak = max(int(stats.best_streak), max(attempt_best_streak, 0))
-    stats.save(update_fields=["total_score", "highest_score", "best_streak", "updated_at"])
+    if session_id:
+        session_payload = cache.get(_quiz_session_cache_key(request.user.id, session_id))
+        if not session_payload:
+            return JsonResponse({"error": "Quiz session expired. Please start a new quiz."}, status=409)
+
+        question_map = {
+            str(question.get("id") or ""): question
+            for question in session_payload.get("questions", [])
+            if str(question.get("id") or "").strip()
+        }
+        if not question_map:
+            return JsonResponse({"error": "Quiz session is empty."}, status=400)
+
+        normalized_answers = []
+        score = 0
+        for answer in answers:
+            question_id = str(answer.get("questionId") or "").strip()
+            if question_id not in question_map:
+                continue
+            question = question_map[question_id]
+            try:
+                selected_index = int(answer.get("selectedIndex"))
+            except Exception:
+                selected_index = None
+            timed_out = bool(answer.get("timedOut"))
+            time_taken = float(answer.get("timeTaken") or 0)
+            is_correct = selected_index == int(question["answerIndex"])
+            if is_correct:
+                score += 1
+            normalized_answers.append(
+                {
+                    "question_id": question_id,
+                    "selected_index": selected_index,
+                    "correct_index": int(question["answerIndex"]),
+                    "is_correct": is_correct,
+                    "timed_out": timed_out,
+                    "time_taken": round(max(time_taken, 0), 2),
+                    "difficulty": str(question.get("difficulty") or "medium"),
+                    "subcategory": str(question.get("subcategory") or category_slug),
+                    "tags": list(question.get("tags") or []),
+                }
+            )
+
+        total = len(question_map)
+        if len(normalized_answers) != total:
+            missing_ids = set(question_map.keys()) - {row["question_id"] for row in normalized_answers}
+            for question_id in missing_ids:
+                question = question_map[question_id]
+                normalized_answers.append(
+                    {
+                        "question_id": question_id,
+                        "selected_index": None,
+                        "correct_index": int(question["answerIndex"]),
+                        "is_correct": False,
+                        "timed_out": True,
+                        "time_taken": 12.0,
+                        "difficulty": str(question.get("difficulty") or "medium"),
+                        "subcategory": str(question.get("subcategory") or category_slug),
+                        "tags": list(question.get("tags") or []),
+                    }
+                )
+        accuracy = (score / total) if total else 0.0
+    else:
+        try:
+            score = int(payload.get("score"))
+            total = int(payload.get("total"))
+        except Exception:
+            return JsonResponse({"error": "score and total must be integers."}, status=400)
+        if total <= 0 or score < 0 or score > total:
+            return JsonResponse({"error": "Invalid score/total range."}, status=400)
+        accuracy = score / total if total else 0.0
+        normalized_answers = []
+
+    with transaction.atomic():
+        QuizAttempt.objects.create(
+            user=request.user,
+            category=category,
+            score=score,
+            total_questions=total,
+            attempt_best_streak=max(attempt_best_streak, 0),
+            session_token=session_id,
+            selected_question_ids=[answer["question_id"] for answer in normalized_answers],
+            answer_payload=normalized_answers,
+            accuracy=accuracy,
+        )
+
+        for answer in normalized_answers:
+            memory, _ = QuizQuestionMemory.objects.get_or_create(
+                user=request.user,
+                category=category,
+                question_id=answer["question_id"],
+            )
+            memory.seen_count = int(memory.seen_count or 0) + 1
+            if answer["is_correct"]:
+                memory.correct_count = int(memory.correct_count or 0) + 1
+            else:
+                memory.incorrect_count = int(memory.incorrect_count or 0) + 1
+            memory.last_result_correct = bool(answer["is_correct"])
+            memory.save(
+                update_fields=[
+                    "seen_count",
+                    "correct_count",
+                    "incorrect_count",
+                    "last_result_correct",
+                    "last_seen_at",
+                ]
+            )
+
+        stats, _ = UserStats.objects.get_or_create(user=request.user)
+        stats.total_score = int(stats.total_score) + score
+        stats.highest_score = max(int(stats.highest_score), score)
+        stats.best_streak = max(int(stats.best_streak), max(attempt_best_streak, 0))
+        stats.save(update_fields=["total_score", "highest_score", "best_streak", "updated_at"])
+
+    if session_id:
+        cache.delete(_quiz_session_cache_key(request.user.id, session_id))
 
     return JsonResponse(
         {
             "ok": True,
+            "score": score,
+            "total": total,
+            "accuracy": round(accuracy, 4),
+            "global_rank": UserStats.objects.filter(total_score__gt=stats.total_score).count() + 1 if stats.total_score > 0 else None,
+            "league": _quiz_league_meta(stats.total_score),
             "user_stats": {
                 "username": request.user.username,
                 "total_score": stats.total_score,
@@ -1085,3 +1381,92 @@ def api_submit_score(request):
             },
         }
     )
+
+# --- Personalization API views ---
+from rest_framework import generics, permissions, status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from accounts.serializers import GuestProfileBootstrapSerializer, PersonProfileSerializer, UserSummarySerializer
+from accounts.services import attach_guest_cookie, ensure_user_account, get_or_create_guest_profile, merge_guest_into_user, resolve_actor
+from personalization.selectors import get_home_dashboard_seed
+
+
+class SessionBootstrapView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        guest_profile = get_or_create_guest_profile(request)
+        actor = resolve_actor(request)
+        payload = {
+            'guest_uuid': str(guest_profile.guest_uuid),
+            'is_authenticated': bool(request.user and request.user.is_authenticated),
+            'user': UserSummarySerializer(request.user).data if request.user and request.user.is_authenticated else None,
+            'feature_flags': {
+                'guest_personalization': True,
+                'multi_profile': bool(request.user and request.user.is_authenticated),
+                'public_leaderboard_identity': bool(request.user and request.user.is_authenticated),
+            },
+            'personalization_state': get_home_dashboard_seed(actor),
+            'dashboard_seed_data': get_home_dashboard_seed(actor),
+        }
+        response = Response(payload)
+        attach_guest_cookie(response, str(guest_profile.guest_uuid))
+        return response
+
+
+class SessionMeView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request):
+        guest_profile = get_or_create_guest_profile(request)
+        actor = resolve_actor(request)
+        user = request.user if request.user.is_authenticated else None
+        payload = {
+            'actor_type': 'user' if user else 'guest',
+            'guest_profile': GuestProfileBootstrapSerializer(guest_profile).data,
+            'user': UserSummarySerializer(user).data if user else None,
+            'saved_counts': {
+                'person_profiles': user.person_profiles.count() if user else 0,
+                'kundalis': user.saved_kundalis.count() if user and hasattr(user, 'saved_kundalis') else 0,
+            },
+            'profiles_summary': [
+                {'id': row.id, 'display_name': row.display_name, 'is_primary': row.is_primary}
+                for row in user.person_profiles.filter(is_archived=False)[:10]
+            ] if user else [],
+        }
+        response = Response(payload)
+        attach_guest_cookie(response, str(guest_profile.guest_uuid))
+        return response
+
+
+class MergeGuestView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        guest_profile = get_or_create_guest_profile(request)
+        summary = merge_guest_into_user(guest_profile, request.user)
+        return Response(summary)
+
+
+class PersonProfileListCreateView(generics.ListCreateAPIView):
+    serializer_class = PersonProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.request.user.person_profiles.filter(is_archived=False)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class PersonProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PersonProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return self.request.user.person_profiles.all()
+
+    def perform_destroy(self, instance):
+        instance.is_archived = True
+        instance.save(update_fields=['is_archived', 'updated_at'])

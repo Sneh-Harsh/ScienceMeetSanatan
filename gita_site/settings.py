@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'dev-only-secret-key-change-this'
 DEBUG = True
-ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],0.0.0.0").split(",") if h.strip()]
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],0.0.0.0,testserver").split(",") if h.strip()]
 
 SOCIAL_AUTH_ENABLED = find_spec('social_django') is not None
 
@@ -17,7 +17,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'core',
     'accounts',
+    'personalization',
+    'library',
+    'astrology',
+    'quizzes',
+    'dashboard',
     'panchang',
     'kundali',
 ]
@@ -145,3 +152,12 @@ LIBRARY_CACHE_SECONDS = int(os.getenv('LIBRARY_CACHE_SECONDS', '900'))
 LIBRARY_FETCH_TIMEOUT = float(os.getenv('LIBRARY_FETCH_TIMEOUT', '12'))
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}

@@ -10,7 +10,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'header.css' %}">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
-  <link rel="stylesheet" href="{% static 'quizzes.css' %}?v=3">
+  <link rel="stylesheet" href="{% static 'quizzes.css' %}?v=5">
+  <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=1">
 </head>
 <body>
   <canvas id="ambient-canvas" aria-hidden="true"></canvas>
@@ -57,15 +58,20 @@
       <div class="right-nav">
         <a class="quiz-link" href="/library/">Library</a>
         <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
         <div class="profile-wrap">
           <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
           <div class="profile-card">
             <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
             <p class="profile-status">Logged in</p>
             <a class="profile-link" href="/profile/">Manage account</a>
-            <a class="logout-btn" href="/">Logout</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
           </div>
         </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
       </div>
     </div>
   </header>
@@ -74,10 +80,10 @@
     <div class="nav nav--quiz">
       <div class="nav-logo">Dharma Trials</div>
       <div class="nav-actions">
-        <div class="nav-stat"><span class="icon">🏆</span><span class="val" id="nav-rank">#14</span></div>
-        <div class="nav-stat streak-badge"><span class="icon">🔥</span><span class="val" id="nav-streak">0</span></div>
-        <div class="nav-stat"><span class="icon">✦</span><span class="val" id="nav-xp">0 XP</span></div>
-        <div class="nav-stat"><span class="icon">🪙</span><span class="val" id="nav-coins">0</span></div>
+        <div class="nav-stat"><span class="icon">🏆</span><span class="val" id="nav-rank">—</span></div>
+        <div class="nav-stat streak-badge"><span class="icon">🔥</span><span class="val" id="nav-streak">—</span></div>
+        <div class="nav-stat"><span class="icon">✦</span><span class="val" id="nav-xp">Login</span></div>
+        <div class="nav-stat"><span class="icon">🪙</span><span class="val" id="nav-coins">—</span></div>
       </div>
     </div>
 
@@ -88,10 +94,10 @@
         <h1 class="hero-title">The <span>Dharma</span> Trials</h1>
         <p class="hero-sub">Navigate the celestial labyrinth of Vedic knowledge. Every answer echoes through the observatory of time.</p>
         <div class="hero-stats">
-          <div class="hero-stat"><div class="hero-stat-val" id="hero-rank">#14</div><div class="hero-stat-lab">Global Rank</div></div>
-          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--copper)" id="hero-streak">0</div><div class="hero-stat-lab">Day Streak</div></div>
-          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--blue)" id="hero-accuracy">0%</div><div class="hero-stat-lab">Accuracy</div></div>
-          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--violet)" id="hero-league">Bronze</div><div class="hero-stat-lab">League</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" id="hero-rank">—</div><div class="hero-stat-lab">Global Rank</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--copper)" id="hero-streak">—</div><div class="hero-stat-lab">Best Streak</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--blue)" id="hero-accuracy">—</div><div class="hero-stat-lab">Accuracy</div></div>
+          <div class="hero-stat"><div class="hero-stat-val" style="color:var(--violet)" id="hero-league">Guest</div><div class="hero-stat-lab">League</div></div>
         </div>
         <div class="hero-cta">
           <button class="btn btn-primary" id="play-now-btn">▶ Play Now</button>
@@ -113,129 +119,33 @@
         </div>
       </div>
 
-      <div class="main-grid">
-        <div>
-          <div class="section-header">
-            <h2>Choose Your Trial</h2>
-            <a id="view-all-link">View all →</a>
+      <section class="leaderboard-cluster" id="leaderboardSection" aria-labelledby="leaderboardTitle">
+        <div class="leaderboard-cluster__head">
+          <div>
+            <div class="hero-eyebrow">Competitive Observatory</div>
+            <h2 id="leaderboardTitle">Global and league standings</h2>
+            <p>Track the overall weekly or all-time field, and compare yourself inside your own league when you are logged in.</p>
           </div>
-          <div class="cards-grid">
-            <div class="section-card gold-accent" data-category="gita">
-              <div class="card-glow"></div>
-              <div class="card-top">
-                <div class="card-icon">📜</div>
-                <div class="card-badges">
-                  <span class="badge badge-trending">Trending</span>
-                  <span class="badge badge-diff">Intermediate</span>
-                </div>
-              </div>
-              <div class="card-title">Bhagavad Gita</div>
-              <div class="card-desc">Decode duty, detachment, and the psychology of right action under pressure.</div>
-              <div class="card-meta">
-                <div class="card-progress">
-                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="gita" style="width:0%;background:linear-gradient(90deg,var(--gold),var(--copper))"></div></div>
-                  <div class="card-progress-label"><span data-progress-label-for="gita">0% complete</span> · 1,240 plays</div>
-                </div>
-                <div class="card-reward">
-                  <div class="card-reward-val">+120 XP</div>
-                  <div class="card-reward-lab">Reward</div>
-                </div>
-              </div>
-              <div class="card-arrow">→</div>
-            </div>
-
-            <div class="section-card blue-accent" data-category="ramayana">
-              <div class="card-glow"></div>
-              <div class="card-top">
-                <div class="card-icon">🏹</div>
-                <div class="card-badges">
-                  <span class="badge badge-hot">Hard</span>
-                  <span class="badge badge-diff">Advanced</span>
-                </div>
-              </div>
-              <div class="card-title">Ramayana</div>
-              <div class="card-desc">Test ideal conduct, devotion, and the epic choices that define dharma.</div>
-              <div class="card-meta">
-                <div class="card-progress">
-                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="ramayana" style="width:0%;background:linear-gradient(90deg,var(--blue),var(--violet))"></div></div>
-                  <div class="card-progress-label"><span data-progress-label-for="ramayana">0% complete</span> · 876 plays</div>
-                </div>
-                <div class="card-reward">
-                  <div class="card-reward-val">+120 XP</div>
-                  <div class="card-reward-lab">Reward</div>
-                </div>
-              </div>
-              <div class="card-arrow">→</div>
-            </div>
-
-            <div class="section-card violet-accent" data-category="mahabharata">
-              <div class="card-glow"></div>
-              <div class="card-top">
-                <div class="card-icon">🛡️</div>
-                <div class="card-badges">
-                  <span class="badge badge-new">New</span>
-                  <span class="badge badge-diff">Initiate</span>
-                </div>
-              </div>
-              <div class="card-title">Mahabharata</div>
-              <div class="card-desc">Explore consequence, strategy, and the moral weight of epic decisions.</div>
-              <div class="card-meta">
-                <div class="card-progress">
-                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="mahabharata" style="width:0%;background:linear-gradient(90deg,var(--violet),var(--blue))"></div></div>
-                  <div class="card-progress-label"><span data-progress-label-for="mahabharata">0% complete</span> · 2,100 plays</div>
-                </div>
-                <div class="card-reward">
-                  <div class="card-reward-val">+120 XP</div>
-                  <div class="card-reward-lab">Reward</div>
-                </div>
-              </div>
-              <div class="card-arrow">→</div>
-            </div>
-
-            <div class="section-card copper-accent" data-category="vedic_science">
-              <div class="card-glow"></div>
-              <div class="card-top">
-                <div class="card-icon">🔬</div>
-                <div class="card-badges">
-                  <span class="badge badge-diff">Expert</span>
-                </div>
-              </div>
-              <div class="card-title">Vedic Science</div>
-              <div class="card-desc">Journey through Ayurveda, astronomy, and the architecture of ancient knowledge systems.</div>
-              <div class="card-meta">
-                <div class="card-progress">
-                  <div class="card-progress-bar"><div class="card-progress-fill" data-progress-for="vedic_science" style="width:0%;background:linear-gradient(90deg,var(--copper),var(--gold))"></div></div>
-                  <div class="card-progress-label"><span data-progress-label-for="vedic_science">0% complete</span> · 430 plays</div>
-                </div>
-                <div class="card-reward">
-                  <div class="card-reward-val">+120 XP</div>
-                  <div class="card-reward-lab">Reward</div>
-                </div>
-              </div>
-              <div class="card-arrow">→</div>
-            </div>
+          <div class="lb-toggle lb-toggle--cluster">
+            <button class="active" id="lb-weekly" type="button">Weekly</button>
+            <button id="lb-alltime" type="button">All Time</button>
           </div>
         </div>
 
-        <div>
+        <div class="leaderboard-grid">
           <div class="leaderboard">
             <div class="lb-header">
-              <h3>Seekers of Light</h3>
-              <div class="lb-toggle">
-                <button class="active" id="lb-weekly" type="button">Weekly</button>
-                <button id="lb-alltime" type="button">All Time</button>
-              </div>
+              <h3>Overall Global Ranking</h3>
+              <div class="lb-chip" id="globalBoardChip">Global</div>
             </div>
-
-            <div id="leaderboardLoading" class="lb-loading" aria-hidden="true">
+            <div id="globalLeaderboardLoading" class="lb-loading" aria-hidden="true">
               <div class="spinner" aria-hidden="true"></div>
               <div>Loading leaderboard…</div>
             </div>
-            <div id="leaderboardEmpty" class="lb-empty" hidden>No attempts yet. Be the first to set a score.</div>
-            <div id="leaderboardError" class="lb-error" hidden>Could not load leaderboard. Please try again.</div>
-            <div id="leaderboardSub" class="lb-copy">Top learners by total score.</div>
-
-            <div class="podium" id="leaderboardPodium" hidden>
+            <div id="globalLeaderboardEmpty" class="lb-empty" hidden>No scores yet. Be the first to enter the field.</div>
+            <div id="globalLeaderboardError" class="lb-error" hidden>Could not load leaderboard right now.</div>
+            <div id="globalLeaderboardSub" class="lb-copy">Top seekers across the global board.</div>
+            <div class="podium" id="globalLeaderboardPodium" hidden>
               <div class="podium-item p2">
                 <div class="podium-avatar" data-avatar="2">—</div>
                 <div class="podium-name" data-name="2">—</div>
@@ -252,20 +162,87 @@
                 <div class="podium-platform" data-score="3">3</div>
               </div>
             </div>
+            <div class="lb-entries" id="globalLeaderboardRows" hidden></div>
+          </div>
 
-            <div class="lb-entries" id="leaderboardRows" hidden></div>
+          <div class="leaderboard">
+            <div class="lb-header">
+              <h3>Your League Ranking</h3>
+              <div class="lb-chip lb-chip--violet" id="leagueBoardChip">League</div>
+            </div>
+            <div id="leagueLeaderboardLoading" class="lb-loading" aria-hidden="true">
+              <div class="spinner" aria-hidden="true"></div>
+              <div>Loading league board…</div>
+            </div>
+            <div id="leagueLeaderboardEmpty" class="lb-empty" hidden>No players yet in this league window.</div>
+            <div id="leagueLeaderboardError" class="lb-error" hidden>Could not load league board right now.</div>
+            <div id="leagueLeaderboardSub" class="lb-copy">Standings inside your current league.</div>
+            <div id="leagueLeaderboardNotice" class="lb-notice" hidden>Please log in to compete in your league.</div>
+            <div class="podium" id="leagueLeaderboardPodium" hidden>
+              <div class="podium-item p2">
+                <div class="podium-avatar" data-avatar="2">—</div>
+                <div class="podium-name" data-name="2">—</div>
+                <div class="podium-platform" data-score="2">2</div>
+              </div>
+              <div class="podium-item p1">
+                <div class="podium-avatar" data-avatar="1">—</div>
+                <div class="podium-name" data-name="1">—</div>
+                <div class="podium-platform" data-score="1">1</div>
+              </div>
+              <div class="podium-item p3">
+                <div class="podium-avatar" data-avatar="3">—</div>
+                <div class="podium-name" data-name="3">—</div>
+                <div class="podium-platform" data-score="3">3</div>
+              </div>
+            </div>
+            <div class="lb-entries" id="leagueLeaderboardRows" hidden></div>
 
             <div class="league-card">
               <div class="league-top">
-                <span class="league-name" id="league-name">Bronze League</span>
-                <span class="league-tier" id="league-tier">→ Silver in 250 pts</span>
+                <span class="league-name" id="league-name">Guest Mode</span>
+                <span class="league-tier" id="league-tier">Log in to track your league.</span>
               </div>
               <div class="league-bar"><div class="league-fill" id="league-fill"></div></div>
-              <div class="league-labels"><span>Bronze</span><span id="league-pct">0%</span><span>Silver</span></div>
+              <div class="league-labels"><span>Bronze</span><span id="league-pct">0%</span><span>Cosmic</span></div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section class="category-browse" aria-labelledby="quizWorldsTitle">
+        <div class="category-browse__head">
+          <div>
+            <div class="hero-eyebrow">Premium Discovery</div>
+            <h2 id="quizWorldsTitle">Explore Quiz Worlds</h2>
+            <p>Browse premium quiz lanes like a streaming platform. These category cards are structured for future expansion without changing your current quiz engine.</p>
+          </div>
+          <div class="category-browse__actions">
+            <button class="btn btn-primary" id="browseStartBtn" type="button">Start Challenge</button>
+            <button class="btn btn-ghost" id="browseLeaderboardBtn" type="button">View Leaderboard</button>
+          </div>
+        </div>
+
+        <div class="category-browser" id="categoryBrowser">
+          <div class="category-skeleton-row">
+            <div class="category-skeleton-title"></div>
+            <div class="category-skeleton-track">
+              <div class="category-skeleton-card"></div>
+              <div class="category-skeleton-card"></div>
+              <div class="category-skeleton-card"></div>
+              <div class="category-skeleton-card"></div>
+            </div>
+          </div>
+          <div class="category-skeleton-row">
+            <div class="category-skeleton-title"></div>
+            <div class="category-skeleton-track">
+              <div class="category-skeleton-card"></div>
+              <div class="category-skeleton-card"></div>
+              <div class="category-skeleton-card"></div>
+              <div class="category-skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <div class="screen" id="quiz-screen">
@@ -392,7 +369,17 @@
     </div>
   </div>
 
+  {% include 'components/login_popup.html' %}
+  <script>
+    window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
+      isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+      pageType: "quiz",
+      quizProfile: {{ quiz_profile_json|safe }}
+    });
+  </script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'quizzes.js' %}?v=3"></script>
+  <script src="{% static 'quiz-categories-data.js' %}?v=2"></script>
+  <script src="{% static 'quizzes.js' %}?v=5"></script>
 </body>
 </html>
