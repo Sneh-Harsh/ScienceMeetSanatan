@@ -43,6 +43,20 @@
       }
     },
     {
+      "slug": "siddhi-vinayak-aarti",
+      "name": "Siddhi Vinayak Aarti",
+      "category": "Aartis",
+      "deity": "Lord Ganesha",
+      "featured": true,
+      "popularity": 95,
+      "excerpt": "A graceful Siddhi Vinayak offering that invokes auspicious beginnings, protection, and fulfilled intentions.",
+      "languages": {
+        "hindi": "सिद्धि विनायक की आरती भक्तिभाव से गाई जाती है, ताकि विघ्न दूर हों और मंगलमय आरंभ प्राप्त हो।",
+        "english": "A devotional Siddhi Vinayak aarti offered to Lord Ganesha for clarity, success, and the smooth removal of obstacles.",
+        "sanskrit": "वक्रतुण्डाय धीमहि तन्नो दन्तिः प्रचोदयात्॥"
+      }
+    },
+    {
       "slug": "durga-chalisa",
       "name": "Durga Chalisa",
       "category": "Chalisas",
@@ -54,6 +68,118 @@
         "hindi": "नमो नमो दुर्गे सुख करनी। नमो नमो अम्बे दुःख हरनी॥",
         "english": "I bow to Mother Durga, giver of strength and remover of sorrow, who surrounds devotees with fearless grace.",
         "sanskrit": "या देवी सर्वभूतेषु शक्तिरूपेण संस्थिता। नमस्तस्यै नमस्तस्यै नमस्तस्यै नमो नमः॥"
+      }
+    },
+    {
+      "slug": "durga-mantra",
+      "name": "Durga Mantra",
+      "category": "Mantras",
+      "deity": "Maa Durga",
+      "featured": true,
+      "popularity": 93,
+      "excerpt": "A focused Durga mantra stream for inner strength, protection, and steady devotional concentration.",
+      "languages": {
+        "hindi": "यह दुर्गा मंत्र साधक को आंतरिक शक्ति, साहस और माँ की करुणामयी रक्षा से जोड़ता है।",
+        "english": "A concentrated mantra dedicated to Maa Durga, traditionally chanted for courage, protection, and a strengthened inner core.",
+        "sanskrit": "ॐ दुं दुर्गायै नमः॥"
+      }
+    },
+    {
+      "slug": "thumak-chalat-ram-chandra",
+      "name": "Thumak Chalat Ram Chandra",
+      "category": "Bhajans",
+      "deity": "Lord Rama",
+      "featured": true,
+      "popularity": 94,
+      "excerpt": "A tender bhajan that delights in the childlike beauty, innocence, and sweetness of Lord Rama.",
+      "languages": {
+        "hindi": "यह भजन बाल रूप में श्रीराम की मधुर चाल, लावण्य और आनंदमयी छवि का रसपूर्ण स्मरण कराता है।",
+        "english": "A beloved bhajan that adores the gentle, playful beauty of young Lord Rama and the joy of divine innocence.",
+        "transliteration": "Thumak chalat Ramachandra, bajata paijaniya..."
+      }
+    },
+    {
+      "slug": "shree-krishna-govind-hare-murari",
+      "name": "Shree Krishna Govind Hare Murari",
+      "category": "Bhajans",
+      "deity": "Shri Krishna",
+      "featured": true,
+      "popularity": 97,
+      "excerpt": "A luminous Krishna bhajan filled with remembrance, surrender, and sweet devotional repetition.",
+      "languages": {
+        "hindi": "यह भजन श्रीकृष्ण के नाम-स्मरण में मन को माधुर्य, भक्ति और शांति से भर देता है।",
+        "english": "A devotional chant to Krishna that carries the heart toward sweetness, remembrance, and refuge in the divine name.",
+        "transliteration": "Shree Krishna Govind Hare Murari, He Nath Narayan Vasudeva..."
+      }
+    },
+    {
+      "slug": "mangal-bhavan-amangal-hari",
+      "name": "Mangal Bhavan Amangal Hari",
+      "category": "Bhajans",
+      "deity": "Lord Rama",
+      "featured": false,
+      "popularity": 92,
+      "excerpt": "A classic Rama bhajan traditionally sung for grace, auspiciousness, and the removal of sorrow.",
+      "languages": {
+        "hindi": "यह मंगलमय स्तुति श्रीराम के करुणामय स्वरूप को स्मरण कर मन में शांति और शुभता जगाती है।",
+        "english": "A deeply familiar invocation to Lord Rama, sung as a prayer for auspiciousness, comfort, and compassionate protection.",
+        "transliteration": "Mangal bhavan amangal hari, dravahu sudasharath ajir bihari..."
+      }
+    },
+    {
+      "slug": "hare-krishna-hare-rama",
+      "name": "Hare Krishna Hare Rama",
+      "category": "Bhajans",
+      "deity": "Shri Krishna and Lord Rama",
+      "featured": true,
+      "popularity": 98,
+      "excerpt": "A timeless maha-mantra style bhajan invoking the names of Krishna and Rama in a flowing meditative rhythm.",
+      "languages": {
+        "hindi": "हरे कृष्ण हरे राम का यह नाम-संकीर्तन मन को सरल, निर्मल और आनंदमय बनाता है।",
+        "english": "A flowing devotional chant centered on the holy names of Krishna and Rama, often sung for joy, purification, and deep remembrance.",
+        "transliteration": "Hare Krishna Hare Krishna, Krishna Krishna Hare Hare, Hare Rama Hare Rama, Rama Rama Hare Hare."
+      }
+    },
+    {
+      "slug": "shreeman-narayan-narayan-hari-hari",
+      "name": "Shreeman Narayan Narayan Hari Hari",
+      "category": "Bhajans",
+      "deity": "Lord Vishnu",
+      "featured": false,
+      "popularity": 91,
+      "excerpt": "A serene Vishnu bhajan that carries the mood of surrender, order, and sustaining grace.",
+      "languages": {
+        "hindi": "यह विष्णु भजन श्रीहरि की शरण, पालनकारी शक्ति और शांतिदायक उपस्थिति का स्मरण कराता है।",
+        "english": "A soothing bhajan to Narayan, traditionally sung to invoke preservation, shelter, and calm devotional faith.",
+        "transliteration": "Shreeman Narayan Narayan Hari Hari..."
+      }
+    },
+    {
+      "slug": "govind-bolo-hari-gopal-bolo",
+      "name": "Govind Bolo Hari Gopal Bolo",
+      "category": "Bhajans",
+      "deity": "Shri Krishna and Lord Vishnu",
+      "featured": false,
+      "popularity": 90,
+      "excerpt": "A joyful nama-bhajan celebrating Govind, Hari, and Gopal through simple and uplifting repetition.",
+      "languages": {
+        "hindi": "यह सरल और हर्षपूर्ण भजन गोविंद, हरि और गोपाल के नामों से भक्ति और उत्साह जगाता है।",
+        "english": "An uplifting devotional song that repeats the names of Govind and Hari to create a joyful atmosphere of praise.",
+        "transliteration": "Govind bolo Hari Gopal bolo..."
+      }
+    },
+    {
+      "slug": "achyutam-keshavam",
+      "name": "Achyutam Keshavam Krishna Damodaram",
+      "category": "Bhajans",
+      "deity": "Shri Krishna",
+      "featured": true,
+      "popularity": 96,
+      "excerpt": "A beloved Krishna bhajan filled with tenderness, divine names, and a deeply meditative devotional flow.",
+      "languages": {
+        "hindi": "अच्युतम् केशवम् का यह भजन श्रीकृष्ण के विविध दिव्य नामों के माध्यम से हृदय में माधुर्य जगाता है।",
+        "english": "A cherished Krishna bhajan that moves through sacred names like Achyutam, Keshavam, and Damodaram with soft devotional sweetness.",
+        "transliteration": "Achyutam Keshavam Krishna Damodaram, Rama Narayanam Janaki Vallabham..."
       }
     },
     {

@@ -1,0 +1,689 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>About | ScienceMeetsSanatan</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'header.css' %}" />
+  <link rel="stylesheet" href="{% static 'about.css' %}?v=1"/>
+  <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=3" />
+  <link rel="stylesheet" href="{% static 'css/review.css' %}?v=1" />
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-background": "#e1e2e7",
+            "background": "#111417",
+            "surface-dim": "#111417",
+            "on-surface-variant": "#d0c5af",
+            "surface-container-low": "#191c1f",
+            "surface-variant": "#323539",
+            "surface": "#111417",
+            "surface-bright": "#37393d",
+            "primary": "#f2ca50",
+            "primary-container": "#d4af37",
+            "secondary": "#ffb779",
+            "secondary-container": "#955200",
+            "on-secondary-container": "#ffd9bc",
+            "on-surface": "#e1e2e7",
+            "surface-container-lowest": "#0c0e12",
+            "surface-container-high": "#282a2e",
+            "surface-container-highest": "#323539",
+            "surface-container": "#1d2023",
+            "surface-tint": "#e9c349",
+            "outline": "#99907c",
+            "outline-variant": "#4d4635",
+            "on-primary": "#3c2f00",
+            "inverse-surface": "#e1e2e7",
+          },
+          fontFamily: {
+            "headline": ["Newsreader"],
+            "body": ["Manrope"],
+            "label": ["Space Grotesk"],
+          },
+          animation: {
+            "pulse-soft": "pulse-soft 4s ease-in-out infinite",
+          },
+          keyframes: {
+            "pulse-soft": {
+              "0%, 100%": { opacity: "0.3" },
+              "50%": { opacity: "0.7" },
+            },
+          }
+        },
+      },
+    }
+  </script>
+</head>
+
+<body class="bg-background text-on-background font-body antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <section data-about-hero class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden grain bg-surface-container-lowest">
+      <canvas id="starfield"></canvas>
+      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] animate-pulse-soft pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-72 h-72 bg-secondary/5 rounded-full blur-[100px] animate-pulse-soft pointer-events-none" style="animation-delay:2s"></div>
+      <div class="about-dna-side reveal" style="transition-delay:0.18s" aria-hidden="true">
+        <div class="dna-cinema">
+          <svg class="dna-svg" viewBox="0 0 320 220" role="img" aria-label="Rotating DNA double helix">
+            <defs>
+              <linearGradient id="dnaStrandCyan" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#f2fdff"/>
+                <stop offset="42%" stop-color="#62e7ff"/>
+                <stop offset="100%" stop-color="#1674ff"/>
+              </linearGradient>
+              <linearGradient id="dnaStrandGold" x1="1" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f7feff"/>
+                <stop offset="48%" stop-color="#aaf7ff"/>
+                <stop offset="100%" stop-color="#27b6ff"/>
+              </linearGradient>
+              <linearGradient id="dnaPair" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#42ddff"/>
+                <stop offset="50%" stop-color="#f4fdff"/>
+                <stop offset="100%" stop-color="#8ef3ff"/>
+              </linearGradient>
+              <radialGradient id="dnaNodeBlue">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="38%" stop-color="#84efff"/>
+                <stop offset="100%" stop-color="#146dff"/>
+              </radialGradient>
+              <radialGradient id="dnaNodeGold">
+                <stop offset="0%" stop-color="#ffffff"/>
+                <stop offset="44%" stop-color="#b7fbff"/>
+                <stop offset="100%" stop-color="#0895d8"/>
+              </radialGradient>
+              <filter id="dnaGlow" x="-80%" y="-80%" width="260%" height="260%">
+                <feGaussianBlur stdDeviation="3.2" result="blur"/>
+                <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.35 0 0 0 0 0.85 0 0 0 0 1 0 0 0 .72 0"/>
+                <feMerge>
+                  <feMergeNode/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <g class="dna-bokeh">
+              <circle cx="28" cy="28" r="3"/><circle cx="56" cy="196" r="2.3"/><circle cx="94" cy="26" r="2.7"/><circle cx="234" cy="30" r="3.5"/><circle cx="292" cy="184" r="2.5"/>
+              <circle cx="18" cy="156" r="1.8"/><circle cx="142" cy="194" r="2.2"/><circle cx="206" cy="18" r="1.8"/><circle cx="306" cy="70" r="2.2"/>
+            </g>
+            <g class="dna-model" filter="url(#dnaGlow)">
+              <g class="dna-depth-ribbon">
+                <path class="dna-depth dna-depth--cyan" d="M-18 78 C34 28 78 26 126 90 C176 160 226 168 276 106 C300 78 324 66 342 70"/>
+                <path class="dna-depth dna-depth--gold" d="M-18 142 C34 192 78 194 126 130 C176 60 226 52 276 114 C300 142 324 154 342 150"/>
+              </g>
+              <g class="dna-rungs-svg">
+                <line x1="18" y1="82" x2="18" y2="138"/>
+                <line x1="52" y1="43" x2="52" y2="177"/>
+                <line x1="86" y1="47" x2="86" y2="173"/>
+                <line x1="120" y1="82" x2="120" y2="138"/>
+                <line x1="154" y1="126" x2="154" y2="94"/>
+                <line x1="188" y1="162" x2="188" y2="58"/>
+                <line x1="222" y1="158" x2="222" y2="62"/>
+                <line x1="256" y1="124" x2="256" y2="96"/>
+                <line x1="290" y1="91" x2="290" y2="129"/>
+              </g>
+              <path class="dna-strand dna-strand--cyan" d="M-18 78 C34 28 78 26 126 90 C176 160 226 168 276 106 C300 78 324 66 342 70"/>
+              <path class="dna-strand dna-strand--gold" d="M-18 142 C34 192 78 194 126 130 C176 60 226 52 276 114 C300 142 324 154 342 150"/>
+              <path class="dna-highlight dna-highlight--cyan" d="M-18 78 C34 28 78 26 126 90 C176 160 226 168 276 106 C300 78 324 66 342 70"/>
+              <path class="dna-highlight dna-highlight--gold" d="M-18 142 C34 192 78 194 126 130 C176 60 226 52 276 114 C300 142 324 154 342 150"/>
+              <g class="dna-nodes dna-nodes--cyan">
+                <circle cx="18" cy="82" r="7"/><circle cx="52" cy="43" r="8"/><circle cx="86" cy="47" r="7"/><circle cx="120" cy="82" r="8"/><circle cx="154" cy="126" r="7"/><circle cx="188" cy="162" r="8"/><circle cx="222" cy="158" r="7"/><circle cx="256" cy="124" r="8"/><circle cx="290" cy="91" r="7"/>
+              </g>
+              <g class="dna-nodes dna-nodes--gold">
+                <circle cx="18" cy="138" r="7"/><circle cx="52" cy="177" r="8"/><circle cx="86" cy="173" r="7"/><circle cx="120" cy="138" r="8"/><circle cx="154" cy="94" r="7"/><circle cx="188" cy="58" r="8"/><circle cx="222" cy="62" r="7"/><circle cx="256" cy="96" r="8"/><circle cx="290" cy="129" r="7"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <div class="about-om-side reveal" style="transition-delay:0.18s" aria-hidden="true">
+        <div class="absolute inset-0 orbit-1">
+          <div class="absolute inset-0 rounded-full border border-primary/10"></div>
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary/60"></div>
+        </div>
+        <div class="absolute inset-6 orbit-2">
+          <div class="absolute inset-0 rounded-full border border-secondary/10 border-dashed"></div>
+          <div class="absolute bottom-0 right-0 w-1.5 h-1.5 rounded-full bg-secondary/60"></div>
+        </div>
+        <div class="absolute inset-12 orbit-3">
+          <div class="absolute inset-0 rounded-full border border-outline-variant/20"></div>
+        </div>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <span class="font-headline text-5xl text-primary/20 select-none">ॐ</span>
+        </div>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background pointer-events-none" style="z-index:2"></div>
+
+      <div class="relative z-10 max-w-4xl mx-auto px-6 text-center hero-text-layer" id="heroText">
+        <p class="font-label text-xs tracking-[0.35em] text-primary/60 uppercase mb-8 reveal">Sanatan · Vigyan · Anubhav</p>
+        <h1 class="font-headline text-5xl md:text-7xl lg:text-8xl text-primary leading-tight mb-8 glow-gold reveal" style="transition-delay:0.1s">
+          Where Timeless Wisdom<br/>
+          <span class="italic text-secondary">Meets a Living</span><br/>
+          Digital Experience
+        </h1>
+        <p class="font-body text-lg md:text-xl text-on-surface-variant font-light leading-relaxed max-w-2xl mx-auto mb-12 reveal" style="transition-delay:0.2s">
+          ScienceMeetsSanatan is an evolving spiritual knowledge platform — built to bring Sanatan wisdom, Vedic astrology, learning, and personalised exploration into a meaningful and accessible modern form.
+        </p>
+        <div class="flex flex-wrap gap-4 justify-center reveal" style="transition-delay:0.3s">
+          <a href="#journey" class="btn-primary px-8 py-3 rounded-full text-sm font-semibold uppercase">Explore the Journey</a>
+          <a href="#platform" class="btn-ghost px-8 py-3 rounded-full text-sm uppercase">Discover the Platform</a>
+        </div>
+        <div class="mt-20 flex flex-col items-center reveal" style="transition-delay:0.45s">
+          <div class="w-px h-16 bg-gradient-to-b from-primary/40 to-transparent"></div>
+          <span class="font-label text-[10px] tracking-[0.3em] text-primary/40 uppercase mt-3">Scroll to explore</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-28 relative bg-surface-container-low overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="absolute left-0 top-1/2 -translate-y-1/2 w-80 h-80 bg-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-16 md:gap-24 items-center">
+        <div class="reveal-left relative order-2 md:order-1">
+          <div class="absolute -inset-6 bg-primary/5 blur-[80px] rounded-full pointer-events-none"></div>
+          <div class="relative bg-surface/40 backdrop-blur-xl rounded-2xl p-10 md:p-12 outline outline-1 outline-outline-variant/15 shadow-[0_20px_60px_rgba(12,14,18,0.5)]">
+            <span class="absolute top-6 right-8 font-headline text-8xl text-primary/5 select-none pointer-events-none leading-none">ॐ</span>
+            <p class="font-label text-xs tracking-[0.3em] text-secondary/60 uppercase mb-6">The Mission</p>
+            <blockquote class="font-headline text-2xl md:text-3xl text-on-surface leading-relaxed mb-8 italic">
+              "There is so much wisdom in our tradition, but not enough experiences that make people <span class="text-primary">feel connected</span> to it in today's world."
+            </blockquote>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed">
+              ScienceMeetsSanatan is an attempt to change that — with sincerity, design, technology, and devotion. Not as a replacement for the living tradition, but as a bridge to it.
+            </p>
+            <div class="mt-10 flex gap-3 flex-wrap">
+              <span class="font-label text-xs tracking-widest text-primary/60 uppercase">Wisdom</span>
+              <span class="text-outline-variant">·</span>
+              <span class="font-label text-xs tracking-widest text-secondary/60 uppercase">Experience</span>
+              <span class="text-outline-variant">·</span>
+              <span class="font-label text-xs tracking-widest text-primary/60 uppercase">Devotion</span>
+            </div>
+          </div>
+        </div>
+        <div class="order-1 md:order-2 space-y-8 reveal-right">
+          <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase">Why We Exist</p>
+          <h2 class="font-headline text-4xl md:text-5xl text-secondary leading-tight glow-copper">This Is Not Just<br/>a Website.</h2>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed text-lg">
+            Spiritual knowledge has always been alive — spoken, sung, lived. But in its journey into the digital age, something was lost. Knowledge became static. Texts became walls of text. The experience of wonder was replaced by a list of facts.
+          </p>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed">
+            ScienceMeetsSanatan is built with a single belief: that Sanatan wisdom can be made beautiful, interactive, personal, and deeply relevant — without diminishing its depth or its devotion.
+          </p>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed">
+            It is an independent effort, built with care. Not funded by algorithms. Not shaped by clicks. Shaped by purpose.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="platform" class="py-28 bg-surface relative overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#f2ca5005_0%,_transparent_70%)] pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="text-center mb-20 reveal">
+          <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase mb-4">A Living Ecosystem</p>
+          <h2 class="font-headline text-4xl md:text-5xl text-primary mb-5 glow-gold">What We Are Building</h2>
+          <p class="font-body text-on-surface-variant font-light max-w-2xl mx-auto text-lg leading-relaxed">
+            Each part of the platform is conceived not as a feature, but as an experience — one that returns wisdom to where it belongs: inside a meaningful moment.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 reveal">
+          <a href="/panchang/" class="md:col-span-2 platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 0;">calendar_today</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">01 / DAILY</span>
+            </div>
+            <h3 class="font-headline text-3xl text-on-surface mb-3">Panchāng</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed">
+              Not a calendar — a living cosmological instrument. Each day rendered with tithi, nakshatra, yoga, karana, and sunrise-to-sunset awareness so that time feels sacred again.
+            </p>
+          </a>
+
+          <a href="/kundali/" class="platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings: 'FILL' 0;">my_location</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">02</span>
+            </div>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Kundali</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed text-sm">
+              Personalized birth charts illuminated with clarity and reverence — where the mathematics of stars meets lived human meaning.
+            </p>
+          </a>
+
+          <a href="/baby-names/" class="platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 0;">child_care</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">03</span>
+            </div>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Divine Names</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed text-sm">
+              Baby names sourced from Vedic tradition, filtered by nakshatra and meaning — because a name is a first gift.
+            </p>
+          </a>
+
+          <a href="/library/" class="md:col-span-2 platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings: 'FILL' 0;">auto_stories</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">04 / KNOWLEDGE</span>
+            </div>
+            <h3 class="font-headline text-3xl text-on-surface mb-3">Spiritual Library</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed">
+              Not just a library — a more personal way to continue reading, listening, remembering, and returning. Texts, commentary, audio, and context woven together so that knowledge breathes.
+            </p>
+          </a>
+
+          <a href="/quizzes/" class="platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 0;">psychology</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">05</span>
+            </div>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Learning & Quizzes</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed text-sm">
+              Wisdom absorbed through engagement, not memorisation. Interactive journeys through Vedic philosophy, mythology, and practice.
+            </p>
+          </a>
+
+          <a href="/library/collections/audios/" class="platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-primary" style="font-variation-settings: 'FILL' 0;">music_note</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">06</span>
+            </div>
+            <h3 class="font-headline text-2xl text-on-surface mb-3">Mantra & Audio</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed text-sm">
+              Guided mantra experiences, stotras, and sacred audio — because some knowledge lives in sound, not words.
+            </p>
+          </a>
+
+          <a href="/horoscope/" class="md:col-span-2 platform-card rounded-2xl p-8 group">
+            <div class="flex items-start justify-between mb-6">
+              <span class="material-symbols-outlined text-3xl text-secondary" style="font-variation-settings: 'FILL' 0;">person_pin</span>
+              <span class="font-label text-xs text-on-surface-variant/40 tracking-widest">07 / PERSONAL</span>
+            </div>
+            <h3 class="font-headline text-3xl text-on-surface mb-3">Personalised Guidance</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed">
+              Every seeker is different. The platform learns your journey — your sign, your interests, your questions — and meets you where you are, not where it assumes you should be.
+            </p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-28 bg-surface-container-lowest relative overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-outline-variant/20 to-transparent"></div>
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="text-center mb-20 reveal">
+          <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase mb-4">The Philosophy</p>
+          <h2 class="font-headline text-4xl md:text-5xl text-primary mb-5 glow-gold">Not Opposites.<br/>A Conversation.</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-1 reveal">
+          <div class="relative p-10 md:p-14 bg-surface-container-low/60 backdrop-blur-md rounded-tl-2xl rounded-bl-2xl md:rounded-r-none rounded-2xl md:rounded-2xl">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-secondary/5 blur-[60px] rounded-full"></div>
+            <p class="font-label text-xs tracking-[0.3em] text-secondary uppercase mb-6">Science</p>
+            <h3 class="font-headline text-3xl text-on-surface mb-5">The Measurer</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed mb-6">
+              Explores mechanism. Quantifies movement. Builds systems of understanding through observation, repetition, and pattern.
+            </p>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed">
+              In our context, science brings precision — to ephemeris, to personalisation, to accessible interfaces, to the discipline of making complexity feel effortless.
+            </p>
+            <div class="mt-8 flex gap-3 flex-wrap">
+              <span class="font-label text-xs px-3 py-1 rounded-full bg-surface-container text-secondary/70 tracking-wide">Precision</span>
+              <span class="font-label text-xs px-3 py-1 rounded-full bg-surface-container text-secondary/70 tracking-wide">Structure</span>
+              <span class="font-label text-xs px-3 py-1 rounded-full bg-surface-container text-secondary/70 tracking-wide">Accessibility</span>
+            </div>
+          </div>
+          <div class="relative p-10 md:p-14 bg-surface-container-low/60 backdrop-blur-md rounded-tr-2xl rounded-br-2xl md:rounded-l-none rounded-2xl md:rounded-2xl mt-1 md:mt-0">
+            <div class="absolute bottom-0 left-0 w-32 h-32 bg-primary/5 blur-[60px] rounded-full"></div>
+            <p class="font-label text-xs tracking-[0.3em] text-primary uppercase mb-6">Sanatan</p>
+            <h3 class="font-headline text-3xl text-on-surface mb-5">The Meaning-Maker</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed mb-6">
+              Interprets experience. Holds space for mystery. Provides the context — the why — that measurement alone cannot reach.
+            </p>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed">
+              Sanatan wisdom brings depth — the lived truth of the tradition, its cosmology, its reverence, its understanding of time as cyclical, sacred, and deeply personal.
+            </p>
+            <div class="mt-8 flex gap-3 flex-wrap">
+              <span class="font-label text-xs px-3 py-1 rounded-full bg-surface-container text-primary/70 tracking-wide">Depth</span>
+              <span class="font-label text-xs px-3 py-1 rounded-full bg-surface-container text-primary/70 tracking-wide">Reverence</span>
+              <span class="font-label text-xs px-3 py-1 rounded-full bg-surface-container text-primary/70 tracking-wide">Meaning</span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 relative p-10 md:p-12 bg-surface/50 backdrop-blur-xl rounded-2xl outline outline-1 outline-outline-variant/15 shadow-[0_20px_60px_rgba(12,14,18,0.6)] reveal text-center max-w-3xl mx-auto">
+          <div class="absolute -inset-4 bg-gradient-to-r from-secondary/5 via-primary/5 to-secondary/5 blur-[60px] rounded-full pointer-events-none"></div>
+          <span class="font-headline text-4xl text-primary/30 select-none block mb-6">⊕</span>
+          <h3 class="font-headline text-2xl md:text-3xl text-on-surface mb-5 italic">
+            "One explores mechanism. The other interprets experience. One measures movement. The other holds meaning."
+          </h3>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed">
+            ScienceMeetsSanatan is built at that meeting point — where a Vedic insight is made accessible through modern design, and where modern technology is made purposeful by ancient wisdom.
+          </p>
+          <div class="mt-8 w-24 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent mx-auto"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="journey" class="py-28 bg-surface relative overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="max-w-4xl mx-auto px-6 md:px-12">
+        <div class="text-center mb-24 reveal">
+          <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase mb-4">The Story So Far</p>
+          <h2 class="font-headline text-4xl md:text-5xl text-primary mb-5 glow-gold">A Living Journey</h2>
+          <p class="font-body text-on-surface-variant font-light max-w-xl mx-auto leading-relaxed">
+            Every meaningful platform begins with a question, grows through vision, and becomes real through devotion. Here is where we are.
+          </p>
+        </div>
+
+        <div class="relative">
+          <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary/20 via-outline-variant/30 to-transparent"></div>
+          <div class="relative pl-14 md:pl-0 mb-20 md:grid md:grid-cols-2 md:gap-12 reveal">
+            <div class="absolute left-0 md:left-1/2 top-1 w-3 h-3 rounded-full bg-secondary timeline-dot-copper md:-translate-x-1/2 z-10"></div>
+            <div class="md:pr-12 md:text-right">
+              <span class="font-label text-sm text-secondary tracking-wider block mb-2">The Question</span>
+              <h3 class="font-headline text-2xl text-on-surface mb-3">Why Does It Have to Feel This Way?</h3>
+              <p class="font-body text-on-surface-variant font-light leading-relaxed">
+                Spiritual knowledge — Jyotish, philosophy, the Panchang, sacred texts — often felt scattered, text-heavy, or built for specialists. The experience rarely matched the depth of the wisdom. That dissonance was the beginning.
+              </p>
+            </div>
+            <div class="hidden md:block"></div>
+          </div>
+          <div class="relative pl-14 md:pl-0 mb-20 md:grid md:grid-cols-2 md:gap-12 reveal" style="transition-delay:0.1s">
+            <div class="absolute left-0 md:left-1/2 top-1 w-3 h-3 rounded-full bg-primary timeline-dot-gold md:-translate-x-1/2 z-10"></div>
+            <div class="hidden md:block"></div>
+            <div class="md:pl-12">
+              <span class="font-label text-sm text-primary tracking-wider block mb-2">The Vision</span>
+              <h3 class="font-headline text-2xl text-on-surface mb-3">What If It Could Be Beautiful?</h3>
+              <p class="font-body text-on-surface-variant font-light leading-relaxed">
+                The vision emerged not to simplify the wisdom — but to restore its felt sense. To make astrology feel alive. To make the Panchang something you return to. To make Vedic knowledge something that feels like yours.
+              </p>
+            </div>
+          </div>
+          <div class="relative pl-14 md:pl-0 mb-20 md:grid md:grid-cols-2 md:gap-12 reveal" style="transition-delay:0.2s">
+            <div class="absolute left-0 md:left-1/2 top-1 w-3 h-3 rounded-full bg-surface-tint timeline-dot-gold md:-translate-x-1/2 z-10"></div>
+            <div class="md:pr-12 md:text-right">
+              <span class="font-label text-sm text-surface-tint tracking-wider block mb-2">The Platform</span>
+              <h3 class="font-headline text-2xl text-on-surface mb-3">A Fusion of Devotion and Design</h3>
+              <p class="font-body text-on-surface-variant font-light leading-relaxed">
+                ScienceMeetsSanatan began taking shape — part knowledge platform, part digital experience, part personal companion. Built carefully. Built with reverence. Built to be something worth returning to.
+              </p>
+            </div>
+            <div class="hidden md:block"></div>
+          </div>
+          <div class="relative pl-14 md:pl-0 md:grid md:grid-cols-2 md:gap-12 reveal" style="transition-delay:0.3s">
+            <div class="absolute left-0 md:left-1/2 top-1 w-3 h-3 rounded-full bg-secondary/50 md:-translate-x-1/2 z-10 border border-secondary/30"></div>
+            <div class="hidden md:block"></div>
+            <div class="md:pl-12">
+              <span class="font-label text-sm text-secondary/70 tracking-wider block mb-2">Still Growing · Still Evolving</span>
+              <h3 class="font-headline text-2xl text-on-surface mb-3">A Living Journey</h3>
+              <p class="font-body text-on-surface-variant font-light leading-relaxed">
+                It continues. One experience, one refinement, one feature at a time. Shaped by the people who use it, the feedback they give, and the deeper understanding that only comes through practice.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-28 bg-surface-container-lowest relative overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_#ffb77908_0%,_transparent_60%)] pointer-events-none"></div>
+      <div class="max-w-7xl mx-auto px-6 md:px-12">
+        <div class="text-center mb-20 reveal">
+          <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase mb-4">The Difference</p>
+          <h2 class="font-headline text-4xl md:text-5xl text-secondary mb-5 glow-copper">Why This Feels Different</h2>
+          <p class="font-body text-on-surface-variant font-light max-w-2xl mx-auto leading-relaxed">
+            There are many spiritual websites. This is an attempt to build something more: a platform where depth and beauty, tradition and technology, are held together with care.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 reveal">
+          <div class="diff-card bg-surface-container-low/60 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-3xl text-primary mb-6 block" style="font-variation-settings: 'FILL' 0;">auto_awesome</span>
+            <h3 class="font-headline text-xl text-on-surface mb-3">Spiritual Depth, Modern Usability</h3>
+            <p class="font-body text-on-surface-variant font-light text-sm leading-relaxed">
+              No compromise between profound and accessible. The wisdom remains intact; the experience becomes effortless.
+            </p>
+          </div>
+          <div class="diff-card bg-surface-container-low/60 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-3xl text-secondary mb-6 block" style="font-variation-settings: 'FILL' 0;">person_pin</span>
+            <h3 class="font-headline text-xl text-on-surface mb-3">Personalisation Without Loss of Sincerity</h3>
+            <p class="font-body text-on-surface-variant font-light text-sm leading-relaxed">
+              Tools that remember you — your chart, your questions, your path — without reducing wisdom to an algorithm.
+            </p>
+          </div>
+          <div class="diff-card bg-surface-container-low/60 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-3xl text-primary mb-6 block" style="font-variation-settings: 'FILL' 0;">palette</span>
+            <h3 class="font-headline text-xl text-on-surface mb-3">Experience, Not Just Information</h3>
+            <p class="font-body text-on-surface-variant font-light text-sm leading-relaxed">
+              Every section is designed to be felt, not merely read. Beauty is not decoration — it is a form of respect for what is being shared.
+            </p>
+          </div>
+          <div class="diff-card bg-surface-container-low/60 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-3xl text-secondary mb-6 block" style="font-variation-settings: 'FILL' 0;">refresh</span>
+            <h3 class="font-headline text-xl text-on-surface mb-3">Built to Evolve With You</h3>
+            <p class="font-body text-on-surface-variant font-light text-sm leading-relaxed">
+              Not a finished monument. A living platform that grows with its users, their feedback, and a continuous commitment to refinement.
+            </p>
+          </div>
+          <div class="diff-card bg-surface-container-low/60 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-3xl text-primary mb-6 block" style="font-variation-settings: 'FILL' 0;">hub</span>
+            <h3 class="font-headline text-xl text-on-surface mb-3">Content, Tools, and Journey in One Place</h3>
+            <p class="font-body text-on-surface-variant font-light text-sm leading-relaxed">
+              From the Panchang to a personal Kundali to Vedic texts to guided learning — one coherent world, not scattered links.
+            </p>
+          </div>
+          <div class="diff-card bg-surface-container-low/60 rounded-2xl p-8">
+            <span class="material-symbols-outlined text-3xl text-secondary mb-6 block" style="font-variation-settings: 'FILL' 0;">favorite</span>
+            <h3 class="font-headline text-xl text-on-surface mb-3">Made With Devotion</h3>
+            <p class="font-body text-on-surface-variant font-light text-sm leading-relaxed">
+              This is an independent effort. No venture capital. No growth hacks. Just a genuine belief that this knowledge deserves a better home.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-28 bg-surface-container-low relative overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="absolute right-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-primary/5 blur-[100px] rounded-full pointer-events-none"></div>
+      <div class="absolute left-0 bottom-0 w-48 h-48 bg-secondary/5 blur-[80px] rounded-full pointer-events-none"></div>
+      <div class="max-w-4xl mx-auto px-6 md:px-12 text-center reveal">
+        <div class="relative inline-block mb-10">
+          <span class="font-headline text-8xl md:text-9xl text-primary/8 select-none absolute -top-6 left-1/2 -translate-x-1/2 leading-none">ॐ</span>
+          <span class="material-symbols-outlined text-4xl text-primary/40 relative" style="font-variation-settings: 'FILL' 1;">favorite</span>
+        </div>
+        <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase mb-6">An Honest Note</p>
+        <h2 class="font-headline text-4xl md:text-5xl text-on-surface mb-8 leading-tight">
+          Built With<br/><span class="text-primary italic glow-gold">Devotion.</span>
+        </h2>
+        <p class="font-body text-on-surface-variant font-light leading-relaxed text-lg max-w-2xl mx-auto mb-6">
+          ScienceMeetsSanatan is an independent effort being built with devotion, curiosity, and a deep respect for the value of this knowledge.
+        </p>
+        <p class="font-body text-on-surface-variant font-light leading-relaxed max-w-2xl mx-auto mb-6">
+          It is still growing. Still evolving. Still being refined with care — one experience, one feature, and one improvement at a time. There is no finish line here. Only a continuing commitment to make something worthy of the wisdom it carries.
+        </p>
+        <p class="font-body text-on-surface-variant font-light leading-relaxed max-w-xl mx-auto">
+          If this platform resonates with you — if it makes Sanatan wisdom feel closer, more alive, more yours — then your presence, your feedback, and your support become part of its journey.
+        </p>
+        <div class="mt-12 w-24 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent mx-auto"></div>
+        <div class="mt-10">
+          <button type="button" class="font-label text-xs tracking-[0.25em] text-primary/50 uppercase hover:text-primary transition-colors duration-300" onclick="window.SMSDaanpatra && window.SMSDaanpatra.open()">
+            Support the Journey →
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-28 bg-surface relative overflow-hidden">
+      <div class="absolute top-0 section-glow"></div>
+      <div class="max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8 reveal-left">
+          <p class="font-label text-xs tracking-[0.3em] text-secondary/60 uppercase">A Living Platform</p>
+          <h2 class="font-headline text-4xl md:text-5xl text-secondary leading-tight glow-copper">Shaped by the<br/>People Who Return.</h2>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed text-lg">
+            This is not meant to be a finished monument. It is a living platform — shaped by learning, refinement, and the people who return to it.
+          </p>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed">
+            Every piece of feedback is heard. Every review improves something. Every seeker, reader, learner, and explorer who spends time here leaves a trace that helps the next person find their way more easily.
+          </p>
+          <p class="font-body text-on-surface-variant font-light leading-relaxed">
+            This is a community of curiosity — and you are welcome here, wherever you are in your journey.
+          </p>
+          <div class="flex flex-wrap gap-4 pt-2">
+            <button type="button" class="btn-primary px-7 py-3 rounded-full text-sm font-semibold uppercase" onclick="window.SMSReview && window.SMSReview.open({ source: 'about_feedback_cta' })">
+              Share Feedback
+            </button>
+            <a href="/welcome/" class="btn-ghost px-7 py-3 rounded-full text-sm uppercase">Explore the Platform</a>
+          </div>
+        </div>
+
+        <div class="reveal-right relative">
+          <div class="absolute -inset-6 bg-secondary/5 blur-[80px] rounded-full pointer-events-none"></div>
+          <div class="relative bg-surface/40 backdrop-blur-xl rounded-2xl p-10 outline outline-1 outline-outline-variant/15 shadow-[0_20px_60px_rgba(12,14,18,0.5)]">
+            <p class="font-label text-xs tracking-[0.3em] text-secondary/60 uppercase mb-8">What Seekers Are Saying</p>
+            <div class="space-y-8">
+              <div class="pb-8 border-b border-outline-variant/10">
+                <p class="font-headline text-lg italic text-on-surface leading-relaxed mb-4">
+                  "It finally made me feel like this knowledge was meant for me — not just scholars. The Panchang section changed how I start my mornings."
+                </p>
+                <span class="font-label text-xs tracking-wider text-on-surface-variant/50 uppercase">— A Daily Visitor</span>
+              </div>
+              <div>
+                <p class="font-headline text-lg italic text-on-surface leading-relaxed mb-4">
+                  "The way it presents Kundali is unlike anything I have seen — respectful, clear, and genuinely beautiful."
+                </p>
+                <span class="font-label text-xs tracking-wider text-on-surface-variant/50 uppercase">— Curious Seeker</span>
+              </div>
+            </div>
+            <div class="mt-8 w-full h-px bg-gradient-to-r from-transparent via-outline-variant/20 to-transparent"></div>
+            <p class="font-label text-xs tracking-wider text-on-surface-variant/30 uppercase mt-6 text-center">
+              Your experience matters — share yours
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="relative py-40 bg-surface-container-lowest overflow-hidden grain">
+      <canvas id="starfield2"></canvas>
+      <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest pointer-events-none" style="z-index:2"></div>
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none" style="z-index:1">
+        <div class="w-96 h-96 bg-primary/8 rounded-full blur-[120px]"></div>
+      </div>
+      <div class="relative z-10 max-w-4xl mx-auto px-6 text-center reveal">
+        <span class="font-headline text-7xl text-primary/15 select-none block mb-6 leading-none">ॐ</span>
+        <p class="font-label text-xs tracking-[0.3em] text-primary/60 uppercase mb-6">Begin Here</p>
+        <h2 class="font-headline text-5xl md:text-6xl lg:text-7xl text-on-surface mb-8 glow-gold leading-tight">
+          Come Explore a More<br/><span class="text-primary italic">Meaningful Journey.</span>
+        </h2>
+        <p class="font-body text-on-surface-variant font-light text-lg leading-relaxed max-w-2xl mx-auto mb-14">
+          Into Sanatan wisdom. Into the living cosmology of Jyotish. Into a digital experience built with reverence for what it carries.
+        </p>
+        <div class="flex flex-wrap gap-5 justify-center">
+          <a href="/welcome/" class="btn-primary px-10 py-4 rounded-full text-sm font-semibold uppercase tracking-widest">Start Exploring</a>
+          <a href="/library/" class="btn-ghost px-10 py-4 rounded-full text-sm uppercase tracking-widest">Read, Learn, Discover</a>
+        </div>
+        <div class="mt-16 w-px h-20 bg-gradient-to-b from-primary/30 to-transparent mx-auto"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div>
+        <div class="site-footer__brand">Science Meet Sanatan</div>
+        <p class="site-footer__copy">
+          A modern spiritual platform connecting Panchang, Kundali, Horoscope, Library, Baby Names, and Quizzes.
+        </p>
+      </div>
+      <div class="site-footer__links">
+        <a href="/welcome/">Home</a>
+        <a href="/panchang/">Panchang</a>
+        <a href="/kundali/">Kundali</a>
+        <a href="/horoscope/">Horoscope</a>
+        <a href="/library/">Library</a>
+        <a href="/quizzes/">Quizzes</a>
+      </div>
+      <div class="site-footer__meta">
+        <div>© 2026 Science Meet Sanatan. All rights reserved.</div>
+        <div>Designed with devotion for seekers, students, and families.</div>
+        <div>Instagram: <a href="https://instagram.com/sciencemeetsanatan" target="_blank" rel="noreferrer">@sciencemeetsanatan</a></div>
+      </div>
+    </div>
+  </footer>
+
+  {% include 'components/login_popup.html' %}
+  {% include 'components/digital_daanpatra.html' %}
+  {% include 'components/review_modal.html' %}
+  <script>
+    window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
+      isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+      pageType: "general"
+    });
+  </script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script src="{% static 'header.js' %}"></script>
+  <script defer src="{% static 'about.js' %}?v=1"></script>
+</body>
+</html>

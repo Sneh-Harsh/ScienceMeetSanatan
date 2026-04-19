@@ -879,6 +879,10 @@ def horoscope_page(request):
     return render(request, "horoscope.html")
 
 
+def about_page(request):
+    return render(request, "about.html")
+
+
 @login_required
 def profile_page(request):
     if request.method == "POST":
@@ -1038,10 +1042,16 @@ def api_library_items(request):
     query = str(request.GET.get("q") or "").strip().lower()
     category = str(request.GET.get("category") or "").strip().lower()
     language = str(request.GET.get("language") or "").strip().lower()
+    deity = str(request.GET.get("deity") or "").strip().lower()
 
     filtered = items
     if category and category != "all":
-        filtered = [item for item in filtered if item["category"].lower() == category]
+        filtered = [
+            item
+            for item in filtered
+            if (category == "audios" and str(item.get("audio_url") or "").strip())
+            or item["category"].lower() == category
+        ]
 
     if language and language != "all":
         filtered = [
@@ -1050,13 +1060,24 @@ def api_library_items(request):
             if item.get("languages", {}).get(language)
         ]
 
+    if deity and deity != "all":
+        filtered = [
+            item
+            for item in filtered
+            if deity in [str(tag).strip().lower() for tag in (item.get("deity_tags") or [])]
+            or deity in str(item.get("deity") or "").strip().lower()
+        ]
+
     if query:
         filtered = [
             item
             for item in filtered
             if query in item["name"].lower()
+            or query in str(item.get("singer") or "").lower()
             or query in item.get("deity", "").lower()
+            or query in " ".join(str(tag).lower() for tag in item.get("deity_tags", []))
             or query in item["category"].lower()
+            or query in str(item.get("excerpt") or "").lower()
             or any(query in text.lower() for text in item.get("languages", {}).values() if text)
         ]
 
@@ -1064,6 +1085,14 @@ def api_library_items(request):
         {
             "items": filtered,
             "categories": list(PRESET_LIBRARY_CATEGORIES),
+            "deities": sorted(
+                {
+                    str(tag).strip()
+                    for item in filtered
+                    for tag in (item.get("deity_tags") or [])
+                    if str(tag).strip()
+                }
+            ),
             "total": len(filtered),
             "debug_total_before_filters": len(items),
         }

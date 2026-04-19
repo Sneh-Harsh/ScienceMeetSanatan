@@ -6,6 +6,7 @@ const FIXED_LIBRARY_CATEGORIES = [
   "Books",
   "Audios",
   "Bhajans",
+  "Mantras",
   "Vedas",
   "Upanishads",
   "Chalisas",
@@ -114,10 +115,38 @@ const AUDIO_SESSION_VERSION = 2;
 const AUDIO_SPEEDS = [1, 1.25, 1.5];
 const AUDIO_COVER_IMAGES = {
   Aartis: "https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5mPZ8neflsd0RjKvYNAUOMZd4IdjSXFip7IiQ5mFG6r35Qg9ocLKQMqKr1xYwebwZy7gtv9aHEag6EKQGUMwik2U2fjvsdmFaYJCFBIB_t-lULSf1Eu0KeHD9-6az83e68C2FDy4EcUEAZN6uIzpU843DM4qUoYtwVSUJ9658MWixyElljCxQ-yygHcv4sQGiw_Lmh8OTLS6W5nxug7_kD9dvH8foEHelkoCuUaetjxxOcM_luOnsePVjeOdGkZ7oFy9DqboLsQ",
+  Audios: "https://res.cloudinary.com/dmnm8z8dc/image/upload/v1776006859/universe-revealed-img_oalmxr.jpg",
+  Bhajans: "https://lh3.googleusercontent.com/aida-public/AB6AXuCSpylc4bIDzyGBUkLWzETpjF1T5XQIYw1DCHv9OPROPu_3rArGfvZryjAtBwqWGNE-Su5ABNM2uC1_7wEhxXU1sMm6wt49v_mbbdKbAtdFGsgafflZFP2QxG7bgFHZrZ3nxuLgz0s9tZC5QFie8CoSM22kfdNBQtGAwwc0jzSvlkjY9d1M5K_haxZKocy0b0SK4Ds6RA3GVHajAN_7etw_4kt9fig5-8WwpRzKXEKnGgQ2Bw3zYlfrE1dUhp8LDqsuI0vs2cNOP_YK",
   Books: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOGyva3303proDeUscVSBb9AH6aKQB77bnDAPJrBrPeTkTPrW9c-sQY9fewQ3nytx_gcb2EghJ3kwQeTdgEedwriWz5sZyipxJ-ddc6jhiFnSm2al7E6PdJx3g8V6Rz9R0DnGkwxI6FNq5be5NiCyKPwyukrMt0g2w9U4lD32HgsM4OczprXBYLjF_U_KyaBoWa6vNFt3XnX7SKquswjS928bGAHB--0lYRRpoAEmnxNKCklftDeQXxItsEkLFGaWXPGVGZGDB5BWQ",
+  Chalisas: "https://lh3.googleusercontent.com/aida-public/AB6AXuBOGyva3303proDeUscVSBb9AH6aKQB77bnDAPJrBrPeTkTPrW9c-sQY9fewQ3nytx_gcb2EghJ3kwQeTdgEedwriWz5sZyipxJ-ddc6jhiFnSm2al7E6PdJx3g8V6Rz9R0DnGkwxI6FNq5be5NiCyKPwyukrMt0g2w9U4lD32HgsM4OczprXBYLjF_U_KyaBoWa6vNFt3XnX7SKquswjS928bGAHB--0lYRRpoAEmnxNKCklftDeQXxItsEkLFGaWXPGVGZGDB5BWQ",
+  Mantras: "https://res.cloudinary.com/dmnm8z8dc/image/upload/v1776006859/universe-revealed-img_oalmxr.jpg",
   Upanishads: "https://lh3.googleusercontent.com/aida-public/AB6AXuCSpylc4bIDzyGBUkLWzETpjF1T5XQIYw1DCHv9OPROPu_3rArGfvZryjAtBwqWGNE-Su5ABNM2uC1_7wEhxXU1sMm6wt49v_mbbdKbAtdFGsgafflZFP2QxG7bgFHZrZ3nxuLgz0s9tZC5QFie8CoSM22kfdNBQtGAwwc0jzSvlkjY9d1M5K_haxZKocy0b0SK4Ds6RA3GVHajAN_7etw_4kt9fig5-8WwpRzKXEKnGgQ2Bw3zYlfrE1dUhp8LDqsuI0vs2cNOP_YK",
   Vedas: "https://res.cloudinary.com/dmnm8z8dc/image/upload/v1776006859/universe-revealed-img_oalmxr.jpg",
   "Sacred Hymns": "https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5mPZ8neflsd0RjKvYNAUOMZd4IdjSXFip7IiQ5mFG6r35Qg9ocLKQMqKr1xYwebwZy7gtv9aHEag6EKQGUMwik2U2fjvsdmFaYJCFBIB_t-lULSf1Eu0KeHD9-6az83e68C2FDy4EcUEAZN6uIzpU843DM4qUoYtwVSUJ9658MWixyElljCxQ-yygHcv4sQGiw_Lmh8OTLS6W5nxug7_kD9dvH8foEHelkoCuUaetjxxOcM_luOnsePVjeOdGkZ7oFy9DqboLsQ",
+};
+
+const getItemDeityTags = (item = {}) => {
+  if (Array.isArray(item.deity_tags) && item.deity_tags.length) {
+    return item.deity_tags
+      .map((tag) => String(tag || "").trim())
+      .filter(Boolean);
+  }
+  return String(item.deity || "")
+    .split(/\s*(?:,|\/|&|\band\b)\s*/i)
+    .map((tag) => tag.replace(/\b(lord|shri|shree|maa|mata|deity)\b/gi, "").trim())
+    .map((tag) => tag.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+};
+
+const buildRangeSeekPreview = (seconds, duration, refs) => {
+  const safeDuration = Number(duration || 0);
+  const safeSeconds = Math.max(0, Math.min(safeDuration || Number(seconds || 0), Number(seconds || 0)));
+  const pct = safeDuration > 0 ? (safeSeconds / safeDuration) * 100 : 0;
+  if (refs.currentTime) refs.currentTime.textContent = formatDuration(safeSeconds);
+  if (refs.progressRange) refs.progressRange.value = String(safeSeconds);
+  if (refs.miniProgressRange) refs.miniProgressRange.value = String(safeSeconds);
+  if (refs.playedFill) refs.playedFill.style.width = `${pct}%`;
+  if (refs.miniProgressFill) refs.miniProgressFill.style.width = `${pct}%`;
 };
 
 const formatDuration = (value) => {
@@ -142,15 +171,21 @@ const buildAudioTrackFromItem = (item) => {
   if (!audioUrl) return null;
   const category = item.category || "Aartis";
   const coverImage = item.cover_image || item.coverImage || AUDIO_COVER_IMAGES[category] || CONTINUE_READING_COVERS[0];
+  const singer = String(item.singer || "").trim();
+  const subtitleParts = [];
+  if (singer) subtitleParts.push(singer);
+  if (item.deity) subtitleParts.push(item.deity);
+  subtitleParts.push(category);
   return {
     slug: item.slug,
     title: item.name || item.slug,
-    subtitle: item.deity ? `${item.deity} • ${category}` : `${category} • Spiritual Library`,
+    subtitle: subtitleParts.filter(Boolean).join(" • "),
     audioUrl,
     coverImage,
     category,
+    singer,
     hasExplicitAudio: true,
-    sourceLabel: "Cloudinary source",
+    sourceLabel: "Sacred audio",
   };
 };
 
@@ -251,12 +286,39 @@ const createLibraryAudioPlayer = () => {
   let pendingAutoplay = false;
   let isSeeking = false;
   let isMiniSeeking = false;
+  let seekPreviewTime = null;
   let playerHistoryPushed = false;
+  let progressRaf = 0;
+  let pendingErrorTimer = 0;
   const favoriteSet = getAudioFavorites();
 
   const getTrack = () => queue[currentIndex] || null;
   const repeatModeLabel = () => repeatMode === "one" ? "Repeat One" : repeatMode === "all" ? "Repeat All" : "Repeat Off";
-  const hasBlockingError = () => hasStreamError && Boolean(playerError);
+  const hasReliablePlaybackSignal = () =>
+    Number(audio.currentTime || 0) > 0
+    || Number(audio.duration || 0) > 0
+    || (!audio.paused && audio.readyState >= 2)
+    || audio.readyState >= 3;
+  const shouldMarkHardError = () => {
+    if (hasReliablePlaybackSignal()) return false;
+    if (!audio.currentSrc) return true;
+    if (audio.networkState === HTMLMediaElement.NETWORK_NO_SOURCE) return true;
+    if (Boolean(audio.error) && audio.readyState === 0 && audio.networkState !== HTMLMediaElement.NETWORK_LOADING) return true;
+    return false;
+  };
+  const clearPlaybackError = () => {
+    playerError = "";
+    hasStreamError = false;
+    if (pendingErrorTimer) {
+      window.clearTimeout(pendingErrorTimer);
+      pendingErrorTimer = 0;
+    }
+  };
+  const hasBlockingError = () => {
+    if (!hasStreamError || !playerError) return false;
+    if (isLoading || !audio.paused) return false;
+    return shouldMarkHardError();
+  };
   const bufferedPct = () => {
     const duration = Number(audio.duration || 0);
     if (!duration || !audio.buffered?.length) return 0;
@@ -266,6 +328,26 @@ const createLibraryAudioPlayer = () => {
     } catch (error) {
       return 0;
     }
+  };
+
+  const stopProgressLoop = () => {
+    if (progressRaf) {
+      window.cancelAnimationFrame(progressRaf);
+      progressRaf = 0;
+    }
+  };
+
+  const startProgressLoop = () => {
+    stopProgressLoop();
+    const tick = () => {
+      if (audio.paused || !getTrack()) {
+        progressRaf = 0;
+        return;
+      }
+      render();
+      progressRaf = window.requestAnimationFrame(tick);
+    };
+    progressRaf = window.requestAnimationFrame(tick);
   };
 
   const persist = () => {
@@ -364,14 +446,14 @@ const createLibraryAudioPlayer = () => {
     refs.trackSubtitle.textContent = track.subtitle;
     refs.trackKicker.textContent = track.sourceLabel;
     refs.trackCounter.textContent = `Track ${currentIndex + 1} of ${queue.length}`;
-    refs.playbackMode.textContent = track.hasExplicitAudio ? "Cloudinary source attached" : "Preview stream";
-    refs.playbackMeta.textContent = hasBlockingError()
-      ? "The active stream hit a playback issue. Retry or move to the next track."
-      : "Streaming live from your hosted Cloudinary audio asset.";
+    if (refs.playbackMode) refs.playbackMode.textContent = track.hasExplicitAudio ? "Audio ready" : "Preview stream";
+    if (refs.playbackMeta) {
+      refs.playbackMeta.textContent = "Streaming from your spiritual library audio collection.";
+    }
     refs.ambient.style.backgroundImage = `linear-gradient(180deg, rgba(7,10,16,.18), rgba(7,10,16,.82)), url('${track.coverImage}')`;
     refs.favoriteBtn.textContent = favoriteSet.has(track.slug) ? "Favorited" : "Favorite";
     const duration = Number(audio.duration || 0);
-    const currentTime = Number(audio.currentTime || 0);
+    const currentTime = Number((isSeeking || isMiniSeeking) && seekPreviewTime != null ? seekPreviewTime : audio.currentTime || 0);
     const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
     const bufferPct = bufferedPct();
     refs.currentTime.textContent = formatDuration(currentTime);
@@ -391,32 +473,26 @@ const createLibraryAudioPlayer = () => {
     refs.speedLabel.textContent = `${speed}×`;
     refs.muteBtn.textContent = isMuted || volume === 0 ? "Unmute" : "Mute";
     refs.volumeRange.value = String(isMuted ? 0 : volume);
-    refs.volumeMeta.textContent = `${Math.round((isMuted ? 0 : volume) * 100)}%`;
-    refs.bufferMeta.textContent = `${Math.round(bufferPct)}%`;
-    refs.resumeMeta.textContent = currentTime > 1 ? `Saved at ${formatDuration(currentTime)}` : "No saved timestamp yet";
-    refs.progressLabel.textContent = hasBlockingError()
-      ? "Playback issue"
-      : isLoading
-        ? "Buffering sacred audio…"
-        : audio.paused
-          ? "Paused in your listening room"
-          : "Now flowing";
-    refs.trackState.textContent = hasBlockingError()
-      ? "Error"
-      : isLoading
-        ? "Loading"
-        : audio.paused
-          ? "Paused"
-          : "Playing";
-    refs.miniState.textContent = hasBlockingError()
-      ? "Playback issue"
-      : isLoading
-        ? "Loading…"
-        : audio.paused
-          ? "Paused"
-          : "Now flowing";
-    refs.errorBanner.hidden = !hasBlockingError();
-    refs.errorMessage.textContent = playerError || "This stream could not be loaded.";
+    if (refs.volumeMeta) refs.volumeMeta.textContent = `${Math.round((isMuted ? 0 : volume) * 100)}%`;
+    if (refs.bufferMeta) refs.bufferMeta.textContent = `${Math.round(bufferPct)}%`;
+    if (refs.resumeMeta) refs.resumeMeta.textContent = currentTime > 1 ? `Saved at ${formatDuration(currentTime)}` : "No saved timestamp yet";
+    refs.progressLabel.textContent = isLoading
+      ? "Buffering sacred audio…"
+      : audio.paused
+        ? "Paused in your listening room"
+        : "Now flowing";
+    refs.trackState.textContent = isLoading
+      ? "Loading"
+      : audio.paused
+        ? "Paused"
+        : "Playing";
+    refs.miniState.textContent = isLoading
+      ? "Loading…"
+      : audio.paused
+        ? "Paused"
+        : "Now flowing";
+    refs.errorBanner.hidden = true;
+    refs.errorMessage.textContent = "";
     if ("mediaSession" in navigator && window.MediaMetadata) {
       navigator.mediaSession.metadata = new window.MediaMetadata({
         title: track.title,
@@ -446,8 +522,9 @@ const createLibraryAudioPlayer = () => {
   const loadCurrentTrack = (autoPlay = false, restoreTime = 0) => {
     const track = getTrack();
     if (!track) return;
-    playerError = "";
+    clearPlaybackError();
     isLoading = true;
+    seekPreviewTime = null;
     audio.src = track.audioUrl;
     audio.load();
     audio.currentTime = 0;
@@ -498,7 +575,7 @@ const createLibraryAudioPlayer = () => {
     if (!queue.length) {
       currentIndex = -1;
       shell.hidden = true;
-      playerError = "";
+      clearPlaybackError();
       isLoading = false;
     }
     render();
@@ -526,6 +603,7 @@ const createLibraryAudioPlayer = () => {
   };
 
   const stopPlayback = () => {
+    stopProgressLoop();
     audio.pause();
     audio.removeAttribute("src");
     audio.load();
@@ -533,8 +611,8 @@ const createLibraryAudioPlayer = () => {
     currentIndex = -1;
     isExpanded = false;
     pendingAutoplay = false;
-    playerError = "";
-    hasStreamError = false;
+    seekPreviewTime = null;
+    clearPlaybackError();
     isLoading = false;
     playerHistoryPushed = false;
     shell.hidden = true;
@@ -636,36 +714,70 @@ const createLibraryAudioPlayer = () => {
     }, 1100);
   });
 
+  const previewSeek = (value) => {
+    const duration = Number(audio.duration || 0);
+    if (!Number.isFinite(duration) || duration <= 0) return;
+    seekPreviewTime = Math.max(0, Math.min(duration, Number(value || 0)));
+    try {
+      audio.currentTime = seekPreviewTime;
+    } catch (error) {
+      // Ignore transient seek errors while scrubbing.
+    }
+    buildRangeSeekPreview(seekPreviewTime, duration, refs);
+    render();
+  };
+
+  const commitSeek = (value) => {
+    const duration = Number(audio.duration || 0);
+    if (!Number.isFinite(duration) || duration <= 0) return;
+    const nextTime = Math.max(0, Math.min(duration, Number(value || 0)));
+    audio.currentTime = nextTime;
+    seekPreviewTime = null;
+    persist();
+    render();
+  };
+
   refs.progressRange?.addEventListener("input", () => {
     isSeeking = true;
-    refs.currentTime.textContent = formatDuration(refs.progressRange.value);
+    previewSeek(refs.progressRange.value);
   });
+  refs.progressRange?.addEventListener("pointerdown", (event) => event.stopPropagation());
+  refs.progressRange?.addEventListener("mousedown", (event) => event.stopPropagation());
+  refs.progressRange?.addEventListener("touchstart", (event) => event.stopPropagation(), { passive: true });
+  refs.progressRange?.addEventListener("click", (event) => event.stopPropagation());
   refs.progressRange?.addEventListener("change", () => {
-    if (Number.isFinite(audio.duration)) {
-      audio.currentTime = Number(refs.progressRange.value || 0);
-      persist();
-    }
+    commitSeek(refs.progressRange.value);
     isSeeking = false;
     render();
+  });
+  refs.progressRange?.addEventListener("pointerup", () => {
+    if (!isSeeking) return;
+    commitSeek(refs.progressRange.value);
+    isSeeking = false;
   });
 
   refs.miniProgressRange?.addEventListener("input", () => {
     isMiniSeeking = true;
-    refs.currentTime.textContent = formatDuration(refs.miniProgressRange.value);
+    previewSeek(refs.miniProgressRange.value);
   });
+  refs.miniProgressRange?.addEventListener("pointerdown", (event) => event.stopPropagation());
+  refs.miniProgressRange?.addEventListener("mousedown", (event) => event.stopPropagation());
+  refs.miniProgressRange?.addEventListener("touchstart", (event) => event.stopPropagation(), { passive: true });
+  refs.miniProgressRange?.addEventListener("click", (event) => event.stopPropagation());
   refs.miniProgressRange?.addEventListener("change", () => {
-    if (Number.isFinite(audio.duration)) {
-      audio.currentTime = Number(refs.miniProgressRange.value || 0);
-      persist();
-    }
+    commitSeek(refs.miniProgressRange.value);
     isMiniSeeking = false;
     render();
+  });
+  refs.miniProgressRange?.addEventListener("pointerup", () => {
+    if (!isMiniSeeking) return;
+    commitSeek(refs.miniProgressRange.value);
+    isMiniSeeking = false;
   });
 
   audio.addEventListener("timeupdate", () => {
     if (audio.currentSrc && audio.readyState >= 2 && playerError) {
-      playerError = "";
-      hasStreamError = false;
+      clearPlaybackError();
     }
     persist();
     render();
@@ -673,26 +785,32 @@ const createLibraryAudioPlayer = () => {
   audio.addEventListener("progress", render);
   audio.addEventListener("loadedmetadata", () => {
     isLoading = false;
-    hasStreamError = false;
-    playerError = "";
+    clearPlaybackError();
     audio.playbackRate = speed;
     audio.volume = volume;
     audio.muted = isMuted;
     render();
   });
+  audio.addEventListener("loadeddata", () => {
+    isLoading = false;
+    clearPlaybackError();
+    render();
+  });
   audio.addEventListener("canplay", () => {
     isLoading = false;
-    playerError = "";
-    hasStreamError = false;
+    clearPlaybackError();
     render();
   });
   audio.addEventListener("play", () => {
     isLoading = false;
-    playerError = "";
-    hasStreamError = false;
+    clearPlaybackError();
+    startProgressLoop();
     render();
   });
-  audio.addEventListener("pause", render);
+  audio.addEventListener("pause", () => {
+    stopProgressLoop();
+    render();
+  });
   audio.addEventListener("waiting", () => {
     isLoading = true;
     render();
@@ -703,17 +821,29 @@ const createLibraryAudioPlayer = () => {
   });
   audio.addEventListener("playing", () => {
     isLoading = false;
-    playerError = "";
-    hasStreamError = false;
+    clearPlaybackError();
+    startProgressLoop();
     render();
   });
   audio.addEventListener("error", () => {
     isLoading = false;
-    hasStreamError = !(audio.currentSrc && audio.readyState >= 2);
-    playerError = hasStreamError ? "This stream could not be loaded." : "";
-    render();
+    if (pendingErrorTimer) {
+      window.clearTimeout(pendingErrorTimer);
+      pendingErrorTimer = 0;
+    }
+    pendingErrorTimer = window.setTimeout(() => {
+      pendingErrorTimer = 0;
+      if (!shouldMarkHardError()) {
+        clearPlaybackError();
+      } else {
+        hasStreamError = true;
+        playerError = "This track could not be started.";
+      }
+      render();
+    }, 1200);
   });
   audio.addEventListener("ended", () => {
+    stopProgressLoop();
     if (repeatMode === "one") {
       audio.currentTime = 0;
       playWithRecovery();
@@ -827,6 +957,7 @@ const initLibraryListPage = () => {
   const audioHubRoot = document.getElementById("audioHubRoot");
   const searchInput = document.getElementById("librarySearch");
   const categoryFilter = document.getElementById("categoryFilter");
+  const deityFilter = document.getElementById("deityFilter");
   const languageFilter = document.getElementById("languageFilter");
   const bookshelfToggle = document.getElementById("bookshelfToggle");
   const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -854,6 +985,7 @@ const initLibraryListPage = () => {
   let visibleCount = 9;
   let query = "";
   let category = initialCategory || "all";
+  let deity = "all";
   let language = "all";
   let viewMode = localStorage.getItem("sms-library-view") || "grid";
   const getAudioItems = () => items.filter((entry) => Boolean(String(entry.audio_url || "").trim()));
@@ -1019,7 +1151,7 @@ const initLibraryListPage = () => {
       </button>
       <div class="audio-list-row__copy">
         <strong>${escapeHtml(item.name)}</strong>
-        <span>${escapeHtml(item.deity || item.category || "Spiritual audio")} • ${escapeHtml(item.category || "Audio")}</span>
+        <span>${escapeHtml(item.singer || "Unknown singer")} • ${escapeHtml(item.deity || item.category || "Spiritual audio")} • ${escapeHtml(item.category || "Audio")}</span>
       </div>
       <div class="audio-list-row__actions">
         <a href="${buildLibraryItemHref(item.slug)}" class="detail-action-btn">Open</a>
@@ -1031,15 +1163,25 @@ const initLibraryListPage = () => {
   const renderAudioHub = () => {
     if (!audioHubRoot) return;
     const audioItems = getAudioItems();
-    libraryAudioPlayer.setQueue(audioItems.map(buildAudioTrackFromItem));
-    const lead = audioItems[0] || null;
+    const filteredAudioItems = filteredItems().filter((item) => Boolean(String(item.audio_url || "").trim()));
     const aartis = audioItems.filter((item) => String(item.category || "").toLowerCase() === "aartis");
     const chalisas = audioItems.filter((item) => String(item.category || "").toLowerCase() === "chalisas");
     const bhajans = audioItems.filter((item) => String(item.category || "").toLowerCase() === "bhajans");
-    const recommended = [...audioItems]
+    const mantras = audioItems.filter((item) => String(item.category || "").toLowerCase() === "mantras");
+    const featured = [...audioItems]
       .sort((left, right) => Number(right.popularity || 0) - Number(left.popularity || 0))
-      .slice(0, 6);
-    const energized = audioItems.filter((item) => /hanuman|shiv|durga/i.test(`${item.slug} ${item.name} ${item.deity}`));
+      .slice(0, 8);
+    const audioCategories = [
+      { value: "all", label: "All categories" },
+      ...[...new Set(audioItems.map((item) => String(item.category || "").trim()).filter(Boolean))]
+        .sort((left, right) => left.localeCompare(right))
+        .map((entry) => ({ value: entry.toLowerCase(), label: entry })),
+    ];
+    const audioDeities = [...new Set(audioItems.flatMap((item) => getItemDeityTags(item)).map((tag) => String(tag).trim()).filter(Boolean))]
+      .sort((left, right) => left.localeCompare(right));
+    const activeCategory = category === "audios" ? "all" : category;
+
+    libraryAudioPlayer.setQueue(filteredAudioItems.map(buildAudioTrackFromItem));
 
     const renderRail = (title, subtitle, collection) => `
       <section class="audio-hub-section">
@@ -1054,44 +1196,12 @@ const initLibraryListPage = () => {
           </div>
         </div>
         <div class="audio-shelf-rail" data-audio-rail="${escapeHtml(title)}">
-          ${collection.length ? collection.map((item, index) => buildAudioShelfCard(item, index)).join("") : `<div class="audio-shelf-empty">Add Cloudinary audio links for this lane and it will appear here automatically.</div>`}
+          ${collection.length ? collection.map((item, index) => buildAudioShelfCard(item, index)).join("") : `<div class="audio-shelf-empty">No tracks are mapped for this lane yet.</div>`}
         </div>
       </section>
     `;
 
     audioHubRoot.innerHTML = `
-      <section class="audio-hub-hero">
-        <article class="audio-hub-spotlight">
-          <p class="panel-kicker">Apple-style listening hub</p>
-          <h2>${escapeHtml(lead?.name || "Audio sanctuary ready for sacred streaming")}</h2>
-          <p>${escapeHtml(lead?.excerpt || "Only items with mapped Cloudinary audio appear here. Add links in the audio registry and this sanctuary updates automatically.")}</p>
-          <div class="audio-hub-spotlight__actions">
-            ${lead ? `<button type="button" class="hero-btn hero-btn--primary" data-audio-slug="${escapeHtml(lead.slug)}">Play now</button>` : `<button type="button" class="hero-btn hero-btn--primary" disabled>No audio yet</button>`}
-            ${lead ? `<a href="${buildLibraryItemHref(lead.slug)}" class="hero-btn hero-btn--ghost">Open details</a>` : `<span class="hero-btn hero-btn--ghost">Map audio to begin</span>`}
-          </div>
-          <div class="audio-hub-spotlight__chips">
-            <span>Cloudinary streams</span>
-            <span>Mini player + fullscreen</span>
-            <span>Queue + resume</span>
-          </div>
-        </article>
-        <article class="audio-hub-album">
-          ${lead ? `
-            <button type="button" class="audio-hub-album__art" data-audio-slug="${escapeHtml(lead.slug)}" aria-label="Play ${escapeHtml(lead.name)}">
-              <img src="${escapeHtml(audioCoverFor(lead))}" alt="${escapeHtml(lead.name)} cover art">
-            </button>
-            <div class="audio-hub-album__meta">
-              <div>
-                <p class="panel-kicker">Now highlighted</p>
-                <h3>${escapeHtml(lead.name)}</h3>
-                <p>${escapeHtml(lead.deity || "Spiritual Library")} • ${escapeHtml(lead.category || "Audio")}</p>
-              </div>
-              <button type="button" class="library-audio-trigger" data-audio-slug="${escapeHtml(lead.slug)}">Listen</button>
-            </div>
-          ` : `<div class="audio-shelf-empty">No audio items are mapped yet.</div>`}
-        </article>
-      </section>
-
       <section class="audio-playlist-grid">
         <article class="audio-playlist-card">
           <p class="panel-kicker">Playlist</p>
@@ -1100,34 +1210,53 @@ const initLibraryListPage = () => {
           ${aartis[0] ? `<button type="button" class="hero-btn hero-btn--ghost" data-audio-slug="${escapeHtml(aartis[0].slug)}">Start playlist</button>` : `<span class="audio-playlist-card__muted">Add an aarti audio to unlock this lane.</span>`}
         </article>
         <article class="audio-playlist-card">
-          <p class="panel-kicker">Mood Mix</p>
-          <h3>Strength & protection</h3>
-          <p>${energized.length || audioItems.length} stream${(energized.length || audioItems.length) === 1 ? "" : "s"} centered on courage and devotional force.</p>
-          ${energized[0] ? `<button type="button" class="hero-btn hero-btn--ghost" data-audio-slug="${escapeHtml(energized[0].slug)}">Open mix</button>` : `<span class="audio-playlist-card__muted">This mix fills as matching audio arrives.</span>`}
+          <p class="panel-kicker">Playlist</p>
+          <h3>Bhajan Flow</h3>
+          <p>${bhajans.length} bhajan${bhajans.length === 1 ? "" : "s"} arranged for continuous devotional listening.</p>
+          ${bhajans[0] ? `<button type="button" class="hero-btn hero-btn--ghost" data-audio-slug="${escapeHtml(bhajans[0].slug)}">Open bhajans</button>` : `<span class="audio-playlist-card__muted">Add more bhajans to fill this lane.</span>`}
         </article>
         <article class="audio-playlist-card">
           <p class="panel-kicker">Library</p>
-          <h3>All sacred audio</h3>
+          <h3>All Sacred Audio</h3>
           <p>${audioItems.length} mapped audio item${audioItems.length === 1 ? "" : "s"} currently live in the sanctuary.</p>
           <a href="#allAudioList" class="hero-btn hero-btn--ghost">Browse list</a>
         </article>
       </section>
 
-      ${renderRail("Featured Albums", "Premium shelf", recommended)}
+      ${renderRail("Featured", "Premium shelf", featured)}
       ${renderRail("Aartis", "Temple listening", aartis)}
-      ${renderRail("Chalisas", "Prayer loops", chalisas)}
       ${renderRail("Bhajans", "Devotional flow", bhajans)}
+      ${renderRail("Mantras", "Focused chanting", mantras)}
+      ${renderRail("Chalisas", "Prayer loops", chalisas)}
 
-      <section class="audio-hub-section" id="allAudioList">
-        <div class="audio-hub-section__head">
+      <section class="audio-browser-panel" id="allAudioList">
+        <div class="audio-browser-head">
           <div>
-            <p class="panel-kicker">All audios</p>
-            <h3>Complete listening archive</h3>
+            <p class="panel-kicker">Audio sanctuary</p>
+            <h3>Search by song, deity, category, or devotional connection</h3>
+            <p class="audio-browser-subtitle">Type “Ram”, “Krishna”, or “Durga” and the library narrows to matching streams, just like a music app browse view.</p>
           </div>
-          <div class="panel-meta">${audioItems.length} live stream${audioItems.length === 1 ? "" : "s"}</div>
+          <div class="panel-meta">${filteredAudioItems.length} stream${filteredAudioItems.length === 1 ? "" : "s"}</div>
         </div>
-        <div class="audio-list-grid">
-          ${audioItems.length ? audioItems.map((item, index) => buildAudioListRow(item, index)).join("") : `<div class="audio-shelf-empty">No Cloudinary audio is attached yet. Add links in the registry file and this page will populate automatically.</div>`}
+
+        <div class="audio-browser-controls">
+          <label class="search-shell audio-browser-search" for="audioCollectionSearch">
+            <span>⌕</span>
+            <input id="audioCollectionSearch" type="search" value="${escapeHtml(query)}" placeholder="Search Ram, Krishna, Ganesha, Hanuman..." autocomplete="off" />
+          </label>
+          <select id="audioCollectionCategory" class="filter-select">
+            ${audioCategories.map((option) => `<option value="${escapeHtml(option.value)}"${option.value === activeCategory ? " selected" : ""}>${escapeHtml(option.label)}</option>`).join("")}
+          </select>
+          <select id="audioCollectionDeity" class="filter-select">
+            <option value="all">All deities</option>
+            ${audioDeities.map((entry) => `<option value="${escapeHtml(entry.toLowerCase())}"${entry.toLowerCase() === deity ? " selected" : ""}>${escapeHtml(entry)}</option>`).join("")}
+          </select>
+        </div>
+
+        <div class="audio-browser-results">
+          <div class="audio-list-grid">
+            ${filteredAudioItems.length ? filteredAudioItems.map((item, index) => buildAudioListRow(item, index)).join("") : `<div class="audio-shelf-empty audio-shelf-empty--large">No audio matched this search yet. Try a different deity, category, or song name.</div>`}
+          </div>
         </div>
       </section>
     `;
@@ -1138,6 +1267,10 @@ const initLibraryListPage = () => {
       const matchesCategory =
         category === "all"
         || (category === "audios" ? Boolean(item.audio_url) : item.category.toLowerCase() === category);
+      const matchesDeity =
+        deity === "all"
+        || getItemDeityTags(item).some((tag) => tag.toLowerCase() === deity)
+        || String(item.deity || "").toLowerCase().includes(deity);
       const matchesLanguage =
         language === "all" ||
         item.content_type === "pdf" ||
@@ -1145,17 +1278,21 @@ const initLibraryListPage = () => {
         Boolean(item.languages?.[language]);
       const haystack = [
         item.name,
+        item.singer,
         item.deity,
+        (item.deity_tags || []).join(" "),
         item.category,
+        item.excerpt,
         item.languages?.hindi,
         item.languages?.english,
         item.languages?.transliteration,
+        item.languages?.sanskrit,
       ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
       const matchesQuery = !query || haystack.includes(query);
-      return matchesCategory && matchesLanguage && matchesQuery;
+      return matchesCategory && matchesDeity && matchesLanguage && matchesQuery;
     });
 
   const renderGrid = () => {
@@ -1202,6 +1339,16 @@ const initLibraryListPage = () => {
     if (categoryFilter && category) categoryFilter.value = category;
   };
 
+  const populateDeities = () => {
+    if (!deityFilter) return;
+    const deityOptions = [...new Set(items.flatMap((item) => getItemDeityTags(item)).map((tag) => String(tag).trim()).filter(Boolean))]
+      .sort((left, right) => left.localeCompare(right));
+    deityFilter.innerHTML = `<option value="all">All deities</option>${deityOptions
+      .map((entry) => `<option value="${escapeHtml(entry.toLowerCase())}">${escapeHtml(entry)}</option>`)
+      .join("")}`;
+    deityFilter.value = deity;
+  };
+
   const refreshFromApi = async () => {
     if (!items.length && error) {
       setStatus(statusNode, error);
@@ -1223,6 +1370,7 @@ const initLibraryListPage = () => {
       seed.categories = Array.isArray(payload.categories) ? payload.categories : seed.categories;
       seed.featured = Array.isArray(items) ? items.filter((item) => item.featured).slice(0, 8) : seed.featured;
       populateCategories();
+      populateDeities();
       renderFeatured();
       renderAudioHub();
       renderGrid();
@@ -1281,6 +1429,40 @@ const initLibraryListPage = () => {
     language = event.target.value;
     visibleCount = 9;
     renderGrid();
+  });
+
+  deityFilter?.addEventListener("change", (event) => {
+    deity = String(event.target.value || "all").trim().toLowerCase();
+    visibleCount = 9;
+    renderGrid();
+  });
+
+  audioHubRoot?.addEventListener("input", (event) => {
+    if (event.target.id !== "audioCollectionSearch") return;
+    const input = event.target;
+    const start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? input.value.length;
+    query = String(event.target.value || "").trim().toLowerCase();
+    renderAudioHub();
+    window.requestAnimationFrame(() => {
+      const nextInput = document.getElementById("audioCollectionSearch");
+      if (!nextInput) return;
+      nextInput.focus();
+      nextInput.setSelectionRange(start, end);
+    });
+  });
+
+  audioHubRoot?.addEventListener("change", (event) => {
+    if (event.target.id === "audioCollectionCategory") {
+      const nextCategory = String(event.target.value || "all").trim().toLowerCase();
+      category = nextCategory === "all" ? "audios" : nextCategory;
+      renderAudioHub();
+      return;
+    }
+    if (event.target.id === "audioCollectionDeity") {
+      deity = String(event.target.value || "all").trim().toLowerCase();
+      renderAudioHub();
+    }
   });
 
   loadMoreBtn?.addEventListener("click", () => {
@@ -1352,6 +1534,7 @@ const initLibraryListPage = () => {
 
   renderFeatured();
   populateCategories();
+  populateDeities();
   renderRecent();
   renderContinueReading();
   renderAudioHub();
@@ -1383,6 +1566,8 @@ const initLibraryDetailPage = () => {
   const fullscreenReaderBtn = document.getElementById("fullscreenReaderBtn");
   const fullscreenReaderBtnBottom = document.getElementById("fullscreenReaderBtnBottom");
   const openAudioBtn = document.getElementById("openAudioBtn");
+  const readerListenBtn = document.getElementById("readerListenBtn");
+  const readerListenBtnBottom = document.getElementById("readerListenBtnBottom");
   const copyTextBtn = document.getElementById("copyTextBtn");
   const bookmarkBtn = document.getElementById("bookmarkBtn");
   const shareBtn = document.getElementById("shareBtn");
@@ -1411,6 +1596,21 @@ const initLibraryDetailPage = () => {
   let focusMode = false;
   let audioQueueItems = [];
   const fullscreenTarget = document.querySelector(".reader-card");
+
+  const syncReaderAudioButtons = () => {
+    const hasAudio = Boolean(itemData?.audio_url);
+    [openAudioBtn, readerListenBtn, readerListenBtnBottom].forEach((button) => {
+      if (!button) return;
+      button.hidden = !hasAudio;
+      if (hasAudio) button.textContent = "♫ Listen";
+    });
+  };
+
+  const openReaderAudio = () => {
+    if (!itemData?.audio_url) return;
+    const queueTracks = (audioQueueItems.length ? audioQueueItems : [itemData]).map(buildAudioTrackFromItem).filter(Boolean);
+    libraryAudioPlayer.openTrack(buildAudioTrackFromItem(itemData), queueTracks, { expand: true, autoPlay: true });
+  };
 
   const syncReaderChrome = () => {
     if (readerCard) {
@@ -1868,10 +2068,8 @@ const initLibraryDetailPage = () => {
       syncReaderChrome();
     });
 
-    openAudioBtn?.addEventListener("click", () => {
-      if (!itemData?.audio_url) return;
-      const queueTracks = (audioQueueItems.length ? audioQueueItems : [itemData]).map(buildAudioTrackFromItem).filter(Boolean);
-      libraryAudioPlayer.openTrack(buildAudioTrackFromItem(itemData), queueTracks, { expand: true, autoPlay: true });
+    [openAudioBtn, readerListenBtn, readerListenBtnBottom].forEach((button) => {
+      button?.addEventListener("click", openReaderAudio);
     });
   };
 
@@ -1910,8 +2108,7 @@ const initLibraryDetailPage = () => {
       }
       if (fontSizeControl) readerCard?.style.setProperty("--reader-font-size", `${fontSizeControl.value}px`);
       if (lineHeightControl) readerCard?.style.setProperty("--reader-line-height", String(lineHeightControl.value));
-      openAudioBtn.hidden = !itemData.audio_url;
-      openAudioBtn.textContent = itemData.audio_url ? "Listen" : "Audio unavailable";
+      syncReaderAudioButtons();
       syncReaderChrome();
       try {
         const relatedResponse = await fetch(`/api/library/?category=${encodeURIComponent(String(itemData.category || "").toLowerCase())}`);
@@ -1935,7 +2132,7 @@ const initLibraryDetailPage = () => {
       categoryNode.textContent = "Unavailable";
       deityNode.textContent = "Unavailable";
       readerContent.innerHTML = `<div class="reader-line">${escapeHtml(error.message || "Please try again later.")}</div>`;
-      openAudioBtn.hidden = true;
+      syncReaderAudioButtons();
     }
   };
 

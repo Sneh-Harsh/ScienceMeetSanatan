@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Django Login</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'css/review.css' %}?v=1" />
+    <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1" />
   </head>
   <body data-mode="{{ mode|default:'login' }}">
     <video class="video-background" autoplay muted loop playsinline>
@@ -98,6 +101,17 @@
       </section>
     </main>
 
+    {% include 'components/digital_daanpatra.html' %}
+    {% include 'components/review_modal.html' %}
+    <script>
+      window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
+        isAuthenticated: false,
+        pageType: "general"
+      });
+    </script>
+    <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+    <script defer src="{% static 'js/review.js' %}?v=1"></script>
+    <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
     <script src="{% static 'script.js' %}"></script>
   </body>
 </html>

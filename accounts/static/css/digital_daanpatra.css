@@ -1,0 +1,830 @@
+:root{
+  --daan-bg: rgba(28, 10, 16, 0.92);
+  --daan-surface: linear-gradient(180deg, rgba(74, 28, 24, 0.94), rgba(22, 10, 16, 0.98));
+  --daan-surface-soft: rgba(255, 246, 230, 0.08);
+  --daan-border: rgba(255, 220, 161, 0.18);
+  --daan-text: #fff7ea;
+  --daan-text-soft: rgba(255, 244, 225, 0.78);
+  --daan-gold: #ffcf79;
+  --daan-gold-strong: #ffb347;
+  --daan-saffron: #ff8a3d;
+  --daan-shadow: 0 30px 80px rgba(8, 2, 5, 0.48);
+  --daan-floating-bottom: 1rem;
+}
+
+.daanpatra-root{
+  position: relative;
+  z-index: 2600;
+}
+
+.daanpatra-floating{
+  position: fixed;
+  right: 1rem;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--daan-floating-bottom));
+  z-index: 2601;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 64px;
+  padding: 0.9rem 1.1rem 0.9rem 0.95rem;
+  border: 1px solid rgba(255, 213, 139, 0.28);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 177, 90, 0.26), transparent 42%),
+    linear-gradient(135deg, rgba(93, 29, 24, 0.95), rgba(31, 11, 17, 0.96));
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 214, 166, 0.06) inset,
+    0 0 35px rgba(255, 157, 83, 0.18);
+  color: var(--daan-text);
+  cursor: pointer;
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  overflow: hidden;
+}
+
+.daanpatra-floating:hover,
+.daanpatra-floating:focus-visible{
+  transform: translateY(-2px);
+  border-color: rgba(255, 222, 175, 0.46);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.38),
+    0 0 40px rgba(255, 185, 95, 0.28);
+}
+
+.daanpatra-floating:focus-visible,
+.daanpatra-close:focus-visible,
+.daanpatra-chip:focus-visible,
+.daanpatra-btn:focus-visible,
+.daanpatra-link-btn:focus-visible,
+.daanpatra-custom-input input:focus-visible{
+  outline: 2px solid rgba(255, 213, 136, 0.9);
+  outline-offset: 3px;
+}
+
+.daanpatra-floating__halo{
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(circle, rgba(255, 182, 84, 0.22), transparent 55%);
+  animation: daanPulse 5.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.daanpatra-floating__copy{
+  display: grid;
+  text-align: left;
+  position: relative;
+}
+
+.daanpatra-floating__copy strong{
+  font-size: 0.98rem;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+}
+
+.daanpatra-floating__copy span{
+  font-size: 0.77rem;
+  color: rgba(255, 245, 229, 0.72);
+}
+
+.daanpatra-icon{
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: 0 0 1.9rem;
+}
+
+.daanpatra-icon--compact{
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.daanpatra-icon__flame{
+  position: absolute;
+  top: -0.15rem;
+  width: 0.68rem;
+  height: 0.9rem;
+  background: radial-gradient(circle at 40% 28%, #fff7cf, #ffc56a 52%, #ff7c2b 78%, rgba(255, 124, 43, 0) 80%);
+  border-radius: 55% 55% 60% 60%;
+  transform: rotate(45deg);
+  filter: drop-shadow(0 0 10px rgba(255, 183, 69, 0.68));
+  animation: diyaFlicker 2.8s ease-in-out infinite;
+}
+
+.daanpatra-icon__bowl{
+  position: absolute;
+  bottom: 0.14rem;
+  width: 1.15rem;
+  height: 0.56rem;
+  border-radius: 0 0 1rem 1rem;
+  background: linear-gradient(180deg, #ffc06d, #b96319);
+  box-shadow: 0 0 12px rgba(255, 166, 68, 0.24);
+}
+
+.daanpatra-backdrop{
+  position: fixed;
+  inset: 0;
+  z-index: 2602;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 164, 74, 0.14), transparent 26%),
+    rgba(8, 4, 8, 0.68);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity .28s ease;
+}
+
+.daanpatra-backdrop.is-visible{
+  opacity: 1;
+}
+
+.daanpatra-modal{
+  position: fixed;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -48%) scale(0.96);
+  width: min(960px, calc(100vw - 2rem));
+  max-height: min(88vh, 920px);
+  overflow: auto;
+  z-index: 2603;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1.08fr);
+  background:
+    radial-gradient(circle at top left, rgba(255, 192, 110, 0.12), transparent 24%),
+    linear-gradient(180deg, rgba(44, 18, 23, 0.96), rgba(16, 7, 12, 0.98));
+  border: 1px solid var(--daan-border);
+  border-radius: 30px;
+  box-shadow: var(--daan-shadow);
+  color: var(--daan-text);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .34s cubic-bezier(.2,.75,.2,1), opacity .28s ease;
+}
+
+.daanpatra-modal.is-visible{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.daanpatra-modal__art{
+  position: relative;
+  padding: 2.1rem 1.6rem 1.7rem;
+  background:
+    radial-gradient(circle at 30% 18%, rgba(255, 191, 116, 0.22), transparent 34%),
+    radial-gradient(circle at 68% 78%, rgba(255, 128, 68, 0.16), transparent 26%),
+    linear-gradient(180deg, rgba(103, 33, 28, 0.84), rgba(33, 13, 17, 0.94));
+  border-right: 1px solid rgba(255, 219, 166, 0.08);
+  overflow: hidden;
+}
+
+.daanpatra-art__rings,
+.daanpatra-art__mandala{
+  position: absolute;
+  border-radius: 50%;
+  inset: auto;
+  pointer-events: none;
+}
+
+.daanpatra-art__rings{
+  width: 21rem;
+  height: 21rem;
+  left: 50%;
+  top: 3rem;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 223, 169, 0.12);
+  box-shadow:
+    0 0 0 30px rgba(255, 212, 149, 0.03),
+    0 0 0 60px rgba(255, 212, 149, 0.02);
+}
+
+.daanpatra-art__mandala{
+  inset: 1.4rem 1.4rem auto auto;
+  width: 10rem;
+  height: 10rem;
+  background:
+    radial-gradient(circle, rgba(255, 213, 146, 0.18) 0 10%, transparent 11%),
+    repeating-radial-gradient(circle, rgba(255, 205, 127, 0.08) 0 7%, transparent 7% 13%);
+  filter: blur(0.2px);
+  opacity: 0.65;
+}
+
+.daanpatra-art__diya{
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  margin-bottom: 1.65rem;
+}
+
+.daanpatra-art__flame{
+  width: 2.3rem;
+  height: 3.2rem;
+  background: radial-gradient(circle at 40% 24%, #fff6d4, #ffc56a 45%, #ff8738 73%, rgba(255,135,56,0) 75%);
+  border-radius: 60% 60% 58% 58%;
+  transform: rotate(45deg) translateY(-0.3rem);
+  filter: drop-shadow(0 0 18px rgba(255, 182, 72, 0.55));
+  animation: diyaFlicker 3.2s ease-in-out infinite;
+}
+
+.daanpatra-art__lamp{
+  position: absolute;
+  bottom: 3.6rem;
+  width: 7rem;
+  height: 2.45rem;
+  border-radius: 0 0 3.8rem 3.8rem;
+  background: linear-gradient(180deg, #f1b164, #8f4415);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.26);
+}
+
+.daanpatra-art__copy{
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.daanpatra-kicker{
+  margin: 0;
+  color: rgba(255, 220, 168, 0.74);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.daanpatra-art__copy h3,
+.daanpatra-head h2,
+.daanpatra-impact h3,
+.daanpatra-section-head h3{
+  margin: 0;
+  font-family: "Newsreader", Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.daanpatra-art__copy h3{
+  font-size: clamp(1.9rem, 3vw, 2.5rem);
+}
+
+.daanpatra-art__copy p,
+.daanpatra-head p,
+.daanpatra-impact__list,
+.daanpatra-note,
+.daanpatra-disclaimer,
+.daanpatra-qr-caption,
+.daanpatra-selection-note{
+  margin: 0;
+  color: var(--daan-text-soft);
+  line-height: 1.62;
+  font-size: 0.95rem;
+}
+
+.daanpatra-trustlist,
+.daanpatra-impact__list{
+  display: grid;
+  gap: 0.72rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.daanpatra-trustlist li,
+.daanpatra-impact__list li{
+  position: relative;
+  padding-left: 1.3rem;
+}
+
+.daanpatra-trustlist li::before,
+.daanpatra-impact__list li::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: linear-gradient(180deg, var(--daan-gold), var(--daan-saffron));
+  box-shadow: 0 0 12px rgba(255, 194, 95, 0.45);
+}
+
+.daanpatra-modal__content{
+  position: relative;
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.65rem 1.5rem 1.4rem;
+}
+
+.daanpatra-close{
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 2.55rem;
+  height: 2.55rem;
+  border: 1px solid rgba(255, 216, 159, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--daan-text);
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.daanpatra-close:hover{
+  background: rgba(255, 255, 255, 0.12);
+  transform: rotate(90deg);
+}
+
+.daanpatra-head{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  padding-right: 2.5rem;
+}
+
+.daanpatra-head__mark{
+  width: 2.9rem;
+  height: 2.9rem;
+  display: grid;
+  place-items: center;
+  border-radius: 1rem;
+  background: rgba(255, 217, 149, 0.08);
+  border: 1px solid rgba(255, 217, 149, 0.14);
+}
+
+.daanpatra-head h2{
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  margin-bottom: 0.32rem;
+}
+
+.daanpatra-pillars{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.daanpatra-impact,
+.daanpatra-amounts,
+.daanpatra-payment{
+  padding: 1rem 1.05rem;
+  border-radius: 1.2rem;
+  background: var(--daan-surface-soft);
+  border: 1px solid rgba(255, 221, 172, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 246, 222, 0.04);
+}
+
+.daanpatra-impact{
+  display: grid;
+  gap: 0.75rem;
+}
+
+.daanpatra-note{
+  color: rgba(255, 208, 132, 0.98);
+  font-weight: 600;
+}
+
+.daanpatra-section-head{
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 0.9rem;
+}
+
+.daanpatra-amount-preview{
+  white-space: nowrap;
+  font-size: 0.82rem;
+  color: rgba(255, 226, 181, 0.86);
+  padding: 0.48rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(255, 197, 114, 0.08);
+  border: 1px solid rgba(255, 197, 114, 0.14);
+}
+
+.daanpatra-chip-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.daanpatra-chip{
+  appearance: none;
+  border: 1px solid rgba(255, 218, 164, 0.16);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--daan-text);
+  font: inherit;
+  font-weight: 700;
+  min-height: 3.2rem;
+  cursor: pointer;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.daanpatra-chip:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255, 214, 146, 0.34);
+}
+
+.daanpatra-chip.is-active{
+  background: linear-gradient(180deg, rgba(255, 188, 93, 0.26), rgba(255, 127, 54, 0.2));
+  border-color: rgba(255, 214, 146, 0.52);
+  box-shadow: 0 10px 26px rgba(255, 153, 72, 0.16);
+}
+
+.daanpatra-chip--custom{
+  font-weight: 600;
+}
+
+.daanpatra-custom-input{
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.daanpatra-custom-input span,
+.daanpatra-upi-card__label,
+.daanpatra-upi-card__sub{
+  font-size: 0.77rem;
+  color: rgba(255, 227, 186, 0.72);
+}
+
+.daanpatra-custom-input input{
+  min-height: 3rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 0.95rem;
+  border: 1px solid rgba(255, 218, 168, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--daan-text);
+  font: inherit;
+}
+
+.daanpatra-pay-cta{
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.9rem;
+}
+
+.daanpatra-btn--pay{
+  width: 100%;
+}
+
+.daanpatra-pay-hint{
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: rgba(255, 231, 194, 0.72);
+}
+
+.daanpatra-payment__layout{
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.daanpatra-qr-shell{
+  display: grid;
+  gap: 0.7rem;
+}
+
+.daanpatra-qr-frame{
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  border-radius: 1.3rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 219, 163, 0.14);
+  background:
+    radial-gradient(circle at top, rgba(255, 188, 102, 0.1), transparent 34%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.daanpatra-qr-frame img{
+  width: min(100%, 240px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 1rem;
+  background: #fff8f0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+.daanpatra-qr-frame.is-placeholder{
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.daanpatra-qr-placeholder{
+  display: grid;
+  gap: 0.45rem;
+  text-align: center;
+  color: var(--daan-text-soft);
+}
+
+.daanpatra-payment__details{
+  display: grid;
+  gap: 0.8rem;
+  align-content: start;
+}
+
+.daanpatra-upi-card{
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.9rem 1rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 217, 164, 0.12);
+}
+
+.daanpatra-upi-card strong{
+  font-size: 1.05rem;
+  overflow-wrap: anywhere;
+}
+
+.daanpatra-actions{
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.daanpatra-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.8rem 1.05rem;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.daanpatra-btn:hover{
+  transform: translateY(-1px);
+}
+
+.daanpatra-btn.is-disabled{
+  pointer-events: none;
+  opacity: 0.55;
+  box-shadow: none;
+}
+
+.daanpatra-btn--primary{
+  color: #260b10;
+  background: linear-gradient(180deg, #ffd78f, #ffb95c);
+  box-shadow: 0 16px 34px rgba(255, 183, 90, 0.2);
+}
+
+.daanpatra-btn--secondary{
+  color: var(--daan-text);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 219, 167, 0.16);
+}
+
+.daanpatra-confirmation{
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem 1.05rem;
+  border-radius: 1.2rem;
+  background:
+    radial-gradient(circle at top left, rgba(255, 188, 92, 0.08), transparent 32%),
+    rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 221, 172, 0.12);
+}
+
+.daanpatra-confirmation__copy{
+  display: grid;
+  gap: 0.35rem;
+}
+
+.daanpatra-confirmation__copy h3{
+  margin: 0;
+  font-family: "Newsreader", Georgia, serif;
+  letter-spacing: 0.01em;
+  font-size: 1.3rem;
+}
+
+.daanpatra-note-input{
+  display: grid;
+  gap: 0.45rem;
+}
+
+.daanpatra-note-input span{
+  font-size: 0.77rem;
+  color: rgba(255, 227, 186, 0.72);
+}
+
+.daanpatra-note-input textarea{
+  min-height: 5.4rem;
+  resize: vertical;
+  padding: 0.85rem 0.95rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 218, 168, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--daan-text);
+  font: inherit;
+}
+
+.daanpatra-confirmation__actions{
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.daanpatra-gratitude{
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding-top: 0.2rem;
+}
+
+.daanpatra-gratitude p{
+  margin: 0;
+  color: rgba(255, 226, 177, 0.92);
+  font-weight: 600;
+}
+
+.daanpatra-link-btn{
+  border: 0;
+  background: transparent;
+  color: rgba(255, 237, 204, 0.74);
+  font: inherit;
+  cursor: pointer;
+}
+
+.daanpatra-link-btn:hover{
+  color: #fff4df;
+}
+
+.daanpatra-toast{
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  transform: translateX(-50%) translateY(8px);
+  z-index: 2605;
+  min-width: min(320px, calc(100vw - 2rem));
+  max-width: min(420px, calc(100vw - 2rem));
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  background: rgba(28, 10, 16, 0.94);
+  color: var(--daan-text);
+  text-align: center;
+  border: 1px solid rgba(255, 218, 162, 0.22);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity .22s ease, transform .22s ease;
+}
+
+.daanpatra-toast.is-visible{
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.daanpatra-body-lock{
+  overflow: hidden;
+}
+
+body.library-audio-mounted .daanpatra-floating{
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 7.2rem);
+}
+
+body.library-audio-mounted .daanpatra-toast{
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 7.1rem);
+}
+
+@media (max-width: 1024px){
+  .daanpatra-modal{
+    width: min(920px, calc(100vw - 1.5rem));
+    grid-template-columns: minmax(250px, 0.82fr) minmax(0, 1fr);
+  }
+
+  .daanpatra-chip-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 840px){
+  .daanpatra-floating{
+    right: 0.8rem;
+    left: auto;
+    width: auto;
+    max-width: min(255px, calc(100vw - 1rem));
+    justify-content: flex-start;
+  }
+
+  body.library-audio-mounted .daanpatra-floating{
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 7.7rem);
+  }
+
+  body.library-audio-mounted .daanpatra-toast{
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 7.6rem);
+  }
+
+  .daanpatra-modal{
+    inset: auto 0 0 0;
+    width: 100%;
+    max-height: min(90vh, 920px);
+    border-radius: 1.6rem 1.6rem 0 0;
+    transform: translateY(24px);
+    grid-template-columns: 1fr;
+  }
+
+  .daanpatra-modal.is-visible{
+    transform: translateY(0);
+  }
+
+  .daanpatra-modal__art{
+    min-height: unset;
+    padding-bottom: 1.3rem;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 221, 172, 0.08);
+  }
+
+  .daanpatra-art__diya{
+    min-height: 150px;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 640px){
+  .daanpatra-floating{
+    gap: 0.7rem;
+    min-height: 58px;
+    padding: 0.8rem 0.95rem 0.8rem 0.85rem;
+    max-width: min(232px, calc(100vw - 1rem));
+  }
+
+  .daanpatra-floating__copy strong{
+    font-size: 0.93rem;
+  }
+
+  .daanpatra-modal__content,
+  .daanpatra-modal__art{
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .daanpatra-head{
+    grid-template-columns: 1fr;
+    padding-right: 2rem;
+  }
+
+  .daanpatra-pillars,
+  .daanpatra-payment__layout{
+    grid-template-columns: 1fr;
+  }
+
+  .daanpatra-section-head,
+  .daanpatra-gratitude{
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .daanpatra-chip-grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .daanpatra-actions{
+    flex-direction: column;
+  }
+
+  .daanpatra-btn,
+  .daanpatra-confirmation__actions .daanpatra-btn{
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px){
+  .daanpatra-chip-grid{
+    grid-template-columns: 1fr;
+  }
+
+  .daanpatra-floating__copy span{
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .daanpatra-floating,
+  .daanpatra-backdrop,
+  .daanpatra-modal,
+  .daanpatra-toast,
+  .daanpatra-icon__flame,
+  .daanpatra-art__flame,
+  .daanpatra-floating__halo{
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes diyaFlicker{
+  0%,100%{ transform: rotate(45deg) scale(1); opacity: 0.98; }
+  50%{ transform: rotate(43deg) scale(1.06); opacity: 0.86; }
+}
+
+@keyframes daanPulse{
+  0%,100%{ transform: scale(0.94); opacity: 0.55; }
+  50%{ transform: scale(1.06); opacity: 0.9; }
+}

@@ -1,0 +1,194 @@
+<section
+  class="review-shell"
+  id="smsReviewShell"
+  data-page-type="{{ donation_page_type|default:'general' }}"
+  aria-label="Feedback and review"
+>
+  <button
+    type="button"
+    class="review-floating-trigger"
+    id="smsReviewTrigger"
+    aria-haspopup="dialog"
+    aria-controls="smsReviewModal"
+    aria-expanded="false"
+  >
+    <span class="review-floating-trigger__icon" aria-hidden="true">💬</span>
+    <span class="review-floating-trigger__copy">
+      <strong>Share Feedback</strong>
+      <span>Help us improve this journey</span>
+    </span>
+  </button>
+
+  <div class="review-backdrop" id="smsReviewBackdrop" hidden></div>
+
+  <div
+    class="review-modal"
+    id="smsReviewModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="smsReviewTitle"
+    aria-describedby="smsReviewSubtitle"
+    hidden
+  >
+    <button type="button" class="review-close" id="smsReviewClose" aria-label="Close feedback modal">✕</button>
+
+    <div class="review-modal__aside" aria-hidden="true">
+      <div class="review-aura review-aura--gold"></div>
+      <div class="review-aura review-aura--violet"></div>
+      <div class="review-seal">ॐ</div>
+      <p class="review-kicker">ScienceMeetsSanatan</p>
+      <h3>Help us improve this journey</h3>
+      <p>
+        This platform is built with devotion to make spiritual knowledge more accessible and meaningful.
+      </p>
+      <ul class="review-trust-list">
+        <li>Share what felt calm, useful, or trustworthy.</li>
+        <li>Tell us where the experience can become clearer.</li>
+        <li>Offer daan only if you feel supported after sharing feedback.</li>
+      </ul>
+    </div>
+
+    <div class="review-modal__content">
+      <div class="review-step review-step--form" id="smsReviewFormStep">
+        <div class="review-head">
+          <p class="review-kicker" id="smsReviewContextLabel">Feedback</p>
+          <h2 id="smsReviewTitle">Help us improve this journey</h2>
+          <p id="smsReviewSubtitle">How was your experience?</p>
+        </div>
+
+        <form class="review-form" id="smsReviewForm">
+          {% csrf_token %}
+          <input type="hidden" id="smsReviewPageUrl" name="page_url" value="{{ request.get_full_path|default:'' }}" />
+
+          <section class="review-rating-panel" aria-labelledby="smsReviewRatingLabel">
+            <div>
+              <p class="review-panel-kicker">Step 1</p>
+              <h3 id="smsReviewRatingLabel">How was your experience?</h3>
+            </div>
+            <div class="review-stars" id="smsReviewStars" role="radiogroup" aria-label="Overall rating">
+              <button type="button" class="review-star" data-rating="1" aria-label="Rate 1 star">★</button>
+              <button type="button" class="review-star" data-rating="2" aria-label="Rate 2 stars">★</button>
+              <button type="button" class="review-star" data-rating="3" aria-label="Rate 3 stars">★</button>
+              <button type="button" class="review-star" data-rating="4" aria-label="Rate 4 stars">★</button>
+              <button type="button" class="review-star" data-rating="5" aria-label="Rate 5 stars">★</button>
+            </div>
+            <p class="review-rating-copy" id="smsReviewRatingCopy">Select a rating to continue.</p>
+          </section>
+
+          <section class="review-form-grid" id="smsReviewExpandedFields" hidden>
+            <div class="review-field review-field--full">
+              <label for="smsReviewFeatureType">Which part are you reviewing?</label>
+              <select id="smsReviewFeatureType" name="feature_type">
+                <option value="overall">Overall experience</option>
+                <option value="ui">UI</option>
+                <option value="panchaang">Panchaang</option>
+                <option value="kundali">Kundali</option>
+                <option value="horoscope">Horoscope</option>
+                <option value="library">Library</option>
+                <option value="audio">Audio</option>
+                <option value="quizzes">Quizzes</option>
+                <option value="baby_names">Baby Names</option>
+                <option value="personalization">Personalization</option>
+                <option value="performance">Performance</option>
+                <option value="suggestions">Suggestions</option>
+              </select>
+            </div>
+
+            <div class="review-field">
+              <label for="smsReviewName">Name</label>
+              <input id="smsReviewName" name="name_display" type="text" placeholder="Optional name or seeker alias" />
+            </div>
+
+            <div class="review-field">
+              <label for="smsReviewEmail">Email</label>
+              <input id="smsReviewEmail" name="email" type="email" placeholder="Optional email for follow-up" />
+            </div>
+
+            <div class="review-field review-field--full">
+              <label for="smsReviewTitleInput">Short title</label>
+              <input id="smsReviewTitleInput" name="title" type="text" maxlength="160" placeholder="Optional summary of your experience" />
+            </div>
+
+            <div class="review-field review-field--full">
+              <label for="smsReviewText">What did you like?</label>
+              <textarea id="smsReviewText" name="review_text" rows="4" placeholder="Share what felt useful, meaningful, or beautifully done." required></textarea>
+            </div>
+
+            <div class="review-field review-field--full">
+              <label for="smsReviewImprove">What can we improve?</label>
+              <textarea id="smsReviewImprove" name="improvement_suggestion" rows="3" placeholder="Tell us what should become clearer, faster, or more polished."></textarea>
+            </div>
+
+            <div class="review-micro-ratings">
+              <div class="review-mini-rating">
+                <span>UI</span>
+                <div class="review-chip-row" data-mini-rating="rating_ui">
+                  <button type="button" class="review-chip" data-value="1">1</button>
+                  <button type="button" class="review-chip" data-value="2">2</button>
+                  <button type="button" class="review-chip" data-value="3">3</button>
+                  <button type="button" class="review-chip" data-value="4">4</button>
+                  <button type="button" class="review-chip" data-value="5">5</button>
+                </div>
+              </div>
+              <div class="review-mini-rating">
+                <span>Content</span>
+                <div class="review-chip-row" data-mini-rating="rating_content">
+                  <button type="button" class="review-chip" data-value="1">1</button>
+                  <button type="button" class="review-chip" data-value="2">2</button>
+                  <button type="button" class="review-chip" data-value="3">3</button>
+                  <button type="button" class="review-chip" data-value="4">4</button>
+                  <button type="button" class="review-chip" data-value="5">5</button>
+                </div>
+              </div>
+              <div class="review-mini-rating">
+                <span>Speed</span>
+                <div class="review-chip-row" data-mini-rating="rating_speed">
+                  <button type="button" class="review-chip" data-value="1">1</button>
+                  <button type="button" class="review-chip" data-value="2">2</button>
+                  <button type="button" class="review-chip" data-value="3">3</button>
+                  <button type="button" class="review-chip" data-value="4">4</button>
+                  <button type="button" class="review-chip" data-value="5">5</button>
+                </div>
+              </div>
+            </div>
+
+            <label class="review-checkbox">
+              <input id="smsReviewPublic" name="is_public" type="checkbox" />
+              <span>Allow us to consider this for public testimonials after moderation.</span>
+            </label>
+          </section>
+
+          <div class="review-form-actions">
+            <button type="button" class="review-btn review-btn--ghost" id="smsReviewLaterBtn">Maybe later</button>
+            <button type="submit" class="review-btn review-btn--primary" id="smsReviewSubmitBtn" disabled>Submit feedback</button>
+          </div>
+
+          <p class="review-error" id="smsReviewError" hidden></p>
+        </form>
+      </div>
+
+      <div class="review-step review-step--success" id="smsReviewSuccessStep" hidden aria-live="polite">
+        <div class="review-success-mark">🙏</div>
+        <p class="review-kicker">Feedback received</p>
+        <h2>Thank you for your feedback 🙏</h2>
+        <p class="review-success-copy">
+          Your feedback helps us improve ScienceMeetsSanatan for everyone.
+        </p>
+        <p class="review-success-copy review-success-copy--muted">
+          This platform is built with devotion to make spiritual knowledge more accessible and meaningful.
+        </p>
+
+        <div class="review-daan-card">
+          <p class="review-panel-kicker">Optional support</p>
+          <h3>Support this journey with daan 🪔</h3>
+          <p>Your feedback improves the platform. Your daan helps us build it further.</p>
+          <p>If you feel this platform has helped you, you can offer a small contribution.</p>
+          <div class="review-form-actions review-form-actions--success">
+            <button type="button" class="review-btn review-btn--primary" id="smsReviewDaanBtn">🪔 Offer Daan</button>
+            <button type="button" class="review-btn review-btn--ghost" id="smsReviewDoneBtn">Maybe Later</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

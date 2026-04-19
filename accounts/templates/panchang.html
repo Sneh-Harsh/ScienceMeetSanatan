@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="{% static 'header.css' %}">
   <link rel="stylesheet" href="{% static 'panchang.css' %}?v=11">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=1">
+  <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=3">
+  <link rel="stylesheet" href="{% static 'css/review.css' %}?v=1">
+  <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1">
 </head>
 
 <body>
@@ -46,7 +49,7 @@
             <a href="/horoscope/">Horoscope</a>
           </div>
         </div>
-        <a href="#" class="nav-link">About Us</a>
+        <a href="/about/" class="nav-link">About Us</a>
       </div>
 
       <div class="right-nav">
@@ -535,6 +538,8 @@
   </main>
 
   {% include 'components/login_popup.html' %}
+  {% include 'components/digital_daanpatra.html' %}
+  {% include 'components/review_modal.html' %}
   <script>
     window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
       isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
@@ -542,6 +547,9 @@
     });
   </script>
   <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
   <script src="{% static 'header.js' %}"></script>
   <script src="{% static 'panchang.js' %}?v=11"></script>
 </body>

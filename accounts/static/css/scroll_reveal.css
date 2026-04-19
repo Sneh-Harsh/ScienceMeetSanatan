@@ -1,0 +1,43 @@
+.sms-reveal-ready {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.985);
+  filter: blur(10px);
+  transition:
+    opacity 0.85s cubic-bezier(.22, 1, .36, 1),
+    transform 0.85s cubic-bezier(.22, 1, .36, 1),
+    filter 0.85s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: var(--sms-reveal-delay, 0ms);
+  will-change: opacity, transform, filter;
+}
+
+.sms-reveal-ready.sms-reveal-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.sms-reveal-left {
+  transform: translate3d(-34px, 22px, 0) scale(0.985);
+}
+
+.sms-reveal-right {
+  transform: translate3d(34px, 22px, 0) scale(0.985);
+}
+
+.sms-reveal-soft {
+  transform: translate3d(0, 18px, 0) scale(0.995);
+  filter: blur(6px);
+}
+
+.sms-reveal-ready::selection {
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sms-reveal-ready {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+}

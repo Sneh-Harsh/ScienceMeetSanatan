@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -8,7 +9,7 @@ from django.templatetags.static import static
 from django.utils.text import slugify
 
 
-LIBRARY_CACHE_KEY = "library::items::local::v6"
+LIBRARY_CACHE_KEY = "library::items::local::v7"
 LIBRARY_DATA_DIR = Path(settings.BASE_DIR) / "accounts" / "data" / "library"
 LIBRARY_SEED_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_seed.json"
 LIBRARY_AUDIO_LINKS_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_audio_links.json"
@@ -19,10 +20,14 @@ PRESET_LIBRARY_CATEGORIES = [
     "Books",
     "Audios",
     "Bhajans",
+    "Mantras",
     "Vedas",
     "Upanishads",
     "Sacred Hymns",
 ]
+
+DEITY_PREFIX_PATTERN = re.compile(r"\b(lord|shri|shree|maa|mata|deity)\b", re.IGNORECASE)
+DEITY_SPLIT_PATTERN = re.compile(r"\s*(?:,|/|&|\band\b)\s*", re.IGNORECASE)
 
 PDF_CATALOG = {
     "ramcharitmanas.pdf": {
@@ -82,6 +87,27 @@ def _language_payload(source: Dict) -> Dict:
     }
 
 
+def _normalize_deity_tags(value: str) -> List[str]:
+    raw = str(value or "").strip()
+    if not raw:
+        return []
+
+    tags = []
+    seen = set()
+    for part in DEITY_SPLIT_PATTERN.split(raw):
+        cleaned = DEITY_PREFIX_PATTERN.sub("", part or "")
+        cleaned = re.sub(r"\s+", " ", cleaned).strip(" .•-")
+        if not cleaned:
+            continue
+        normalized = cleaned.title()
+        key = normalized.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        tags.append(normalized)
+    return tags
+
+
 def _load_audio_links() -> Dict[str, Dict]:
     if not LIBRARY_AUDIO_LINKS_PATH.exists():
         return {}
@@ -102,6 +128,7 @@ def _load_audio_links() -> Dict[str, Dict]:
             "audio_url": str(raw.get("audio_url") or "").strip(),
             "cover_image": str(raw.get("cover_image") or "").strip(),
             "duration": raw.get("duration"),
+            "singer": str(raw.get("singer") or "").strip(),
         }
     return normalized
 
@@ -111,6 +138,7 @@ def _attach_audio_fields(item: Dict, audio_links: Dict[str, Dict]) -> Dict:
     item["audio_url"] = str(link_meta.get("audio_url") or "").strip()
     item["cover_image"] = str(link_meta.get("cover_image") or "").strip()
     item["duration"] = link_meta.get("duration")
+    item["singer"] = str(link_meta.get("singer") or "").strip()
     return item
 
 
@@ -137,6 +165,7 @@ def _normalize_aarti_item(item: Dict) -> Dict:
         "name": name,
         "category": category,
         "deity": deity,
+        "deity_tags": _normalize_deity_tags(deity),
         "excerpt": excerpt,
         "featured": bool(item.get("featured", True)),
         "popularity": int(item.get("popularity") or 80),
@@ -201,6 +230,7 @@ def _build_pdf_item(file_name: str, meta: Dict) -> Dict:
         "name": meta["name"],
         "category": meta["category"],
         "deity": meta["deity"],
+        "deity_tags": _normalize_deity_tags(meta["deity"]),
         "excerpt": meta["excerpt"],
         "featured": bool(meta.get("featured", False)),
         "popularity": int(meta.get("popularity") or 75),
@@ -213,6 +243,7 @@ def _build_pdf_item(file_name: str, meta: Dict) -> Dict:
         "audio_url": "",
         "cover_image": "",
         "duration": None,
+        "singer": "",
     }
 
 
@@ -262,10 +293,19 @@ def build_library_payload() -> Dict:
     items = load_library_items()
     categories = list(PRESET_LIBRARY_CATEGORIES)
     featured = [item for item in items if item.get("featured")] or items[:6]
+    deities = sorted(
+        {
+            tag
+            for item in items
+            for tag in (item.get("deity_tags") or _normalize_deity_tags(item.get("deity")))
+            if tag
+        }
+    )
     return {
         "items": items,
         "featured": featured[:8],
         "categories": categories,
+        "deities": deities,
         "total": len(items),
         "source": "local-assets",
         "debug": {

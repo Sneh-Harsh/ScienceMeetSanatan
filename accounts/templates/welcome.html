@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="{% static 'header.css' %}" />
     <link rel="stylesheet" href="{% static 'welcome.css' %}?v=8" />
     <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=1" />
+    <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'css/review.css' %}?v=1" />
+    <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1" />
   </head>
   <body>
     <header class="header">
@@ -46,11 +49,7 @@
             <a href="/horoscope/">Horoscope</a>
           </div>
         </div>
-        <a
-          href="data:text/html;charset=utf-8,<!doctype html><html><head><meta charset='utf-8'><title>About Us</title><style>body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:Inter,Segoe UI,sans-serif;background:%230b1020;color:%23f3f7ff}h1{font-size:clamp(1.8rem,5vw,3rem)}</style></head><body><h1>About Us</h1></body></html>"
-          class="nav-link"
-          >About Us</a
-        >
+        <a href="/about/" class="nav-link">About Us</a>
       </div>
 
       <div class="right-nav">
@@ -280,6 +279,8 @@
           </a>
         </div>
       </section>
+
+      {% include 'components/testimonials.html' %}
     </main>
 
     <footer class="site-footer">
@@ -307,6 +308,8 @@
     </footer>
 
     {% include 'components/login_popup.html' %}
+    {% include 'components/digital_daanpatra.html' %}
+    {% include 'components/review_modal.html' %}
     <script>
       window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
         isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
@@ -314,6 +317,9 @@
       });
     </script>
     <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
+    <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+    <script defer src="{% static 'js/review.js' %}?v=1"></script>
+    <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
     <script src="{% static 'header.js' %}"></script>
     {{ welcome_raashi_bootstrap|json_script:"welcome-raashi-bootstrap" }}
     {{ welcome_festivals_bootstrap|json_script:"welcome-festivals-bootstrap" }}

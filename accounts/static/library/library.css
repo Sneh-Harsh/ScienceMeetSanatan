@@ -1656,7 +1656,6 @@ body.library-audio-open{
 
 .audio-mini-player,
 .audio-fullscreen__panel,
-.audio-insight-card,
 .audio-queue-item{
   background:rgba(13,18,29,.76);
   border:1px solid rgba(242,202,80,.12);
@@ -1763,6 +1762,7 @@ body.library-audio-open{
   margin:0;
   opacity:0;
   cursor:pointer;
+  touch-action:none;
 }
 
 .audio-mini-actions,
@@ -1975,8 +1975,9 @@ body.library-audio-open{
 
 .audio-main-console{
   display:grid;
-  grid-template-rows:auto auto auto auto 1fr;
+  grid-template-rows:auto auto auto auto;
   gap:1rem;
+  align-content:start;
 }
 
 .audio-track-meta{
@@ -2096,6 +2097,7 @@ body.library-audio-open{
   background:transparent;
   opacity:0;
   cursor:pointer;
+  touch-action:none;
 }
 
 .audio-controls{
@@ -2144,29 +2146,12 @@ body.library-audio-open{
   accent-color:var(--library-gold);
 }
 
-.audio-insight-grid{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0,1fr));
-  gap:1rem;
-}
-
-.audio-insight-card{
-  border-radius:22px;
-  padding:1rem 1.05rem;
-}
-
-.audio-insight-card h4,
 .audio-queue-head h4{
   margin:.35rem 0;
   font-family:"Newsreader",serif;
   font-size:1.35rem;
   font-weight:500;
   color:var(--library-text);
-}
-
-.audio-insight-card p:last-child{
-  color:var(--library-muted);
-  line-height:1.65;
 }
 
 .audio-player-shell.is-loading .audio-art-frame{
@@ -2250,6 +2235,74 @@ body.library-audio-open{
 .audio-hub-shell{
   display:grid;
   gap:1.25rem;
+}
+
+.audio-browser-panel{
+  position:relative;
+  overflow:hidden;
+  border-radius:28px;
+  padding:1.25rem;
+  background:linear-gradient(180deg, rgba(14,20,31,.88), rgba(9,12,21,.94));
+  border:1px solid rgba(242,202,80,.12);
+  box-shadow:0 28px 72px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.audio-browser-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at top left, rgba(242,202,80,.14), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(84,105,255,.14), transparent 38%);
+  pointer-events:none;
+}
+
+.audio-browser-panel > *{
+  position:relative;
+  z-index:1;
+}
+
+.audio-browser-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1rem;
+}
+
+.audio-browser-head h3{
+  margin:.2rem 0 .45rem;
+  font-family:"Newsreader",serif;
+  font-size:clamp(1.7rem, 2.6vw, 2.35rem);
+  line-height:1.05;
+  color:var(--library-text);
+}
+
+.audio-browser-subtitle{
+  max-width:64ch;
+  color:var(--library-muted);
+  line-height:1.7;
+}
+
+.audio-browser-controls{
+  display:grid;
+  grid-template-columns:minmax(280px, 1.35fr) repeat(2, minmax(190px, .55fr));
+  gap:.85rem;
+  margin-bottom:1rem;
+}
+
+.audio-browser-search{
+  min-width:0;
+}
+
+.audio-browser-results{
+  max-height:min(70vh, 920px);
+  overflow:auto;
+  padding-right:.2rem;
+}
+
+.audio-shelf-empty--large{
+  padding:1.2rem 1.25rem;
 }
 
 .audio-hub-hero,
@@ -2569,7 +2622,8 @@ body.library-audio-open{
   }
 
   .audio-hub-hero,
-  .audio-playlist-grid{
+  .audio-playlist-grid,
+  .audio-browser-controls{
     grid-template-columns:1fr;
   }
 
@@ -2702,8 +2756,8 @@ body.library-audio-open{
     font-size:1.8rem;
   }
 
-  .audio-insight-grid{
-    grid-template-columns:1fr;
+  .audio-browser-head{
+    flex-direction:column;
   }
 }
 

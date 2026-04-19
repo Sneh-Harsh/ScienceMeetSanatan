@@ -1,10 +1,48 @@
 {
   "ganesh-aarti": {
     "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776089101/Jai_Ganesh_Deva_PenduJatt.Com.Se_z5k3rd.mp3",
-    "cover_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5mPZ8neflsd0RjKvYNAUOMZd4IdjSXFip7IiQ5mFG6r35Qg9ocLKQMqKr1xYwebwZy7gtv9aHEag6EKQGUMwik2U2fjvsdmFaYJCFBIB_t-lULSf1Eu0KeHD9-6az83e68C2FDy4EcUEAZN6uIzpU843DM4qUoYtwVSUJ9658MWixyElljCxQ-yygHcv4sQGiw_Lmh8OTLS6W5nxug7_kD9dvH8foEHelkoCuUaetjxxOcM_luOnsePVjeOdGkZ7oFy9DqboLsQ"
+    "cover_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuDcB5mPZ8neflsd0RjKvYNAUOMZd4IdjSXFip7IiQ5mFG6r35Qg9ocLKQMqKr1xYwebwZy7gtv9aHEag6EKQGUMwik2U2fjvsdmFaYJCFBIB_t-lULSf1Eu0KeHD9-6az83e68C2FDy4EcUEAZN6uIzpU843DM4qUoYtwVSUJ9658MWixyElljCxQ-yygHcv4sQGiw_Lmh8OTLS6W5nxug7_kD9dvH8foEHelkoCuUaetjxxOcM_luOnsePVjeOdGkZ7oFy9DqboLsQ",
+    "singer": "Anuradha Paudwal"
   },
   "hanuman-aarti": {
     "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776076553/Shri_Hanuman_Ji_Ki_Aarti_PenduJatt.Com.Se_xjojce.mp3",
-    "cover_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBOGyva3303proDeUscVSBb9AH6aKQB77bnDAPJrBrPeTkTPrW9c-sQY9fewQ3nytx_gcb2EghJ3kwQeTdgEedwriWz5sZyipxJ-ddc6jhiFnSm2al7E6PdJx3g8V6Rz9R0DnGkwxI6FNq5be5NiCyKPwyukrMt0g2w9U4lD32HgsM4OczprXBYLjF_U_KyaBoWa6vNFt3XnX7SKquswjS928bGAHB--0lYRRpoAEmnxNKCklftDeQXxItsEkLFGaWXPGVGZGDB5BWQ"
+    "cover_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuBOGyva3303proDeUscVSBb9AH6aKQB77bnDAPJrBrPeTkTPrW9c-sQY9fewQ3nytx_gcb2EghJ3kwQeTdgEedwriWz5sZyipxJ-ddc6jhiFnSm2al7E6PdJx3g8V6Rz9R0DnGkwxI6FNq5be5NiCyKPwyukrMt0g2w9U4lD32HgsM4OczprXBYLjF_U_KyaBoWa6vNFt3XnX7SKquswjS928bGAHB--0lYRRpoAEmnxNKCklftDeQXxItsEkLFGaWXPGVGZGDB5BWQ",
+    "singer": "Anup Jalota"
+  },
+  "siddhi-vinayak-aarti": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776088051/Siddhi_Vinayak_Aarti_PenduJatt.Com.Se_ywtnuw.mp3",
+    "singer": "Sanjivni Bhelande"
+  },
+  "thumak-chalat-ram-chandra": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498876/Thumak_Chalat_Ramchandra_PenduJatt.Com.Se_miuol3.mp3",
+    "singer": "Anup Jalota"
+  },
+  "shree-krishna-govind-hare-murari": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498876/Shree_Krishna_Govind_Hare_Murari_PenduJatt.Com.Se_ccyhdc.mp3",
+    "singer": "Nidhi Prasad"
+  },
+  "mangal-bhavan-amangal-hari": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498875/Mangal_Bhavan_Amangal_Haari_PenduJatt.Com.Se_gteuqk.mp3",
+    "singer": "Rahul Saxena"
+  },
+  "hare-krishna-hare-rama": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498873/Hare_Krishna_Hare_Rama_PenduJatt.Com.Se_lc1utw.mp3",
+    "singer": "Nidhi Prasad"
+  },
+  "shreeman-narayan-narayan-hari-hari": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498872/Shreeman_Narayan_Narayan_Hari_Hari_PenduJatt.Com.Se_dvgec8.mp3",
+    "singer": "Rahul Saxena"
+  },
+  "govind-bolo-hari-gopal-bolo": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498872/Govind_Bolo_Hari_Gopal_Bolo_PenduJatt.Com.Se_nqczyn.mp3",
+    "singer": "Nidhi Prasad"
+  },
+  "achyutam-keshavam": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776498868/Achyutam_Keshvam_PenduJatt.Com.Se_nq7lhi.mp3",
+    "singer": "Rahul Saxena"
+  },
+  "durga-mantra": {
+    "audio_url": "https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776499514/Durga_Mantra_PenduJatt.Com.Se_mk8bux.mp3",
+    "singer": "Abhilasha Chellam"
   }
 }

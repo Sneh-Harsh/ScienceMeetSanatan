@@ -49,6 +49,7 @@ context_processors = [
     'django.template.context_processors.request',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
+    'core.context_processors.donation_context',
 ]
 
 if SOCIAL_AUTH_ENABLED:
@@ -141,6 +142,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [BASE_DIR / 'accounts' / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+DONATION_UPI_ID = os.getenv('DONATION_UPI_ID', '9742024751@ybl').strip()
+DONATION_PAYEE_NAME = os.getenv('DONATION_PAYEE_NAME', 'Sneh Harsh').strip()
+DONATION_QR_URL = os.getenv('DONATION_QR_URL', '').strip()
 
 
 LIBRARY_DRIVE_FILE_ID = os.getenv('LIBRARY_DRIVE_FILE_ID', '').strip()

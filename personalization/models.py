@@ -135,3 +135,86 @@ class DailyPersonalizationSnapshot(models.Model):
                 name='daily_snapshot_actor_required',
             ),
         ]
+
+
+class ReviewFeatureType(models.TextChoices):
+    OVERALL = 'overall', 'Overall'
+    UI = 'ui', 'UI'
+    PANCHAANG = 'panchaang', 'Panchaang'
+    KUNDALI = 'kundali', 'Kundali'
+    HOROSCOPE = 'horoscope', 'Horoscope'
+    LIBRARY = 'library', 'Library'
+    AUDIO = 'audio', 'Audio'
+    QUIZZES = 'quizzes', 'Quizzes'
+    BABY_NAMES = 'baby_names', 'Baby Names'
+    PERSONALIZATION = 'personalization', 'Personalization'
+    PERFORMANCE = 'performance', 'Performance'
+    SUGGESTIONS = 'suggestions', 'Suggestions'
+
+
+class ReviewSentiment(models.TextChoices):
+    LOVED = 'loved', 'Loved'
+    GOOD = 'good', 'Good'
+    NEEDS_IMPROVEMENT = 'needs_improvement', 'Needs improvement'
+
+
+class ReviewModerationStatus(models.TextChoices):
+    PENDING = 'pending', 'Pending'
+    APPROVED = 'approved', 'Approved'
+    REJECTED = 'rejected', 'Rejected'
+
+
+class ReviewFeedback(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE, related_name='review_feedback')
+    guest_profile = models.ForeignKey(GuestProfile, null=True, blank=True, on_delete=models.CASCADE, related_name='review_feedback')
+    name_display = models.CharField(max_length=120, blank=True)
+    email = models.EmailField(blank=True)
+    feature_type = models.CharField(max_length=32, choices=ReviewFeatureType.choices, default=ReviewFeatureType.OVERALL)
+    page_url = models.CharField(max_length=255, blank=True)
+    rating_overall = models.PositiveSmallIntegerField()
+    rating_ui = models.PositiveSmallIntegerField(null=True, blank=True)
+    rating_content = models.PositiveSmallIntegerField(null=True, blank=True)
+    rating_speed = models.PositiveSmallIntegerField(null=True, blank=True)
+    title = models.CharField(max_length=160, blank=True)
+    review_text = models.TextField()
+    improvement_suggestion = models.TextField(blank=True)
+    sentiment = models.CharField(max_length=24, choices=ReviewSentiment.choices, default=ReviewSentiment.GOOD)
+    is_public = models.BooleanField(default=False)
+    is_featured = models.BooleanField(default=False)
+    moderation_status = models.CharField(max_length=24, choices=ReviewModerationStatus.choices, default=ReviewModerationStatus.PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['feature_type', 'created_at']),
+            models.Index(fields=['moderation_status', 'is_public', 'is_featured']),
+            models.Index(fields=['rating_overall']),
+        ]
+        constraints = [
+            _check_constraint(
+                condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
+                name='review_feedback_actor_required',
+            ),
+            _check_constraint(
+                condition=models.Q(rating_overall__gte=1, rating_overall__lte=5),
+                name='review_feedback_rating_overall_range',
+            ),
+            _check_constraint(
+                condition=models.Q(rating_ui__isnull=True) | models.Q(rating_ui__gte=1, rating_ui__lte=5),
+                name='review_feedback_rating_ui_range',
+            ),
+            _check_constraint(
+                condition=models.Q(rating_content__isnull=True) | models.Q(rating_content__gte=1, rating_content__lte=5),
+                name='review_feedback_rating_content_range',
+            ),
+            _check_constraint(
+                condition=models.Q(rating_speed__isnull=True) | models.Q(rating_speed__gte=1, rating_speed__lte=5),
+                name='review_feedback_rating_speed_range',
+            ),
+        ]
+
+    def __str__(self) -> str:
+        actor = self.name_display or getattr(self.user, 'username', '') or str(getattr(self.guest_profile, 'guest_uuid', 'guest'))
+        return f'Review<{actor}:{self.rating_overall}★>'

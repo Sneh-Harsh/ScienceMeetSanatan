@@ -10,8 +10,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'header.css' %}" />
   <link rel="stylesheet" href="{% static 'baby_names.css' %}" />
-  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=30" />
+  <link rel="stylesheet" href="{% static 'library/library.css' %}?v=32" />
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=3" />
+  <link rel="stylesheet" href="{% static 'css/review.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1" />
 </head>
 <body>
   <header class="header">
@@ -43,7 +46,7 @@
           <a href="/horoscope/">Horoscope</a>
         </div>
       </div>
-      <a href="#" class="nav-link">About Us</a>
+      <a href="/about/" class="nav-link">About Us</a>
     </div>
 
     <div class="right-nav">
@@ -166,6 +169,7 @@
           <button type="button" class="reader-nav__btn" id="prevPageBtn">← Previous</button>
           <div class="reader-nav__status" id="readerPageStatus">Opening sacred pages…</div>
           <div class="reader-nav__actions">
+            <button type="button" class="reader-nav__btn reader-nav__btn--ghost" id="readerListenBtn" hidden>♫ Listen</button>
             <button type="button" class="reader-nav__btn reader-nav__btn--ghost" id="fullscreenReaderBtn">⛶ Fullscreen</button>
             <button type="button" class="reader-nav__btn" id="nextPageBtn">Next →</button>
           </div>
@@ -177,6 +181,7 @@
           <button type="button" class="reader-nav__btn" id="prevPageBtnBottom">← Previous</button>
           <div class="reader-nav__status" id="readerPageStatusBottom">Opening sacred pages…</div>
           <div class="reader-nav__actions">
+            <button type="button" class="reader-nav__btn reader-nav__btn--ghost" id="readerListenBtnBottom" hidden>♫ Listen</button>
             <button type="button" class="reader-nav__btn reader-nav__btn--ghost" id="fullscreenReaderBtnBottom">⛶ Fullscreen</button>
             <button type="button" class="reader-nav__btn" id="nextPageBtnBottom">Next →</button>
           </div>
@@ -238,7 +243,7 @@
 
           <div class="audio-main-console">
             <div class="audio-track-meta">
-              <p class="audio-kicker" id="audioTrackKicker">Cloud sanctuary stream</p>
+              <p class="audio-kicker" id="audioTrackKicker">Sacred audio stream</p>
               <h3 id="audioTrackTitle">Choose a sacred audio stream</h3>
               <p id="audioTrackSubtitle">Aarti, book narration, or devotional audio can live here.</p>
               <div class="audio-track-meta__row">
@@ -246,8 +251,8 @@
                 <span class="audio-track-state" id="audioTrackState">Idle</span>
               </div>
               <div class="audio-error-banner" id="audioErrorBanner" hidden>
-                <strong>Playback issue</strong>
-                <span id="audioErrorMessage">This stream could not be loaded.</span>
+                <strong></strong>
+                <span id="audioErrorMessage"></span>
               </div>
             </div>
 
@@ -285,28 +290,6 @@
               </label>
             </div>
 
-            <div class="audio-insight-grid">
-              <div class="audio-insight-card">
-                <p class="audio-kicker">Playback mode</p>
-                <h4 id="audioPlaybackMode">Streaming from Cloudinary</h4>
-                <p id="audioPlaybackMeta">Adaptive HTML5 audio stream with saved position.</p>
-              </div>
-              <div class="audio-insight-card">
-                <p class="audio-kicker">Resume state</p>
-                <h4 id="audioResumeMeta">No saved timestamp yet</h4>
-                <p>Return later and the player restores your last sacred pause.</p>
-              </div>
-              <div class="audio-insight-card">
-                <p class="audio-kicker">Buffer</p>
-                <h4 id="audioBufferMeta">0%</h4>
-                <p>Shows how much of the current stream is ready for uninterrupted playback.</p>
-              </div>
-              <div class="audio-insight-card">
-                <p class="audio-kicker">Volume</p>
-                <h4 id="audioVolumeMeta">100%</h4>
-                <p>Adjust this to keep the listening room calm across mobile and desktop.</p>
-              </div>
-            </div>
           </div>
 
           <aside class="audio-queue-panel">
@@ -325,6 +308,8 @@
   </section>
 
   {% include 'components/login_popup.html' %}
+  {% include 'components/digital_daanpatra.html' %}
+  {% include 'components/review_modal.html' %}
   <script>
     window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
       isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
@@ -332,7 +317,10 @@
     });
   </script>
   <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
   <script src="{% static 'header.js' %}"></script>
-  <script src="{% static 'library/library.js' %}?v=30"></script>
+  <script src="{% static 'library/library.js' %}?v=38"></script>
 </body>
 </html>

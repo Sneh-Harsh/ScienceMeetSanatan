@@ -1,0 +1,200 @@
+<section
+  class="daanpatra-root"
+  id="digitalDaanpatra"
+  data-page-type="{{ donation_page_type|default:'general' }}"
+  data-upi-id="{{ donation_upi_id|default:'' }}"
+  data-payee-name="{{ donation_payee_name|default:'Science Meets Sanatan' }}"
+  data-qr-url="{{ donation_qr_url|default:'' }}"
+  data-configured="{{ donation_is_configured|yesno:'true,false' }}"
+  aria-label="Digital Daanpatra"
+>
+  <button
+    type="button"
+    class="daanpatra-floating"
+    id="daanpatraTrigger"
+    aria-haspopup="dialog"
+    aria-controls="daanpatraModal"
+    aria-expanded="false"
+  >
+    <span class="daanpatra-floating__halo" aria-hidden="true"></span>
+    <span class="daanpatra-icon" aria-hidden="true">
+      <span class="daanpatra-icon__flame"></span>
+      <span class="daanpatra-icon__bowl"></span>
+    </span>
+    <span class="daanpatra-floating__copy">
+      <strong>Offer Daan</strong>
+      <span>Support with seva</span>
+    </span>
+  </button>
+
+  <div class="daanpatra-backdrop" id="daanpatraBackdrop" hidden></div>
+
+  <div
+    class="daanpatra-modal"
+    id="daanpatraModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="daanpatraTitle"
+    aria-describedby="daanpatraSubtitle"
+    hidden
+  >
+    <button type="button" class="daanpatra-close" id="daanpatraClose" aria-label="Close donation panel">✕</button>
+
+    <div class="daanpatra-modal__art" aria-hidden="true">
+      <div class="daanpatra-art__rings"></div>
+      <div class="daanpatra-art__mandala"></div>
+      <div class="daanpatra-art__diya">
+        <span class="daanpatra-art__flame"></span>
+        <span class="daanpatra-art__lamp"></span>
+      </div>
+      <div class="daanpatra-art__copy">
+        <p class="daanpatra-kicker">Sacred support</p>
+        <h3>Built with devotion for Sanatan seekers</h3>
+        <p>Offer seva to help us keep this platform calm, reliable, and accessible for everyone.</p>
+        <ul class="daanpatra-trustlist">
+          <li>Secure payment through your own UPI app</li>
+          <li>Supports content, tools, and platform upkeep</li>
+          <li>Guest and logged-in seekers can contribute instantly</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="daanpatra-modal__content">
+      <div class="daanpatra-head">
+        <div class="daanpatra-head__mark" aria-hidden="true">
+          <span class="daanpatra-icon daanpatra-icon--compact">
+            <span class="daanpatra-icon__flame"></span>
+            <span class="daanpatra-icon__bowl"></span>
+          </span>
+        </div>
+        <div>
+          <p class="daanpatra-kicker" id="daanpatraContextLabel">Offer Your Daan</p>
+          <h2 id="daanpatraTitle">Offer Your Daan</h2>
+          <p id="daanpatraSubtitle">
+            Support the preservation of Sanatan knowledge and help us build a better spiritual platform for everyone.
+          </p>
+        </div>
+      </div>
+
+      <div class="daanpatra-pillars">
+        <article class="daanpatra-impact">
+          <h3>Why your seva matters</h3>
+          <ul class="daanpatra-impact__list">
+            <li>Maintain servers and platform reliability</li>
+            <li>Add more spiritual books, audios, and tools</li>
+            <li>Keep knowledge accessible for seekers everywhere</li>
+          </ul>
+          <p class="daanpatra-note">Even a small daan can support this journey.</p>
+        </article>
+
+        <article class="daanpatra-impact daanpatra-impact--trust">
+          <h3>Trust and care</h3>
+          <ul class="daanpatra-impact__list">
+            <li>Your contribution goes directly through your UPI app</li>
+            <li>No account is required to offer support</li>
+            <li>Designed respectfully as seva, not a sales flow</li>
+          </ul>
+        </article>
+      </div>
+
+      <section class="daanpatra-amounts" aria-labelledby="daanpatraAmountTitle">
+        <div class="daanpatra-section-head">
+          <div>
+            <p class="daanpatra-kicker">Sacred contribution</p>
+            <h3 id="daanpatraAmountTitle">Choose an amount</h3>
+          </div>
+          <div class="daanpatra-amount-preview" id="daanpatraAmountPreview">No amount selected</div>
+        </div>
+
+        <div class="daanpatra-chip-grid" id="daanpatraAmountChips">
+          <button type="button" class="daanpatra-chip" data-amount="11" data-meaning="Support one small step in this journey">₹11</button>
+          <button type="button" class="daanpatra-chip" data-amount="21" data-meaning="Help maintain daily spiritual tools">₹21</button>
+          <button type="button" class="daanpatra-chip" data-amount="51" data-meaning="Support free access to knowledge">₹51</button>
+          <button type="button" class="daanpatra-chip" data-amount="101" data-meaning="Contribute to new content and features">₹101</button>
+          <button type="button" class="daanpatra-chip" data-amount="251" data-meaning="Help expand premium spiritual experiences">₹251</button>
+          <button type="button" class="daanpatra-chip daanpatra-chip--custom" data-custom="true" data-meaning="Enter a custom amount with your own intent">Custom</button>
+        </div>
+
+        <label class="daanpatra-custom-input" id="daanpatraCustomWrap">
+          <span>Custom amount</span>
+          <input id="daanpatraCustomAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="Enter amount in ₹" />
+        </label>
+
+        <div class="daanpatra-pay-cta">
+          <a href="#" class="daanpatra-btn daanpatra-btn--primary daanpatra-btn--pay" id="daanpatraPayNowBtn">Pay Now</a>
+          <p class="daanpatra-pay-hint">This opens your UPI app with the entered amount already filled in.</p>
+        </div>
+
+        <p class="daanpatra-selection-note" id="daanpatraSelectionNote">
+          Select an amount to prefill your UPI donation link.
+        </p>
+      </section>
+
+      <section class="daanpatra-payment" aria-labelledby="daanpatraPaymentTitle">
+        <div class="daanpatra-section-head">
+          <div>
+            <p class="daanpatra-kicker">UPI daan</p>
+            <h3 id="daanpatraPaymentTitle">Scan or pay now through UPI</h3>
+          </div>
+        </div>
+
+        <div class="daanpatra-payment__layout">
+          <div class="daanpatra-qr-shell">
+            <div class="daanpatra-qr-frame {% if not donation_qr_url %}is-placeholder{% endif %}">
+              {% if donation_qr_url %}
+              <img src="{{ donation_qr_url }}" alt="UPI QR code for offering daan" id="daanpatraQrImage" loading="lazy" />
+              {% else %}
+              <div class="daanpatra-qr-placeholder">
+                <strong>UPI QR pending</strong>
+                <span>Add your QR image URL in Django settings or environment variables.</span>
+              </div>
+              {% endif %}
+            </div>
+            <p class="daanpatra-qr-caption">Scan with any UPI app to offer your contribution.</p>
+          </div>
+
+          <div class="daanpatra-payment__details">
+            <div class="daanpatra-upi-card">
+              <span class="daanpatra-upi-card__label">UPI ID</span>
+              <strong id="daanpatraUpiIdText">{{ donation_upi_id|default:"Add your UPI ID" }}</strong>
+              <span class="daanpatra-upi-card__sub">Payee: {{ donation_payee_name|default:"Science Meets Sanatan" }}</span>
+            </div>
+
+            <div class="daanpatra-actions">
+              <button type="button" class="daanpatra-btn daanpatra-btn--secondary" id="daanpatraCopyBtn">Copy UPI ID</button>
+            </div>
+
+            <p class="daanpatra-disclaimer" id="daanpatraDisclaimer">
+              Secure payment happens inside your preferred UPI app.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="daanpatra-confirmation" id="daanpatraConfirmationState" hidden aria-live="polite">
+        <div class="daanpatra-confirmation__copy">
+          <p class="daanpatra-kicker">After payment</p>
+          <h3 id="daanpatraConfirmationTitle">After offering your daan, confirm it here</h3>
+          <p id="daanpatraConfirmationText">Once your UPI app completes the payment, tap confirm below. You can also leave an optional gratitude note for a future donor wall.</p>
+        </div>
+
+        <label class="daanpatra-note-input">
+          <span>Optional thank-you note / donor wall hook</span>
+          <textarea id="daanpatraThankYouNote" rows="3" placeholder="Write a short blessing, gratitude note, or message for a future donor wall..."></textarea>
+        </label>
+
+        <div class="daanpatra-confirmation__actions">
+          <button type="button" class="daanpatra-btn daanpatra-btn--primary" id="daanpatraConfirmBtn">I have completed the daan</button>
+          <button type="button" class="daanpatra-btn daanpatra-btn--secondary" id="daanpatraSaveNoteBtn">Save note</button>
+        </div>
+      </section>
+
+      <div class="daanpatra-gratitude">
+        <p>🙏 Thank you for supporting seva, learning, and dharma.</p>
+        <button type="button" class="daanpatra-link-btn" id="daanpatraDismissBtn">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="daanpatra-toast" id="daanpatraToast" aria-live="polite" hidden></div>
+</section>
