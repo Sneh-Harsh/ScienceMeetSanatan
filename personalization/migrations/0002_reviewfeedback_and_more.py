@@ -5,6 +5,13 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def _check_constraint(*, name, condition):
+    try:
+        return models.CheckConstraint(condition=condition, name=name)
+    except TypeError:
+        return models.CheckConstraint(check=condition, name=name)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -131,8 +138,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="reviewfeedback",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("user__isnull", False),
                     ("guest_profile__isnull", False),
                     _connector="OR",
@@ -142,15 +149,15 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="reviewfeedback",
-            constraint=models.CheckConstraint(
-                check=models.Q(("rating_overall__gte", 1), ("rating_overall__lte", 5)),
+            constraint=_check_constraint(
+                condition=models.Q(("rating_overall__gte", 1), ("rating_overall__lte", 5)),
                 name="review_feedback_rating_overall_range",
             ),
         ),
         migrations.AddConstraint(
             model_name="reviewfeedback",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("rating_ui__isnull", True),
                     models.Q(("rating_ui__gte", 1), ("rating_ui__lte", 5)),
                     _connector="OR",
@@ -160,8 +167,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="reviewfeedback",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("rating_content__isnull", True),
                     models.Q(("rating_content__gte", 1), ("rating_content__lte", 5)),
                     _connector="OR",
@@ -171,8 +178,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name="reviewfeedback",
-            constraint=models.CheckConstraint(
-                check=models.Q(
+            constraint=_check_constraint(
+                condition=models.Q(
                     ("rating_speed__isnull", True),
                     models.Q(("rating_speed__gte", 1), ("rating_speed__lte", 5)),
                     _connector="OR",
