@@ -632,6 +632,9 @@ def welcome_festivals_api(request):
 
 def login_page(request):
     mode = request.GET.get('mode', 'login')
+    next_url = request.POST.get('next', '').strip() or request.GET.get('next', '').strip() or '/welcome/'
+    if not next_url.startswith('/'):
+        next_url = '/welcome/'
 
     if request.method == 'POST':
         form_type = request.POST.get('form_type', 'login')
@@ -639,16 +642,16 @@ def login_page(request):
         if form_type == 'signup':
             full_name = request.POST.get('name', '').strip()
             username = request.POST.get('username', '').strip()
-            email = request.POST.get('email', '').strip()
+            email = request.POST.get('email', '').strip().lower()
             password = request.POST.get('password', '')
 
             if not full_name or not username or not email or not password:
                 messages.error(request, 'Please fill all signup fields.')
                 mode = 'signup'
-            elif User.objects.filter(username=username).exists():
+            elif User.objects.filter(username__iexact=username).exists():
                 messages.error(request, 'Username already exists. Please choose another one.')
                 mode = 'signup'
-            elif User.objects.filter(email=email).exists():
+            elif User.objects.filter(email__iexact=email).exists():
                 messages.error(request, 'Email already registered. Please use a different email.')
                 mode = 'signup'
             else:
@@ -665,8 +668,13 @@ def login_page(request):
                     last_name=last_name,
                 )
                 ensure_user_account(created_user)
-                messages.success(request, 'Signup successful. Please log in with your new account.')
-                return redirect('/login/?mode=login')
+                guest_profile = getattr(request, 'guest_profile', None)
+                if guest_profile and guest_profile.is_active:
+                    merge_guest_into_user(guest_profile, created_user)
+                created_user.backend = settings.AUTHENTICATION_BACKENDS[0]
+                auth_login(request, created_user)
+                messages.success(request, 'Signup successful. Your account is now ready.')
+                return redirect(next_url)
 
         elif form_type == 'reset_password':
             username = request.POST.get('username', '').strip()
@@ -699,6 +707,12 @@ def login_page(request):
             username = request.POST.get('username', '').strip()
             password = request.POST.get('password', '')
             user = authenticate(request, username=username, password=password)
+            if user is None and username:
+                matched_user = User.objects.filter(username__iexact=username).first()
+                if matched_user is None and '@' in username:
+                    matched_user = User.objects.filter(email__iexact=username).first()
+                if matched_user is not None:
+                    user = authenticate(request, username=matched_user.username, password=password)
             success = user is not None
             LoginAttempt.objects.create(username=username or 'unknown', provider=LoginAttempt.PROVIDER_PASSWORD, success=success)
 
@@ -710,7 +724,7 @@ def login_page(request):
                     messages.success(request, 'Login successful. Redirected to Django admin.')
                     return redirect('/admin/')
 
-                return redirect('/welcome/')
+                return redirect(next_url)
 
             messages.error(request, 'Invalid username or password.')
 

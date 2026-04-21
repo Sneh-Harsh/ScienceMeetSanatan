@@ -12,6 +12,13 @@
   --daan-floating-bottom: 1rem;
 }
 
+body{
+  --sms-floating-right: 0.8rem;
+  --sms-floating-bottom-base: max(14px, env(safe-area-inset-bottom));
+  --sms-floating-stack-gap: 12px;
+  --sms-daan-mobile-height: 58px;
+}
+
 .daanpatra-root{
   position: relative;
   z-index: 2600;
@@ -694,6 +701,16 @@ body.library-audio-mounted .daanpatra-toast{
   bottom: calc(env(safe-area-inset-bottom, 0px) + 7.1rem);
 }
 
+@media (max-width: 720px){
+  body{
+    --sms-floating-bottom-base: max(14px, env(safe-area-inset-bottom));
+  }
+
+  body.library-audio-mounted{
+    --sms-floating-bottom-base: calc(env(safe-area-inset-bottom, 0px) + 7.7rem);
+  }
+}
+
 @media (max-width: 1024px){
   .daanpatra-modal{
     width: min(920px, calc(100vw - 1.5rem));
@@ -750,10 +767,12 @@ body.library-audio-mounted .daanpatra-toast{
 
 @media (max-width: 640px){
   .daanpatra-floating{
+    right: var(--sms-floating-right);
+    bottom: var(--sms-floating-bottom-base);
     gap: 0.7rem;
     min-height: 58px;
     padding: 0.8rem 0.95rem 0.8rem 0.85rem;
-    max-width: min(232px, calc(100vw - 1rem));
+    max-width: min(212px, calc(100vw - 24px));
   }
 
   .daanpatra-floating__copy strong{

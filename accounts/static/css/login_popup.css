@@ -432,7 +432,9 @@ body.sms-login-popup-lock {
   .sms-login-popup__dialog {
     width: min(720px, calc(100vw - 24px));
     min-height: auto;
+    max-height: min(92dvh, 760px);
     grid-template-columns: 1fr;
+    overflow: hidden;
   }
 
   .sms-login-popup__visual {
@@ -445,23 +447,28 @@ body.sms-login-popup-lock {
 
   .sms-login-popup__content {
     padding: 32px 24px 26px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 @media (max-width: 640px) {
   .sms-login-popup {
     padding: 0;
+    align-items: end;
   }
 
   .sms-login-popup__dialog {
     width: 100vw;
-    max-height: min(92vh, 760px);
+    min-height: 0;
+    max-height: min(100dvh, 760px);
     border-radius: 24px 24px 0 0;
     transform: translateY(36px);
+    grid-template-rows: auto minmax(0, 1fr);
   }
 
   .sms-login-popup__visual {
-    min-height: 188px;
+    min-height: 164px;
   }
 
   .sms-login-popup__sigil {
@@ -488,7 +495,8 @@ body.sms-login-popup-lock {
 
   .sms-login-popup__content {
     gap: 18px;
-    padding: 24px 18px 22px;
+    padding: 22px 18px calc(22px + env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
   }
 
   .sms-login-popup__title {
@@ -506,6 +514,34 @@ body.sms-login-popup-lock {
 
   .sms-login-popup__continue {
     justify-self: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .sms-login-popup__visual {
+    min-height: 148px;
+  }
+
+  .sms-login-popup__brand-title {
+    font-size: 1.65rem;
+  }
+
+  .sms-login-popup__brand-copy {
+    font-size: 0.88rem;
+    line-height: 1.56;
+  }
+
+  .sms-login-popup__content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .sms-login-popup__unlock {
+    padding: 14px 16px;
+  }
+
+  .sms-login-popup__benefits li {
+    padding-left: 24px;
   }
 }
 

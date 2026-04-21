@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.test import TestCase
+from django.urls import reverse
 
 from accounts.models import GuestProfile
 from accounts.services import merge_guest_into_user
@@ -26,3 +27,38 @@ class GuestMergeTests(TestCase):
         guest.refresh_from_db()
         self.assertFalse(guest.is_active)
         self.assertEqual(guest.merged_into_user, user)
+
+
+class AuthFlowTests(TestCase):
+    def test_signup_creates_user_profile_and_logs_user_in(self):
+        response = self.client.post(
+            reverse('login') + '?mode=signup&next=/library/',
+            {
+                'form_type': 'signup',
+                'name': 'Sita Sharma',
+                'username': 'sita',
+                'email': 'sita@example.com',
+                'password': 'strong-pass-123',
+            },
+        )
+
+        self.assertRedirects(response, '/library/', fetch_redirect_response=False)
+        created_user = User.objects.get(username='sita')
+        self.assertEqual(created_user.email, 'sita@example.com')
+        self.assertTrue(hasattr(created_user, 'account_profile'))
+        self.assertEqual(int(self.client.session.get('_auth_user_id')), created_user.id)
+
+    def test_login_accepts_email_identifier_case_insensitively(self):
+        user = User.objects.create_user(username='arjun', email='arjun@example.com', password='strong-pass-123')
+
+        response = self.client.post(
+            reverse('login') + '?next=/quizzes/',
+            {
+                'form_type': 'login',
+                'username': 'ARJUN@example.com',
+                'password': 'strong-pass-123',
+            },
+        )
+
+        self.assertRedirects(response, '/quizzes/', fetch_redirect_response=False)
+        self.assertEqual(int(self.client.session.get('_auth_user_id')), user.id)

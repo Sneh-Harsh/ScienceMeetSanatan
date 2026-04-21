@@ -707,11 +707,11 @@
 
 @media (max-width: 720px) {
   .review-floating-trigger {
-    left: 12px;
-    bottom: max(14px, env(safe-area-inset-bottom));
-    right: auto;
+    left: auto;
+    right: var(--sms-floating-right, 12px);
+    bottom: calc(var(--sms-floating-bottom-base, max(14px, env(safe-area-inset-bottom))) + var(--sms-daan-mobile-height, 58px) + var(--sms-floating-stack-gap, 12px));
     min-width: auto;
-    max-width: calc(100vw - 92px);
+    max-width: min(220px, calc(100vw - 24px));
     padding: 12px 14px;
     border-radius: 18px;
   }
@@ -781,6 +781,24 @@
 
   .testimonials-track {
     grid-auto-columns: minmax(82vw, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .review-floating-trigger {
+    max-width: min(182px, calc(100vw - 24px));
+    gap: 10px;
+    padding: 11px 12px;
+  }
+
+  .review-floating-trigger__icon {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .review-floating-trigger__copy span {
+    display: none;
   }
 }
 
