@@ -1,0 +1,268 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ pandit_obj.name }} | Pandit Profile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=4" />
+  <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'pandit/pandit.css' %}?v=3" />
+</head>
+<body class="pandit-body">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="pandit-page pandit-page--profile" id="panditProfilePage" data-view="detail" data-booking-url="/api/pandits/bookings/" data-review-url="/api/pandits/{{ pandit_obj.slug }}/reviews/" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
+    <section class="pandit-profile-hero anim">
+      <div class="pandit-profile-hero__card">
+        <div class="pandit-profile-hero__media">
+          {% if pandit_obj.photo %}
+          <img src="{{ pandit_obj.photo }}" alt="{{ pandit_obj.name }}" />
+          {% else %}
+          <div class="pandit-card__avatar pandit-card__avatar--large">{{ pandit_obj.name|slice:":1" }}</div>
+          {% endif %}
+        </div>
+        <div class="pandit-profile-hero__copy">
+          <p class="pandit-kicker">Verified Pandit • {{ pandit_obj.city }}</p>
+          <h1>{{ pandit_obj.name }}</h1>
+          <p>{{ pandit_obj.specialization }}</p>
+          <div class="pandit-profile-hero__chips">
+            <span>★ {{ pandit_obj.rating }}</span>
+            <span>{{ pandit_obj.experience }}+ years</span>
+            <span>{{ pandit_obj.total_bookings }} trusted bookings</span>
+            <span>{{ pandit_obj.languages|join:", " }}</span>
+          </div>
+          <div class="pandit-profile-hero__trust">
+            <strong>{{ pandit_obj.trust_note|default:"Trusted by families for calm, clear rituals." }}</strong>
+            <p>{{ pandit_obj.bio }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pandit-profile-layout anim">
+      <div class="pandit-profile-main">
+        <article class="pandit-panel">
+          <div class="pandit-section-head">
+            <div>
+              <p class="pandit-kicker">Services</p>
+              <h2>What can be booked</h2>
+            </div>
+          </div>
+          <div class="pandit-service-grid">
+            {% for item in services %}
+            <label class="pandit-service-card">
+              <input type="radio" name="service-card" value="{{ item.service.id }}" {% if forloop.first %}checked{% endif %} />
+              <div>
+                <strong>{{ item.service.name }}</strong>
+                <p>{{ item.service.description|default:item.notes|default:"Premium ritual execution with transparent pricing." }}</p>
+              </div>
+              <span>₹{{ item.price }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="pandit-panel">
+          <div class="pandit-section-head">
+            <div>
+              <p class="pandit-kicker">Availability</p>
+              <h2>Live booking slots</h2>
+            </div>
+          </div>
+          <div class="pandit-slot-grid">
+            {% for slot in slots %}
+            <button class="pandit-slot-chip" type="button" data-slot-id="{{ slot.id }}" data-date="{{ slot.date|date:'Y-m-d' }}" data-time="{{ slot.start_time|time:'H:i' }}">
+              <strong>{{ slot.date|date:"d M" }}</strong>
+              <span>{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</span>
+            </button>
+            {% empty %}
+            <p class="pandit-muted">No live slots published yet. Use Book Now to request a custom time.</p>
+            {% endfor %}
+          </div>
+        </article>
+
+        <article class="pandit-panel">
+          <div class="pandit-section-head">
+            <div>
+              <p class="pandit-kicker">Reviews</p>
+              <h2>Trust from seekers</h2>
+            </div>
+          </div>
+          <div class="pandit-review-list">
+            {% for review in reviews %}
+            <article class="pandit-review-card">
+              <div class="pandit-review-card__head">
+                <strong>{{ review.user.first_name|default:review.user.username }}</strong>
+                <span>★ {{ review.rating }}</span>
+              </div>
+              <p>{{ review.comment }}</p>
+            </article>
+            {% empty %}
+            <p class="pandit-muted">No reviews yet. This profile is ready for the first premium booking experience.</p>
+            {% endfor %}
+          </div>
+          {% if request.user.is_authenticated %}
+          <form class="pandit-review-form" id="panditReviewForm">
+            <label><span>Your rating</span><input type="number" name="rating" min="1" max="5" value="5" /></label>
+            <label><span>Comment</span><textarea name="comment" rows="3" placeholder="How was the guidance and booking experience?"></textarea></label>
+            <button type="submit" class="pandit-cta pandit-cta--small">Submit review</button>
+          </form>
+          {% endif %}
+        </article>
+      </div>
+
+      <aside class="pandit-booking-panel">
+        <div class="pandit-booking-panel__sticky">
+          <div class="pandit-panel">
+            <p class="pandit-kicker">Instant booking flow</p>
+            <h2>Book now</h2>
+            <form id="panditBookingForm" class="pandit-booking-form">
+              <div class="pandit-stepper">
+                <button type="button" class="is-active" data-step-target="1">1</button>
+                <button type="button" data-step-target="2">2</button>
+                <button type="button" data-step-target="3">3</button>
+                <button type="button" data-step-target="4">4</button>
+                <button type="button" data-step-target="5">5</button>
+              </div>
+
+              <section class="pandit-booking-step is-active" data-step="1">
+                <label>
+                  <span>Select service</span>
+                  <select name="service_id" id="panditBookingService">
+                    {% for item in services %}
+                    <option value="{{ item.service.id }}" data-price="{{ item.price }}">₹{{ item.price }} • {{ item.service.name }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+              </section>
+
+              <section class="pandit-booking-step" data-step="2">
+                <label><span>Select date</span><input type="date" name="date" required /></label>
+              </section>
+
+              <section class="pandit-booking-step" data-step="3">
+                <label><span>Select time</span><input type="time" name="time" required /></label>
+                <input type="hidden" name="slot_id" id="panditBookingSlotId" />
+                <p class="pandit-muted">Tap a live slot on the left, or choose a preferred custom time here.</p>
+              </section>
+
+              <section class="pandit-booking-step" data-step="4">
+                <label><span>Address</span><textarea name="address" rows="3" required placeholder="Enter full address for the ritual"></textarea></label>
+                <label><span>City</span><input type="text" name="city" value="{{ pandit_obj.city }}" /></label>
+                <label><span>Phone</span><input type="text" name="contact_phone" placeholder="Optional contact number" /></label>
+              </section>
+
+              <section class="pandit-booking-step" data-step="5">
+                <div class="pandit-price-breakdown" id="panditPriceBreakdown">
+                  <div><span>Ritual fee</span><strong id="panditPriceAmount">₹{{ pandit_obj.starting_price }}</strong></div>
+                  <div><span>Platform support</span><strong>Included</strong></div>
+                  <div><span>Payment</span><strong>Placeholder for Razorpay / Stripe</strong></div>
+                </div>
+                <label><span>Notes for the pandit</span><textarea name="notes" rows="3" placeholder="Mention samagri needs, apartment access, or timing note"></textarea></label>
+              </section>
+
+              <input type="hidden" name="pandit_id" value="{{ pandit_obj.id }}" />
+              <div class="pandit-booking-actions">
+                <button type="button" class="pandit-ghost" id="panditBookingBack">Back</button>
+                <button type="button" class="pandit-cta pandit-cta--small" id="panditBookingNext">Next</button>
+                <button type="submit" class="pandit-cta pandit-cta--small" id="panditBookingSubmit" hidden>Confirm booking</button>
+              </div>
+              <p class="pandit-booking-note" id="panditBookingMessage">
+                {% if request.user.is_authenticated %}
+                Secure booking flow with confirmation and payment placeholder.
+                {% else %}
+                Log in to complete your booking and keep history, notifications, and reschedules in one place.
+                {% endif %}
+              </p>
+            </form>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  {{ pandit_detail|json_script:"panditDetailData" }}
+
+  {% include 'components/login_popup.html' %}
+  {% include 'components/digital_daanpatra.html' %}
+  {% include 'components/review_modal.html' %}
+  <script>
+    window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
+      isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
+      pageType: "general"
+    });
+  </script>
+  <script defer src="{% static 'header.js' %}?v=2"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
+  <script defer src="{% static 'pandit/pandit.js' %}?v=4"></script>
+</body>
+</html>

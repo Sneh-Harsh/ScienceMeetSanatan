@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pandit Dashboard | Science Meet Sanatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'pandit/pandit.css' %}?v=3" />
+</head>
+<body class="pandit-body">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="pandit-page pandit-page--dashboard" id="panditDashboardPage" data-view="dashboard" data-profile-url="/api/pandits/dashboard/profile/" data-services-url="/api/pandits/dashboard/services/" data-availability-url="/api/pandits/dashboard/availability/">
+    <section class="pandit-dashboard-hero anim">
+      <div>
+        <p class="pandit-kicker">Pandit control room</p>
+        <h1>{{ dashboard_payload.pandit.name }}</h1>
+        <p>Manage profile, services, pricing, live availability, and booking requests from one premium dashboard.</p>
+      </div>
+      <div class="pandit-dashboard-stats">
+        <article><strong>{{ dashboard_payload.stats.pending }}</strong><span>Pending requests</span></article>
+        <article><strong>{{ dashboard_payload.stats.confirmed }}</strong><span>Confirmed</span></article>
+        <article><strong>{{ dashboard_payload.stats.reviews }}</strong><span>Reviews</span></article>
+        <article><strong>{{ dashboard_payload.stats.today }}</strong><span>Today</span></article>
+      </div>
+    </section>
+
+    <section class="pandit-dashboard-grid anim">
+      <article class="pandit-panel">
+        <div class="pandit-section-head">
+          <div><p class="pandit-kicker">Profile</p><h2>Profile management</h2></div>
+        </div>
+        <form id="panditDashboardProfileForm" class="pandit-dashboard-form">
+          <label><span>Name</span><input type="text" name="name" value="{{ dashboard_profile.name }}" /></label>
+          <label><span>City</span><input type="text" name="city" value="{{ dashboard_profile.city }}" /></label>
+          <label><span>Languages (comma separated)</span><input type="text" name="languages" value="{{ dashboard_payload.pandit.languages|join:', ' }}" /></label>
+          <label><span>Specialization</span><input type="text" name="specialization" value="{{ dashboard_profile.specialization }}" /></label>
+          <label><span>Bio</span><textarea name="bio" rows="4">{{ dashboard_profile.bio }}</textarea></label>
+          <button type="submit" class="pandit-cta pandit-cta--small">Save profile</button>
+        </form>
+      </article>
+
+      <article class="pandit-panel">
+        <div class="pandit-section-head">
+          <div><p class="pandit-kicker">Services</p><h2>Pricing control</h2></div>
+        </div>
+        <form id="panditDashboardServiceForm" class="pandit-dashboard-form">
+          <label>
+            <span>Select service</span>
+            <select name="service_id">
+              {% for service in service_options %}
+              <option value="{{ service.id }}">{{ service.name }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label><span>Price</span><input type="number" name="price" min="0" step="1" placeholder="Enter custom price" /></label>
+          <label><span>Notes</span><textarea name="notes" rows="3" placeholder="Add ritual-specific inclusions"></textarea></label>
+          <button type="submit" class="pandit-cta pandit-cta--small">Add / update service</button>
+        </form>
+        <div class="pandit-dashboard-list">
+          {% for item in dashboard_payload.services %}
+          <div class="pandit-dashboard-list__row">
+            <strong>{{ item.service.name }}</strong>
+            <span>₹{{ item.price }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="pandit-panel">
+        <div class="pandit-section-head">
+          <div><p class="pandit-kicker">Availability</p><h2>Live calendar slots</h2></div>
+        </div>
+        <form id="panditDashboardAvailabilityForm" class="pandit-dashboard-form">
+          <label><span>Date</span><input type="date" name="date" /></label>
+          <label><span>Start</span><input type="time" name="start_time" /></label>
+          <label><span>End</span><input type="time" name="end_time" /></label>
+          <label><span>Capacity</span><input type="number" name="capacity" min="1" value="1" /></label>
+          <button type="submit" class="pandit-cta pandit-cta--small">Add slot</button>
+        </form>
+        <div class="pandit-slot-grid">
+          {% for slot in dashboard_payload.slots %}
+          <div class="pandit-slot-chip is-static">
+            <strong>{{ slot.date|date:"d M" }}</strong>
+            <span>{{ slot.start_time|time:"H:i" }} - {{ slot.end_time|time:"H:i" }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="pandit-panel pandit-panel--wide">
+        <div class="pandit-section-head">
+          <div><p class="pandit-kicker">Booking requests</p><h2>Accept or reject instantly</h2></div>
+        </div>
+        <div class="pandit-dashboard-bookings">
+          {% for booking in dashboard_payload.upcoming %}
+          <div class="pandit-dashboard-booking" data-booking-id="{{ booking.id }}">
+            <div>
+              <strong>{{ booking.service.name }}</strong>
+              <p>{{ booking.user.username }} • {{ booking.date }} • {{ booking.time|time:"H:i" }}</p>
+              <small>{{ booking.address }}</small>
+            </div>
+            <div class="pandit-dashboard-booking__actions">
+              <span class="pandit-dashboard-booking__status">{{ booking.get_status_display }}</span>
+              <button type="button" class="pandit-ghost" data-status="accepted">Accept</button>
+              <button type="button" class="pandit-ghost" data-status="rejected">Reject</button>
+              <button type="button" class="pandit-ghost" data-status="completed">Complete</button>
+            </div>
+          </div>
+          {% empty %}
+          <p class="pandit-muted">No upcoming requests yet.</p>
+          {% endfor %}
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script defer src="{% static 'pandit/pandit.js' %}?v=4"></script>
+</body>
+</html>

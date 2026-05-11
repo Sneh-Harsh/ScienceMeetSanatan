@@ -4,6 +4,8 @@ from django.urls import include, path
 
 from panchang.urls import urlpatterns as panchang_urls
 from kundali.urls import urlpatterns as kundali_urls
+from pandit.urls import urlpatterns as pandit_urls
+from astrology_consultation.urls import urlpatterns as astrology_consultation_urls
 from gita_site.views import healthz
 
 from accounts.views import (
@@ -72,6 +74,8 @@ urlpatterns = [
 
 urlpatterns += panchang_urls
 urlpatterns += kundali_urls
+urlpatterns += pandit_urls
+urlpatterns += astrology_consultation_urls
 
 if settings.SOCIAL_AUTH_ENABLED:
     urlpatterns.insert(1, path('oauth/', include('social_django.urls', namespace='social')))

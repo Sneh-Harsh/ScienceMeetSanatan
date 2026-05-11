@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astrologer Dashboard | Science Meet Sanatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'astrology_consultation/consultation.css' %}?v=2" />
+</head>
+<body class="consult-body">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="consult-page" id="astrologerDashboardPage" data-profile-url="/api/astrologer-dashboard/profile/" data-availability-url="/api/astrologer-dashboard/availability/">
+    <section class="consult-dashboard-hero anim">
+      <article class="consult-panel">
+        <p class="consult-kicker">Astrologer console</p>
+        <h1>{{ astrologer_obj.display_name }}</h1>
+        <p>Manage live status, pricing, expertise, and availability from one premium consultation dashboard.</p>
+      </article>
+      <article class="consult-panel">
+        <div class="consult-chip-row"><span>{% if astrologer_obj.is_online %}Online now{% else %}Offline{% endif %}</span><span>₹{{ astrologer_obj.price_per_minute }}/min</span><span>{{ astrologer_obj.total_consultations }} consults</span></div>
+      </article>
+    </section>
+
+    <section class="consult-dashboard-grid anim">
+      <article class="consult-panel">
+        <div class="consult-section-head"><div><p class="consult-kicker">Profile</p><h2>Profile management</h2></div></div>
+        <form id="astrologerDashboardProfileForm" class="consult-form">
+          <label><span>Display name</span><input type="text" name="display_name" value="{{ astrologer_obj.display_name }}" /></label>
+          <label><span>City</span><input type="text" name="city" value="{{ astrologer_obj.city }}" /></label>
+          <label><span>Languages</span><input type="text" name="languages" value="{{ astrologer_obj.languages|join:', ' }}" /></label>
+          <label><span>Expertise</span><input type="text" name="expertise" value="{{ astrologer_obj.expertise|join:', ' }}" /></label>
+          <label><span>Topic strengths</span><input type="text" name="topic_strengths" value="{{ astrologer_obj.topic_strengths|join:', ' }}" /></label>
+          <label><span>Bio</span><textarea name="bio" rows="4">{{ astrologer_obj.bio }}</textarea></label>
+          <label><span>Trust note</span><input type="text" name="trust_note" value="{{ astrologer_obj.trust_note }}" /></label>
+          <label><span>Price / minute</span><input type="number" name="price_per_minute" value="{{ astrologer_obj.price_per_minute }}" /></label>
+          <button type="submit" class="consult-cta consult-cta--block">Save profile</button>
+          <p id="astrologerDashboardMessage" class="consult-muted"></p>
+        </form>
+      </article>
+
+      <article class="consult-panel">
+        <div class="consult-section-head"><div><p class="consult-kicker">Availability</p><h2>Availability management</h2></div></div>
+        <form id="astrologerAvailabilityForm" class="consult-form">
+          <label><span>Day of week</span><input type="number" name="day_of_week" min="0" max="6" /></label>
+          <label><span>Start time</span><input type="time" name="start_time" /></label>
+          <label><span>End time</span><input type="time" name="end_time" /></label>
+          <button type="submit" class="consult-cta consult-cta--block">Add availability</button>
+        </form>
+        <div class="consult-ledger">
+          {% for item in availability_windows %}
+          <div class="consult-ledger-row"><strong>Day {{ item.day_of_week }}</strong><span>{{ item.start_time }} – {{ item.end_time }}</span></div>
+          {% empty %}
+          <p class="consult-muted">No availability windows yet.</p>
+          {% endfor %}
+        </div>
+      </article>
+
+      <article class="consult-panel consult-panel--wide">
+        <div class="consult-section-head"><div><p class="consult-kicker">Sessions</p><h2>Recent consultation history</h2></div></div>
+        <div class="consult-ledger">
+          {% for session in recent_sessions %}
+          <div class="consult-ledger-row"><strong>{{ session.user.username }}</strong><span>{{ session.get_status_display }} • ₹{{ session.total_charge }}</span></div>
+          {% empty %}
+          <p class="consult-muted">No sessions yet.</p>
+          {% endfor %}
+        </div>
+      </article>
+    </section>
+  </main>
+  <script defer src="{% static 'header.js' %}?v=2"></script>
+  <script defer src="{% static 'astrology_consultation/consultation.js' %}?v=2"></script>
+</body>
+</html>

@@ -6,3 +6,6 @@ pyswisseph>=2.10,<3.0
 whitenoise
 gunicorn
 cloudinary
+django-environ>=0.11,<1.0
+psycopg2-binary>=2.9,<3.0
+django-cloudinary-storage>=0.3.0,<0.4.0

@@ -1,0 +1,860 @@
+:root {
+  --consult-bg: #07111e;
+  --consult-bg-deep: #040a13;
+  --consult-surface: rgba(10, 18, 34, 0.78);
+  --consult-surface-strong: rgba(12, 22, 38, 0.94);
+  --consult-border: rgba(255, 255, 255, 0.1);
+  --consult-border-strong: rgba(232, 199, 121, 0.22);
+  --consult-text: #eef4ff;
+  --consult-muted: rgba(226, 235, 248, 0.72);
+  --consult-gold: #e8c779;
+  --consult-violet: #a88aff;
+  --consult-blue: #8ab5ff;
+  --consult-green: #7ef0ae;
+  --consult-red: #ff8c90;
+  --consult-shadow: 0 28px 80px rgba(0, 0, 0, 0.35);
+}
+
+body.consult-body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--consult-text);
+  background:
+    radial-gradient(circle at top left, rgba(138, 181, 255, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(168, 138, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, var(--consult-bg), var(--consult-bg-deep) 55%, var(--consult-bg));
+  font-family: "Manrope", system-ui, sans-serif;
+}
+
+.consult-page {
+  position: relative;
+  overflow: hidden;
+  padding: 7.2rem 1rem 3rem;
+}
+
+.consult-page--chat {
+  min-height: 100vh;
+}
+
+.consult-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.consult-bg--aurora {
+  background:
+    radial-gradient(circle at 15% 12%, rgba(138, 181, 255, 0.15), transparent 18%),
+    radial-gradient(circle at 88% 12%, rgba(232, 199, 121, 0.12), transparent 20%),
+    radial-gradient(circle at 60% 42%, rgba(168, 138, 255, 0.1), transparent 26%);
+  animation: consultPulse 14s ease-in-out infinite;
+}
+
+.consult-bg--grid {
+  opacity: 0.18;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.94), transparent);
+}
+
+.consult-hero,
+.consult-rails,
+.consult-layout,
+.consult-profile-hero,
+.consult-profile-layout,
+.consult-wallet-hero,
+.consult-wallet-grid,
+.consult-dashboard-hero,
+.consult-dashboard-grid,
+.consult-chat-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1280px, 100%);
+  margin: 0 auto 1.35rem;
+}
+
+.consult-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 1.15rem;
+}
+
+.consult-hero__copy,
+.consult-hero__spotlight,
+.consult-panel,
+.consult-card,
+.consult-mini-card,
+.consult-usp-card,
+.consult-category-card,
+.consult-profile-hero__card,
+.consult-availability-card,
+.consult-review-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--consult-border);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    var(--consult-surface);
+  box-shadow: var(--consult-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.consult-hero__copy::before,
+.consult-hero__spotlight::before,
+.consult-panel::before,
+.consult-card::before,
+.consult-profile-hero__card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.08) 48%, transparent 100%);
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.consult-card:hover::before,
+.consult-panel:hover::before,
+.consult-profile-hero__card:hover::before {
+  opacity: 1;
+  animation: consultShimmer 1.1s ease;
+}
+
+.consult-hero__copy,
+.consult-hero__spotlight,
+.consult-panel {
+  padding: 1.5rem;
+}
+
+.consult-kicker {
+  margin: 0 0 0.7rem;
+  color: rgba(232, 199, 121, 0.85);
+  font: 700 0.72rem/1 "Space Grotesk", monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.consult-hero h1,
+.consult-profile-hero h1,
+.consult-wallet-hero h1,
+.consult-chat-header h1,
+.consult-dashboard-hero h1 {
+  margin: 0;
+  font-family: "Newsreader", serif;
+  font-size: clamp(2.4rem, 5vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.consult-hero h1 span {
+  color: var(--consult-gold);
+}
+
+.consult-hero p,
+.consult-panel p,
+.consult-hero__spotlight p,
+.consult-muted {
+  color: var(--consult-muted);
+  line-height: 1.7;
+}
+
+.consult-search,
+.consult-form,
+.consult-filter-form,
+.consult-message-form,
+.consult-review-form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.consult-search {
+  grid-template-columns: 1.15fr 0.7fr 0.75fr auto;
+  margin-top: 1.4rem;
+}
+
+.consult-search label,
+.consult-form label,
+.consult-filter-form label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.consult-search span,
+.consult-form span,
+.consult-filter-form span {
+  color: rgba(226, 235, 248, 0.8);
+  font-size: 0.78rem;
+}
+
+.consult-search input,
+.consult-search select,
+.consult-form input,
+.consult-form select,
+.consult-form textarea,
+.consult-message-form textarea,
+.consult-filter-form select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.95rem 1rem;
+  color: var(--consult-text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  font: inherit;
+}
+
+.consult-search input:focus,
+.consult-search select:focus,
+.consult-form input:focus,
+.consult-form select:focus,
+.consult-form textarea:focus,
+.consult-message-form textarea:focus,
+.consult-filter-form select:focus {
+  outline: none;
+  border-color: rgba(232, 199, 121, 0.7);
+  box-shadow: 0 0 0 3px rgba(232, 199, 121, 0.15);
+}
+
+.consult-cta,
+.consult-ghost,
+.consult-chip-button,
+.consult-recharge-card,
+.consult-filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.92rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.consult-cta {
+  color: #1d1508;
+  background: linear-gradient(135deg, #f5d98d, var(--consult-violet));
+  box-shadow: 0 18px 44px rgba(168, 138, 255, 0.2);
+}
+
+.consult-ghost,
+.consult-chip-button,
+.consult-recharge-card,
+.consult-filter-toggle {
+  color: var(--consult-text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.consult-cta:hover,
+.consult-ghost:hover,
+.consult-chip-button:hover,
+.consult-recharge-card:hover,
+.consult-filter-toggle:hover {
+  transform: translateY(-1px);
+}
+
+.consult-cta--small,
+.consult-ghost--small {
+  padding: 0.72rem 0.9rem;
+  font-size: 0.92rem;
+}
+
+.consult-cta--block {
+  width: 100%;
+}
+
+.consult-hero__stats,
+.consult-specialists-grid,
+.consult-wallet-grid,
+.consult-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.consult-hero__stats article,
+.consult-usp-card,
+.consult-category-card,
+.consult-ledger-row,
+.consult-chat-stat {
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.consult-hero__stats strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 1.6rem;
+}
+
+.consult-topic-browse {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.consult-hero__spotlight ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 1rem 0 0;
+  padding-left: 1rem;
+  color: var(--consult-muted);
+}
+
+.consult-best-match {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.consult-best-match span {
+  display: block;
+  color: rgba(138, 181, 255, 0.85);
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.consult-best-match a {
+  color: #fff1ca;
+  text-decoration: none;
+}
+
+.consult-section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.consult-section-head h2 {
+  margin: 0.1rem 0 0;
+  font-family: "Newsreader", serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.consult-rails {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.consult-rail {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.consult-mini-card {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.consult-mini-card__status {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--consult-green);
+  box-shadow: 0 0 0 8px rgba(126, 240, 174, 0.12);
+}
+
+.consult-layout {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.consult-filters {
+  position: sticky;
+  top: 6.8rem;
+  padding: 1.1rem;
+}
+
+.consult-filter-actions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.consult-results,
+.consult-profile-main,
+.consult-chat-sidebar {
+  display: grid;
+  gap: 1rem;
+}
+
+.consult-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.consult-category-card strong,
+.consult-usp-card strong {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 1rem;
+}
+
+.consult-category-card span,
+.consult-usp-card p {
+  color: var(--consult-muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.consult-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.consult-card {
+  transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+}
+
+.consult-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(232, 199, 121, 0.28);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.36);
+}
+
+.consult-card__visual {
+  position: relative;
+  min-height: 220px;
+  background: linear-gradient(135deg, rgba(138, 181, 255, 0.28), rgba(168, 138, 255, 0.18));
+}
+
+.consult-card__visual img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.consult-card__avatar {
+  display: grid;
+  width: 100%;
+  height: 220px;
+  place-items: center;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.24), rgba(138, 181, 255, 0.2), rgba(4, 12, 22, 0.9));
+  font-family: "Newsreader", serif;
+  font-size: 4rem;
+}
+
+.consult-card__avatar--large {
+  min-height: 320px;
+  border-radius: 24px;
+}
+
+.consult-card__badges {
+  position: absolute;
+  inset: 1rem 1rem auto 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.consult-card__badges span,
+.consult-chip-row span,
+.consult-live-pill,
+.consult-rating,
+.consult-kundali-capsule {
+  padding: 0.42rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background: rgba(8, 19, 34, 0.72);
+  color: #fff6df;
+  font-size: 0.78rem;
+}
+
+.consult-live-pill {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+}
+
+.consult-live-pill.is-live {
+  color: #dfffe8;
+  background: rgba(15, 40, 28, 0.72);
+}
+
+.consult-card__body {
+  padding: 1.15rem;
+}
+
+.consult-card__topline,
+.consult-review-card__head,
+.consult-card__footer,
+.consult-ledger-row,
+.consult-chat-stat,
+.consult-inline-actions {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.consult-card__topline h3 {
+  margin: 0;
+  font-family: "Newsreader", serif;
+  font-size: 1.52rem;
+}
+
+.consult-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0;
+}
+
+.consult-chip-row--dense {
+  margin-top: 0.6rem;
+}
+
+.consult-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  color: var(--consult-muted);
+  font-size: 0.85rem;
+}
+
+.consult-card__actions,
+.consult-inline-actions {
+  flex-wrap: wrap;
+}
+
+.consult-profile-hero__card {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr);
+  gap: 1.2rem;
+  padding: 1.25rem;
+}
+
+.consult-profile-hero__media img {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  border-radius: 24px;
+  object-fit: cover;
+}
+
+.consult-profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.consult-profile-trust,
+.consult-price-box {
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.consult-sidebar .consult-panel {
+  position: sticky;
+  top: 6.8rem;
+}
+
+.consult-availability-grid,
+.consult-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.consult-availability-card,
+.consult-review-card {
+  padding: 1rem;
+}
+
+.consult-kundali-capsule {
+  display: grid;
+  gap: 0.35rem;
+  background: rgba(168, 138, 255, 0.12);
+}
+
+.consult-price-box div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.consult-wallet-hero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.consult-recharge-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.consult-recharge-card.is-selected {
+  border-color: var(--consult-border-strong);
+  background: linear-gradient(135deg, rgba(232, 199, 121, 0.15), rgba(168, 138, 255, 0.12));
+}
+
+.consult-wallet-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.consult-ledger {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.consult-ledger-row--link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.consult-dashboard-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.consult-panel--wide {
+  grid-column: 1 / -1;
+}
+
+.consult-chat-shell {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.consult-chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.consult-chat-timer {
+  color: #fff3d5;
+  font: 700 1.4rem/1 "Space Grotesk", monospace;
+}
+
+.consult-chat-main {
+  min-height: 70vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+  padding: 1.25rem;
+  border: 1px solid var(--consult-border);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+    var(--consult-surface);
+  box-shadow: var(--consult-shadow);
+}
+
+.consult-chat-feed {
+  display: grid;
+  gap: 0.7rem;
+  overflow: auto;
+  padding-right: 0.3rem;
+}
+
+.consult-bubble {
+  max-width: min(78%, 620px);
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.consult-bubble--user {
+  margin-left: auto;
+  background: linear-gradient(135deg, rgba(232, 199, 121, 0.18), rgba(168, 138, 255, 0.18));
+}
+
+.consult-bubble--system {
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.consult-bubble__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.35rem;
+  color: var(--consult-muted);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.consult-message-form {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  margin-top: 1rem;
+}
+
+.consult-typing-indicator {
+  margin: 0.5rem 0;
+  color: #d9d4ff;
+}
+
+.consult-session-summary {
+  margin-top: 1rem;
+}
+
+.consult-review-form {
+  margin-top: 1rem;
+}
+
+.consult-filter-toggle {
+  display: none;
+}
+
+@keyframes consultPulse {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes consultShimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@media (max-width: 1120px) {
+  .consult-hero,
+  .consult-layout,
+  .consult-profile-layout,
+  .consult-wallet-hero,
+  .consult-chat-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .consult-rails,
+  .consult-cards,
+  .consult-wallet-grid,
+  .consult-dashboard-grid,
+  .consult-hero__stats,
+  .consult-category-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .consult-filters,
+  .consult-sidebar .consult-panel {
+    position: relative;
+    top: auto;
+  }
+
+  .consult-chat-main {
+    min-height: 60vh;
+  }
+}
+
+@media (max-width: 760px) {
+  .consult-page {
+    padding: 6.4rem 0.85rem 2.5rem;
+  }
+
+  .consult-hero h1,
+  .consult-profile-hero h1,
+  .consult-wallet-hero h1,
+  .consult-chat-header h1,
+  .consult-dashboard-hero h1 {
+    font-size: clamp(2.15rem, 8vw, 3.2rem);
+  }
+
+  .consult-search,
+  .consult-rails,
+  .consult-cards,
+  .consult-specialists-grid,
+  .consult-wallet-grid,
+  .consult-dashboard-grid,
+  .consult-availability-grid,
+  .consult-mini-grid,
+  .consult-hero__stats,
+  .consult-recharge-grid,
+  .consult-message-form,
+  .consult-category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .consult-filter-toggle {
+    display: inline-flex;
+  }
+
+  .consult-filters {
+    position: fixed;
+    inset: auto 0.8rem 1rem 0.8rem;
+    z-index: 40;
+    max-height: 78vh;
+    overflow: auto;
+    transform: translateY(130%);
+    transition: transform 0.24s ease;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  }
+
+  .consult-filters.is-open {
+    transform: translateY(0);
+  }
+
+  .consult-profile-hero__card {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .consult-profile-hero__media img,
+  .consult-card__avatar--large {
+    min-height: 220px;
+  }
+
+  .consult-card__footer,
+  .consult-card__topline,
+  .consult-section-head,
+  .consult-filter-actions,
+  .consult-chat-stat,
+  .consult-inline-actions,
+  .consult-price-box div {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .consult-chat-main {
+    min-height: 70vh;
+    padding: 1rem;
+  }
+
+  .consult-bubble {
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,306 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat With Astrologers | Science Meet Sanatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=4" />
+  <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'astrology_consultation/consultation.css' %}?v=2" />
+</head>
+<body class="consult-body">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="consult-page" id="astrologerMarketplace" data-api-url="/api/astrologers/" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
+    <div class="consult-bg consult-bg--aurora"></div>
+    <div class="consult-bg consult-bg--grid"></div>
+
+    <section class="consult-hero anim">
+      <div class="consult-hero__copy">
+        <p class="consult-kicker">Luxury spiritual guidance marketplace</p>
+        <h1>Chat with <span>verified astrologers</span> in real time</h1>
+        <p>Discover trusted experts for love, career, marriage, finance, muhurat, and kundali guidance with instant consultation flow, wallet protection, and privacy-first kundali sharing.</p>
+        <form class="consult-search" id="astrologerSearchForm">
+          <label>
+            <span>Search astrologer or topic</span>
+            <input type="search" name="q" value="{{ active_filters.q|default:'' }}" placeholder="Career, marriage, finance, Vedic, tarot, Hindi..." />
+          </label>
+          <label>
+            <span>City</span>
+            <select name="city">
+              <option value="">Any city</option>
+              {% for city in filters.cities %}
+              <option value="{{ city }}" {% if active_filters.city == city %}selected{% endif %}>{{ city }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Expertise</span>
+            <select name="expertise">
+              <option value="">All expertise</option>
+              {% for item in filters.expertise %}
+              <option value="{{ item.value }}" {% if active_filters.expertise == item.value %}selected{% endif %}>{{ item.label }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <button type="submit" class="consult-cta">Find experts</button>
+        </form>
+        <div class="consult-hero__stats">
+          <article><strong>{{ consultation_pulse.online }}</strong><span>Astrologers online</span></article>
+          <article><strong>{{ consultation_pulse.active_sessions }}</strong><span>Live sessions</span></article>
+          <article><strong>{{ consultation_pulse.avg_response }} min</strong><span>Average response</span></article>
+        </div>
+        <div class="consult-topic-browse">
+          <button type="button" class="consult-chip-button" data-search-chip="Marriage guidance">Marriage</button>
+          <button type="button" class="consult-chip-button" data-search-chip="Career timing">Career</button>
+          <button type="button" class="consult-chip-button" data-search-chip="Finance clarity">Finance</button>
+          <button type="button" class="consult-chip-button" data-search-chip="Current dasha">Current dasha</button>
+          <button type="button" class="consult-chip-button" data-search-chip="Muhurat">Muhurat</button>
+          <button type="button" class="consult-chip-button" data-search-chip="Love relationship">Love</button>
+        </div>
+      </div>
+
+      <aside class="consult-hero__spotlight">
+        <p class="consult-kicker">First chat free</p>
+        <h2>Premium clarity before you commit</h2>
+        <ul>
+          <li>Free first chat eligibility badge</li>
+          <li>Wallet-secured per-minute billing</li>
+          <li>Kundali share capsule with consent</li>
+        </ul>
+        {% if best_match %}
+        <div class="consult-best-match">
+          <span>Best guide for you</span>
+          <strong>{{ best_match.headline }}</strong>
+          <p>{{ best_match.basis }}</p>
+          <a href="/astrologers/{{ best_match.slug }}/">Open matched astrologer</a>
+        </div>
+        {% endif %}
+      </aside>
+    </section>
+
+    <section class="consult-rails anim">
+      <div class="consult-rail-block">
+        <div class="consult-section-head"><div><p class="consult-kicker">Available now</p><h2>Live astrologers</h2></div></div>
+        <div class="consult-rail">
+          {% for astrologer in online_now %}
+          <a class="consult-mini-card" href="/astrologers/{{ astrologer.slug }}/">
+            <span class="consult-mini-card__status"></span>
+            <strong>{{ astrologer.display_name }}</strong>
+            <small>₹{{ astrologer.price_per_minute }}/min • {{ astrologer.response_time }}m response</small>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="consult-rail-block">
+        <div class="consult-section-head"><div><p class="consult-kicker">Top rated</p><h2>Most trusted experts</h2></div></div>
+        <div class="consult-rail">
+          {% for astrologer in top_rated %}
+          <a class="consult-mini-card" href="/astrologers/{{ astrologer.slug }}/">
+            <strong>{{ astrologer.display_name }}</strong>
+            <small>★ {{ astrologer.rating }} • {{ astrologer.total_consultations }} consults</small>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="consult-rail-block">
+        <div class="consult-section-head"><div><p class="consult-kicker">First chat free</p><h2>Start without pressure</h2></div></div>
+        <div class="consult-rail">
+          {% for astrologer in first_chat_free %}
+          <a class="consult-mini-card" href="/astrologers/{{ astrologer.slug }}/">
+            <strong>{{ astrologer.display_name }}</strong>
+            <small>Free {{ astrologer.free_minutes_override }} min • ₹{{ astrologer.price_per_minute }}/min after</small>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <section class="consult-layout anim">
+      <aside class="consult-filters" id="astrologerFiltersPanel">
+        <div class="consult-section-head">
+          <div><p class="consult-kicker">Filters</p><h2>Refine your guide</h2></div>
+          <button type="button" class="consult-filter-toggle" id="astrologerFilterClose">✕</button>
+        </div>
+        <form id="astrologerFiltersForm" class="consult-filter-form">
+          <label>
+            <span>Language</span>
+            <select name="language">
+              <option value="">Any language</option>
+              {% for language in filters.languages %}
+              <option value="{{ language }}" {% if active_filters.language == language %}selected{% endif %}>{{ language }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          <label>
+            <span>Rating</span>
+            <select name="rating">
+              <option value="">All ratings</option>
+              <option value="4" {% if active_filters.rating == '4' %}selected{% endif %}>4+ stars</option>
+              <option value="4.5" {% if active_filters.rating == '4.5' %}selected{% endif %}>4.5+ stars</option>
+            </select>
+          </label>
+          <label>
+            <span>Availability</span>
+            <select name="availability">
+              <option value="">Any</option>
+              <option value="online" {% if active_filters.availability == 'online' %}selected{% endif %}>Online now</option>
+              <option value="today" {% if active_filters.availability == 'today' %}selected{% endif %}>Available today</option>
+            </select>
+          </label>
+          <label>
+            <span>Experience</span>
+            <select name="experience">
+              <option value="">Any</option>
+              <option value="1-3" {% if active_filters.experience == '1-3' %}selected{% endif %}>1–3 years</option>
+              <option value="3-7" {% if active_filters.experience == '3-7' %}selected{% endif %}>3–7 years</option>
+              <option value="7-15" {% if active_filters.experience == '7-15' %}selected{% endif %}>7–15 years</option>
+              <option value="15+" {% if active_filters.experience == '15+' %}selected{% endif %}>15+ years</option>
+            </select>
+          </label>
+          <label>
+            <span>Price sorting</span>
+            <select name="price_sort">
+              <option value="">Recommended</option>
+              <option value="low_to_high" {% if active_filters.price_sort == 'low_to_high' %}selected{% endif %}>Low to high</option>
+              <option value="high_to_low" {% if active_filters.price_sort == 'high_to_low' %}selected{% endif %}>High to low</option>
+            </select>
+          </label>
+          <div class="consult-filter-actions">
+            <button type="submit" class="consult-cta consult-cta--block">Apply filters</button>
+            <a href="/astrologers/" class="consult-ghost">Reset</a>
+          </div>
+        </form>
+      </aside>
+
+      <div class="consult-results" id="astrologerResultsSection">
+        <div class="consult-section-head">
+          <div><p class="consult-kicker">Marketplace</p><h2>Verified astrologers</h2></div>
+          <button class="consult-filter-toggle" id="astrologerFilterToggle" type="button">Filters</button>
+        </div>
+        <div class="consult-specialists-grid">
+          <article class="consult-usp-card"><strong>Astro Match Score</strong><p>Guides users toward astrologers aligned to current dasha, topic, and language.</p></article>
+          <article class="consult-usp-card"><strong>Kundali Share Capsule</strong><p>Choose to share full kundali, birth-only summary, or nothing before the chat starts.</p></article>
+          <article class="consult-usp-card"><strong>Secure Wallet Layer</strong><p>Free minutes, low-balance warnings, and per-minute charging happen server-side.</p></article>
+        </div>
+        <div class="consult-category-grid">
+          <article class="consult-category-card"><strong>Love & Relationship</strong><span>Compatibility, timing, emotional clarity</span></article>
+          <article class="consult-category-card"><strong>Career & Finance</strong><span>Work shifts, money flow, long-term direction</span></article>
+          <article class="consult-category-card"><strong>Muhurat & Ritual Timing</strong><span>Auspicious dates, family ceremonies, house moves</span></article>
+          <article class="consult-category-card"><strong>Kundali & Dasha</strong><span>Chart decoding, transit pressure, period guidance</span></article>
+        </div>
+        <div class="consult-cards" id="astrologerCardsGrid">
+          {% for card in astrologer_cards %}
+          <article class="consult-card">
+            <div class="consult-card__visual">
+              {% if card.photo %}
+              <img src="{{ card.photo }}" alt="{{ card.display_name }}" loading="lazy" />
+              {% else %}
+              <div class="consult-card__avatar">{{ card.display_name|slice:':1' }}</div>
+              {% endif %}
+              <div class="consult-card__badges">
+                {% if card.is_verified %}<span>Verified</span>{% endif %}
+                {% if card.free_chat_badge %}<span>{{ card.free_chat_badge }}</span>{% endif %}
+              </div>
+              <span class="consult-live-pill {% if card.is_online %}is-live{% endif %}">{{ card.online_status }}</span>
+            </div>
+            <div class="consult-card__body">
+              <div class="consult-card__topline">
+                <div><h3>{{ card.display_name }}</h3><p>{{ card.city|default:'Remote' }}</p></div>
+                <div class="consult-rating">★ {{ card.rating }}</div>
+              </div>
+              <div class="consult-chip-row">{% for item in card.expertise_preview %}<span>{{ item|title }}</span>{% endfor %}</div>
+              <div class="consult-card__meta"><span>{{ card.experience_years }}+ yrs</span><span>{{ card.languages|join:', ' }}</span><span>{{ card.total_consultations }} consults</span></div>
+              <div class="consult-card__footer">
+                <div><small>Starts at</small><strong>₹{{ card.price_per_minute }}/min</strong></div>
+                <div class="consult-card__actions">
+                  <a class="consult-ghost consult-ghost--small" href="/astrologers/{{ card.slug }}/">View Profile</a>
+                  <button class="consult-cta consult-cta--small" type="button" data-start-chat="{{ card.id }}">Chat Now</button>
+                </div>
+              </div>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  {% include 'components/login_popup.html' %}
+  {% include 'components/digital_daanpatra.html' %}
+  {% include 'components/review_modal.html' %}
+  <script>window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }}, pageType: "astrologers"});</script>
+  <script defer src="{% static 'header.js' %}?v=2"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
+  <script defer src="{% static 'astrology_consultation/consultation.js' %}?v=2"></script>
+</body>
+</html>

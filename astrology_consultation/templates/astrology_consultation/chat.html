@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consultation Chat | Science Meet Sanatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'astrology_consultation/consultation.css' %}?v=2" />
+</head>
+<body class="consult-body">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="consult-page consult-page--chat" id="consultChatPage" data-session-id="{{ session_obj.public_id }}" data-astrologer-id="{{ session_obj.astrologer_id }}" data-messages-url="/api/chat-sessions/{{ session_obj.public_id }}/messages/" data-end-url="/api/chat-sessions/{{ session_obj.public_id }}/end/" data-review-url="/api/reviews/">
+    <section class="consult-chat-shell anim">
+      <aside class="consult-chat-sidebar">
+        <div class="consult-panel">
+          <p class="consult-kicker">Session control</p>
+          <h2>{{ session_obj.astrologer.display_name }}</h2>
+          <div class="consult-chat-stat"><span>Status</span><strong>{{ session_obj.get_status_display }}</strong></div>
+          <div class="consult-chat-stat"><span>Wallet</span><strong>₹{{ wallet.balance }}</strong></div>
+          <div class="consult-chat-stat"><span>Rate</span><strong>₹{{ session_obj.rate_per_minute }}/min</strong></div>
+          <div class="consult-chat-stat"><span>Free</span><strong>{{ session_obj.free_minutes }} min</strong></div>
+          <div class="consult-chat-stat"><span>Topic</span><strong>{{ session_obj.question_topic|default:'Open guidance' }}</strong></div>
+          <div class="consult-chat-stat"><span>Kundali shared</span><strong>{{ session_obj.get_birth_profile_shared_display }}</strong></div>
+          <button id="consultEndButton" class="consult-ghost consult-cta--block" type="button">End session</button>
+          <p id="consultSessionState" class="consult-muted">Server-side billing controls total duration and charge.</p>
+        </div>
+        <div class="consult-panel">
+          <p class="consult-kicker">Quick questions</p>
+          <div class="consult-chip-row consult-chip-row--dense">
+            {% for key, chips in question_chips.items %}
+              {% for chip in chips %}
+              <button type="button" class="consult-chip-button" data-quick-message="{{ chip }}">{{ chip }}</button>
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </aside>
+
+      <section class="consult-chat-main">
+        <div class="consult-chat-header">
+          <div><p class="consult-kicker">Private consultation</p><h1>Spiritual guidance chat</h1></div>
+          <div class="consult-chat-timer" id="consultSessionTimer">00:00</div>
+        </div>
+        <div class="consult-chat-feed" id="consultChatFeed"></div>
+        <div class="consult-typing-indicator" id="consultTypingIndicator" hidden>Astrologer is preparing a response…</div>
+        <form id="consultMessageForm" class="consult-message-form">
+          <textarea name="message" rows="2" placeholder="Ask about career, marriage, finance, current dasha, or timing..."></textarea>
+          <button type="submit" class="consult-cta">Send</button>
+        </form>
+        <section class="consult-panel consult-session-summary" id="consultSessionSummary" hidden>
+          <p class="consult-kicker">Session summary</p>
+          <h2>Consultation completed</h2>
+          <p id="consultSessionSummaryText" class="consult-muted">Review your session and leave feedback for the astrologer.</p>
+          <form id="consultReviewForm" class="consult-form consult-review-form">
+            <label>
+              <span>Rating</span>
+              <select name="rating">
+                <option value="5">5 • Excellent</option>
+                <option value="4">4 • Very good</option>
+                <option value="3">3 • Good</option>
+                <option value="2">2 • Needs work</option>
+                <option value="1">1 • Poor</option>
+              </select>
+            </label>
+            <label>
+              <span>Comment</span>
+              <textarea name="comment" rows="3" placeholder="Share how this guidance felt and whether the astrologer helped clearly."></textarea>
+            </label>
+            <button type="submit" class="consult-cta consult-cta--block">Submit review</button>
+            <p id="consultReviewMessage" class="consult-muted"></p>
+          </form>
+        </section>
+      </section>
+    </section>
+  </main>
+  {{ session_payload|json_script:"consultSessionPayload" }}
+  <script defer src="{% static 'header.js' %}?v=2"></script>
+  <script defer src="{% static 'astrology_consultation/consultation.js' %}?v=2"></script>
+</body>
+</html>

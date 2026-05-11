@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="{% static 'header.css' %}" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'about.css' %}?v=1"/>
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=4" />
@@ -81,6 +81,8 @@
             <a href="/baby-names/" role="menuitem">Baby names</a>
             <a href="/library/" role="menuitem">Library</a>
             <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
             <a href="#" role="menuitem">8K Wallpapers</a>
             <a href="#" role="menuitem">Gifs</a>
           </div>
@@ -91,6 +93,13 @@
           <div class="dropdown">
             <a href="/kundali/">Generator</a>
             <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
           </div>
         </div>
         <a href="/about/" class="nav-link">About Us</a>
@@ -683,7 +692,7 @@
   <script defer src="{% static 'js/login_popup.js' %}?v=1"></script>
   <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
-  <script src="{% static 'header.js' %}"></script>
+  <script src="{% static 'header.js' %}?v=2"></script>
   <script defer src="{% static 'about.js' %}?v=1"></script>
 </body>
 </html>

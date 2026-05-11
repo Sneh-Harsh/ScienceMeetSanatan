@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wallet | Science Meet Sanatan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'astrology_consultation/consultation.css' %}?v=2" />
+</head>
+<body class="consult-body">
+  <header class="header">
+    <a href="/welcome/" class="logo" aria-label="SMS Home">
+      <span class="logo-mark">SMS</span>
+      <span class="logo-text">Science Meet Sanatan</span>
+    </a>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-shell" aria-hidden="true">
+      <div class="left-nav">
+        <a href="/welcome/" class="nav-link">Home</a>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
+          <div class="dropdown" role="menu" aria-label="Explore menu">
+            <a href="/baby-names/" role="menuitem">Baby names</a>
+            <a href="/library/" role="menuitem">Library</a>
+            <a href="/panchang/" role="menuitem">Panchang</a>
+            <a href="/pandits/" role="menuitem">Pandits</a>
+            <a href="/astrologers/" role="menuitem">Astrologers</a>
+            <a href="#" role="menuitem">8K Wallpapers</a>
+            <a href="#" role="menuitem">Gifs</a>
+          </div>
+        </div>
+        <a href="/panchang/" class="nav-link">Panchang</a>
+        <div class="explore-wrap">
+          <a href="/kundali/" class="nav-link">Kundali ▾</a>
+          <div class="dropdown">
+            <a href="/kundali/">Generator</a>
+            <a href="/horoscope/">Horoscope</a>
+          </div>
+        </div>
+        <div class="explore-wrap">
+          <a href="#" class="nav-link">Consult ▾</a>
+          <div class="dropdown">
+            <a href="/pandits/">Pandits</a>
+            <a href="/astrologers/">Astrologers</a>
+          </div>
+        </div>
+        <a href="/about/" class="nav-link">About Us</a>
+      </div>
+      <div class="right-nav">
+        <a class="quiz-link" href="/library/">Library</a>
+        <a class="quiz-link" href="/quizzes/">Quizzes</a>
+        {% if request.user.is_authenticated %}
+        <div class="profile-wrap">
+          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
+          <div class="profile-card">
+            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
+            <p class="profile-status">Logged in</p>
+            <a class="profile-link" href="/profile/">Manage account</a>
+            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          </div>
+        </div>
+        {% else %}
+        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="consult-page" id="walletPage" data-recharge-url="/api/wallet/recharge/">
+    <section class="consult-wallet-hero anim">
+      <article class="consult-panel">
+        <p class="consult-kicker">Wallet balance</p>
+        <h1>₹{{ wallet.balance }}</h1>
+        <p>Razorpay-ready wallet layer for instant chat charging, free minutes, low balance notices, and secure post-session deductions.</p>
+        <div class="consult-chip-row">
+          <span>{{ wallet.currency }}</span>
+          <span>{% if wallet.first_chat_free_consumed %}Free chat consumed{% else %}First chat free available{% endif %}</span>
+        </div>
+      </article>
+      <article class="consult-panel">
+        <p class="consult-kicker">Recharge plans</p>
+        <div class="consult-recharge-grid">
+          <button class="consult-recharge-card" type="button" data-amount="99">₹99</button>
+          <button class="consult-recharge-card" type="button" data-amount="249">₹249</button>
+          <button class="consult-recharge-card" type="button" data-amount="499">₹499</button>
+          <button class="consult-recharge-card" type="button" data-amount="999">₹999</button>
+        </div>
+        <form id="walletRechargeForm" class="consult-form">
+          <label><span>Custom amount</span><input type="number" name="amount" min="1" step="1" placeholder="Enter amount" /></label>
+          <button type="submit" class="consult-cta consult-cta--block">Recharge wallet</button>
+          <p id="walletRechargeMessage" class="consult-muted">Recharge is a server-safe placeholder until Razorpay is connected.</p>
+        </form>
+      </article>
+    </section>
+    <section class="consult-wallet-grid anim">
+      <article class="consult-panel">
+        <div class="consult-section-head"><div><p class="consult-kicker">Transactions</p><h2>Recent ledger</h2></div></div>
+        <div class="consult-ledger">
+          {% for item in transactions %}
+          <div class="consult-ledger-row"><strong>{{ item.reason }}</strong><span>{{ item.get_transaction_type_display }} • ₹{{ item.amount }}</span></div>
+          {% empty %}
+          <p class="consult-muted">No transactions yet.</p>
+          {% endfor %}
+        </div>
+      </article>
+      <article class="consult-panel">
+        <div class="consult-section-head"><div><p class="consult-kicker">Consultation history</p><h2>Recent sessions</h2></div></div>
+        <div class="consult-ledger">
+          {% for session in sessions %}
+          <a class="consult-ledger-row consult-ledger-row--link" href="/astrologers/chat/{{ session.public_id }}/"><strong>{{ session.astrologer.display_name }}</strong><span>{{ session.get_status_display }} • ₹{{ session.total_charge }}</span></a>
+          {% empty %}
+          <p class="consult-muted">No consultations yet.</p>
+          {% endfor %}
+        </div>
+      </article>
+    </section>
+  </main>
+  <script defer src="{% static 'header.js' %}?v=2"></script>
+  <script defer src="{% static 'astrology_consultation/consultation.js' %}?v=2"></script>
+</body>
+</html>

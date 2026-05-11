@@ -22,7 +22,12 @@ def _page_type_from_path(path: str) -> str:
 def donation_context(request):
     upi_id = str(getattr(settings, "DONATION_UPI_ID", "9742024751@ybl") or "9742024751@ybl").strip()
     payee_name = str(getattr(settings, "DONATION_PAYEE_NAME", "Sneh Harsh") or "Sneh Harsh").strip()
-    qr_url = str(getattr(settings, "DONATION_QR_URL", "") or "").strip() or static("images/donation-qr.jpg")
+    qr_url = str(getattr(settings, "DONATION_QR_URL", "") or "").strip()
+    if not qr_url:
+        try:
+            qr_url = static("images/donation-qr.jpg")
+        except ValueError:
+            qr_url = ""
 
     return {
         "donation_upi_id": upi_id,
