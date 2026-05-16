@@ -276,6 +276,9 @@
     width: 100%;
     max-width: 100vw;
     box-sizing: border-box;
+    max-height: calc(100dvh - 74px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .header.menu-open .nav-shell {

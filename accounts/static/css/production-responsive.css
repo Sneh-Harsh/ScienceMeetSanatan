@@ -1,0 +1,222 @@
+:root {
+  --sms-mobile-gutter: 0.85rem;
+  --sms-safe-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+img,
+video,
+canvas,
+svg,
+iframe {
+  max-width: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  max-width: 100%;
+}
+
+textarea {
+  resize: vertical;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:where(
+  main,
+  .content,
+  .names-page,
+  .library-page,
+  .library-detail,
+  .kundali-page,
+  .horoscope-page,
+  .panchang-page,
+  .pandit-page,
+  .consult-page,
+  .profile-page,
+  .login-wrapper
+) {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+:where(
+  .header,
+  .nav-shell,
+  .left-nav,
+  .right-nav,
+  .dropdown,
+  .profile-card,
+  .sms-login-popup__dialog,
+  .daanpatra-modal,
+  .review-modal,
+  .pandit-world-modal__dialog,
+  .audio-fullscreen__panel,
+  .loc-prompt__panel,
+  .consult-filters,
+  .pandit-filters
+) {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+:where(
+  .hero-shell,
+  .glass-panel,
+  .glass-subpanel,
+  .profile-panel,
+  .library-panel,
+  .pandit-panel,
+  .consult-panel,
+  .question-card,
+  .leaderboard,
+  .featured-card,
+  .pulse-card,
+  .raashi-card,
+  .k-input,
+  .k-summary,
+  .k-panel,
+  .birth-panel,
+  .hero-featured,
+  .pandit-card,
+  .consult-card,
+  .featured-collection,
+  .hero-copy,
+  .hero-featured,
+  .audio-mini-player
+) {
+  min-width: 0;
+}
+
+:where(
+  .search-shell,
+  .filter-select,
+  .k-control,
+  .field input,
+  .field select,
+  .field textarea,
+  .audio-volume-range,
+  .progress-bar-bg,
+  .hero-actions,
+  .birth-actions,
+  .k-actions,
+  .btn-row,
+  .result-actions,
+  .hero-featured__head,
+  .share-row
+) {
+  min-width: 0;
+}
+
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 1120px) {
+  .nav-shell {
+    max-height: calc(100dvh - 74px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: calc(1rem + var(--sms-safe-bottom));
+  }
+
+  .dropdown,
+  .profile-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  :where(
+    .library-layout,
+    .birth-shell,
+    .summary-grid,
+    .content-grid,
+    .profile-grid,
+    .consult-wallet-grid,
+    .consult-dashboard-grid
+  ) {
+    grid-template-columns: 1fr !important;
+  }
+
+  :where(
+    .library-side-nav,
+    .focus-preview-card,
+    .consult-filters,
+    .pandit-filters,
+    .pandit-world-panel--sticky
+  ) {
+    position: static !important;
+    top: auto !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .header {
+    padding-left: var(--sms-mobile-gutter);
+    padding-right: var(--sms-mobile-gutter);
+  }
+
+  .sms-login-popup__dialog,
+  .daanpatra-modal,
+  .review-modal,
+  .pandit-world-modal__dialog {
+    max-width: calc(100vw - 1rem);
+    border-radius: 24px;
+  }
+
+  .audio-mini-player,
+  .review-floating-trigger,
+  .daanpatra-floating {
+    max-width: calc(100vw - 1rem);
+  }
+
+  .library-side-nav,
+  .hero-featured,
+  .focus-preview-card {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .logo-text {
+    max-width: calc(100vw - 112px);
+  }
+
+  .hero-actions > *,
+  .birth-actions > *,
+  .k-actions > *,
+  .btn-row > *,
+  .result-actions > *,
+  .pandit-booking-actions > * {
+    width: 100%;
+    justify-content: center;
+  }
+}
