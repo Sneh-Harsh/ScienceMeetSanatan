@@ -1,0 +1,9 @@
+.git
+.venv
+.idea
+frontend
+tests
+DEPLOY_GCP.md
+Dockerfile
+__pycache__
+*.pyc

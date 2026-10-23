@@ -46,7 +46,7 @@ class AuthFlowTests(TestCase):
         created_user = User.objects.get(username='sita')
         self.assertEqual(created_user.email, 'sita@example.com')
         self.assertTrue(hasattr(created_user, 'account_profile'))
-        self.assertEqual(int(self.client.session.get('_auth_user_id')), created_user.id)
+        self.assertEqual(self.client.session.get('_auth_user_id'), str(created_user.pk))
 
     def test_login_accepts_email_identifier_case_insensitively(self):
         user = User.objects.create_user(username='arjun', email='arjun@example.com', password='strong-pass-123')
@@ -61,4 +61,4 @@ class AuthFlowTests(TestCase):
         )
 
         self.assertRedirects(response, '/quizzes/', fetch_redirect_response=False)
-        self.assertEqual(int(self.client.session.get('_auth_user_id')), user.id)
+        self.assertEqual(self.client.session.get('_auth_user_id'), str(user.pk))

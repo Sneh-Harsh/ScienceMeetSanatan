@@ -109,6 +109,15 @@ CSRF_TRUSTED_ORIGINS = csv_env(
     "http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080,http://127.0.0.1:8080",
 )
 
+# Vercel sets VERCEL=1 and exposes the deployment hostnames without a scheme.
+ON_VERCEL = env.bool("VERCEL", default=False)
+if ON_VERCEL:
+    ALLOWED_HOSTS += [".vercel.app"]
+    for _host in (os.getenv("VERCEL_URL"), os.getenv("VERCEL_PROJECT_PRODUCTION_URL")):
+        if _host:
+            ALLOWED_HOSTS.append(_host)
+            CSRF_TRUSTED_ORIGINS.append(f"https://{_host}")
+
 SOCIAL_AUTH_ENABLED = find_spec("social_django") is not None
 
 INSTALLED_APPS = [
@@ -271,23 +280,28 @@ USE_TZ = True
 STATIC_URL = env("STATIC_URL", default="/static/")
 STATIC_ROOT = BASE_DIR / env("STATIC_ROOT", default="staticfiles")
 STATICFILES_DIRS = [BASE_DIR / "accounts" / "static"]
-STATICFILES_STORAGE = env(
+# Vercel has no collectstatic step, so WhiteNoise serves straight from the static dir there.
+_static_backend = env(
     "DJANGO_STATICFILES_STORAGE",
     default=(
         "whitenoise.storage.CompressedStaticFilesStorage"
-        if DEBUG
+        if DEBUG or ON_VERCEL or "test" in sys.argv
         else "whitenoise.storage.CompressedManifestStaticFilesStorage"
     ),
 )
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": _static_backend},
+}
 WHITENOISE_MAX_AGE = env.int("WHITENOISE_MAX_AGE", default=31536000 if not DEBUG else 0)
 WHITENOISE_AUTOREFRESH = DEBUG
-WHITENOISE_USE_FINDERS = DEBUG
+WHITENOISE_USE_FINDERS = DEBUG or ON_VERCEL
 
 MEDIA_URL = env("MEDIA_URL", default="/media/")
 MEDIA_ROOT = BASE_DIR / env("MEDIA_ROOT", default="media")
 
 if CLOUDINARY_STORAGE_ENABLED:
-    DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+    STORAGES["default"] = {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"}
 
 DONATION_UPI_ID = env("DONATION_UPI_ID", default="9742024751@ybl").strip()
 DONATION_PAYEE_NAME = env("DONATION_PAYEE_NAME", default="Sneh Harsh").strip()
@@ -338,5 +352,3 @@ SECURE_HSTS_PRELOAD = env.bool("SECURE_HSTS_PRELOAD", default=not DEBUG)
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = env("X_FRAME_OPTIONS", default="DENY")
 
-if "test" in sys.argv:
-    STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
