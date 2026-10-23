@@ -110,31 +110,57 @@ class ChatSessionSerializer(serializers.ModelSerializer):
 
 class StartChatSessionSerializer(serializers.Serializer):
     astrologer_id = serializers.PrimaryKeyRelatedField(source='astrologer', queryset=AstrologerProfile.objects.filter(is_active=True))
-    topic = serializers.CharField(required=False, allow_blank=True)
+    topic = serializers.CharField(required=False, allow_blank=True, max_length=200)
     birth_share_mode = serializers.ChoiceField(choices=BirthShareMode.choices, default=BirthShareMode.NONE)
     person_profile_id = serializers.PrimaryKeyRelatedField(source='person_profile', queryset=PersonProfile.objects.all(), required=False, allow_null=True)
 
-    def validate_person_profile(self, value):
+    def validate_person_profile_id(self, value):
+        # DRF names this hook after the field (person_profile_id), not its source.
         request = self.context.get('request')
-        if value and request and value.user_id != request.user.id:
+        if value is not None and (request is None or value.user_id != request.user.id or value.is_archived):
             raise serializers.ValidationError('Invalid birth profile.')
         return value
 
 
 class SendMessageSerializer(serializers.Serializer):
-    message = serializers.CharField()
+    message = serializers.CharField(max_length=2000, trim_whitespace=True)
 
 
 class EndSessionSerializer(serializers.Serializer):
-    ended_by = serializers.CharField(required=False, default='user')
+    ended_by = serializers.ChoiceField(choices=['user', 'timeout'], required=False, default='user')
 
 
 class RechargeSerializer(serializers.Serializer):
-    amount = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=1)
+    amount = serializers.DecimalField(max_digits=10, decimal_places=2, min_value=1, max_value=5000)
 
 
 class ReviewCreateSerializer(serializers.Serializer):
     session_id = serializers.UUIDField(required=False)
     astrologer_id = serializers.PrimaryKeyRelatedField(source='astrologer', queryset=AstrologerProfile.objects.filter(is_active=True))
     rating = serializers.IntegerField(min_value=1, max_value=5)
-    comment = serializers.CharField(required=False, allow_blank=True)
+    comment = serializers.CharField(required=False, allow_blank=True, max_length=1000)
+
+
+class AstrologerDashboardUpdateSerializer(serializers.Serializer):
+    display_name = serializers.CharField(max_length=140, required=False)
+    bio = serializers.CharField(max_length=3000, required=False, allow_blank=True)
+    city = serializers.CharField(max_length=120, required=False, allow_blank=True)
+    is_online = serializers.BooleanField(required=False)
+    available_today = serializers.BooleanField(required=False)
+    price_per_minute = serializers.IntegerField(min_value=1, max_value=5000, required=False)
+    response_time = serializers.IntegerField(min_value=0, max_value=1440, required=False)
+    estimated_wait_time = serializers.IntegerField(min_value=0, max_value=1440, required=False)
+    trust_note = serializers.CharField(max_length=180, required=False, allow_blank=True)
+    languages = serializers.ListField(child=serializers.CharField(max_length=60), max_length=20, required=False)
+    expertise = serializers.ListField(child=serializers.CharField(max_length=60), max_length=20, required=False)
+    topic_strengths = serializers.ListField(child=serializers.CharField(max_length=60), max_length=20, required=False)
+    consultation_modes = serializers.ListField(child=serializers.CharField(max_length=60), max_length=10, required=False)
+
+    def to_internal_value(self, data):
+        # Accept comma separated strings for list fields, as the dashboard form sends them.
+        data = data.copy() if hasattr(data, 'copy') else dict(data)
+        for field in ('languages', 'expertise', 'topic_strengths', 'consultation_modes'):
+            value = data.get(field)
+            if isinstance(value, str):
+                data[field] = [item.strip() for item in value.split(',') if item.strip()]
+        return super().to_internal_value(data)

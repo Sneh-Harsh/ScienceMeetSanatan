@@ -21,6 +21,7 @@ from astrology_consultation.services.wallet import credit_wallet, debit_wallet, 
 
 DEFAULT_FREE_MINUTES = 5
 LOW_BALANCE_THRESHOLD = Decimal('50.00')
+MAX_DEV_RECHARGE = Decimal('5000.00')
 
 
 SUGGESTED_QUESTIONS = {
@@ -134,12 +135,20 @@ def append_message(*, session: ChatSession, sender: str, message: str, message_t
     return chat_message
 
 
-@transaction.atomic
 def end_chat_session(*, session: ChatSession, ended_by: str = 'user'):
     if session.status not in {SessionStatus.ACTIVE, SessionStatus.REQUESTED}:
         return session
 
+    # Claim the session first: only one concurrent caller can move it out of
+    # ACTIVE/REQUESTED, so the charge below can never be applied twice.
     ended_at = timezone.now()
+    claimed = ChatSession.objects.filter(
+        pk=session.pk, status__in=[SessionStatus.ACTIVE, SessionStatus.REQUESTED]
+    ).update(status=SessionStatus.ENDED, ended_at=ended_at, updated_at=ended_at)
+    if not claimed:
+        session.refresh_from_db()
+        return session
+
     started_at = session.started_at or session.created_at
     total_duration_seconds = max(0, int((ended_at - started_at).total_seconds()))
     free_seconds = session.free_minutes * 60
@@ -151,7 +160,12 @@ def end_chat_session(*, session: ChatSession, ended_by: str = 'user'):
     actual_charge = min(wallet.balance, charge)
     status = SessionStatus.ENDED if actual_charge == charge else SessionStatus.INSUFFICIENT_BALANCE
     if actual_charge > 0:
-        debit_wallet(user=session.user, amount=actual_charge, reason='Astrology consultation charge', session=session)
+        try:
+            debit_wallet(user=session.user, amount=actual_charge, reason='Astrology consultation charge', session=session)
+        except ValueError:
+            # Balance dropped between the read and the debit; charge nothing rather than overdraw.
+            actual_charge = Decimal('0.00')
+            status = SessionStatus.INSUFFICIENT_BALANCE
     if session.free_minutes > 0 and not wallet.first_chat_free_consumed:
         wallet.first_chat_free_consumed = True
         wallet.save(update_fields=['first_chat_free_consumed', 'updated_at'])
@@ -171,4 +185,6 @@ def end_chat_session(*, session: ChatSession, ended_by: str = 'user'):
 
 
 def add_dev_recharge(*, user, amount: Decimal):
+    if amount > MAX_DEV_RECHARGE:
+        raise ValueError('recharge_limit_exceeded')
     return credit_wallet(user=user, amount=amount, reason='Wallet recharge placeholder')

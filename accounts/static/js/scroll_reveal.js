@@ -117,8 +117,11 @@
         observer.unobserve(entry.target);
       });
     }, {
-      threshold: 0.1,
-      rootMargin: "0px 0px -6% 0px",
+      // A ratio threshold can never be met by tall containers on short phone
+      // viewports, which left whole sections invisible. Fire as soon as any
+      // part crosses the inset line instead.
+      threshold: 0,
+      rootMargin: "0px 0px -8% 0px",
     });
   }
 

@@ -9,8 +9,12 @@ from django.utils import timezone
 from django.views.decorators.http import require_GET
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from core.media import MediaUploadError, delete_media, upload_media
+from core.ratelimit import rate_limited
 
 from .models import Booking, BookingStatus, Pandit, PanditAvailabilitySlot, PanditService, Review, Service
 from .serializers import (
@@ -26,6 +30,7 @@ from .serializers import (
     ServiceSerializer,
 )
 from .services import (
+    release_slot,
     build_pandit_queryset,
     build_service_worlds,
     create_booking,
@@ -162,19 +167,23 @@ class ServiceListApiView(generics.ListAPIView):
 class BookingCreateApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @rate_limited("booking_create", 10, 3600)
     def post(self, request):
         serializer = BookingCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         pandit = serializer.validated_data["pandit"]
         service = serializer.validated_data["service"]
         slot = serializer.validated_data.get("slot")
-        booking = create_booking(
-            user=request.user,
-            pandit=pandit,
-            service=service,
-            slot=slot,
-            validated_data=serializer.validated_data,
-        )
+        try:
+            booking = create_booking(
+                user=request.user,
+                pandit=pandit,
+                service=service,
+                slot=slot,
+                validated_data=serializer.validated_data,
+            )
+        except ValueError as exc:
+            return Response({"detail": str(exc)}, status=status.HTTP_409_CONFLICT)
         return Response(BookingSerializer(booking).data, status=status.HTTP_201_CREATED)
 
 
@@ -203,8 +212,12 @@ class BookingStatusApiView(APIView):
         next_status = serializer.validated_data["status"]
         if next_status not in {BookingStatus.CANCELLED, BookingStatus.RESCHEDULE_REQUESTED}:
             return Response({"detail": "Users can only cancel or request reschedule."}, status=400)
+        if booking.status not in {BookingStatus.PENDING, BookingStatus.ACCEPTED}:
+            return Response({"detail": "This booking can no longer be changed."}, status=400)
         booking.status = next_status
         booking.save(update_fields=["status", "updated_at"])
+        if next_status == BookingStatus.CANCELLED:
+            release_slot(booking)
         return Response(BookingSerializer(booking).data)
 
 
@@ -213,6 +226,8 @@ class ReviewCreateApiView(APIView):
 
     def post(self, request, slug: str):
         pandit = get_object_or_404(Pandit, slug=slug, is_active=True)
+        if not Booking.objects.filter(user=request.user, pandit=pandit, status=BookingStatus.COMPLETED).exists():
+            return Response({"detail": "You can review a pandit after a completed booking."}, status=403)
         serializer = ReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         review, _created = Review.objects.update_or_create(
@@ -245,6 +260,78 @@ class PanditDashboardProfileApiView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(PanditDetailSerializer(pandit).data)
+
+
+class PanditDashboardPhotoApiView(APIView):
+    """POST a multipart "file" to set the profile photo."""
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser]
+
+    @rate_limited("pandit_photo_upload", 10, 3600)
+    def post(self, request):
+        pandit = getattr(request.user, "pandit_profile", None)
+        if pandit is None:
+            raise Http404("No pandit dashboard is linked to this user.")
+        upload = request.FILES.get("file")
+        if upload is None:
+            return Response({"error": "No file provided."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            media = upload_media(upload, "pandits/photos")
+        except MediaUploadError as exc:
+            return Response({"error": " ".join(exc.messages)}, status=status.HTTP_400_BAD_REQUEST)
+        pandit.photo = media["url"]
+        pandit.save(update_fields=["photo", "updated_at"])
+        return Response({"photo": pandit.photo})
+
+
+class PanditDashboardMediaApiView(APIView):
+    """Gallery of photos/videos stored in Pandit.photos_videos.
+
+    POST a multipart "file" to add an item; DELETE with {"public_id": ...} to remove one.
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser]
+    MAX_ITEMS = 12
+
+    def get_object(self, request):
+        pandit = getattr(request.user, "pandit_profile", None)
+        if pandit is None:
+            raise Http404("No pandit dashboard is linked to this user.")
+        return pandit
+
+    @rate_limited("pandit_media_upload", 20, 3600)
+    def post(self, request):
+        pandit = self.get_object(request)
+        items = list(pandit.photos_videos or [])
+        if len(items) >= self.MAX_ITEMS:
+            return Response(
+                {"error": f"You can keep up to {self.MAX_ITEMS} gallery items."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        upload = request.FILES.get("file")
+        if upload is None:
+            return Response({"error": "No file provided."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            media = upload_media(upload, "pandits/gallery", allowed=("image", "video"))
+        except MediaUploadError as exc:
+            return Response({"error": " ".join(exc.messages)}, status=status.HTTP_400_BAD_REQUEST)
+        items.append(media)
+        pandit.photos_videos = items
+        pandit.save(update_fields=["photos_videos", "updated_at"])
+        return Response({"photos_videos": items}, status=status.HTTP_201_CREATED)
+
+    def delete(self, request):
+        pandit = self.get_object(request)
+        public_id = request.data.get("public_id")
+        items = list(pandit.photos_videos or [])
+        removed = [i for i in items if isinstance(i, dict) and i.get("public_id") == public_id]
+        if not removed:
+            return Response({"error": "Item not found."}, status=status.HTTP_404_NOT_FOUND)
+        pandit.photos_videos = [i for i in items if i not in removed]
+        pandit.save(update_fields=["photos_videos", "updated_at"])
+        for item in removed:
+            delete_media(item["public_id"], item.get("type", "image"))
+        return Response({"photos_videos": pandit.photos_videos})
 
 
 class PanditDashboardServicesApiView(APIView):
@@ -309,6 +396,11 @@ class PanditDashboardBookingStatusApiView(APIView):
         booking = get_object_or_404(Booking, id=booking_id, pandit=pandit)
         serializer = BookingStatusSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        booking.status = serializer.validated_data["status"]
+        next_status = serializer.validated_data["status"]
+        if booking.status in {BookingStatus.CANCELLED, BookingStatus.COMPLETED} or next_status == BookingStatus.PENDING:
+            return Response({"detail": "That status change is not allowed."}, status=400)
+        booking.status = next_status
         booking.save(update_fields=["status", "updated_at"])
+        if next_status in {BookingStatus.REJECTED, BookingStatus.CANCELLED}:
+            release_slot(booking)
         return Response(BookingSerializer(booking).data)

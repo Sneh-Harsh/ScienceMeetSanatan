@@ -1,5 +1,6 @@
 from django.contrib import admin
 
+from core.media import upload_form
 from astrology_consultation.models import (
     AstrologerAvailability,
     AstrologerProfile,
@@ -18,6 +19,7 @@ class AstrologerProfileAdmin(admin.ModelAdmin):
     list_filter = ('is_online', 'is_verified', 'available_today', 'city')
     search_fields = ('display_name', 'city', 'bio')
     prepopulated_fields = {'slug': ('display_name',)}
+    form = upload_form(AstrologerProfile, {'photo': 'image'}, 'astrologers')
 
 
 @admin.register(AstrologerAvailability)

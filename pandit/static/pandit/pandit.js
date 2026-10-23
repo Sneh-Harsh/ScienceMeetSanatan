@@ -695,6 +695,75 @@
       return response.ok;
     };
 
+    const mediaBox = qs("#panditMediaManager", root);
+    if (mediaBox) {
+      const status = qs("#panditMediaStatus", mediaBox);
+      const gallery = qs("#panditMediaGallery", mediaBox);
+      const send = async (url, options) => {
+        const response = await fetch(url, {
+          ...options,
+          headers: { "X-CSRFToken": csrfToken(), ...(options.headers || {}) },
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "Request failed.");
+        return data;
+      };
+      const renderGallery = (items) => {
+        gallery.replaceChildren(
+          ...(items || []).filter((item) => item && item.url).map((item) => {
+            const wrap = document.createElement("div");
+            const media = document.createElement(item.type === "video" ? "video" : "img");
+            media.src = item.url;
+            media.width = 96;
+            media.height = 96;
+            media.style.objectFit = "cover";
+            if (item.type === "video") media.controls = true;
+            const remove = document.createElement("button");
+            remove.type = "button";
+            remove.textContent = "Remove";
+            remove.addEventListener("click", async () => {
+              try {
+                const data = await send(mediaBox.dataset.mediaUrl, {
+                  method: "DELETE",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ public_id: item.public_id }),
+                });
+                renderGallery(data.photos_videos);
+              } catch (error) {
+                status.textContent = error.message;
+              }
+            });
+            wrap.append(media, remove);
+            return wrap;
+          })
+        );
+      };
+      const upload = (input, url, onDone) =>
+        input.addEventListener("change", async () => {
+          if (!input.files[0]) return;
+          status.textContent = "Uploading…";
+          const body = new FormData();
+          body.append("file", input.files[0]);
+          try {
+            onDone(await send(url, { method: "POST", body }));
+            status.textContent = "Uploaded.";
+          } catch (error) {
+            status.textContent = error.message;
+          }
+          input.value = "";
+        });
+      const preview = qs("#panditPhotoPreview", mediaBox);
+      upload(qs("#panditPhotoInput", mediaBox), mediaBox.dataset.photoUrl, (data) => {
+        preview.src = data.photo;
+        preview.style.display = "";
+      });
+      upload(qs("#panditMediaInput", mediaBox), mediaBox.dataset.mediaUrl, (data) => renderGallery(data.photos_videos));
+      fetch(root.dataset.profileUrl)
+        .then((response) => response.json())
+        .then((data) => renderGallery(data.photos_videos))
+        .catch(() => {});
+    }
+
     qs("#panditDashboardProfileForm", root)?.addEventListener("submit", async (event) => {
       event.preventDefault();
       await updateJsonForm(event.currentTarget, root.dataset.profileUrl, (payload) => ({

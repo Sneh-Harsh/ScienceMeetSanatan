@@ -3,11 +3,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Django Login</title>
-    <link rel="stylesheet" href="{% static 'styles.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=4" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}?v=2" />
+    <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
     <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
-    <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=1" />
-    <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=1" />
+    <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2" />
+    <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=2" />
   </head>
   <body data-mode="{{ mode|default:'login' }}">
     <video class="video-background" autoplay muted loop playsinline>
@@ -19,7 +19,7 @@
       Hide Login
     </button>
 
-    <h2 class="brand-title">Science Meet Sanatan</h2>
+    <h2 class="brand-title">Science Meets Sanatan</h2>
 
     <main class="login-wrapper">
       <section class="login-card" aria-label="Authentication form">
@@ -73,19 +73,10 @@
           <input type="hidden" name="form_type" value="reset_password" />
           {% if request.GET.next %}<input type="hidden" name="next" value="{{ request.GET.next }}" />{% endif %}
 
-          <label for="forgotUsername">Username</label>
-          <input id="forgotUsername" name="username" type="text" placeholder="Enter your username" required />
-
           <label for="forgotEmail">Email</label>
           <input id="forgotEmail" name="email" type="email" placeholder="Enter your registered email" required />
 
-          <label for="forgotNewPassword">New password</label>
-          <input id="forgotNewPassword" name="new_password" type="password" placeholder="Enter a new password" required />
-
-          <label for="forgotConfirmPassword">Confirm new password</label>
-          <input id="forgotConfirmPassword" name="confirm_password" type="password" placeholder="Confirm your new password" required />
-
-          <button type="submit" class="primary-btn">Reset Password</button>
+          <button type="submit" class="primary-btn">Email me a reset link</button>
           <button id="backToLoginBtn" class="secondary-link-btn" type="button">Back to login</button>
         </form>
 
@@ -121,9 +112,9 @@
         pageType: "general"
       });
     </script>
-    <script defer src="{% static 'js/digital_daanpatra.js' %}?v=3"></script>
+    <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
     <script defer src="{% static 'js/review.js' %}?v=1"></script>
-    <script defer src="{% static 'js/scroll_reveal.js' %}?v=1"></script>
+    <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
     <script src="{% static 'script.js' %}"></script>
   </body>
 </html>

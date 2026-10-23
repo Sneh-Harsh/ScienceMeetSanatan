@@ -289,7 +289,7 @@ function buildFallbackInsight(p){
 function buildHeroDescription(p){
   const parts = [];
   if(p?.paksha && p?.month){
-    parts.push(`${p.month} in ${p.paksha} Paksha shapes the overall tone today`);
+    parts.push(`${p.month} in ${/paksha$/i.test(String(p.paksha || "").trim()) ? p.paksha : `${p.paksha} Paksha`} shapes the overall tone today`);
   }
   if(p?.nakshatra){
     parts.push(`${p.nakshatra} favors measured attention and thoughtful work`);

@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import timedelta
 from datetime import date as dt_date
 from datetime import datetime, timezone
@@ -11,6 +12,15 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import url_has_allowed_host_and_scheme, urlsafe_base64_decode, urlsafe_base64_encode
+
+from core.media import MediaUploadError, upload_media
+from core.ratelimit import client_ip, hit as rate_hit, rate_limited
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Avg, Count, Max, Sum
@@ -553,11 +563,11 @@ def _cached_or_fallback_festivals_payload(*, lat: float, lon: float, tz_name: st
 
 @require_GET
 def welcome_insights_api(request):
-    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    if not rate_hit("welcome_api", client_ip(request), 120, 600):
+        return JsonResponse({"error": "Too many requests."}, status=429)
     try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
+        lat, lon, tz_name = _parse_geo(request)
+    except ValueError:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
 
     cache_key = f"welcome:insights:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
@@ -584,11 +594,11 @@ def welcome_insights_api(request):
 
 @require_GET
 def welcome_raashi_api(request):
-    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    if not rate_hit("welcome_api", client_ip(request), 120, 600):
+        return JsonResponse({"error": "Too many requests."}, status=429)
     try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
+        lat, lon, tz_name = _parse_geo(request)
+    except ValueError:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
 
     cache_key = f"welcome:raashi:v1:{round(lat,3)}:{round(lon,3)}:{tz_name}"
@@ -599,18 +609,18 @@ def welcome_raashi_api(request):
     try:
         payload = _build_welcome_raashi_payload(lat=lat, lon=lon, tz_name=tz_name)
     except Exception as exc:
+        logger.warning("Welcome raashi payload failed: %s", exc)
         payload = _fallback_welcome_raashi_payload(tz_name=tz_name)
-        payload["error"] = str(exc)
     cache.set(cache_key, payload, timeout=WELCOME_TIMEOUT)
     return JsonResponse(payload)
 
 @require_GET
 def welcome_festivals_api(request):
-    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    if not rate_hit("welcome_api", client_ip(request), 120, 600):
+        return JsonResponse({"error": "Too many requests."}, status=429)
     try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
+        lat, lon, tz_name = _parse_geo(request)
+    except ValueError:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
 
     exact_cache_key = _welcome_festival_exact_cache_key(lat=lat, lon=lon, tz_name=tz_name)
@@ -624,17 +634,53 @@ def welcome_festivals_api(request):
     try:
         payload = _build_welcome_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
         cache.set(exact_cache_key, payload, timeout=WELCOME_TIMEOUT)
-    except Exception as exc:
+    except Exception:
         payload = _cached_or_fallback_festivals_payload(lat=lat, lon=lon, tz_name=tz_name)
-        payload["error"] = str(exc)
     return JsonResponse(payload)
+
+
+logger = logging.getLogger(__name__)
+
+
+_VALID_TIMEZONES = None
+
+
+def _parse_geo(request):
+    """Validated, rounded lat/lon + known timezone, so cache keys stay bounded."""
+    global _VALID_TIMEZONES
+    if _VALID_TIMEZONES is None:
+        from zoneinfo import available_timezones
+
+        _VALID_TIMEZONES = available_timezones()
+    tz_name = (request.GET.get("tz") or "Asia/Kolkata").strip() or "Asia/Kolkata"
+    lat = float(request.GET.get("lat") or 28.6139)
+    lon = float(request.GET.get("lon") or 77.2090)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0) or tz_name not in _VALID_TIMEZONES:
+        raise ValueError("out of range")
+    return round(lat, 2), round(lon, 2), tz_name
+
+
+def _password_problem(password, user):
+    try:
+        validate_password(password, user=user)
+    except ValidationError as exc:
+        return ' '.join(exc.messages)
+    return ''
+
+
+def _safe_next_url(request, default='/welcome/'):
+    """Return the requested next URL only when it stays on this site."""
+    candidate = (request.POST.get('next', '') or request.GET.get('next', '')).strip()
+    if candidate and url_has_allowed_host_and_scheme(
+        candidate, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+    ) and candidate.startswith('/') and not candidate.startswith('//'):
+        return candidate
+    return default
 
 
 def login_page(request):
     mode = request.GET.get('mode', 'login')
-    next_url = request.POST.get('next', '').strip() or request.GET.get('next', '').strip() or '/welcome/'
-    if not next_url.startswith('/'):
-        next_url = '/welcome/'
+    next_url = _safe_next_url(request)
 
     if request.method == 'POST':
         form_type = request.POST.get('form_type', 'login')
@@ -645,8 +691,24 @@ def login_page(request):
             email = request.POST.get('email', '').strip().lower()
             password = request.POST.get('password', '')
 
-            if not full_name or not username or not email or not password:
+            password_error = None
+            if password:
+                try:
+                    validate_password(password, user=User(username=username, email=email))
+                except ValidationError as exc:
+                    password_error = ' '.join(exc.messages)
+
+            if not rate_hit('signup', client_ip(request), 10, 3600):
+                messages.error(request, 'Too many signup attempts. Please try again later.')
+                mode = 'signup'
+            elif not full_name or not username or not email or not password:
                 messages.error(request, 'Please fill all signup fields.')
+                mode = 'signup'
+            elif len(full_name) > 150 or len(username) > 150 or len(email) > 254:
+                messages.error(request, 'One of the fields is too long.')
+                mode = 'signup'
+            elif password_error:
+                messages.error(request, password_error)
                 mode = 'signup'
             elif User.objects.filter(username__iexact=username).exists():
                 messages.error(request, 'Username already exists. Please choose another one.')
@@ -677,35 +739,26 @@ def login_page(request):
                 return redirect(next_url)
 
         elif form_type == 'reset_password':
-            username = request.POST.get('username', '').strip()
-            email = request.POST.get('email', '').strip()
-            new_password = request.POST.get('new_password', '')
-            confirm_password = request.POST.get('confirm_password', '')
-
-            if not username or not email or not new_password or not confirm_password:
-                messages.error(request, 'Please fill all password reset fields.')
-                mode = 'forgot'
-            elif new_password != confirm_password:
-                messages.error(request, 'New password and confirm password do not match.')
-                mode = 'forgot'
-            else:
-                try:
-                    user = User.objects.get(username=username, email__iexact=email)
-                except User.DoesNotExist:
-                    user = None
-
-                if user is None:
-                    messages.error(request, 'No account matched that username and email.')
-                    mode = 'forgot'
-                else:
-                    user.set_password(new_password)
-                    user.save(update_fields=['password'])
-                    messages.success(request, 'Password updated successfully. Please log in with your new password.')
-                    return redirect('/login/?mode=login')
+            email = request.POST.get('email', '').strip().lower()
+            # Same answer whether or not the email exists, so accounts cannot be enumerated.
+            if rate_hit('pw_reset', client_ip(request), 5, 3600) and email and len(email) <= 254:
+                for user in User.objects.filter(email__iexact=email, is_active=True)[:3]:
+                    if user.has_usable_password():
+                        _send_password_reset_email(request, user)
+            messages.success(request, 'If that email is registered, a password reset link has been sent.')
+            return redirect('/login/?mode=login')
 
         else:
             username = request.POST.get('username', '').strip()
             password = request.POST.get('password', '')
+            ip = client_ip(request)
+            if not (rate_hit('login_ip', ip, 30, 900) and rate_hit('login_user', username.lower()[:150] or 'blank', 10, 900)):
+                messages.error(request, 'Too many login attempts. Please wait a few minutes and try again.')
+                return render(request, 'index.html', {
+                    'mode': 'login',
+                    'google_oauth_configured': settings.GOOGLE_OAUTH_CONFIGURED,
+                    'apple_oauth_configured': settings.APPLE_OAUTH_CONFIGURED,
+                }, status=429)
             user = authenticate(request, username=username, password=password)
             if user is None and username:
                 matched_user = User.objects.filter(username__iexact=username).first()
@@ -739,10 +792,46 @@ def login_page(request):
     )
 
 
+def _send_password_reset_email(request, user):
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+    link = request.build_absolute_uri(reverse('password_reset_confirm', args=[uid, token]))
+    send_mail(
+        'Reset your Science Meets Sanatan password',
+        f'Hello {user.first_name or user.username},\n\nUse this link to choose a new password (valid for a limited time):\n{link}\n\n'
+        'If you did not ask for this, you can ignore this email.',
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email],
+        fail_silently=True,
+    )
+
+
+def password_reset_confirm_page(request, uidb64, token):
+    try:
+        user = User.objects.get(pk=force_str(urlsafe_base64_decode(uidb64)), is_active=True)
+    except (User.DoesNotExist, ValueError, TypeError, OverflowError, ValidationError):
+        user = None
+    valid = user is not None and default_token_generator.check_token(user, token)
+    error = ''
+    if valid and request.method == 'POST':
+        new_password = request.POST.get('new_password', '')
+        if new_password != request.POST.get('confirm_password', ''):
+            error = 'New password and confirm password do not match.'
+        else:
+            try:
+                validate_password(new_password, user=user)
+            except ValidationError as exc:
+                error = ' '.join(exc.messages)
+            else:
+                user.set_password(new_password)
+                user.save(update_fields=['password'])
+                messages.success(request, 'Password updated successfully. Please log in with your new password.')
+                return redirect('/login/?mode=login')
+    return render(request, 'password_reset_confirm.html', {'valid': valid, 'error': error}, status=200 if valid else 400)
+
+
 def logout_page(request):
-    next_url = request.GET.get('next', '').strip() or request.POST.get('next', '').strip() or '/welcome/'
-    if not next_url.startswith('/'):
-        next_url = '/welcome/'
+    next_url = _safe_next_url(request)
     auth_logout(request)
     messages.success(request, 'You have been logged out.')
     return redirect(next_url)
@@ -799,8 +888,9 @@ def baby_names_page(request):
     baby_names_json = "{}"
     try:
         baby_names_json = load_baby_names_json()
-    except Exception as exc:
-        baby_names_error = str(exc)
+    except Exception:
+        logger.exception("Baby names could not be loaded")
+        baby_names_error = "Baby names are temporarily unavailable."
 
     return render(
         request,
@@ -938,6 +1028,8 @@ def profile_page(request):
                 messages.error(request, "New password and confirm password do not match.")
             elif not request.user.check_password(current_password):
                 messages.error(request, "Current password is incorrect.")
+            elif _password_problem(new_password, request.user):
+                messages.error(request, _password_problem(new_password, request.user))
             else:
                 request.user.set_password(new_password)
                 request.user.save(update_fields=["password"])
@@ -951,6 +1043,7 @@ def profile_page(request):
         "profile.html",
         {
             "full_name": full_name,
+            "avatar_url": getattr(getattr(request.user, "account_profile", None), "avatar", ""),
         },
     )
 
@@ -960,8 +1053,9 @@ def library_page(request):
     payload = {"items": [], "featured": [], "categories": [], "total": 0}
     try:
         payload = build_library_payload()
-    except Exception as exc:
-        library_error = str(exc)
+    except Exception:
+        logger.exception("Library could not be loaded")
+        library_error = "The library is temporarily unavailable."
 
     return render(
         request,
@@ -1005,8 +1099,9 @@ def library_collection_page(request, collection_slug: str):
             "featured": [item for item in filtered_items if item.get("featured")] or filtered_items[:8],
             "total": len(filtered_items),
         }
-    except Exception as exc:
-        library_error = str(exc)
+    except Exception:
+        logger.exception("Library could not be loaded")
+        library_error = "The library is temporarily unavailable."
 
     return render(
         request,
@@ -1047,11 +1142,13 @@ def library_detail_page(request, slug: str):
 
 @require_GET
 def api_library_items(request):
-    refresh = request.GET.get("refresh") == "1"
+    # Forcing a refresh hits the upstream source, so only staff may do it.
+    refresh = request.GET.get("refresh") == "1" and request.user.is_staff
     try:
         items = load_library_items(force_refresh=refresh)
-    except Exception as exc:
-        return JsonResponse({"items": [], "error": str(exc)}, status=502)
+    except Exception:
+        logger.exception("Library items could not be loaded")
+        return JsonResponse({"items": [], "error": "The library is temporarily unavailable."}, status=502)
 
     query = str(request.GET.get("q") or "").strip().lower()
     category = str(request.GET.get("category") or "").strip().lower()
@@ -1212,9 +1309,16 @@ def _build_leaderboard_payload(request, *, period: str = "weekly", board: str = 
     return payload
 
 
+def _public_quiz_question(question):
+    """Questions as sent to the browser: never include the correct answer."""
+    return {key: value for key, value in question.items() if key not in {"answerIndex", "weight"}}
+
+
 @login_required
 @require_POST
 def api_quiz_session(request):
+    if not rate_hit("quiz_session", f"u{request.user.pk}", 40, 3600):
+        return JsonResponse({"error": "Too many quizzes started. Please try again later."}, status=429)
     try:
         payload = json.loads(request.body.decode("utf-8") or "{}")
     except Exception:
@@ -1226,9 +1330,11 @@ def api_quiz_session(request):
 
     try:
         session_payload = build_quiz_session_payload(request.user, category_slug)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=400)
+    except Exception:
+        logger.exception("Could not build quiz session")
+        return JsonResponse({"error": "Could not start this quiz right now."}, status=400)
 
+    session_payload["recorded"] = {}
     cache.set(
         _quiz_session_cache_key(request.user.id, session_payload["session_id"]),
         session_payload,
@@ -1239,9 +1345,59 @@ def api_quiz_session(request):
             "sessionId": session_payload["session_id"],
             "category": session_payload["category"],
             "categoryLabel": session_payload["category_label"],
-            "questions": session_payload["questions"],
+            "questions": [_public_quiz_question(q) for q in session_payload["questions"]],
         }
     )
+
+
+@login_required
+@require_POST
+def api_quiz_answer(request):
+    """Check one answer on the server and remember it; the final score is built from these."""
+    if not rate_hit("quiz_answer", f"u{request.user.pk}", 600, 3600):
+        return JsonResponse({"error": "Too many requests."}, status=429)
+    try:
+        payload = json.loads(request.body.decode("utf-8") or "{}")
+    except Exception:
+        return JsonResponse({"error": "Invalid JSON payload."}, status=400)
+
+    session_id = str(payload.get("session_id") or "").strip()
+    question_id = str(payload.get("question_id") or "").strip()
+    cache_key = _quiz_session_cache_key(request.user.id, session_id)
+    session_payload = cache.get(cache_key)
+    if not session_payload:
+        return JsonResponse({"error": "Quiz session expired. Please start a new quiz."}, status=409)
+
+    question = next((q for q in session_payload.get("questions", []) if str(q.get("id")) == question_id), None)
+    if question is None:
+        return JsonResponse({"error": "Unknown question."}, status=400)
+
+    recorded = session_payload.setdefault("recorded", {})
+    correct_index = int(question["answerIndex"])
+    if question_id in recorded:
+        # Answers are final: a repeat call just repeats the first result.
+        first = recorded[question_id]
+        return JsonResponse({"correct": first["is_correct"], "correctIndex": correct_index})
+
+    try:
+        selected_index = int(payload.get("selected_index"))
+        if not 0 <= selected_index < len(question.get("options", [])):
+            selected_index = None
+    except (TypeError, ValueError):
+        selected_index = None
+    try:
+        time_taken = min(max(float(payload.get("time_taken") or 0), 0.0), 120.0)
+    except (TypeError, ValueError):
+        time_taken = 0.0
+
+    recorded[question_id] = {
+        "selected_index": selected_index,
+        "is_correct": selected_index == correct_index,
+        "timed_out": bool(payload.get("timed_out")) or selected_index is None,
+        "time_taken": round(time_taken, 2),
+    }
+    cache.set(cache_key, session_payload, timeout=60 * 60)
+    return JsonResponse({"correct": recorded[question_id]["is_correct"], "correctIndex": correct_index})
 
 
 @require_GET
@@ -1282,6 +1438,7 @@ def api_submit_score(request):
         attempt_best_streak = int(payload.get("best_streak") or 0)
     except Exception:
         attempt_best_streak = 0
+    attempt_best_streak = min(max(attempt_best_streak, 0), 50)
 
     category, _ = Category.objects.get_or_create(
         slug=category_slug,
@@ -1289,80 +1446,47 @@ def api_submit_score(request):
     )
 
     session_id = str(payload.get("session_id") or "").strip()
-    answers = payload.get("answers") or []
+    if not session_id:
+        return JsonResponse({"error": "A quiz session is required to submit a score."}, status=400)
 
-    if session_id:
-        session_payload = cache.get(_quiz_session_cache_key(request.user.id, session_id))
-        if not session_payload:
-            return JsonResponse({"error": "Quiz session expired. Please start a new quiz."}, status=409)
+    cache_key = _quiz_session_cache_key(request.user.id, session_id)
+    session_payload = cache.get(cache_key)
+    if not session_payload:
+        return JsonResponse({"error": "Quiz session expired. Please start a new quiz."}, status=409)
+    # Consume the session first. cache.delete only succeeds once, so a session
+    # can never be scored twice, even with parallel requests.
+    if not cache.delete(cache_key):
+        return JsonResponse({"error": "This quiz was already submitted."}, status=409)
 
-        question_map = {
-            str(question.get("id") or ""): question
-            for question in session_payload.get("questions", [])
-            if str(question.get("id") or "").strip()
-        }
-        if not question_map:
-            return JsonResponse({"error": "Quiz session is empty."}, status=400)
+    questions = session_payload.get("questions", [])
+    if not questions:
+        return JsonResponse({"error": "Quiz session is empty."}, status=400)
+    recorded = session_payload.get("recorded", {})
 
-        normalized_answers = []
-        score = 0
-        for answer in answers:
-            question_id = str(answer.get("questionId") or "").strip()
-            if question_id not in question_map:
-                continue
-            question = question_map[question_id]
-            try:
-                selected_index = int(answer.get("selectedIndex"))
-            except Exception:
-                selected_index = None
-            timed_out = bool(answer.get("timedOut"))
-            time_taken = float(answer.get("timeTaken") or 0)
-            is_correct = selected_index == int(question["answerIndex"])
-            if is_correct:
-                score += 1
-            normalized_answers.append(
-                {
-                    "question_id": question_id,
-                    "selected_index": selected_index,
-                    "correct_index": int(question["answerIndex"]),
-                    "is_correct": is_correct,
-                    "timed_out": timed_out,
-                    "time_taken": round(max(time_taken, 0), 2),
-                    "difficulty": str(question.get("difficulty") or "medium"),
-                    "subcategory": str(question.get("subcategory") or category_slug),
-                    "tags": list(question.get("tags") or []),
-                }
-            )
+    normalized_answers = []
+    score = 0
+    for question in questions:
+        question_id = str(question.get("id") or "")
+        entry = recorded.get(question_id)
+        is_correct = bool(entry and entry["is_correct"])
+        if is_correct:
+            score += 1
+        normalized_answers.append(
+            {
+                "question_id": question_id,
+                "selected_index": entry["selected_index"] if entry else None,
+                "correct_index": int(question["answerIndex"]),
+                "is_correct": is_correct,
+                "timed_out": entry["timed_out"] if entry else True,
+                "time_taken": entry["time_taken"] if entry else 12.0,
+                "difficulty": str(question.get("difficulty") or "medium"),
+                "subcategory": str(question.get("subcategory") or category_slug),
+                "tags": list(question.get("tags") or []),
+            }
+        )
 
-        total = len(question_map)
-        if len(normalized_answers) != total:
-            missing_ids = set(question_map.keys()) - {row["question_id"] for row in normalized_answers}
-            for question_id in missing_ids:
-                question = question_map[question_id]
-                normalized_answers.append(
-                    {
-                        "question_id": question_id,
-                        "selected_index": None,
-                        "correct_index": int(question["answerIndex"]),
-                        "is_correct": False,
-                        "timed_out": True,
-                        "time_taken": 12.0,
-                        "difficulty": str(question.get("difficulty") or "medium"),
-                        "subcategory": str(question.get("subcategory") or category_slug),
-                        "tags": list(question.get("tags") or []),
-                    }
-                )
-        accuracy = (score / total) if total else 0.0
-    else:
-        try:
-            score = int(payload.get("score"))
-            total = int(payload.get("total"))
-        except Exception:
-            return JsonResponse({"error": "score and total must be integers."}, status=400)
-        if total <= 0 or score < 0 or score > total:
-            return JsonResponse({"error": "Invalid score/total range."}, status=400)
-        accuracy = score / total if total else 0.0
-        normalized_answers = []
+    total = len(questions)
+    accuracy = (score / total) if total else 0.0
 
     with transaction.atomic():
         QuizAttempt.objects.create(
@@ -1405,9 +1529,6 @@ def api_submit_score(request):
         stats.best_streak = max(int(stats.best_streak), max(attempt_best_streak, 0))
         stats.save(update_fields=["total_score", "highest_score", "best_streak", "updated_at"])
 
-    if session_id:
-        cache.delete(_quiz_session_cache_key(request.user.id, session_id))
-
     return JsonResponse(
         {
             "ok": True,
@@ -1427,6 +1548,7 @@ def api_submit_score(request):
 
 # --- Personalization API views ---
 from rest_framework import generics, permissions, status
+from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -1513,3 +1635,29 @@ class PersonProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         instance.is_archived = True
         instance.save(update_fields=['is_archived', 'updated_at'])
+
+
+class AvatarUploadView(APIView):
+    """POST a multipart "file" to set the profile picture; DELETE to remove it."""
+    permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser]
+
+    @rate_limited('avatar_upload', 10, 3600)
+    def post(self, request):
+        upload = request.FILES.get('file')
+        if upload is None:
+            return Response({'error': 'No file provided.'}, status=400)
+        try:
+            media = upload_media(upload, 'avatars')
+        except MediaUploadError as exc:
+            return Response({'error': ' '.join(exc.messages)}, status=400)
+        account = ensure_user_account(request.user)
+        account.avatar = media['url']
+        account.save(update_fields=['avatar', 'updated_at'])
+        return Response({'avatar': account.avatar})
+
+    def delete(self, request):
+        account = ensure_user_account(request.user)
+        account.avatar = ''
+        account.save(update_fields=['avatar', 'updated_at'])
+        return Response({'avatar': ''})

@@ -1,12 +1,16 @@
 from __future__ import annotations
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Avg
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from django.views.decorators.http import require_GET
+
+from core.ratelimit import rate_limited
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -23,6 +27,7 @@ from astrology_consultation.models import (
     SessionStatus,
 )
 from astrology_consultation.serializers import (
+    AstrologerDashboardUpdateSerializer,
     AstrologerAvailabilitySerializer,
     AstrologerCardSerializer,
     AstrologerDetailSerializer,
@@ -177,9 +182,15 @@ class AstrologerDetailApiView(generics.RetrieveAPIView):
 class StartChatSessionApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
+    @rate_limited('chat_start', 10, 3600)
     def post(self, request):
         serializer = StartChatSessionSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
+        # Short per-user lock so two parallel requests cannot both pass the
+        # "no active session" check and each claim a free first chat.
+        lock_key = f'lock:chat_start:{request.user.pk}'
+        if not cache.add(lock_key, 1, timeout=10):
+            return Response({'detail': 'A consultation is already being started.'}, status=status.HTTP_409_CONFLICT)
         try:
             session = start_chat_session(
                 user=request.user,
@@ -190,6 +201,8 @@ class StartChatSessionApiView(APIView):
             )
         except ValueError as exc:
             return Response({'detail': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+        finally:
+            cache.delete(lock_key)
         return Response(ChatSessionSerializer(session).data, status=status.HTTP_201_CREATED)
 
 
@@ -209,6 +222,7 @@ class ChatMessagesApiView(APIView):
             }
         )
 
+    @rate_limited('chat_message', 60, 60)
     def post(self, request, session_id):
         session = self.get_object(request, session_id)
         if session.status != SessionStatus.ACTIVE:
@@ -243,9 +257,16 @@ class WalletRechargeApiView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
+        # Placeholder recharge credits money without a payment. It must never be
+        # reachable in production; enable only with WALLET_DEV_RECHARGE_ENABLED.
+        if not settings.WALLET_DEV_RECHARGE_ENABLED:
+            return Response({'detail': 'Wallet recharge is not available yet.'}, status=status.HTTP_403_FORBIDDEN)
         serializer = RechargeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        wallet = add_dev_recharge(user=request.user, amount=serializer.validated_data['amount'])
+        try:
+            wallet = add_dev_recharge(user=request.user, amount=serializer.validated_data['amount'])
+        except ValueError as exc:
+            return Response({'detail': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'wallet': WalletSerializer(wallet).data, 'detail': 'Wallet recharge placeholder completed. Connect Razorpay server-side next.'})
 
 
@@ -268,6 +289,11 @@ class ReviewCreateApiView(APIView):
         if session_id:
             session = get_object_or_404(ChatSession, public_id=session_id, user=request.user)
         astrologer = serializer.validated_data['astrologer']
+        if session is not None and session.astrologer_id != astrologer.pk:
+            return Response({'detail': 'This session was not with that astrologer.'}, status=status.HTTP_400_BAD_REQUEST)
+        # Only people who actually consulted this astrologer can review them.
+        if not ChatSession.objects.filter(user=request.user, astrologer=astrologer).exclude(status__in=[SessionStatus.REQUESTED]).exists():
+            return Response({'detail': 'You can review an astrologer after a consultation.'}, status=status.HTTP_403_FORBIDDEN)
         if session is not None:
             review, _created = AstrologerReview.objects.update_or_create(
                 user=request.user,
@@ -320,15 +346,10 @@ class AstrologerDashboardProfileApiView(APIView):
 
     def put(self, request):
         astrologer = self.get_object(request)
-        for field in ['display_name', 'bio', 'city', 'is_online', 'available_today', 'price_per_minute', 'response_time', 'estimated_wait_time', 'trust_note']:
-            if field in request.data:
-                setattr(astrologer, field, request.data[field])
-        for json_field in ['languages', 'expertise', 'topic_strengths', 'consultation_modes']:
-            if json_field in request.data:
-                value = request.data[json_field]
-                if isinstance(value, str):
-                    value = [item.strip() for item in value.split(',') if item.strip()]
-                setattr(astrologer, json_field, value)
+        serializer = AstrologerDashboardUpdateSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        for field, value in serializer.validated_data.items():
+            setattr(astrologer, field, value)
         astrologer.save()
         return Response(AstrologerDetailSerializer(astrologer, context={'request': request}).data)
 

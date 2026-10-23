@@ -703,15 +703,34 @@ function showResults(){
     .catch(() => {});
 }
 
-function selectAnswer(idx, btn, timedOut){
+async function selectAnswer(idx, btn, timedOut){
   if(state.answered) return;
   state.answered = true;
   clearInterval(state.timerInterval);
   const q = state.questions[state.current];
-  const correct = idx === q.answerIndex;
   const timeTaken = SECONDS_PER_QUESTION - state.timeLeft;
   const allBtns = document.querySelectorAll(".answer-btn");
   allBtns.forEach((button) => { button.disabled = true; });
+
+  // The server is the only place answers are checked; the browser never receives them up front.
+  let correct = false;
+  let correctIndex = -1;
+  try{
+    const result = await apiFetch("/api/quiz-answer/", {
+      method:"POST",
+      body:{
+        session_id: state.sessionId,
+        question_id: q.id,
+        selected_index: idx,
+        time_taken: timeTaken,
+        timed_out: !!timedOut,
+      },
+    });
+    correct = !!result.correct;
+    correctIndex = Number(result.correctIndex);
+  }catch(error){
+    showToast("Connection problem", "Could not check that answer. Please try again.", "⚠️");
+  }
 
   if(correct){
     btn?.classList.add("correct");
@@ -735,7 +754,7 @@ function selectAnswer(idx, btn, timedOut){
       const icon = btn.querySelector(".answer-result-icon");
       if(icon) icon.textContent = "✗";
     }
-    const correctBtn = allBtns[q.answerIndex];
+    const correctBtn = allBtns[correctIndex];
     if(correctBtn){
       correctBtn.classList.add("correct");
       const icon = correctBtn.querySelector(".answer-result-icon");

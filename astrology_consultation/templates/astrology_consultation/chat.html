@@ -4,19 +4,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Consultation Chat | Science Meet Sanatan</title>
+  <title>Consultation Chat | Science Meets Sanatan</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'header.css' %}?v=3" />
-  <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=4" />
+  <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'astrology_consultation/consultation.css' %}?v=2" />
 </head>
 <body class="consult-body">
   <header class="header">
     <a href="/welcome/" class="logo" aria-label="SMS Home">
       <span class="logo-mark">SMS</span>
-      <span class="logo-text">Science Meet Sanatan</span>
+      <span class="logo-text">Science Meets Sanatan</span>
     </a>
     <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -74,7 +74,7 @@
     </div>
   </header>
 
-  <main class="consult-page consult-page--chat" id="consultChatPage" data-session-id="{{ session_obj.public_id }}" data-astrologer-id="{{ session_obj.astrologer_id }}" data-messages-url="/api/chat-sessions/{{ session_obj.public_id }}/messages/" data-end-url="/api/chat-sessions/{{ session_obj.public_id }}/end/" data-review-url="/api/reviews/">
+  <main class="consult-page consult-page--chat" id="consultChatPage" data-session-id="{{ session_obj.public_id }}" data-astrologer-id="{{ session_obj.astrologer_id }}" data-messages-url="/api/chat-sessions/{{ session_obj.public_id }}/messages/" data-end-url="/api/chat-sessions/{{ session_obj.public_id }}/end/" data-review-url="/api/astrologer-reviews/">
     <section class="consult-chat-shell anim">
       <aside class="consult-chat-sidebar">
         <div class="consult-panel">
@@ -139,7 +139,7 @@
     </section>
   </main>
   {{ session_payload|json_script:"consultSessionPayload" }}
-  <script defer src="{% static 'header.js' %}?v=4"></script>
+  <script defer src="{% static 'header.js' %}?v=5"></script>
   <script defer src="{% static 'astrology_consultation/consultation.js' %}?v=2"></script>
 </body>
 </html>

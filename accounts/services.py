@@ -1,4 +1,6 @@
 import uuid
+from core.ratelimit import client_ip, hit as rate_hit
+from django.core.exceptions import PermissionDenied
 from typing import Optional
 
 from django.contrib.auth.models import AnonymousUser, User
@@ -61,6 +63,9 @@ def get_or_create_guest_profile(request: HttpRequest, response: HttpResponse = N
         except ValueError:
             guest_profile = None
     if guest_profile is None:
+        # Bots that never keep cookies would otherwise create a database row per request.
+        if not rate_hit('guest_create', client_ip(request), 30, 3600):
+            raise PermissionDenied('Too many new sessions from this address. Please try again later.')
         guest_profile = GuestProfile.objects.create(
             guest_uuid=uuid.uuid4(),
             session_key=getattr(getattr(request, 'session', None), 'session_key', None),

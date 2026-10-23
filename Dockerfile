@@ -4,7 +4,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PORT=8080 \
-    DEBUG=True \
     DJANGO_STATICFILES_STORAGE=whitenoise.storage.CompressedManifestStaticFilesStorage
 
 WORKDIR /app

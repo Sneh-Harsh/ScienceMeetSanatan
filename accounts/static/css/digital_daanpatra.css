@@ -151,10 +151,11 @@ body{
   transform: translate(-50%, -48%) scale(0.96);
   width: min(960px, calc(100vw - 2rem));
   max-height: min(88vh, 920px);
-  overflow: auto;
+  max-height: min(88dvh, 920px);
+  overflow: hidden;
   z-index: 2603;
-  display: grid;
-  grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1.08fr);
+  display: flex;
+  flex-direction: column;
   background:
     radial-gradient(circle at top left, rgba(255, 192, 110, 0.12), transparent 24%),
     linear-gradient(180deg, rgba(44, 18, 23, 0.96), rgba(16, 7, 12, 0.98));
@@ -165,6 +166,16 @@ body{
   opacity: 0;
   pointer-events: none;
   transition: transform .34s cubic-bezier(.2,.75,.2,1), opacity .28s ease;
+}
+
+.daanpatra-modal__scroll{
+  display: grid;
+  grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1.08fr);
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .daanpatra-modal.is-visible{
@@ -714,6 +725,9 @@ body.library-audio-mounted .daanpatra-toast{
 @media (max-width: 1024px){
   .daanpatra-modal{
     width: min(920px, calc(100vw - 1.5rem));
+  }
+
+  .daanpatra-modal__scroll{
     grid-template-columns: minmax(250px, 0.82fr) minmax(0, 1fr);
   }
 
@@ -743,9 +757,23 @@ body.library-audio-mounted .daanpatra-toast{
     inset: auto 0 0 0;
     width: 100%;
     max-height: min(90vh, 920px);
+    max-height: min(90dvh, 920px);
     border-radius: 1.6rem 1.6rem 0 0;
     transform: translateY(24px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .daanpatra-modal__scroll{
     grid-template-columns: 1fr;
+  }
+
+  .daanpatra-close{
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: rgba(24, 9, 14, 0.82);
+    backdrop-filter: blur(6px);
   }
 
   .daanpatra-modal.is-visible{

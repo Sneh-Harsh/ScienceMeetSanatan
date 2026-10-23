@@ -75,7 +75,7 @@ except ImportError:  # pragma: no cover - fallback for local environments before
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
-    DEBUG=(bool, True),
+    DEBUG=(bool, False),
     USE_SQLITE=(bool, None),
     SECURE_SSL_REDIRECT=(bool, False),
     SESSION_COOKIE_SECURE=(bool, False),
@@ -93,12 +93,14 @@ def csv_env(name: str, default: str = "") -> list[str]:
     return [item.strip() for item in str(value).split(",") if item.strip()]
 
 
-DEBUG = env.bool("DEBUG", default=True)
+DEBUG = env.bool("DEBUG", default=False)
 
 default_secret = "dev-only-secret-key-change-this" if DEBUG else ""
 SECRET_KEY = env("SECRET_KEY", default=default_secret).strip()
 if not SECRET_KEY:
     raise ImproperlyConfigured("SECRET_KEY must be set when DEBUG is False.")
+if not DEBUG and SECRET_KEY in {"change-me", "dev-only-secret-key-change-this"}:
+    raise ImproperlyConfigured("SECRET_KEY must be a unique random value when DEBUG is False.")
 
 ALLOWED_HOSTS = csv_env(
     "ALLOWED_HOSTS",
@@ -147,6 +149,11 @@ if CLOUDINARY_STORAGE_ENABLED:
     if not find_spec("cloudinary_storage"):
         raise ImproperlyConfigured(
             "CLOUDINARY_STORAGE_ENABLED is True but django-cloudinary-storage is not installed."
+        )
+    if not os.environ.get("CLOUDINARY_URL"):
+        raise ImproperlyConfigured(
+            "CLOUDINARY_STORAGE_ENABLED is True but CLOUDINARY_URL is not set "
+            "(format: cloudinary://API_KEY:API_SECRET@CLOUD_NAME)."
         )
     INSTALLED_APPS.extend(["cloudinary", "cloudinary_storage"])
 
@@ -303,6 +310,21 @@ MEDIA_ROOT = BASE_DIR / env("MEDIA_ROOT", default="media")
 if CLOUDINARY_STORAGE_ENABLED:
     STORAGES["default"] = {"BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage"}
 
+EMAIL_BACKEND = env(
+    "EMAIL_BACKEND",
+    default="django.core.mail.backends.console.EmailBackend" if DEBUG else "django.core.mail.backends.smtp.EmailBackend",
+)
+EMAIL_HOST = env("EMAIL_HOST", default="")
+EMAIL_PORT = env.int("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", default="")
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=True)
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER or "noreply@sms-website.local")
+PASSWORD_RESET_TIMEOUT = 3600
+
+# Placeholder wallet top-up (no payment). Keep off in production.
+WALLET_DEV_RECHARGE_ENABLED = env.bool("WALLET_DEV_RECHARGE_ENABLED", default=DEBUG)
+
 DONATION_UPI_ID = env("DONATION_UPI_ID", default="9742024751@ybl").strip()
 DONATION_PAYEE_NAME = env("DONATION_PAYEE_NAME", default="Sneh Harsh").strip()
 DONATION_QR_URL = env("DONATION_QR_URL", default="").strip()
@@ -316,6 +338,13 @@ LIBRARY_CACHE_SECONDS = env.int("LIBRARY_CACHE_SECONDS", default=900)
 LIBRARY_FETCH_TIMEOUT = env.float("LIBRARY_FETCH_TIMEOUT", default=12)
 
 OPENAI_API_KEY = env("OPENAI_API_KEY", default="").strip()
+
+CACHES = {
+    "default": {
+        "BACKEND": "core.cache.MongoDBCache",
+        "LOCATION": "sms_cache",
+    }
+}
 
 DEFAULT_AUTO_FIELD = "django_mongodb_backend.fields.ObjectIdAutoField"
 
@@ -341,7 +370,7 @@ REST_FRAMEWORK = {
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = env.bool("USE_X_FORWARDED_HOST", default=not DEBUG)
-SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=not DEBUG)
+SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=not DEBUG and "test" not in sys.argv)
 SESSION_COOKIE_SECURE = env.bool("SESSION_COOKIE_SECURE", default=not DEBUG)
 CSRF_COOKIE_SECURE = env.bool("CSRF_COOKIE_SECURE", default=not DEBUG)
 SECURE_HSTS_SECONDS = env.int("SECURE_HSTS_SECONDS", default=31536000 if not DEBUG else 0)

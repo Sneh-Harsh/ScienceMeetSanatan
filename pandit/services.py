@@ -142,6 +142,16 @@ def get_astro_recommendation(user, queryset):
 def create_booking(*, user, pandit: Pandit, service: Service, slot: PanditAvailabilitySlot | None, validated_data: dict) -> Booking:
     pandit_service = PanditService.objects.filter(pandit=pandit, service=service, is_active=True).first()
     price_amount = pandit_service.price if pandit_service else max(service.base_price, pandit.starting_price)
+    if slot is not None:
+        # Claim the slot atomically so two people cannot book the same one.
+        if slot.capacity <= 1:
+            claimed = PanditAvailabilitySlot.objects.filter(pk=slot.pk, is_available=True).update(is_available=False)
+            if not claimed:
+                raise ValueError("That slot has just been booked. Please choose another one.")
+        else:
+            taken = slot.bookings.exclude(status__in=[BookingStatus.CANCELLED, BookingStatus.REJECTED]).count()
+            if taken >= slot.capacity:
+                raise ValueError("That slot is full. Please choose another one.")
     booking = Booking.objects.create(
         user=user,
         pandit=pandit,
@@ -183,3 +193,9 @@ def get_dashboard_payload(pandit: Pandit):
             "today": pandit.bookings.filter(date=now).count(),
         },
     }
+
+
+def release_slot(booking: Booking) -> None:
+    """Give the slot back when a booking is cancelled or rejected."""
+    if booking.slot_id:
+        PanditAvailabilitySlot.objects.filter(pk=booking.slot_id).update(is_available=True)

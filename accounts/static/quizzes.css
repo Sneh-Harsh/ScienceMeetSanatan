@@ -543,12 +543,23 @@ body{min-height:100vh;position:relative;background:var(--bg)}
   .daily-card{flex-direction:column;align-items:flex-start}
   .result-stats-grid{grid-template-columns:1fr 1fr}
   .podium{height:auto;flex-direction:column;align-items:stretch}
-  .nav--quiz{padding:0 .9rem;gap:.6rem;flex-wrap:wrap;height:auto;min-height:64px}
-  .nav-actions{width:100%;justify-content:flex-start;overflow:auto}
+  .nav--quiz{top:66px;padding:.55rem .9rem;gap:.5rem;flex-wrap:wrap;height:auto;min-height:56px}
+  .nav-actions{width:100%;justify-content:flex-start;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .nav-actions::-webkit-scrollbar{display:none}
+  .nav-stat{flex:0 0 auto}
   .screen{padding-top:86px}
   .category-browse{margin-bottom:2.2rem}
   .browse-track{grid-auto-columns:minmax(224px,78vw)}
   .achievement-toast{left:1rem;right:1rem;bottom:1rem;min-width:0;max-width:none}
+}
+/* Phone readability: micro-labels were 9-10px and a few controls were under 30px tall. */
+@media(max-width:600px){
+  .daily-pill,.daily-reward .label,.badge,.card-progress-label,.card-reward-lab,.podium-name,
+  .lb-title,.lb-score-lab,.league-labels,.q-number,.result-score-lab,.result-stat-lab,
+  .share-metric-lab,.lb-chip,.browse-pill,.difficulty-pill,.xp-pill,.count-pill,
+  .browse-card__foot strong,.browse-card__progress span{font-size:max(.7rem,11px)}
+  .lb-toggle button{padding:.55rem .95rem;min-height:36px}
+  .browse-row__view{min-height:40px;padding:0 .4rem}
 }
 @media(max-width:520px){
   .hero{padding:3rem 1rem 1.5rem}

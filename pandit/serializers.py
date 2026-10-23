@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import Booking, Pandit, PanditAvailabilitySlot, PanditService, Review, Service
@@ -137,11 +138,23 @@ class BookingCreateSerializer(serializers.Serializer):
     )
     date = serializers.DateField()
     time = serializers.TimeField()
-    address = serializers.CharField()
-    city = serializers.CharField(required=False, allow_blank=True)
-    notes = serializers.CharField(required=False, allow_blank=True)
-    contact_phone = serializers.CharField(required=False, allow_blank=True)
-    preferred_language = serializers.CharField(required=False, allow_blank=True)
+    address = serializers.CharField(max_length=300)
+    city = serializers.CharField(required=False, allow_blank=True, max_length=120)
+    notes = serializers.CharField(required=False, allow_blank=True, max_length=1000)
+    contact_phone = serializers.RegexField(r"^[0-9+()\- ]{6,20}$", required=False, allow_blank=True)
+    preferred_language = serializers.CharField(required=False, allow_blank=True, max_length=60)
+
+    def validate(self, attrs):
+        pandit = attrs["pandit"]
+        slot = attrs.get("slot")
+        if attrs["date"] < timezone.localdate():
+            raise serializers.ValidationError({"date": "Choose today or a future date."})
+        if slot is not None:
+            if slot.pandit_id != pandit.pk:
+                raise serializers.ValidationError({"slot_id": "That slot does not belong to this pandit."})
+            if slot.date != attrs["date"] or not (slot.start_time <= attrs["time"] <= slot.end_time):
+                raise serializers.ValidationError({"slot_id": "The date and time must fall inside the chosen slot."})
+        return attrs
 
 
 class BookingSerializer(serializers.ModelSerializer):

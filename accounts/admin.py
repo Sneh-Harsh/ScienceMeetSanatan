@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from core.media import upload_form
+
 from .models import Category, GuestProfile, LoginAttempt, PersonProfile, QuizAttempt, UserAccount, UserStats
 
 
@@ -50,6 +52,7 @@ class GuestProfileAdmin(admin.ModelAdmin):
 class UserAccountAdmin(admin.ModelAdmin):
     list_display = ("user", "full_name", "preferred_language", "onboarding_completed", "updated_at")
     search_fields = ("user__username", "full_name")
+    form = upload_form(UserAccount, {"avatar": "image"}, "avatars")
 
 
 @admin.register(PersonProfile)

@@ -1,4 +1,5 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -101,6 +102,9 @@ class ShelfItemCreateView(APIView):
 
     def post(self, request, pk: int):
         shelf = generics.get_object_or_404(UserLibraryShelf, pk=pk, user=request.user)
-        item = generics.get_object_or_404(LibraryItem, pk=request.data.get('library_item_id'))
+        try:
+            item = generics.get_object_or_404(LibraryItem, pk=request.data.get('library_item_id'))
+        except (DjangoValidationError, ValueError, TypeError):
+            return Response({'detail': 'Invalid library item.'}, status=status.HTTP_400_BAD_REQUEST)
         shelf_item = add_item_to_shelf(shelf, item)
         return Response({'id': shelf_item.id, 'library_item_id': item.id})

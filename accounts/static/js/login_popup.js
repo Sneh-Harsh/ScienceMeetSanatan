@@ -348,19 +348,25 @@
       return;
     }
 
-    timerId = window.setTimeout(function () {
-      tryShow("page_load");
-    }, INITIAL_SHOW_DELAY_MS);
+    // On phones a dialog over the first screen blocks the content the visitor came for,
+    // so skip the immediate trigger, wait longer, and require deeper scroll.
+    const compact = window.matchMedia("(max-width: 760px)").matches;
+
+    if (!compact) {
+      timerId = window.setTimeout(function () {
+        tryShow("page_load");
+      }, INITIAL_SHOW_DELAY_MS);
+    }
 
     fallbackTimerId = window.setTimeout(function () {
       tryShow("timer_20s");
-    }, DEFAULT_DELAY_MS);
+    }, compact ? DEFAULT_DELAY_MS * 2 : DEFAULT_DELAY_MS);
 
     const onScroll = throttle(function () {
       const doc = document.documentElement;
       const total = Math.max(doc.scrollHeight - window.innerHeight, 1);
       const progress = (window.scrollY / total) * 100;
-      if (progress >= 40) {
+      if (progress >= (compact ? 60 : 40)) {
         tryShow("scroll_40");
         window.removeEventListener("scroll", onScroll);
       }

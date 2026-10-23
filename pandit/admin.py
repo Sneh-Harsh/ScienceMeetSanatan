@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from core.media import upload_form
+
 from .models import Booking, Pandit, PanditAvailabilitySlot, PanditService, Review, Service
 
 
@@ -19,6 +21,7 @@ class PanditAdmin(admin.ModelAdmin):
     search_fields = ("name", "city", "specialization")
     list_filter = ("city", "verified", "available_today", "is_active")
     prepopulated_fields = {"slug": ("name",)}
+    form = upload_form(Pandit, {"photo": "image"}, "pandits/photos")
     inlines = [PanditServiceInline, PanditAvailabilityInline]
 
 

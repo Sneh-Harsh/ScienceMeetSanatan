@@ -312,7 +312,13 @@
       }
     };
 
+    const otherDialogOpen = () => {
+      const loginPopup = document.getElementById("smsLoginPopup");
+      return Boolean(loginPopup && loginPopup.dataset.state === "open");
+    };
+
     const shouldAutoOpen = () => {
+      if (otherDialogOpen()) return false;
       const dismissedAt = Number(localStorage.getItem(STORAGE.dismissAt) || 0);
       const sessionCount = Number(sessionStorage.getItem(STORAGE.autoCount) || 0);
       const elapsed = Date.now() - dismissedAt;
@@ -343,8 +349,11 @@
 
       lockBody();
       floatingButton?.setAttribute("aria-expanded", "true");
-      const focusTarget = customAmountInput || closeButton || modal;
-      window.setTimeout(() => focusTarget?.focus(), 50);
+      // On small screens focusing the amount input scrolls the sheet past its
+      // header and pops the keyboard, so focus the close button instead.
+      const compactViewport = window.matchMedia("(max-width: 840px)").matches;
+      const focusTarget = compactViewport ? (closeButton || modal) : (customAmountInput || closeButton || modal);
+      window.setTimeout(() => focusTarget?.focus({ preventScroll: true }), 50);
 
       if (auto) {
         incrementAutoOpenCount();
@@ -479,7 +488,12 @@
       saveDonorNote();
     });
 
+    // Time/scroll auto-opens are skipped on phones; the floating button and
+    // intent events (quiz complete, kundali generated, engagement) still work.
+    const passiveAutoOpenAllowed = () => !window.matchMedia("(max-width: 760px)").matches;
+
     const scheduleIdleAutoTrigger = () => {
+      if (!passiveAutoOpenAllowed()) return;
       const scheduler = window.requestIdleCallback || ((cb) => window.setTimeout(cb, 400));
       scheduler(() => {
         autoTriggerTimer = window.setTimeout(() => requestAutoOpen("time_delay"), AUTO_TRIGGER_DELAY_MS);
@@ -494,7 +508,7 @@
         window.requestAnimationFrame(() => {
           const scrollMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
           const ratio = window.scrollY / scrollMax;
-          if (ratio >= 0.4) {
+          if (ratio >= 0.4 && passiveAutoOpenAllowed()) {
             requestAutoOpen("scroll_depth");
           }
           ticking = false;

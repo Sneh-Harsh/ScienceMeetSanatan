@@ -70,6 +70,13 @@ class ReviewFeedbackCreateSerializer(serializers.ModelSerializer):
             'created_at',
         ]
         read_only_fields = ['id', 'created_at']
+        extra_kwargs = {
+            'name_display': {'max_length': 120},
+            'title': {'max_length': 140},
+            'review_text': {'max_length': 2000},
+            'improvement_suggestion': {'max_length': 2000},
+            'page_url': {'max_length': 300},
+        }
 
     def validate(self, attrs):
         for field_name in ('rating_overall', 'rating_ui', 'rating_content', 'rating_speed'):

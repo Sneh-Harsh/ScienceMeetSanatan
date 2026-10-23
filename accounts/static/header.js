@@ -26,7 +26,8 @@ document.querySelectorAll(".header").forEach((header) => {
       if (!wrap) return;
       event.preventDefault();
       event.stopPropagation();
-      wrap.classList.toggle("open");
+      const isOpen = wrap.classList.toggle("open");
+      trigger.setAttribute("aria-expanded", String(isOpen));
     });
   });
 
@@ -40,6 +41,8 @@ document.querySelectorAll(".header").forEach((header) => {
   });
 
   header.querySelectorAll(".nav-link, .quiz-link, .dropdown a, .profile-link, .logout-btn").forEach((link) => {
+    // Dropdown triggers only expand their submenu on mobile; closing here would collapse the menu before it can be used.
+    if (link.matches(".explore-wrap > .nav-link")) return;
     link.addEventListener("click", () => {
       if (window.innerWidth <= mobileBreakpoint) {
         closeMenu();
@@ -59,6 +62,13 @@ document.querySelectorAll(".header").forEach((header) => {
     const clickedMenuButton = menuButton?.contains(event.target);
     if (!clickedInsideShell && !clickedMenuButton) {
       closeMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && header.classList.contains("menu-open")) {
+      closeMenu();
+      menuButton?.focus();
     }
   });
 });

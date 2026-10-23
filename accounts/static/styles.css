@@ -13,9 +13,12 @@ body {
   min-height: 100vh;
   display: grid;
   place-items: center;
+  place-items: safe center;
+  padding: 3.5rem 0 1.25rem;
   background: #08090c;
   color: #f5f7ff;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
 }
 

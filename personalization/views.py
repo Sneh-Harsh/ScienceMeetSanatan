@@ -1,5 +1,6 @@
 from django.db import OperationalError, ProgrammingError
 from django.db.models import Avg, Count
+from core.ratelimit import rate_limited
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -78,6 +79,7 @@ class ReviewCreateView(generics.CreateAPIView):
     serializer_class = ReviewFeedbackCreateSerializer
     permission_classes = [permissions.AllowAny]
 
+    @rate_limited('review_create', 5, 3600)
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -139,7 +141,10 @@ class PublicReviewListView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request):
-        limit = min(max(int(request.GET.get('limit', 8) or 8), 1), 24)
+        try:
+            limit = min(max(int(request.GET.get('limit', 8) or 8), 1), 24)
+        except (TypeError, ValueError):
+            limit = 8
         try:
             queryset = ReviewFeedback.objects.filter(
                 moderation_status=ReviewModerationStatus.APPROVED,

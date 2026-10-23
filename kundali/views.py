@@ -1,8 +1,11 @@
 import json
+import logging
 from typing import Dict, Iterable
 
 from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.http import require_GET, require_POST
+
+from core.ratelimit import rate_limited
 
 from .calculations import build_kundali
 from .dasha_engine import build_dasha_experience
@@ -12,8 +15,34 @@ from .horoscope_engine import build_horoscope
 from .oracle_service import ask_oracle, build_astro_context, generate_personalized_summary, get_suggested_prompts, profile_fingerprint
 from .remedies_engine import build_remedies
 
+logger = logging.getLogger(__name__)
+
+SERVER_ERROR = "Something went wrong while calculating this. Please check your details and try again."
+MAX_QUESTION_CHARS = 500
+MAX_HISTORY_ITEMS = 6
+MAX_HISTORY_ITEM_CHARS = 600
+
+
+def _check_ranges(*, lat, lon, year, date_str="", time_str="", tz_name=""):
+    """Reject out-of-range input before it reaches the (expensive) astro engine."""
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        raise ValueError("Latitude or longitude is out of range.")
+    if not (1900 <= year <= 2100):
+        raise ValueError("Year must be between 1900 and 2100.")
+    if len(date_str) > 32 or len(time_str) > 32 or len(tz_name) > 64:
+        raise ValueError("Invalid birth profile values.")
+
+
+def _trim_history(history):
+    trimmed = []
+    for item in history[-MAX_HISTORY_ITEMS:]:
+        if isinstance(item, dict):
+            trimmed.append({str(k)[:40]: str(v)[:MAX_HISTORY_ITEM_CHARS] for k, v in list(item.items())[:6]})
+    return trimmed
+
 
 @require_GET
+@rate_limited('kundali_api', 120, 3600)
 def kundali_api(request):
     """
     GET /api/kundali?date=YYYY-MM-DD&time=HH:MM&lat=..&lon=..&tz=Asia/Kolkata
@@ -30,6 +59,11 @@ def kundali_api(request):
         lon = float(request.GET.get("lon") or 77.2090)
     except Exception:
         return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+
+    try:
+        _check_ranges(lat=lat, lon=lon, year=2026, date_str=date_str, time_str=time_str, tz_name=tz)
+    except ValueError as exc:
+        return JsonResponse({"error": str(exc)}, status=400)
 
     try:
         payload = build_kundali(date_str=date_str, time_str=time_str, lat=lat, lon=lon, tz_name=tz)
@@ -53,13 +87,15 @@ def kundali_api(request):
             dasha_experience=payload["dasha_experience"],
             climate=payload["experience"]["planetary_climate"],
         )
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("Kundali/oracle request failed")
+        return JsonResponse({"error": SERVER_ERROR}, status=500)
 
     return JsonResponse(payload)
 
 
 @require_GET
+@rate_limited('horoscope_api', 120, 3600)
 def horoscope_api(request):
     date_str = (request.GET.get("date") or "").strip()
     time_str = (request.GET.get("time") or "").strip()
@@ -77,6 +113,11 @@ def horoscope_api(request):
         return JsonResponse({"error": "Invalid input values."}, status=400)
 
     try:
+        _check_ranges(lat=lat, lon=lon, year=specific_year, date_str=date_str, time_str=time_str, tz_name=tz)
+    except ValueError as exc:
+        return JsonResponse({"error": str(exc)}, status=400)
+
+    try:
         payload = build_horoscope(
             date_str=date_str,
             time_str=time_str,
@@ -86,8 +127,9 @@ def horoscope_api(request):
             specific_year=specific_year,
             debug=debug,
         )
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("Kundali/oracle request failed")
+        return JsonResponse({"error": SERVER_ERROR}, status=500)
 
     return JsonResponse(payload)
 
@@ -116,7 +158,10 @@ def _oracle_request_payload(request) -> Dict:
     except Exception as exc:
         raise ValueError("Invalid birth profile values.") from exc
 
-    history = body.get("history") if isinstance(body.get("history"), list) else []
+    if len(question) > MAX_QUESTION_CHARS:
+        raise ValueError(f"Question is too long (max {MAX_QUESTION_CHARS} characters).")
+    _check_ranges(lat=lat, lon=lon, year=specific_year, date_str=date_str, time_str=time_str, tz_name=tz_name)
+    history = _trim_history(body.get("history")) if isinstance(body.get("history"), list) else []
     return {
         "date_str": date_str,
         "time_str": time_str,
@@ -151,6 +196,7 @@ def _summary_request_payload(request) -> Dict:
     except Exception as exc:
         raise ValueError("Invalid birth profile values.") from exc
 
+    _check_ranges(lat=lat, lon=lon, year=specific_year, date_str=date_str, time_str=time_str, tz_name=tz_name)
     return {
         "date_str": date_str,
         "time_str": time_str,
@@ -158,7 +204,7 @@ def _summary_request_payload(request) -> Dict:
         "lon": lon,
         "tz_name": tz_name,
         "specific_year": specific_year,
-        "scope_key": scope_key,
+        "scope_key": scope_key[:32],
     }
 
 
@@ -179,6 +225,7 @@ def _stream_direct_answer(answer: Dict) -> Iterable[bytes]:
 
 
 @require_POST
+@rate_limited('oracle_api', 20, 3600)
 def oracle_api(request):
     try:
         payload = _oracle_request_payload(request)
@@ -198,8 +245,9 @@ def oracle_api(request):
         )
     except ValueError as exc:
         return JsonResponse({"error": str(exc)}, status=400)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("Kundali/oracle request failed")
+        return JsonResponse({"error": SERVER_ERROR}, status=500)
 
     return JsonResponse(
         {
@@ -212,6 +260,7 @@ def oracle_api(request):
 
 
 @require_POST
+@rate_limited('oracle_stream_api', 20, 3600)
 def oracle_stream_api(request):
     try:
         payload = _oracle_request_payload(request)
@@ -232,8 +281,9 @@ def oracle_stream_api(request):
         suggested_prompts = get_suggested_prompts(astro_context)
     except ValueError as exc:
         return JsonResponse({"error": str(exc)}, status=400)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("Kundali/oracle request failed")
+        return JsonResponse({"error": SERVER_ERROR}, status=500)
 
     def event_stream():
         yield _sse("meta", {"suggested_prompts": suggested_prompts, "profile_key": profile_fingerprint(astro_context["profile"])})
@@ -246,6 +296,7 @@ def oracle_stream_api(request):
 
 
 @require_POST
+@rate_limited('horoscope_summary_api', 30, 3600)
 def horoscope_summary_api(request):
     try:
         payload = _summary_request_payload(request)
@@ -264,7 +315,8 @@ def horoscope_summary_api(request):
         )
     except ValueError as exc:
         return JsonResponse({"error": str(exc)}, status=400)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("Kundali/oracle request failed")
+        return JsonResponse({"error": SERVER_ERROR}, status=500)
 
     return JsonResponse({"summary": summary})

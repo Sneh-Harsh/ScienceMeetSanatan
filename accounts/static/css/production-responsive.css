@@ -183,8 +183,6 @@ table {
     padding-right: var(--sms-mobile-gutter);
   }
 
-  .sms-login-popup__dialog,
-  .daanpatra-modal,
   .review-modal,
   .pandit-world-modal__dialog {
     max-width: calc(100vw - 1rem);
@@ -218,5 +216,196 @@ table {
   .pandit-booking-actions > * {
     width: 100%;
     justify-content: center;
+  }
+}
+
+/* Floating actions collapse to icon buttons on phones so they stop covering content. */
+@media (max-width: 640px) {
+  .daanpatra-floating,
+  .review-floating-trigger {
+    width: 52px;
+    height: 52px;
+    min-width: 0;
+    min-height: 52px;
+    max-width: 52px;
+    padding: 0;
+    gap: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .review-floating-trigger {
+    bottom: calc(var(--sms-floating-bottom-base, max(14px, env(safe-area-inset-bottom))) + 52px + var(--sms-floating-stack-gap, 12px));
+  }
+
+  .review-floating-trigger__icon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .daanpatra-floating__copy,
+  .review-floating-trigger__copy {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Mini audio player: keep the title on one line and free space by moving skip controls to the full player. */
+@media (max-width: 480px) {
+  .audio-mini-title {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #audioMiniPrevBtn,
+  #audioMiniNextBtn {
+    display: none;
+  }
+}
+
+/* Library reader: on phones let book pages flow with the page instead of trapping text in a 60vh inner scroller. */
+@media (max-width: 900px) {
+  .reader-content:not(.reader-content--pdf) {
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .book-page {
+    min-height: 0;
+  }
+
+  .book-page:not(.book-page--pdf) .book-page__body {
+    height: auto;
+    overflow: visible;
+  }
+}
+
+@media (max-width: 640px) {
+  .detail-hero__head {
+    gap: 0.8rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .detail-actions {
+    gap: 0.5rem;
+  }
+
+  .detail-action-btn {
+    min-height: 44px;
+    padding: 0.55rem 0.95rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Reader lines are block elements; inherited pre-wrap turned template indentation into a blank gap above the text. */
+.book-page__body,
+.reader-scroll-shell {
+  white-space: normal;
+}
+
+/* While the mobile nav is open, floating helpers and the mini player must not sit on top of it. */
+@media (max-width: 1120px) {
+  body:has(.header.menu-open) .daanpatra-floating,
+  body:has(.header.menu-open) .review-floating-trigger,
+  body:has(.header.menu-open) .audio-player-shell {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* Inputs under 16px make iOS Safari zoom the page on focus. */
+@media (max-width: 760px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+input::placeholder,
+textarea::placeholder {
+  text-overflow: ellipsis;
+}
+
+/* Readability floor for micro-labels on phones (several were 7-10px). */
+@media (max-width: 640px) {
+  .hero-metric__label,
+  .hero-metric__sub,
+  .hero-pane__label,
+  .hero-kicker,
+  .hero-sub,
+  .hero-command__button,
+  .hero-reminders-panel__eyebrow,
+  .hero-reminders-panel__status,
+  .sun-telemetry__label,
+  .toggle__label,
+  .recommendation-item__tag,
+  .recommendation-item__link,
+  .marriage-panel__count-label,
+  .marriage-metric__label,
+  .marriage-rankings__sub,
+  .marriage-rank-card__meta,
+  .marriage-timeline-item__window,
+  .karmic-dasha-badge,
+  .karmic-reason,
+  .legend-label,
+  .sage-note__eyebrow,
+  .auspicious-planner__label,
+  .kharmas-panel__status,
+  .kharmas-panel__meta,
+  .kharmas-item__badge,
+  .kharmas-item__status,
+  .feature-card__eyebrow,
+  .feature-card__action,
+  .calendar-kicker,
+  .cal-tithi,
+  .observatory-insights__meta,
+  .timeline-segment__time,
+  .summary-chip__label,
+  .vault-ref,
+  .vault-add-label,
+  .sidebar-kicker,
+  .panel-kicker,
+  .featured-label,
+  .stat-label,
+  .detail-meta,
+  .reader-kicker,
+  .side-reading-progress__meta,
+  .progress-pct,
+  .section-kicker,
+  .instrument-label,
+  .library-audio-trigger,
+  .btn-upgrade,
+  .audio-mini-state,
+  .kundali-planetarium-copy__kicker,
+  .lb-chip,
+  .browse-pill,
+  .difficulty-pill,
+  .xp-pill,
+  .count-pill,
+  .daily-pill {
+    font-size: max(0.7rem, 11px);
+  }
+
+  .nakshatra-sphere__label,
+  .nakshatra-sphere__sub {
+    font-size: max(0.6rem, 9.5px);
+  }
+}
+
+@media (max-width: 1120px) {
+  .dropdown a {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
   }
 }
