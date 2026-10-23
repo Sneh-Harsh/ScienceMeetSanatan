@@ -68,7 +68,7 @@ class AstrologyConsultationTests(TestCase):
         response = self.client.post(
             reverse("api_start_chat_session"),
             {
-                "astrologer_id": self.astrologer.id,
+                "astrologer_id": str(self.astrologer.id),
                 "topic": "Marriage timing",
                 "birth_share_mode": "none",
             },

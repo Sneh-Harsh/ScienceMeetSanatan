@@ -53,8 +53,6 @@ class SavedPanchaangPreference(models.Model):
                 condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
                 name='panchaang_preference_actor_required',
             ),
-            models.UniqueConstraint(fields=['user'], condition=models.Q(user__isnull=False), name='unique_user_panchaang_preference'),
-            models.UniqueConstraint(fields=['guest_profile'], condition=models.Q(guest_profile__isnull=False), name='unique_guest_panchaang_preference'),
         ]
 
 

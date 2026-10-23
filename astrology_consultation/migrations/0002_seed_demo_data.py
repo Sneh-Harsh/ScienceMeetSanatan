@@ -418,6 +418,7 @@ def remove_demo_data(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
+        ("auth", "0001_initial"),
         ("astrology_consultation", "0001_initial"),
     ]
 

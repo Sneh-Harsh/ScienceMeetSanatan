@@ -64,14 +64,16 @@ class Bookmark(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        indexes = [models.Index(fields=['content_type', 'object_id'])]
+        indexes = [
+            models.Index(fields=['content_type', 'object_id']),
+            models.Index(fields=['user', 'content_type', 'object_id'], name='idx_user_bookmark'),
+            models.Index(fields=['guest_profile', 'content_type', 'object_id'], name='idx_guest_bookmark'),
+        ]
         constraints = [
             _check_constraint(
                 condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
                 name='bookmark_actor_required',
             ),
-            models.UniqueConstraint(fields=['user', 'content_type', 'object_id'], condition=models.Q(user__isnull=False), name='unique_user_bookmark'),
-            models.UniqueConstraint(fields=['guest_profile', 'content_type', 'object_id'], condition=models.Q(guest_profile__isnull=False), name='unique_guest_bookmark'),
         ]
 
 
@@ -89,13 +91,15 @@ class ReadingProgress(models.Model):
 
     class Meta:
         ordering = ['-last_opened_at']
+        indexes = [
+            models.Index(fields=['user', 'content_type', 'object_id'], name='idx_user_progress'),
+            models.Index(fields=['guest_profile', 'content_type', 'object_id'], name='idx_guest_progress'),
+        ]
         constraints = [
             _check_constraint(
                 condition=models.Q(user__isnull=False) | models.Q(guest_profile__isnull=False),
                 name='progress_actor_required',
             ),
-            models.UniqueConstraint(fields=['user', 'content_type', 'object_id'], condition=models.Q(user__isnull=False), name='unique_user_progress'),
-            models.UniqueConstraint(fields=['guest_profile', 'content_type', 'object_id'], condition=models.Q(guest_profile__isnull=False), name='unique_guest_progress'),
         ]
 
 

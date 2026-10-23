@@ -98,8 +98,16 @@
           <div class="divider" aria-hidden="true"><span>or continue with</span></div>
 
           <div class="social-buttons">
-            <a class="social-btn{% if not google_oauth_configured %} disabled{% endif %}" href="/oauth/login/google-oauth2/">Google</a>
-            <a class="social-btn{% if not apple_oauth_configured %} disabled{% endif %}" href="/oauth/login/apple-id/">Apple ID</a>
+            <form method="post" action="/oauth/login/google-oauth2/">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next_url|default:'/welcome/' }}">
+              <button class="social-btn{% if not google_oauth_configured %} disabled{% endif %}" type="submit"{% if not google_oauth_configured %} disabled title="Google login is not configured"{% endif %}>Google</button>
+            </form>
+            <form method="post" action="/oauth/login/apple-id/">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next_url|default:'/welcome/' }}">
+              <button class="social-btn{% if not apple_oauth_configured %} disabled{% endif %}" type="submit"{% if not apple_oauth_configured %} disabled title="Apple login is not configured"{% endif %}>Apple ID</button>
+            </form>
           </div>
         </div>
       </section>

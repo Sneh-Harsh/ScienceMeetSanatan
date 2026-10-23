@@ -284,8 +284,19 @@ body::before {
 }
 
 
+.social-buttons form {
+  display: contents;
+}
+
+.social-buttons .social-btn {
+  width: 100%;
+  font: inherit;
+  font-weight: 600;
+}
+
 .social-btn.disabled {
   opacity: 0.55;
+  cursor: not-allowed;
 }
 
 body.video-only .login-wrapper {

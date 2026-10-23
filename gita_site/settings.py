@@ -112,9 +112,10 @@ CSRF_TRUSTED_ORIGINS = csv_env(
 SOCIAL_AUTH_ENABLED = find_spec("social_django") is not None
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
+    "gita_site.mongo_apps.MongoAdminConfig",
+    "gita_site.mongo_apps.MongoAuthConfig",
+    "gita_site.mongo_apps.MongoContentTypesConfig",
+    "django_mongodb_backend",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
@@ -141,7 +142,7 @@ if CLOUDINARY_STORAGE_ENABLED:
     INSTALLED_APPS.extend(["cloudinary", "cloudinary_storage"])
 
 if SOCIAL_AUTH_ENABLED:
-    INSTALLED_APPS.append("social_django")
+    INSTALLED_APPS.append("gita_site.mongo_apps.MongoSocialDjangoConfig")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -186,62 +187,21 @@ TEMPLATES = [
 WSGI_APPLICATION = "gita_site.wsgi.application"
 
 
-def build_database_config() -> dict:
-    database_url = env("DATABASE_URL", default="").strip()
-    if database_url:
-        config = env.db("DATABASE_URL")
-    else:
-        use_sqlite_default = DEBUG
-        use_sqlite_env = env("USE_SQLITE", default="")
-        use_sqlite = (
-            use_sqlite_default
-            if use_sqlite_env == ""
-            else env.bool("USE_SQLITE", default=use_sqlite_default)
-        )
+MONGODB_URI = env("MONGODB_URI", default="").strip()
+MONGODB_DB_NAME = env("MONGODB_DB_NAME", default="sms_website").strip()
+if not MONGODB_URI:
+    raise ImproperlyConfigured(
+        "MONGODB_URI is not set. Add your MongoDB connection string to .env "
+        "(see .env.example)."
+    )
 
-        connection_name = env("INSTANCE_CONNECTION_NAME", default="").strip()
-        db_host = env("DB_HOST", default="").strip()
-        if not db_host and connection_name:
-            db_host = f"/cloudsql/{connection_name}"
-
-        if use_sqlite:
-            sqlite_name = env("SQLITE_PATH", default=str(BASE_DIR / "db.sqlite3"))
-            config = {
-                "ENGINE": "django.db.backends.sqlite3",
-                "NAME": sqlite_name,
-            }
-        else:
-            required = {
-                "DB_NAME": env("DB_NAME", default="").strip(),
-                "DB_USER": env("DB_USER", default="").strip(),
-                "DB_PASSWORD": env("DB_PASSWORD", default="").strip(),
-                "DB_HOST": db_host,
-                "DB_PORT": env("DB_PORT", default="5432").strip(),
-            }
-            missing = [key for key, value in required.items() if not value]
-            if missing:
-                raise ImproperlyConfigured(
-                    "PostgreSQL configuration is incomplete. Missing: " + ", ".join(missing)
-                )
-
-            config = {
-                "ENGINE": "django.db.backends.postgresql",
-                "NAME": required["DB_NAME"],
-                "USER": required["DB_USER"],
-                "PASSWORD": required["DB_PASSWORD"],
-                "HOST": required["DB_HOST"],
-                "PORT": required["DB_PORT"],
-            }
-            sslmode = env("DB_SSLMODE", default="").strip()
-            if sslmode:
-                config["OPTIONS"] = {"sslmode": sslmode}
-
-    config["CONN_MAX_AGE"] = env.int("DB_CONN_MAX_AGE", default=600 if not DEBUG else 0)
-    config["CONN_HEALTH_CHECKS"] = env.bool("DB_CONN_HEALTH_CHECKS", default=not DEBUG)
-    return config
-
-
-DATABASES = {"default": build_database_config()}
+DATABASES = {
+    "default": {
+        "ENGINE": "django_mongodb_backend",
+        "HOST": MONGODB_URI,
+        "NAME": MONGODB_DB_NAME,
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -284,6 +244,7 @@ if SOCIAL_AUTH_ENABLED:
         "social_core.pipeline.social_auth.social_uid",
         "social_core.pipeline.social_auth.auth_allowed",
         "social_core.pipeline.social_auth.social_user",
+        "social_core.pipeline.social_auth.associate_by_email",
         "social_core.pipeline.user.get_username",
         "social_core.pipeline.user.create_user",
         "social_core.pipeline.social_auth.associate_user",
@@ -294,6 +255,9 @@ if SOCIAL_AUTH_ENABLED:
 
     SOCIAL_AUTH_REDIRECT_IS_HTTPS = not DEBUG
     SOCIAL_AUTH_URL_NAMESPACE = "social"
+    SOCIAL_AUTH_LOGIN_ERROR_URL = "/login/?mode=login"
+    SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/welcome/"
+    SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/welcome/"
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/welcome/"
@@ -339,9 +303,20 @@ LIBRARY_FETCH_TIMEOUT = env.float("LIBRARY_FETCH_TIMEOUT", default=12)
 
 OPENAI_API_KEY = env("OPENAI_API_KEY", default="").strip()
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_AUTO_FIELD = "django_mongodb_backend.fields.ObjectIdAutoField"
+
+MIGRATION_MODULES = {
+    "admin": "gita_site.mongo_migrations.admin",
+    "auth": "gita_site.mongo_migrations.auth",
+    "contenttypes": "gita_site.mongo_migrations.contenttypes",
+    "social_django": "gita_site.mongo_migrations.social_django",
+}
 
 REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": [
+        "core.rest.MongoJSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
     ],

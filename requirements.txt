@@ -1,4 +1,4 @@
-Django==4.2.29
+Django>=6.1,<6.2
 djangorestframework>=3.16,<4.0
 social-auth-app-django>=5.4,<6.0
 openpyxl>=3.1,<4.0
@@ -7,5 +7,6 @@ whitenoise
 gunicorn
 cloudinary
 django-environ>=0.11,<1.0
-psycopg2-binary>=2.9,<3.0
+django-mongodb-backend>=6.1,<6.2
+dnspython>=2.6
 django-cloudinary-storage>=0.3.0,<0.4.0

@@ -58,9 +58,9 @@ class PanditMarketplaceTests(TestCase):
         response = self.client.post(
             reverse("api_pandit_booking_create"),
             {
-                "pandit_id": self.pandit.id,
-                "service_id": self.service.id,
-                "slot_id": self.slot.id,
+                "pandit_id": str(self.pandit.id),
+                "service_id": str(self.service.id),
+                "slot_id": str(self.slot.id),
                 "date": str(self.slot.date),
                 "time": "10:00:00",
                 "address": "221B Temple Road",

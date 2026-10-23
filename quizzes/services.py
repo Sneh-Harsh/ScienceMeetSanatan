@@ -28,15 +28,15 @@ def _rank_score(percentage: float, score: float, duration_seconds: int) -> float
 @transaction.atomic
 
 def submit_quiz_attempt(actor: Actor, quiz: Quiz, answers: list, duration_seconds: int = 0, device_fingerprint: str = '') -> QuizAttempt:
-    question_map = {question.id: question for question in quiz.questions.prefetch_related('choices').filter(is_active=True)}
+    question_map = {str(question.id): question for question in quiz.questions.prefetch_related('choices').filter(is_active=True)}
     correct = incorrect = unanswered = 0
     graded_answers = []
     for answer in answers:
-        question = question_map.get(int(answer.get('question_id')))
+        question = question_map.get(str(answer.get('question_id')))
         if not question:
             continue
         choice_id = answer.get('choice_id')
-        selected_choice = next((choice for choice in question.choices.all() if choice.id == choice_id), None)
+        selected_choice = next((choice for choice in question.choices.all() if str(choice.id) == str(choice_id)), None)
         is_correct = bool(selected_choice and selected_choice.is_correct)
         if choice_id is None:
             unanswered += 1
@@ -45,7 +45,7 @@ def submit_quiz_attempt(actor: Actor, quiz: Quiz, answers: list, duration_second
         else:
             incorrect += 1
         graded_answers.append({
-            'question_id': question.id,
+            'question_id': str(question.id),
             'choice_id': choice_id,
             'is_correct': is_correct,
         })
