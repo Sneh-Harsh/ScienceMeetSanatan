@@ -201,7 +201,6 @@ class PanditProfileUpdateSerializer(serializers.ModelSerializer):
             "specialization_tags",
             "bio",
             "certifications",
-            "photos_videos",
             "astro_focus",
             "trust_note",
             "available_today",

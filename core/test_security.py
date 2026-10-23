@@ -255,3 +255,31 @@ class PublicEndpointTests(SecurityTestCase):
         body = {'profile': {'date': 'not-a-date', 'time': '10:00'}, 'question': 'hi'}
         response = Client().post('/api/oracle', json.dumps(body), content_type='application/json')
         self.assertNotIn('Traceback', response.content.decode())
+
+
+class PanditGalleryTests(SecurityTestCase):
+    def setUp(self):
+        super().setUp()
+        self.pandit = Pandit.objects.create(name='Gallery', slug='gallery-sec', city='X', experience=1, starting_price=1, user=self.user)
+
+    def _api(self):
+        api = APIClient()
+        api.force_authenticate(self.user)
+        return api
+
+    def test_profile_update_cannot_write_gallery(self):
+        crafted = [{'type': 'image', 'url': 'https://x/y.jpg', 'public_id': 'sms/avatars/someone-else'}]
+        response = self._api().put(reverse('api_pandit_dashboard_profile'), {'photos_videos': crafted}, format='json')
+        self.assertIn(response.status_code, (200, 400))
+        self.pandit.refresh_from_db()
+        self.assertEqual(self.pandit.photos_videos, [])
+
+    def test_delete_only_touches_own_gallery_folder(self):
+        victim_id = 'sms/avatars/someone-else'
+        self.pandit.photos_videos = [{'type': 'image', 'url': 'https://x/y.jpg', 'public_id': victim_id}]
+        self.pandit.save()
+        from unittest import mock
+        with mock.patch('pandit.views.delete_media') as destroy:
+            response = self._api().delete(reverse('api_pandit_dashboard_media'), {'public_id': victim_id}, format='json')
+        self.assertEqual(response.status_code, 404)
+        destroy.assert_not_called()

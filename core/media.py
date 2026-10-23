@@ -22,13 +22,31 @@ def is_configured() -> bool:
     return bool(os.environ.get('CLOUDINARY_URL'))
 
 
+def _sniff(upload) -> str:
+    """Identify the file from its first bytes; the browser-supplied type is not trusted."""
+    position = upload.tell() if hasattr(upload, 'tell') else 0
+    head = upload.read(32)
+    upload.seek(position)
+    if head.startswith(b'\xff\xd8\xff') or head.startswith(b'\x89PNG\r\n\x1a\n') or head[:6] in (b'GIF87a', b'GIF89a'):
+        return 'image'
+    if head[:4] == b'RIFF' and head[8:12] == b'WEBP':
+        return 'image'
+    if head[4:8] == b'ftyp' or head[:4] == b'\x1a\x45\xdf\xa3':  # MP4/MOV or WebM/Matroska
+        return 'video'
+    return ''
+
+
 def media_kind(upload) -> str:
     content_type = (getattr(upload, 'content_type', '') or '').lower()
     if content_type in IMAGE_TYPES:
-        return 'image'
-    if content_type in VIDEO_TYPES:
-        return 'video'
-    raise MediaUploadError('Unsupported file type. Use JPG, PNG, WebP, GIF, MP4, MOV or WebM.')
+        declared = 'image'
+    elif content_type in VIDEO_TYPES:
+        declared = 'video'
+    else:
+        raise MediaUploadError('Unsupported file type. Use JPG, PNG, WebP, GIF, MP4, MOV or WebM.')
+    if _sniff(upload) != declared:
+        raise MediaUploadError('That file does not look like a valid ' + declared + '.')
+    return declared
 
 
 def upload_media(upload, folder: str, allowed=('image',)) -> dict:

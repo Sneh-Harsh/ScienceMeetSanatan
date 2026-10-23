@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_GET
 from rest_framework import generics, permissions, status
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import MultiPartParser
+from rest_framework.parsers import JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -284,13 +284,16 @@ class PanditDashboardPhotoApiView(APIView):
         return Response({"photo": pandit.photo})
 
 
+GALLERY_PREFIX = "sms/pandits/gallery/"
+
+
 class PanditDashboardMediaApiView(APIView):
     """Gallery of photos/videos stored in Pandit.photos_videos.
 
     POST a multipart "file" to add an item; DELETE with {"public_id": ...} to remove one.
     """
     permission_classes = [permissions.IsAuthenticated]
-    parser_classes = [MultiPartParser]
+    parser_classes = [MultiPartParser, JSONParser]
     MAX_ITEMS = 12
 
     def get_object(self, request):
@@ -315,6 +318,9 @@ class PanditDashboardMediaApiView(APIView):
             media = upload_media(upload, "pandits/gallery", allowed=("image", "video"))
         except MediaUploadError as exc:
             return Response({"error": " ".join(exc.messages)}, status=status.HTTP_400_BAD_REQUEST)
+        if not str(media.get("public_id", "")).startswith(GALLERY_PREFIX):
+            delete_media(media.get("public_id"), media.get("type", "image"))
+            return Response({"error": "Upload failed. Please try again."}, status=status.HTTP_400_BAD_REQUEST)
         items.append(media)
         pandit.photos_videos = items
         pandit.save(update_fields=["photos_videos", "updated_at"])
@@ -324,7 +330,12 @@ class PanditDashboardMediaApiView(APIView):
         pandit = self.get_object(request)
         public_id = request.data.get("public_id")
         items = list(pandit.photos_videos or [])
-        removed = [i for i in items if isinstance(i, dict) and i.get("public_id") == public_id]
+        # Only entries in this pandit's own gallery folder may be removed, so a crafted
+        # public_id can never point at someone else's Cloudinary file.
+        removed = [
+            i for i in items
+            if isinstance(i, dict) and i.get("public_id") == public_id and str(public_id).startswith(GALLERY_PREFIX)
+        ]
         if not removed:
             return Response({"error": "Item not found."}, status=status.HTTP_404_NOT_FOUND)
         pandit.photos_videos = [i for i in items if i not in removed]
