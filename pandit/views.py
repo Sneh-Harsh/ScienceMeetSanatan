@@ -48,39 +48,8 @@ class PanditPagination(PageNumberPagination):
 
 @require_GET
 def pandit_marketplace_page(request):
-    queryset = build_pandit_queryset(request.GET)
-    paginator = Paginator(queryset, 9)
-    page_number = request.GET.get("page") or 1
-    page_obj = paginator.get_page(page_number)
-    services = Service.objects.order_by("name")
-    service_worlds = build_service_worlds(services)
-
-    initial_cards = PanditCardSerializer(page_obj.object_list, many=True).data
-    astro_match = get_astro_recommendation(request.user, page_obj.object_list) if request.user.is_authenticated else None
-    user_bookings = []
-    if request.user.is_authenticated:
-        user_bookings = Booking.objects.filter(user=request.user).select_related("pandit", "service").order_by("date", "time")[:6]
-
-    return render(
-        request,
-        "pandit/index.html",
-        {
-            "pandit_filters": get_pandit_filters(),
-            "pandit_cards": initial_cards,
-            "pandit_cards_json": initial_cards,
-            "page_obj": page_obj,
-            "services": services,
-            "service_worlds": service_worlds,
-            "active_service": request.GET.get("service", ""),
-            "active_city": request.GET.get("city", ""),
-            "active_language": request.GET.get("language", ""),
-            "active_rating": request.GET.get("rating", ""),
-            "active_query": request.GET.get("q", ""),
-            "available_today": str(request.GET.get("available_today", "")).lower() in {"1", "true", "yes"},
-            "astro_match": astro_match,
-            "user_bookings": user_bookings,
-        },
-    )
+    # The Pandit Booking page is a static, WhatsApp-led enquiry flow: it needs no database lookups.
+    return render(request, "pandit/index.html")
 
 
 @require_GET

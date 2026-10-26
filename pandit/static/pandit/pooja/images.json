@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "cloudName": "dmnm8z8dc",
+  "note": "One entry per guide id (see guides.json). 'status' is 'supplied' when a real Cloudinary asset is configured and 'placeholder' when none has been provided yet: placeholders never show a made-up picture, only a labelled neutral tile. To add or replace an image, upload it to your Cloudinary Media Library, then set publicId (and resourceType) here. resourceType is 'image' for a photo/artwork or 'video' to use the first frame of a video you already uploaded. Never put API keys or secrets in this file.",
+  "images": {
+    "ganesh-puja": {
+      "status": "supplied",
+      "resourceType": "video",
+      "publicId": "v1775370745/ganesha_uvxv3l",
+      "alt": "Stylised artwork of Lord Ganesha",
+      "caption": "Lord Ganesha",
+      "attribution": "Science Meets Sanatan artwork (first frame of the Ganesha clip already used on the Baby Names page). Replace with your preferred still if you wish."
+    },
+    "lakshmi-puja": {
+      "status": "supplied",
+      "resourceType": "video",
+      "publicId": "v1775370745/laxmi_oh9o9t",
+      "alt": "Stylised artwork of Goddess Lakshmi",
+      "caption": "Goddess Lakshmi",
+      "attribution": "Science Meets Sanatan artwork (first frame of the Lakshmi clip already used on the Baby Names page). Replace with your preferred still if you wish."
+    },
+    "rudrabhishek": {
+      "status": "supplied",
+      "resourceType": "video",
+      "publicId": "v1775370750/shiva_hzppal",
+      "alt": "Stylised artwork of Lord Shiva",
+      "caption": "Lord Shiva",
+      "attribution": "Science Meets Sanatan artwork (first frame of the Shiva clip already used on the Baby Names page)."
+    },
+    "satyanarayan": {
+      "status": "supplied",
+      "resourceType": "video",
+      "publicId": "v1775370751/vishnu_v8bq73",
+      "alt": "Stylised artwork of Lord Vishnu",
+      "caption": "Lord Vishnu (Satyanarayan)",
+      "attribution": "Science Meets Sanatan artwork (first frame of the Vishnu clip already used on the Baby Names page)."
+    },
+    "griha-pravesh": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "navagraha": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "vastu": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "bhoomi": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "havan": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "sanskar": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "vivah": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
+    "other": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "", "attribution": "" }
+  }
+}

@@ -1,7 +1,11 @@
 import json
 import logging
+import urllib.parse
+import urllib.request
 from typing import Dict, Iterable
 
+from django.conf import settings
+from django.core.cache import cache
 from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.http import require_GET, require_POST
 
@@ -320,3 +324,130 @@ def horoscope_summary_api(request):
         return JsonResponse({"error": SERVER_ERROR}, status=500)
 
     return JsonResponse({"summary": summary})
+
+
+GEOCODE_URL = "https://geocoding-api.open-meteo.com/v1/search"
+PLACE_CACHE_SECONDS = 60 * 60 * 24 * 7
+
+
+def _place_label(row: Dict) -> str:
+    parts = []
+    for key in ("name", "admin1", "country"):
+        value = str(row.get(key) or "").strip()
+        if value and value not in parts:
+            parts.append(value)
+    return ", ".join(parts)
+
+
+@require_GET
+@rate_limited("places_search", 120, 600)
+def place_search_api(request):
+    """
+    GET /api/places/search?q=Varanasi
+    Returns up to 6 matching places with the coordinates and timezone the kundali needs,
+    so people search for their birthplace instead of typing latitude/longitude.
+    """
+    query = " ".join((request.GET.get("q") or "").split())
+    if len(query) < 2:
+        return JsonResponse({"results": []})
+    if len(query) > 80:
+        return JsonResponse({"error": "Search text is too long."}, status=400)
+
+    cache_key = "places:v2:" + query.lower()
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return JsonResponse({"results": cached})
+
+    def fetch(extra):
+        params = {"name": query, "language": "en", "format": "json", **extra}
+        url = GEOCODE_URL + "?" + urllib.parse.urlencode(params)
+        with urllib.request.urlopen(urllib.request.Request(url, headers={"Accept": "application/json"}), timeout=6) as response:
+            return json.loads(response.read().decode("utf-8")).get("results") or []
+
+    try:
+        # Most visitors are in India, so list Indian matches first, then the rest of the world.
+        rows = fetch({"count": 5, "countryCode": "IN"})
+        rows += fetch({"count": 6})
+    except Exception:
+        logger.warning("Place search failed for %r", query, exc_info=True)
+        return JsonResponse({"error": "Place search is unavailable right now. Please try again."}, status=502)
+
+    results, seen = [], set()
+    for row in rows:
+        try:
+            lat = round(float(row["latitude"]), 4)
+            lon = round(float(row["longitude"]), 4)
+        except (KeyError, TypeError, ValueError):
+            continue
+        if (lat, lon) in seen:
+            continue
+        seen.add((lat, lon))
+        results.append(
+            {
+                "label": _place_label(row),
+                "name": str(row.get("name") or ""),
+                "lat": lat,
+                "lon": lon,
+                "tz": str(row.get("timezone") or ""),
+            }
+        )
+    results = results[:8]
+    cache.set(cache_key, results, timeout=PLACE_CACHE_SECONDS)
+    return JsonResponse({"results": results})
+
+
+REVERSE_URL = "https://nominatim.openstreetmap.org/reverse"
+REVERSE_CACHE_SECONDS = 60 * 60 * 24 * 30
+
+
+def _reverse_label(address: Dict) -> str:
+    place = ""
+    for key in ("city", "town", "village", "municipality", "suburb", "hamlet", "city_district", "county"):
+        if address.get(key):
+            place = str(address[key]).strip()
+            break
+    parts = []
+    for value in (place, str(address.get("state") or address.get("state_district") or "").strip(), str(address.get("country") or "").strip()):
+        if value and value not in parts:
+            parts.append(value)
+    return ", ".join(parts)
+
+
+@require_GET
+@rate_limited("places_reverse", 30, 600)
+def place_reverse_api(request):
+    """
+    GET /api/places/reverse?lat=..&lon=..
+    Turns the device's coordinates into a place name ("Varanasi, Uttar Pradesh, India").
+    """
+    try:
+        lat = float(request.GET.get("lat"))
+        lon = float(request.GET.get("lon"))
+    except (TypeError, ValueError):
+        return JsonResponse({"error": "Invalid coordinates."}, status=400)
+    if not (-90.0 <= lat <= 90.0 and -180.0 <= lon <= 180.0):
+        return JsonResponse({"error": "Invalid coordinates."}, status=400)
+
+    # ~1 km grid: keeps the cache useful and sends the lookup service less precise data.
+    key_lat, key_lon = round(lat, 2), round(lon, 2)
+    cache_key = f"places:rev:v1:{key_lat}:{key_lon}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return JsonResponse({"label": cached})
+
+    url = REVERSE_URL + "?" + urllib.parse.urlencode(
+        {"lat": key_lat, "lon": key_lon, "format": "jsonv2", "zoom": 10, "addressdetails": 1, "accept-language": "en"}
+    )
+    agent = f"ScienceMeetsSanatan/1.0 ({getattr(settings, 'NOMINATIM_CONTACT', '') or 'place lookup'})"
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": agent}), timeout=6) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except Exception:
+        logger.warning("Reverse geocode failed for %s,%s", key_lat, key_lon, exc_info=True)
+        return JsonResponse({"error": "Could not look up the place name."}, status=502)
+
+    label = _reverse_label(payload.get("address") or {})
+    if not label:
+        return JsonResponse({"error": "No place found for this location."}, status=404)
+    cache.set(cache_key, label, timeout=REVERSE_CACHE_SECONDS)
+    return JsonResponse({"label": label})

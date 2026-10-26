@@ -1474,7 +1474,7 @@ body{
   align-content:start;
   background:
     linear-gradient(180deg, rgba(10,14,26,.18), rgba(10,14,26,.54)),
-    url("https://res.cloudinary.com/dmnm8z8dc/image/upload/v1776006859/universe-revealed-img_oalmxr.jpg") center/cover no-repeat;
+    url("https://res.cloudinary.com/dmnm8z8dc/image/upload/f_auto,q_auto,w_1000/v1776006859/universe-revealed-img_oalmxr.jpg") center/cover no-repeat;
 }
 
 .k-summary--portal{
@@ -2449,5 +2449,291 @@ body{
   }
   .planet-chip{
     font-size:.64rem;
+  }
+}
+
+
+/* =====================================================================
+   Place of birth search
+   ===================================================================== */
+.k-place{ position:relative; }
+.k-place > label{ display:block; }
+.k-place__box{ position:relative; }
+.k-place__box .k-control{
+  width:100%;
+  box-sizing:border-box;
+  padding-right:2.8rem;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.k-place__box .k-control::-webkit-search-cancel-button,
+.k-place__box .k-control::-webkit-search-decoration{ display:none; -webkit-appearance:none; }
+.k-place__clear{
+  position:absolute;
+  right:.35rem;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.10);
+  color:rgba(255,255,255,.86);
+  font-size:1.35rem;
+  line-height:1;
+  cursor:pointer;
+}
+.k-place__list{
+  position:absolute;
+  z-index:40;
+  left:0;
+  right:0;
+  top:calc(100% + 6px);
+  margin:0;
+  padding:.3rem;
+  list-style:none;
+  max-height:min(46vh, 320px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(10,15,28,.98);
+  box-shadow:0 24px 60px rgba(0,0,0,.55);
+}
+.k-place__item,
+.k-place__empty{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  min-height:48px;
+  padding:.55rem .75rem;
+  border-radius:12px;
+  font-weight:700;
+  font-size:.95rem;
+  color:rgba(255,255,255,.9);
+}
+.k-place__item{ cursor:pointer; }
+.k-place__item:hover,
+.k-place__item.is-active{ background:rgba(255,153,51,.16); }
+.k-place__empty{ color:rgba(255,255,255,.62); font-weight:600; }
+.k-place .k-place__item span,
+.k-place .k-place__empty,
+.k-place .k-place__hint{
+  text-transform:none;
+  letter-spacing:normal;
+}
+.k-place .k-place__label{ min-width:0; overflow-wrap:anywhere; font-size:.95rem; font-weight:700; color:rgba(255,255,255,.92); }
+.k-place .k-place__pin{ font-size:1rem; }
+.k-place__hint{
+  font-weight:650;
+  font-size:.78rem;
+  color:rgba(255,255,255,.58);
+  min-height:1.1em;
+}
+.k-place__hint[data-tone="ok"]{ color:#86efac; }
+.k-place__hint[data-tone="error"]{ color:#fca5a5; }
+
+/* Action row: same flex layout as before on desktop. */
+.k-actions__secondary,
+.k-actions__primary{ display:contents; }
+
+/* =====================================================================
+   Mobile: feel like an app
+   ===================================================================== */
+@media (max-width: 760px){
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior-x:none;
+    background-color:#050914;
+  }
+  .kundali-page button,
+  .kundali-page .k-control,
+  .kundali-page .north-card,
+  .kundali-page .k-heat{ touch-action:manipulation; }
+
+  .kundali-page{
+    padding:4.9rem .7rem calc(1.4rem + env(safe-area-inset-bottom, 0px));
+    max-width:100%;
+  }
+
+  /* Solid panels: cheaper to paint than live blur on phones. */
+  .kundali-page .glass-panel{
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+    background:rgba(14,20,34,.86);
+  }
+
+  /* Compact hero: title only, no marketing blocks or video. */
+  .kundali-page .k-hero{ padding:1rem .95rem 1.05rem; border-radius:20px; }
+  .kundali-page .k-hero{ min-height:210px; }
+  .kundali-page .k-hero .k-title,
+  .kundali-page .k-hero .k-sub,
+  .kundali-page .k-hero .k-kicker{ text-shadow:0 1px 10px rgba(0,0,0,.75), 0 0 2px rgba(0,0,0,.6); }
+  .kundali-page .k-hero .k-sub{ opacity:1; color:rgba(255,255,255,.9); }
+  .kundali-page .k-hero__video{ transform:scale(1.06); will-change:auto; }
+  .kundali-page .k-hero__cta-row,
+  .kundali-page .k-hero .k-guide{ display:none; }
+  .kundali-page .k-hero__top{ gap:0; flex-wrap:nowrap; }
+  .kundali-page .k-hero__copy{ flex:0 0 auto; width:100%; }
+  .kundali-page .k-badge{ width:48px; height:48px; border-radius:16px; }
+  .kundali-page .k-badge__glyph{ font-size:1.5rem; }
+  .kundali-page .k-title{ font-size:1.45rem; }
+  .kundali-page .k-sub{ font-size:.8rem; line-height:1.4; margin-top:.55rem; opacity:.85; }
+  .kundali-page .k-badge__halo,
+  .kundali-page .k-badge__pulse,
+  .kundali-page .k-badge__ring{ animation:none; }
+
+  /* Birth form */
+  .kundali-page .k-shell{ margin-top:.8rem; }
+  .kundali-page .k-input{ padding:1rem .9rem .6rem; border-radius:20px; }
+  .kundali-page .k-input__hint{ display:none; }
+  .kundali-page .k-input__title{ font-size:1.12rem; }
+  .kundali-page .k-form{ grid-template-columns:repeat(2, minmax(0,1fr)); gap:.7rem; margin-top:.8rem; }
+  .kundali-page .k-field--wide{ grid-column:1 / -1; }
+  .kundali-page .k-control{
+    min-height:48px;
+    font-size:16px;              /* stops iOS zooming into the field */
+    border-radius:14px;
+    width:100%;
+    box-sizing:border-box;
+    min-width:0;
+  }
+  .kundali-page .k-field span{ font-size:.74rem; letter-spacing:.06em; text-transform:uppercase; }
+
+  .kundali-page .k-actions{ display:contents; }
+  .kundali-page .k-actions__secondary{
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0,1fr));
+    gap:.5rem;
+    margin-top:.85rem;
+  }
+  .kundali-page .k-actions__secondary .k-btn{
+    min-height:46px;
+    padding:.4rem .3rem;
+    font-size:.78rem;
+    line-height:1.15;
+    border-radius:14px;
+  }
+  .kundali-page .k-actions__primary{
+    display:block;
+    position:sticky;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 10px);
+    z-index:12;
+    margin:.8rem -.25rem 0;
+    padding:.55rem .25rem .2rem;
+    background:linear-gradient(to top, rgba(14,20,34,.98) 62%, rgba(14,20,34,0));
+  }
+  .kundali-page .k-actions__primary .k-btn{
+    width:100%;
+    min-height:54px;
+    font-size:1.05rem;
+    border-radius:16px;
+  }
+  .kundali-page .k-btn:hover{ transform:none; }
+  .kundali-page .k-btn:active{ transform:scale(.97); }
+
+  /* Floating shortcuts would sit on top of the form and its sticky action bar,
+     so they only appear once a chart has been generated. */
+  body:not(.k-has-results) .daanpatra-floating,
+  body:not(.k-has-results) .review-floating-trigger{ display:none !important; }
+  body.k-has-results .daanpatra-floating,
+  body.k-has-results .review-floating-trigger{
+    bottom:calc(16px + env(safe-area-inset-bottom, 0px)) !important;
+    transform:scale(.88);
+    transform-origin:bottom right;
+  }
+
+  /* Summary + segmented switches */
+  .kundali-page .k-summary--portal{ padding:.9rem .8rem; border-radius:20px; scroll-margin-top:76px; }
+  .kundali-page .k-summary__right{ display:flex; flex-direction:column; gap:.5rem; width:100%; }
+  .kundali-page .k-toggle{
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:1fr;
+    gap:3px;
+    padding:3px;
+    width:100%;
+    box-sizing:border-box;
+    border-radius:14px;
+    background:rgba(255,255,255,.07);
+    justify-content:stretch;
+  }
+  .kundali-page .k-toggle__btn{
+    min-width:0;
+    min-height:40px;
+    padding:.4rem .3rem;
+    font-size:.82rem;
+    border-radius:11px;
+    box-shadow:none;
+    flex:none;
+  }
+  .kundali-page .k-chips{ gap:.5rem; }
+  .kundali-page .summary-chip{ padding:.6rem .65rem; min-width:0; }
+
+  /* Chart gets the full width */
+  .kundali-page .k-chart{ padding:.85rem .45rem .7rem; border-radius:20px; }
+  .kundali-page .k-chart__head{ padding:0 .5rem; }
+  .kundali-page .north-chart,
+  .kundali-page .south-chart{ width:100%; max-width:none; padding:.3rem; border-radius:16px; }
+  .kundali-page .chart-shell,
+  .kundali-page .k-chart .chart-shell{ margin-top:.6rem; min-height:0; }
+  .kundali-page .north-card__sign{ font-size:.66rem; letter-spacing:-.01em; text-overflow:clip; }
+  .kundali-page .north-card .planet-chip.is-compact{ font-size:.5rem; padding:.12rem .22rem; gap:.15rem; }
+  .kundali-page .north-card .planet-chip__glyph{ width:14px; height:14px; font-size:.52rem; }
+
+  /* Section tabs: sticky, swipeable strip */
+  .kundali-page .k-tabs{ padding:.3rem .7rem 1rem; border-radius:20px; }
+  .kundali-page .k-tabs__head{
+    position:sticky;
+    top:64px;
+    z-index:20;
+    display:flex;
+    gap:.4rem;
+    margin:0 -.7rem .8rem;
+    padding:.55rem .7rem;
+    overflow-x:auto;
+    overflow-y:hidden;
+    flex-wrap:nowrap;
+    scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    background:rgba(8,12,22,.96);
+    border-bottom:1px solid rgba(255,255,255,.10);
+  }
+  .kundali-page .k-tabs__head::-webkit-scrollbar{ display:none; }
+  .kundali-page .k-tab__btn{
+    flex:0 0 auto;
+    scroll-snap-align:center;
+    min-height:42px;
+    padding:.5rem 1rem;
+    border-radius:999px;
+    font-size:.9rem;
+  }
+  .kundali-page .k-tab__btn:hover{ transform:none; }
+
+  /* Wide content scrolls inside its own box instead of the page */
+  .kundali-page .k-table,
+  .kundali-page .k-dasha{ overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .kundali-page img,
+  .kundali-page svg{ max-width:100%; }
+  .kundali-page .kundali-footer{ padding-bottom:1rem; }
+}
+
+@media (max-width: 360px){
+  .kundali-page .k-form{ grid-template-columns:1fr; }
+  .kundali-page .k-actions__secondary{ grid-template-columns:1fr 1fr; }
+  .kundali-page .k-actions__secondary .k-btn:first-child{ grid-column:1 / -1; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .kundali-page *,
+  .kundali-page *::before,
+  .kundali-page *::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
   }
 }

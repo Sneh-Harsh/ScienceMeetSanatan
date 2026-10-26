@@ -43,7 +43,44 @@ class PanditMarketplaceTests(TestCase):
     def test_marketplace_page_loads(self):
         response = self.client.get(reverse("pandit_marketplace"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Book trusted pandits")
+        self.assertContains(response, "Book a Pandit in Patna, with Confidence.")
+
+    def test_booking_page_is_the_whatsapp_enquiry_flow(self):
+        html = self.client.get(reverse("pandit_marketplace")).content.decode()
+        self.assertIn("Book a Pandit in Patna, with Confidence.", html)
+        self.assertIn("wa.me/919353206153", html)
+        for puja in [
+            "Griha Pravesh Puja", "Satyanarayan Puja", "Rudrabhishek", "Ganesh Puja", "Lakshmi Puja",
+            "Navagraha Shanti", "Vastu Shanti", "Bhoomi Puja", "Havan and other rituals",
+            "Naamkaran and Mundan Sanskar", "Marriage and Vivah ceremonies", "Other Puja",
+        ]:
+            self.assertIn(puja, html)
+        for field in ('id="psbName"', 'id="psbPuja"', 'id="psbDate"', 'id="psbArea"', 'name="venue"', 'name="language"', 'name="samagri"', 'id="psbNotes"'):
+            self.assertIn(field, html)
+
+    def test_hero_uses_silk_background_not_line_art(self):
+        html = self.client.get(reverse("pandit_marketplace")).content.decode()
+        self.assertIn('id="psbSilk"', html)
+        self.assertIn("pandit/vendor/silk.js", html)
+        self.assertNotIn("psb-bg__strand", html)
+        self.assertNotIn("psb-emblem", html)
+
+    def test_booking_page_styles_are_page_specific(self):
+        html = self.client.get(reverse("pandit_marketplace")).content.decode()
+        self.assertIn("pandit/booking.css", html)
+        self.assertNotIn("pandit/pandit.css", html)  # the shared marketplace stylesheet is not used here
+        # no invented ratings, prices, reviews or statistics inside the page content
+        page = html[html.index('<main class="psb"'):html.index("</main>")]
+        for fake in ("\u20b9", "Verified", "reviews)", "Trusted profiles", "Fast confirmations", "\u2605"):
+            self.assertNotIn(fake, page)
+
+    def test_other_pandit_pages_keep_their_own_assets(self):
+        from pathlib import Path
+
+        templates = Path(__file__).resolve().parent / "templates" / "pandit"
+        for name in ("profile.html", "dashboard.html"):
+            self.assertIn("pandit/pandit.css", (templates / name).read_text())
+        self.assertTrue((Path(__file__).resolve().parent / "static" / "pandit" / "pandit.css").exists())
 
     def test_pandit_list_api_filters_by_city(self):
         response = self.client.get(reverse("api_pandit_list"), {"city": "Bengaluru"})

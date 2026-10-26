@@ -329,6 +329,9 @@ DONATION_UPI_ID = env("DONATION_UPI_ID", default="9742024751@ybl").strip()
 DONATION_PAYEE_NAME = env("DONATION_PAYEE_NAME", default="Sneh Harsh").strip()
 DONATION_QR_URL = env("DONATION_QR_URL", default="").strip()
 
+# Contact shown to OpenStreetMap's place-name lookup (their usage policy asks for one).
+NOMINATIM_CONTACT = env("NOMINATIM_CONTACT", default="").strip()
+
 LIBRARY_DRIVE_FILE_ID = env("LIBRARY_DRIVE_FILE_ID", default="").strip()
 LIBRARY_DRIVE_URL = env(
     "LIBRARY_DRIVE_URL",

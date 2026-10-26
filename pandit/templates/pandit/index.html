@@ -1,22 +1,24 @@
-{% load static %}
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pandit Booking | Science Meets Sanatan</title>
+  <meta name="theme-color" content="#17243B" />
+  <title>Book a Pandit in Patna | Science Meets Sanatan</title>
+  <meta name="description" content="Tell us about your puja and we will coordinate with a suitable pandit in Patna, check availability and share the complete charges on WhatsApp before you confirm." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'header.css' %}?v=4" />
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3" />
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=2" />
-  <link rel="stylesheet" href="{% static 'pandit/pandit.css' %}?v=3" />
+  <link rel="stylesheet" href="{% static 'pandit/booking.css' %}?v=6" />
+  <link rel="stylesheet" href="{% static 'pandit/pooja.css' %}?v=2" />
 </head>
-<body class="pandit-body">
+<body class="psb-body">
   <header class="header">
     <a href="/welcome/" class="logo" aria-label="SMS Home">
       <span class="logo-mark">SMS</span>
@@ -78,246 +80,358 @@
     </div>
   </header>
 
-  <main class="pandit-page" id="panditMarketplace" data-view="list" data-api-url="/api/pandits/" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
-    <div class="pandit-bg pandit-bg--aurora"></div>
-    <div class="pandit-bg pandit-bg--grid"></div>
+  <svg class="psb-sprite" width="0" height="0" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="psb-i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/></symbol>
+    <symbol id="psb-i-book" viewBox="0 0 24 24"><path d="M12 6c-2-1.5-5-2-8-1.5v13c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5v-13C17 4 14 4.5 12 6zM12 6v13"/></symbol>
+    <symbol id="psb-i-lingam" viewBox="0 0 24 24"><path d="M5 20h14M7 20c0-6 2-10 5-10s5 4 5 10M12 3v2.5M8.5 4.5l1 2M15.5 4.5l-1 2"/></symbol>
+    <symbol id="psb-i-ganesh" viewBox="0 0 24 24"><path d="M7.6 8.2C4 7 2.4 9.6 3 12.6s2.6 4 4.6 3M16.4 8.2c3.6-1.2 5.2 1.4 4.6 4.4s-2.6 4-4.6 3M8 8c0-2.6 1.9-4.2 4-4.2S16 5.4 16 8M12 8.5v8c0 2.6 2.7 3 3.3 1"/><circle cx="10" cy="9.6" r=".5"/><circle cx="14" cy="9.6" r=".5"/></symbol>
+    <symbol id="psb-i-lotus" viewBox="0 0 24 24"><path d="M12 19c-4 0-7-3-7-7 3 0 6 2 7 5 1-3 4-5 7-5 0 4-3 7-7 7zM12 4c2 2 3 4 3 8M12 4c-2 2-3 4-3 8"/></symbol>
+    <symbol id="psb-i-planets" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="3.5" r="1.3"/><circle cx="12" cy="20.5" r="1.3"/><circle cx="3.5" cy="12" r="1.3"/><circle cx="20.5" cy="12" r="1.3"/><circle cx="6" cy="6" r="1.1"/><circle cx="18" cy="6" r="1.1"/><circle cx="6" cy="18" r="1.1"/><circle cx="18" cy="18" r="1.1"/></symbol>
+    <symbol id="psb-i-vastu" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM12 4v16M4 12h16M4 4l16 16"/></symbol>
+    <symbol id="psb-i-bhoomi" viewBox="0 0 24 24"><path d="M12 20v-9M12 11c0-3-2-5-5-5 0 3 2 5 5 5M12 13c0-3 2-5 5-5 0 3-2 5-5 5M5 20h14"/></symbol>
+    <symbol id="psb-i-havan" viewBox="0 0 24 24"><path d="M12 3c3 3 5 5 5 8a5 5 0 0 1-10 0c0-1.5.8-3 2-4 0 2 1 3 2 3 0-3 0-5 1-7zM5 21h14"/></symbol>
+    <symbol id="psb-i-baby" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9.8 8.4h.01M14.2 8.4h.01M10 11.2c1 1 3 1 4 0M5.5 21c0-4 2.2-6 6.5-6s6.5 2 6.5 6"/></symbol>
+    <symbol id="psb-i-rings" viewBox="0 0 24 24"><circle cx="9" cy="15" r="5"/><circle cx="15" cy="15" r="5"/><path d="M12 2.5l1.8 2.4L12 7.3 10.2 4.9z"/></symbol>
+    <symbol id="psb-i-other" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></symbol>
+    <symbol id="psb-i-wa" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.9 7L4 20l1.6-4A8 8 0 1 1 20 11.5z" fill="none"/><path d="M9 8.5c.3 3 2.7 5.6 5.7 6.5l1.3-1.3-1.8-1-.9.7c-.9-.4-1.8-1.3-2.2-2.2l.7-.9-1-1.8z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="psb-i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  </defs>
+</svg>
 
-    <section class="pandit-hero anim">
-      <div class="pandit-hero__copy">
-        <p class="pandit-kicker">Premium spiritual services marketplace</p>
-        <h1>Book trusted pandits <span>near you</span></h1>
-        <p>
-          Discover verified pandits, compare rituals, pricing, language match, and book with a calm premium flow built for sacred occasions.
-        </p>
-        <form class="pandit-searchbar" id="panditSearchForm" method="get" action="/pandits/">
-          <label>
-            <span>City</span>
-            <div class="pandit-searchbar__location">
-              <input type="text" name="city" id="panditCityInput" value="{{ active_city }}" placeholder="Use your city or detect current location" />
-              <button type="button" class="pandit-ghost pandit-ghost--location" id="panditLocateBtn">Use current location</button>
+  <main class="psb" id="psb">
+    <div class="psb-inner">
+
+      <!-- HERO -->
+      <section class="psb-hero" aria-labelledby="psbTitle">
+        <div class="psb-hero__bg" id="psbHeroBg" aria-hidden="true">
+          <div class="psb-silk" id="psbSilk"></div>
+          <div class="psb-hero__scrim"></div>
+        </div>
+
+        <div class="psb-wrap psb-hero__grid">
+          <div class="psb-hero__copy">
+            <p class="psb-eyebrow">Patna &amp; nearby areas</p>
+            <h1 id="psbTitle">Book a Pandit in Patna, with Confidence.</h1>
+            <p class="psb-lede">Tell us about your puja. We&rsquo;ll help coordinate a suitable pandit, check availability, and clarify the complete charges before you confirm.</p>
+            <div class="psb-cta-row">
+              <a class="psb-cta psb-cta--primary" href="#book" id="psbHeroBook" data-specular="primary">Book a Pandit</a>
+              <a class="psb-cta psb-cta--secondary" href="#pooja" id="psbHeroExplore" data-specular="secondary">Explore Pooja Vidhi</a>
             </div>
-          </label>
-          <label>
-            <span>Puja</span>
-            <select name="service" id="panditServiceSelect">
-              <option value="">All services</option>
-              {% for service in services %}
-                <option value="{{ service.slug }}" {% if active_service == service.slug %}selected{% endif %}>{{ service.name }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <input type="hidden" name="q" value="{{ active_query }}" />
-          <input type="hidden" name="language" value="{{ active_language }}" />
-          <input type="hidden" name="rating" value="{{ active_rating }}" />
-          <input type="hidden" name="max_price" value="{{ request.GET.max_price|default:pandit_filters.price_range.max|default:5000 }}" />
-          <input type="hidden" name="available_today" value="{% if available_today %}true{% endif %}" />
-          <button type="submit" class="pandit-cta">Find Pandits</button>
-        </form>
-        <div class="pandit-searchbar__assist">
-          <p id="panditLocationStatus" class="pandit-location-status">Detect your location to surface the most relevant pandits nearby.</p>
-          <div class="pandit-quick-pills">
-            <button type="button" class="pandit-quick-pill" data-city="Bengaluru">Bengaluru</button>
-            <button type="button" class="pandit-quick-pill" data-city="Mumbai">Mumbai</button>
-            <button type="button" class="pandit-quick-pill" data-city="Delhi">Delhi</button>
-            <button type="button" class="pandit-quick-pill" data-city="Pune">Pune</button>
+            <p class="psb-note">Personal assistance for your puja requirements. Availability depends on the requested date, location and pandit confirmation.</p>
           </div>
-        </div>
-        <div class="pandit-hero__stats">
-          <article><strong>{{ page_obj.paginator.count }}</strong><span>Trusted profiles</span></article>
-          <article><strong>{{ pandit_filters.languages|length }}</strong><span>Languages matched</span></article>
-          <article><strong>24h</strong><span>Fast confirmations</span></article>
-        </div>
-      </div>
 
-      <aside class="pandit-hero__highlight">
-        <div class="pandit-orb"></div>
-        <p class="pandit-kicker">Why seekers trust this</p>
-        <h2>Designed with spiritual warmth and modern booking clarity</h2>
-        <ul>
-          <li>Verified pandit badge and transparent pricing</li>
-          <li>Live availability with urgency mode for today</li>
-          <li>Kundali-aware recommendations for remedial rituals</li>
-        </ul>
-        {% if astro_match %}
-        <div class="pandit-hero__astro">
-          <span>Astro Matching</span>
-          <strong>{{ astro_match.headline }}</strong>
-          <p>{{ astro_match.basis }}</p>
-          <a href="/pandits/{{ astro_match.pandit_slug }}/">Open matched pandit</a>
-        </div>
-        {% endif %}
-      </aside>
-    </section>
-
-    <section class="pandit-categories anim">
-      <div class="pandit-section-head">
-        <div>
-          <p class="pandit-kicker">Explore rituals</p>
-          <h2>Category worlds</h2>
-        </div>
-        <button class="pandit-filter-toggle" id="panditFilterToggle" type="button">Filters</button>
-      </div>
-      <div class="pandit-category-row">
-        {% for service in services|slice:":8" %}
-        <a
-          class="pandit-category-card {% if active_service == service.slug %}is-active{% endif %}"
-          href="/pandits/?service={{ service.slug|urlencode }}#panditCategoryWorld"
-          data-service-slug="{{ service.slug }}"
-        >
-          <span class="pandit-category-card__icon">{{ service.icon|default:"🪔" }}</span>
-          <strong>{{ service.name }}</strong>
-          <small>{{ service.get_category_display }}</small>
-        </a>
-        {% endfor %}
-      </div>
-    </section>
-
-    {% if request.user.is_authenticated and user_bookings %}
-    <section class="pandit-upcoming anim" id="panditUpcomingSection">
-      <div class="pandit-section-head">
-        <div>
-          <p class="pandit-kicker">Your ritual schedule</p>
-          <h2>Upcoming bookings</h2>
-        </div>
-      </div>
-      <div class="pandit-upcoming__rail">
-        {% for booking in user_bookings %}
-        <article class="pandit-upcoming__card">
-          <span>{{ booking.date }} • {{ booking.time|time:"H:i" }}</span>
-          <strong>{{ booking.service.name }}</strong>
-          <p>{{ booking.pandit.name }} • {{ booking.city|default:booking.pandit.city }}</p>
-          <em>{{ booking.get_status_display }}</em>
-        </article>
-        {% endfor %}
-      </div>
-    </section>
-    {% endif %}
-
-    <section class="pandit-marketplace-grid anim">
-      <aside class="pandit-filters" id="panditFiltersPanel">
-        <div class="pandit-filters__head">
-          <div>
-            <p class="pandit-kicker">Refine the search</p>
-            <h3>Premium filters</h3>
-          </div>
-          <button type="button" class="pandit-filters__close" id="panditFilterClose">✕</button>
-        </div>
-        <form class="pandit-filters__form" id="panditFiltersForm" method="get" action="/pandits/">
-          <label>
-            <span>Search ritual or pandit</span>
-            <input type="search" name="q" value="{{ active_query }}" placeholder="Pandit name, puja, specialization" />
-          </label>
-          <input type="hidden" name="city" value="{{ active_city }}" />
-          <input type="hidden" name="service" value="{{ active_service }}" />
-          <label>
-            <span>Language</span>
-            <select name="language">
-              <option value="">Any language</option>
-              {% for language in pandit_filters.languages %}
-              <option value="{{ language }}" {% if active_language == language %}selected{% endif %}>{{ language }}</option>
-              {% endfor %}
-            </select>
-          </label>
-          <label>
-            <span>Minimum rating</span>
-            <select name="rating">
-              <option value="">All ratings</option>
-              <option value="4.8" {% if active_rating == '4.8' %}selected{% endif %}>4.8+</option>
-              <option value="4.5" {% if active_rating == '4.5' %}selected{% endif %}>4.5+</option>
-              <option value="4.0" {% if active_rating == '4.0' %}selected{% endif %}>4.0+</option>
-            </select>
-          </label>
-          <label>
-            <span>Budget ceiling</span>
-            <input type="range" name="max_price" id="panditBudgetRange" min="{{ pandit_filters.price_range.min|default:0 }}" max="{{ pandit_filters.price_range.max|default:5000 }}" value="{{ request.GET.max_price|default:pandit_filters.price_range.max|default:5000 }}" />
-            <div class="pandit-budget-meta">
-              <strong id="panditBudgetValue">₹{{ request.GET.max_price|default:pandit_filters.price_range.max|default:5000 }}</strong>
-              <span>Only show pandits at or below this budget.</span>
+          <div class="psb-hero__card" id="book" tabindex="-1">
+            <div class="psb-glass__content psb-glass__content--form">
+              <div class="psb-cardhead">
+                <h2 id="psbFormTitle">Request a pandit</h2>
+                <p>Three short steps. No account, no payment, no full address.</p>
+                <a class="psb-backguide" id="psbBackGuide" href="#pooja" hidden></a>
+              </div>
+              <div class="psb-card" id="psbCard">
+                          <noscript>
+                            <p class="psb-noscript">The enquiry form needs JavaScript. You can also message us directly on
+                              <a href="https://wa.me/919353206153">WhatsApp</a> with your puja, date and area in Patna.</p>
+                          </noscript>
+              
+                          <ol class="psb-progress" id="psbProgress" aria-label="Form progress">
+                            <li class="is-active" data-dot="1"><span>1</span><em>Puja</em></li>
+                            <li data-dot="2"><span>2</span><em>Place</em></li>
+                            <li data-dot="3"><span>3</span><em>Details</em></li>
+                          </ol>
+              
+                          <form id="psbForm" novalidate autocomplete="on">
+                            <div class="psb-step" data-step="1">
+                              <div class="psb-field">
+                                <label for="psbName">Your name</label>
+                                <input id="psbName" name="name" type="text" maxlength="80" autocomplete="name" placeholder="e.g. Ramesh Kumar" aria-describedby="err-name" />
+                                <p class="psb-error" id="err-name" role="alert"></p>
+                              </div>
+                              <div class="psb-field">
+                                <label for="psbPuja">Puja type</label>
+                                <select id="psbPuja" name="puja" aria-describedby="err-puja">
+                                  <option value="">Select a puja&hellip;</option>
+                          <option value="Griha Pravesh Puja">Griha Pravesh Puja</option>
+                          <option value="Satyanarayan Puja">Satyanarayan Puja</option>
+                          <option value="Rudrabhishek">Rudrabhishek</option>
+                          <option value="Ganesh Puja">Ganesh Puja</option>
+                          <option value="Lakshmi Puja">Lakshmi Puja</option>
+                          <option value="Navagraha Shanti">Navagraha Shanti</option>
+                          <option value="Vastu Shanti">Vastu Shanti</option>
+                          <option value="Bhoomi Puja">Bhoomi Puja</option>
+                          <option value="Havan and other rituals">Havan and other rituals</option>
+                          <option value="Naamkaran and Mundan Sanskar">Naamkaran and Mundan Sanskar</option>
+                          <option value="Marriage and Vivah ceremonies">Marriage and Vivah ceremonies</option>
+                          <option value="Other Puja">Other Puja</option>
+                                </select>
+                                <p class="psb-error" id="err-puja" role="alert"></p>
+                              </div>
+                              <div class="psb-field" id="psbOtherWrap" hidden>
+                                <label for="psbOther">Which puja or ritual?</label>
+                                <input id="psbOther" name="other" type="text" maxlength="80" placeholder="e.g. Sundarkand path" aria-describedby="err-other" />
+                                <p class="psb-error" id="err-other" role="alert"></p>
+                              </div>
+                              <fieldset class="psb-field psb-fieldset">
+                                <legend>Preferred date</legend>
+                                <div class="psb-chips">
+                                  <label class="psb-chip"><input type="radio" name="dateMode" value="date" checked><span>I have a date</span></label>
+                                  <label class="psb-chip"><input type="radio" name="dateMode" value="flexible"><span>I&rsquo;m flexible</span></label>
+                                </div>
+                                <div id="psbDateWrap">
+                                  <label class="psb-sr" for="psbDate">Date of puja</label>
+                                  <input id="psbDate" name="date" type="date" aria-describedby="err-date" />
+                                </div>
+                                <p class="psb-error" id="err-date" role="alert"></p>
+                              </fieldset>
+                            </div>
+              
+                            <div class="psb-step" data-step="2" hidden>
+                              <div class="psb-field">
+                                <label for="psbArea">Locality or area in Patna</label>
+                                <input id="psbArea" name="area" type="text" maxlength="80" list="psbAreas" autocomplete="off" placeholder="e.g. Kankarbagh" aria-describedby="err-area" />
+                                <datalist id="psbAreas">
+                          <option value="Boring Road"></option>
+                          <option value="Kankarbagh"></option>
+                          <option value="Rajendra Nagar"></option>
+                          <option value="Patliputra Colony"></option>
+                          <option value="Bailey Road"></option>
+                          <option value="Danapur"></option>
+                          <option value="Kurji"></option>
+                          <option value="Ashiana Nagar"></option>
+                          <option value="Gardanibagh"></option>
+                          <option value="Rajeev Nagar"></option>
+                          <option value="Anisabad"></option>
+                          <option value="Phulwari Sharif"></option>
+                          <option value="Kidwaipuri"></option>
+                          <option value="Saguna More"></option>
+                          <option value="Digha"></option>
+                          <option value="Mithapur"></option>
+                          <option value="Boring Canal Road"></option>
+                          <option value="Raja Bazar"></option>
+                                </datalist>
+                                <p class="psb-hint">Just the area is enough for now. We&rsquo;ll ask for the full address later, only if needed.</p>
+                                <p class="psb-error" id="err-area" role="alert"></p>
+                              </div>
+                              <fieldset class="psb-field psb-fieldset">
+                                <legend>Where will the puja be held?</legend>
+                                <div class="psb-chips" id="venueChips">
+                          <label class="psb-chip"><input type="radio" name="venue" value="Home" required><span>Home</span></label>
+                          <label class="psb-chip"><input type="radio" name="venue" value="Temple"><span>Temple</span></label>
+                          <label class="psb-chip"><input type="radio" name="venue" value="Event hall"><span>Event hall</span></label>
+                          <label class="psb-chip"><input type="radio" name="venue" value="Other"><span>Other</span></label>
+                                </div>
+                                <p class="psb-error" id="err-venue" role="alert"></p>
+                              </fieldset>
+                              <fieldset class="psb-field psb-fieldset">
+                                <legend>Preferred language</legend>
+                                <div class="psb-chips">
+                          <label class="psb-chip"><input type="radio" name="language" value="Hindi" required><span>Hindi</span></label>
+                          <label class="psb-chip"><input type="radio" name="language" value="Sanskrit"><span>Sanskrit</span></label>
+                          <label class="psb-chip"><input type="radio" name="language" value="No preference"><span>No preference</span></label>
+                                </div>
+                                <p class="psb-error" id="err-language" role="alert"></p>
+                              </fieldset>
+                            </div>
+              
+                            <div class="psb-step" data-step="3" hidden>
+                              <fieldset class="psb-field psb-fieldset">
+                                <legend>Puja samagri (materials)</legend>
+                                <div class="psb-chips psb-chips--stack">
+                          <label class="psb-chip"><input type="radio" name="samagri" value="Please arrange it" required><span>Please arrange it</span></label>
+                          <label class="psb-chip"><input type="radio" name="samagri" value="I'll arrange it"><span>I&rsquo;ll arrange it</span></label>
+                          <label class="psb-chip"><input type="radio" name="samagri" value="I need guidance"><span>I need guidance</span></label>
+                                </div>
+                                <p class="psb-error" id="err-samagri" role="alert"></p>
+                              </fieldset>
+                              <div class="psb-field">
+                                <label for="psbNotes">Anything else we should know? <span class="psb-optional">(optional)</span></label>
+                                <textarea id="psbNotes" name="notes" rows="3" maxlength="500" placeholder="Timing preference, number of guests, special requests&hellip;"></textarea>
+                              </div>
+                              <div class="psb-summary" id="psbSummary" aria-live="polite"></div>
+                            </div>
+              
+                            <div class="psb-actions">
+                              <button type="button" class="psb-btn psb-btn--line" id="psbBack" hidden>Back</button>
+                              <button type="button" class="psb-btn psb-btn--navy" id="psbNext">Continue</button>
+                              <button type="submit" class="psb-btn psb-btn--wa" id="psbSubmit" hidden>
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-wa"/></svg>Send enquiry on WhatsApp
+                              </button>
+                            </div>
+                            <p class="psb-fineprint" id="psbFine" hidden>This opens WhatsApp with your details already written. Press <strong>Send</strong> there to share your enquiry. Nothing is sent until you do.</p>
+                          </form>
+              
+                          <div class="psb-done" id="psbDone" hidden tabindex="-1" aria-live="polite">
+                            <div class="psb-done__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-wa"/></svg></div>
+                            <h3>Your message is ready in WhatsApp</h3>
+                            <p>WhatsApp should have opened with your details filled in. <strong>Please press Send there</strong> &mdash; we only receive your enquiry once you do.</p>
+                            <div class="psb-done__row">
+                              <a class="psb-btn psb-btn--wa" id="psbReopen" href="#" target="_blank" rel="noopener">Open WhatsApp again</a>
+                              <button type="button" class="psb-btn psb-btn--line" id="psbCopy">Copy message</button>
+                              <button type="button" class="psb-btn psb-btn--line" id="psbEdit">Edit my details</button>
+                            </div>
+                            <p class="psb-copy-status" id="psbCopyStatus" role="status"></p>
+                          </div>
+                        </div>
+              <p class="psb-cardfoot">Prefer to chat? <a id="psbWaDirect" href="https://wa.me/919353206153?text=Namaste%20Science%20Meet%20Sanatan%20%F0%9F%99%8F%0A%0AI%20would%20like%20to%20enquire%20about%20booking%20a%20pandit." target="_blank" rel="noopener">Message us on WhatsApp</a></p>
             </div>
-          </label>
-          <label class="pandit-checkbox">
-            <input type="checkbox" name="available_today" value="true" {% if available_today %}checked{% endif %} />
-            <span>Available today</span>
-          </label>
-          <div class="pandit-filters__actions">
-            <button type="submit" class="pandit-cta pandit-cta--block">Apply filters</button>
-            <a href="/pandits/" class="pandit-ghost">Reset</a>
-          </div>
-        </form>
-      </aside>
-
-      <div class="pandit-results" id="panditResultsSection">
-        <div class="pandit-section-head">
-          <div>
-            <p class="pandit-kicker">Marketplace</p>
-            <h2>Verified pandits ready to serve</h2>
-          </div>
-          <div class="pandit-results__meta">
-            <strong id="panditResultCount">{{ page_obj.paginator.count }}</strong>
-            <span>matching profiles</span>
           </div>
         </div>
+      </section>
 
-        <div class="pandit-cards" id="panditCardsGrid">
-          {% for card in pandit_cards %}
-          <article class="pandit-card" data-slug="{{ card.slug }}">
-            <div class="pandit-card__visual">
-              {% if card.photo %}
-                <img src="{{ card.photo }}" alt="{{ card.name }}" loading="lazy" />
-              {% else %}
-                <div class="pandit-card__avatar">{{ card.name|slice:":1" }}</div>
-              {% endif %}
-              <div class="pandit-card__badges">
-                {% for badge in card.badges %}
-                  <span>{{ badge }}</span>
-                {% endfor %}
-              </div>
-            </div>
-            <div class="pandit-card__body">
-              <div class="pandit-card__topline">
-                <div>
-                  <h3>{{ card.name }}</h3>
-                  <p>{{ card.city }}{% if card.area %} • {{ card.area }}{% endif %}</p>
-                </div>
-                <div class="pandit-rating">★ {{ card.rating|default:"4.8" }}</div>
-              </div>
-              <p class="pandit-card__specialization">{{ card.specialization }}</p>
-              <div class="pandit-card__meta">
-                <span>{{ card.experience }}+ years</span>
-                <span>{{ card.total_bookings }} bookings</span>
-                <span>{{ card.languages_display }}</span>
-              </div>
-              <div class="pandit-card__footer">
-                <div>
-                  <small>Starting from</small>
-                  <strong>₹{{ card.starting_price }}</strong>
-                </div>
-                <a href="/pandits/{{ card.slug }}/" class="pandit-cta pandit-cta--small">View Profile</a>
-              </div>
-            </div>
-          </article>
-          {% empty %}
-          <article class="pandit-empty-state">
-            <h3>No pandits matched this filter set.</h3>
-            <p>Try expanding city, rating, or service filters to discover more verified profiles.</p>
-          </article>
-          {% endfor %}
+      <!-- PUJA CATEGORIES -->
+      <section class="psb-section psb-section--ivory" id="pujas" aria-labelledby="psbPujaTitle">
+        <div class="psb-wrap">
+          <header class="psb-head">
+            <p class="psb-eyebrow psb-eyebrow--dark">Choose your puja</p>
+            <h2 id="psbPujaTitle">Which ceremony do you need?</h2>
+            <p class="psb-sub">Tap a puja and it is filled into the request form above. These are the ceremonies we can usually help with; availability for each one is confirmed personally.</p>
+          </header>
+          <ul class="psb-pujas" id="psbPujas">
+        <li><button type="button" class="psb-puja" data-puja="Griha Pravesh Puja" data-id="griha" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-home"/></svg></span>
+          <span class="psb-puja__name">Griha Pravesh Puja</span>
+          <span class="psb-puja__hint">New home blessing</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Satyanarayan Puja" data-id="satyanarayan" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-book"/></svg></span>
+          <span class="psb-puja__name">Satyanarayan Puja</span>
+          <span class="psb-puja__hint">Katha and puja for prosperity</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Rudrabhishek" data-id="rudrabhishek" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-lingam"/></svg></span>
+          <span class="psb-puja__name">Rudrabhishek</span>
+          <span class="psb-puja__hint">Abhishek of Lord Shiva</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Ganesh Puja" data-id="ganesh" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-ganesh"/></svg></span>
+          <span class="psb-puja__name">Ganesh Puja</span>
+          <span class="psb-puja__hint">New beginnings and obstacles removed</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Lakshmi Puja" data-id="lakshmi" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-lotus"/></svg></span>
+          <span class="psb-puja__name">Lakshmi Puja</span>
+          <span class="psb-puja__hint">Prosperity and well-being</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Navagraha Shanti" data-id="navagraha" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-planets"/></svg></span>
+          <span class="psb-puja__name">Navagraha Shanti</span>
+          <span class="psb-puja__hint">Planetary peace rituals</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Vastu Shanti" data-id="vastu" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-vastu"/></svg></span>
+          <span class="psb-puja__name">Vastu Shanti</span>
+          <span class="psb-puja__hint">Harmony for homes and spaces</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Bhoomi Puja" data-id="bhoomi" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-bhoomi"/></svg></span>
+          <span class="psb-puja__name">Bhoomi Puja</span>
+          <span class="psb-puja__hint">Groundbreaking ceremony</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Havan and other rituals" data-id="havan" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-havan"/></svg></span>
+          <span class="psb-puja__name">Havan and other rituals</span>
+          <span class="psb-puja__hint">Fire rituals and special homas</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Naamkaran and Mundan Sanskar" data-id="sanskar" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-baby"/></svg></span>
+          <span class="psb-puja__name">Naamkaran and Mundan Sanskar</span>
+          <span class="psb-puja__hint">Child sanskar ceremonies</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Marriage and Vivah ceremonies" data-id="vivah" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-rings"/></svg></span>
+          <span class="psb-puja__name">Marriage and Vivah ceremonies</span>
+          <span class="psb-puja__hint">Wedding rituals</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Other Puja" data-id="other" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-other"/></svg></span>
+          <span class="psb-puja__name">Other Puja</span>
+          <span class="psb-puja__hint">Tell us what you need</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+          </ul>
         </div>
-      </div>
-    </section>
+      </section>
+
+      <!-- HOW IT WORKS -->
+      <section class="psb-section psb-section--green" id="how" aria-labelledby="psbHowTitle">
+        <div class="psb-wrap">
+          <header class="psb-head psb-head--light">
+            <p class="psb-eyebrow">How it works</p>
+            <h2 id="psbHowTitle">Simple, personal and clear</h2>
+          </header>
+          <ol class="psb-steps">
+            <li><span class="psb-steps__n">1</span><h3>Share your puja requirements</h3><p>Select the ceremony, date, and location.</p></li>
+            <li><span class="psb-steps__n">2</span><h3>We coordinate with a suitable pandit</h3><p>We check availability and clarify the ceremony requirements.</p></li>
+            <li><span class="psb-steps__n">3</span><h3>Receive your quotation</h3><p>We communicate the charges and inclusions through WhatsApp. Your booking is confirmed only after agreement and confirmation.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- POOJA VIDHI -->
+      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle" data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=1" data-images-url="{% static 'pandit/pooja/images.json' %}?v=1">
+        <div class="psb-wrap">
+          <header class="psb-head">
+            <p class="psb-eyebrow psb-eyebrow--dark">Pooja Vidhi</p>
+            <h2 id="poojaTitle">Explore Pooja Vidhi &mdash; Learn Every Step.</h2>
+            <p class="psb-sub">Explore the preparation, rituals, mantras, offerings, and closing prayers for different pujas through a clear, step-by-step guide.</p>
+          </header>
+          <ul class="psb-legend" aria-label="What the labels mean">
+            <li><span class="psb-badge psb-badge--draft">Draft &mdash; Pandit Review Needed</span> A sourced guide you can read now; not yet checked by a pandit.</li>
+            <li><span class="psb-badge psb-badge--prep">Guide in preparation</span> No steps are shown until a reliable source is ready.</li>
+            <li><span class="psb-badge psb-badge--book">Enquiry open</span> You can ask for a pandit for any of these pujas.</li>
+          </ul>
+          <div id="poojaLibrary" class="psb-library" aria-live="polite">
+            <p class="psb-loading">Loading the guide library&hellip;</p>
+          </div>
+          <noscript><p class="psb-noscript">The interactive Pooja Vidhi guides need JavaScript. You can still request a pandit using the form above.</p></noscript>
+          <div id="poojaReader" class="psb-reader" hidden tabindex="-1" aria-label="Pooja Vidhi guide"></div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="psb-section psb-section--stone" id="faq" aria-labelledby="psbFaqTitle">
+        <div class="psb-wrap psb-wrap--narrow">
+          <header class="psb-head">
+            <p class="psb-eyebrow psb-eyebrow--dark">Questions</p>
+            <h2 id="psbFaqTitle">Good to know</h2>
+          </header>
+          <div class="psb-faq">
+            <details><summary>How much will the puja cost?</summary><p>Charges depend on the puja, the date, the venue and whether samagri is included. We share the complete charges and inclusions on WhatsApp before you confirm anything.</p></details>
+            <details><summary>Is a pandit available on my date?</summary><p>We check with pandits in Patna after we receive your enquiry. Availability for your date and location is confirmed personally. Sending the form does not reserve a pandit.</p></details>
+            <details><summary>Who arranges the samagri?</summary><p>You choose in the form: we can arrange it, you can arrange it yourself, or you can ask us for guidance on what is needed. We confirm what is included when we share the charges.</p></details>
+            <details><summary>Can I choose the language of the puja?</summary><p>Yes, you can tell us your preference &mdash; Hindi, Sanskrit or no preference. We will try to match it, subject to pandit availability.</p></details>
+            <details><summary>When is my booking confirmed?</summary><p>Only after we have discussed your requirements and the charges with you on WhatsApp and you have agreed. Until then, your request is an enquiry.</p></details>
+            <details><summary>Can I follow the Pooja Vidhi guide instead of booking a pandit?</summary><p>The guides are for learning and preparation. They do not replace a qualified pandit, and your family&rsquo;s own tradition always comes first. If you want a pandit to conduct the puja, send an enquiry above.</p></details>
+            <details><summary>How reliable are the guides?</summary><p>Each step shows the source it comes from, and anything we could not source is marked as pending rather than filled in. Every guide currently says &ldquo;Draft &mdash; Pandit Review Needed&rdquo;: no pandit has reviewed them yet, and practice differs between regions and families.</p></details>
+            <details><summary>Do I need to log in or pay online?</summary><p>No. There is no account and no online payment on this page. You send us your enquiry on WhatsApp and we take it from there.</p></details>
+          </div>
+        </div>
+      </section>
+
+      <section class="psb-final" aria-label="Start your enquiry">
+        <div class="psb-wrap psb-final__row">
+          <h2>Ready to plan your puja?</h2>
+          <a class="psb-cta psb-cta--primary" href="#book" data-specular="primary">Book a Pandit</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="psb-sticky" id="psbSticky" hidden>
+      <a class="psb-btn psb-btn--gold" href="#book">Book a Pandit</a>
+      <a class="psb-sticky__wa" id="psbStickyWa" href="https://wa.me/919353206153" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-wa"/></svg></a>
+    </div>
   </main>
-
-  <div class="pandit-world-modal" id="panditCategoryWorldModal" hidden aria-hidden="true">
-    <div class="pandit-world-modal__backdrop" data-world-close></div>
-    <section class="pandit-world-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="panditWorldModalTitle">
-      <button type="button" class="pandit-world-modal__close" id="panditCategoryWorldClose" data-world-close aria-label="Close ritual guide">✕</button>
-      <div class="pandit-world-modal__content" id="panditCategoryWorldContent"></div>
-    </section>
-  </div>
-
-  {{ pandit_cards_json|json_script:"panditCardsData" }}
-  {{ pandit_filters|json_script:"panditFiltersData" }}
-  {{ service_worlds|json_script:"panditServiceWorldsData" }}
 
   {% include 'components/login_popup.html' %}
   {% include 'components/digital_daanpatra.html' %}
@@ -329,10 +443,14 @@
     });
   </script>
   <script defer src="{% static 'header.js' %}?v=5"></script>
-  <script defer src="{% static 'js/login_popup.js' %}?v=2"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=3"></script>
   <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
-  <script defer src="{% static 'pandit/pandit.js' %}?v=4"></script>
+  <script defer src="{% static 'pandit/vendor/glass-surface.js' %}?v=1"></script>
+  <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
+  <script defer src="{% static 'pandit/vendor/silk.js' %}?v=1"></script>
+  <script defer src="{% static 'pandit/booking.js' %}?v=5"></script>
+  <script defer src="{% static 'pandit/pooja.js' %}?v=4"></script>
 </body>
 </html>

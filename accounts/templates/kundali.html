@@ -4,6 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050914">
+  <meta name="color-scheme" content="dark">
   <title>Kundali | Science Meets Sanatan</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +14,7 @@
 
   <link rel="stylesheet" href="{% static 'header.css' %}?v=4">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
-  <link rel="stylesheet" href="{% static 'kundali.css' %}?v=19">
+  <link rel="stylesheet" href="{% static 'kundali.css' %}?v=26">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2">
@@ -93,7 +95,6 @@
         <video
           id="heroVideo"
           class="k-hero__video"
-          autoplay
           muted
           loop
           playsinline
@@ -101,10 +102,11 @@
           disablepictureinpicture
           disableremoteplayback
           crossorigin="anonymous"
-          preload="auto"
-        >
-          <source src="https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776004063/videoplayback_3_vvctpq.mp4" type="video/mp4">
-        </video>
+          preload="none"
+          poster="https://res.cloudinary.com/dmnm8z8dc/video/upload/so_0,w_900,q_auto,f_jpg/v1776004063/videoplayback_3_vvctpq.jpg"
+          data-src-desktop="https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776004063/videoplayback_3_vvctpq.mp4"
+          data-src-mobile="https://res.cloudinary.com/dmnm8z8dc/video/upload/q_auto:low,w_640,vc_h264,br_700k/v1776004063/videoplayback_3_vvctpq.mp4"
+        ></video>
       </div>
       <div class="k-hero__bg" aria-hidden="true"></div>
       <div class="k-hero__top">
@@ -155,7 +157,6 @@
           </div>
 
           <div class="k-form" aria-label="Kundali inputs">
-            <input id="placeInput" type="hidden" />
             <label class="k-field">
               <span>Date of birth</span>
               <input id="dobInput" type="date" class="k-control" />
@@ -166,15 +167,19 @@
               <input id="tobInput" type="time" class="k-control" step="60" />
             </label>
 
-            <label class="k-field">
-              <span>Latitude</span>
-              <input id="latInput" class="k-control" inputmode="decimal" placeholder="28.6139" />
-            </label>
-
-            <label class="k-field">
-              <span>Longitude</span>
-              <input id="lonInput" class="k-control" inputmode="decimal" placeholder="77.2090" />
-            </label>
+            <div class="k-field k-field--wide k-place">
+              <label for="placeInput"><span>Place of birth</span></label>
+              <div class="k-place__box">
+                <input id="placeInput" class="k-control" type="search" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="search"
+                       role="combobox" aria-expanded="false" aria-controls="placeList" aria-autocomplete="list"
+                       placeholder="Search city, town or village" />
+                <button id="placeClear" class="k-place__clear" type="button" aria-label="Clear place" hidden>&times;</button>
+                <ul id="placeList" class="k-place__list" role="listbox" aria-label="Matching places" hidden></ul>
+              </div>
+              <small id="placeHint" class="k-place__hint" role="status" aria-live="polite">Type your birthplace and pick it from the list.</small>
+              <input id="latInput" type="hidden" />
+              <input id="lonInput" type="hidden" />
+            </div>
 
             <label class="k-field k-field--wide">
               <span>Timezone</span>
@@ -191,10 +196,14 @@
           </div>
 
           <div class="k-actions">
-            <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button">Use current location</button>
-            <button id="todayBtn" class="k-btn" type="button">Today</button>
-            <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
-            <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate Kundali</button>
+            <div class="k-actions__secondary">
+              <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button">Use current location</button>
+              <button id="todayBtn" class="k-btn" type="button">Today</button>
+              <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
+            </div>
+            <div class="k-actions__primary">
+              <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate Kundali</button>
+            </div>
           </div>
 
           <div class="k-state" id="kState">
@@ -305,11 +314,11 @@
       pageType: "kundali"
     });
   </script>
-  <script defer src="{% static 'js/login_popup.js' %}?v=2"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=3"></script>
   <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=5"></script>
-  <script src="{% static 'kundali.js' %}?v=13"></script>
+  <script src="{% static 'kundali.js' %}?v=19"></script>
 </body>
 </html>

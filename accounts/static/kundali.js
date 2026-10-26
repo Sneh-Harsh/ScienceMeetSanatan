@@ -7,6 +7,9 @@ const els = {
   dob: document.querySelector("#dobInput"),
   tob: document.querySelector("#tobInput"),
   place: document.querySelector("#placeInput"),
+  placeList: document.querySelector("#placeList"),
+  placeClear: document.querySelector("#placeClear"),
+  placeHint: document.querySelector("#placeHint"),
   lat: document.querySelector("#latInput"),
   lon: document.querySelector("#lonInput"),
   tz: document.querySelector("#tzInput"),
@@ -37,6 +40,8 @@ const els = {
   dashaList: document.querySelector("#dashaList"),
 };
 
+function isMobileView(){ return window.matchMedia && window.matchMedia("(max-width: 760px)").matches; }
+
 function pad2(n){ return String(n).padStart(2, "0"); }
 
 function getBrowserTz(){
@@ -56,52 +61,71 @@ function isoNowTime(){
 function initHeroVideo(){
   const video = els.heroVideo;
   if(!video) return;
+
+  const mobile = isMobileView();
+  const conn = navigator.connection || {};
+  const slowNetwork = !!conn.saveData || /(^|-)2g$/.test(String(conn.effectiveType || ""));
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Data saver / slow network / reduced motion: keep the still poster frame, skip the download.
+  if(slowNetwork || reduceMotion) return;
+
   video.muted = true;
   video.defaultMuted = true;
   video.playsInline = true;
   video.setAttribute("muted", "");
-  video.setAttribute("autoplay", "");
   video.setAttribute("playsinline", "");
-  video.currentTime = 0.05;
-  video.load();
+
+  let inView = true;
+  let started = false;
   const tryPlay = () => {
-    if(video.readyState === 0) video.load();
+    if(!started || !inView || document.visibilityState !== "visible") return;
     const playPromise = video.play();
     if(playPromise && typeof playPromise.catch === "function"){
       playPromise.catch(() => {});
     }
   };
-  if(video.readyState >= 2){
-    tryPlay();
-  } else {
+
+  const start = () => {
+    if(started) return;
+    started = true;
+    // Phones get a smaller encode of the same clip (about half the bytes).
+    const src = (mobile ? video.dataset.srcMobile : video.dataset.srcDesktop) || video.dataset.srcDesktop;
+    if(!src) return;
+    video.preload = mobile ? "metadata" : "auto";
+    video.src = src;
+    video.load();
     video.addEventListener("canplay", tryPlay, { once:true });
     video.addEventListener("loadeddata", tryPlay, { once:true });
+    // Autoplay can be blocked (e.g. iOS Low Power Mode); the first touch retries it.
+    ["pointerdown", "touchstart", "click"].forEach((eventName) => {
+      window.addEventListener(eventName, tryPlay, { once:true, passive:true });
+    });
+    let attempts = 0;
+    const keepAlive = window.setInterval(() => {
+      attempts += 1;
+      if(!video.paused && !video.ended){ window.clearInterval(keepAlive); return; }
+      tryPlay();
+      if(attempts >= 10) window.clearInterval(keepAlive);
+    }, 1500);
+  };
+
+  // Don't compete with the page's own resources: begin once everything else has loaded.
+  const begin = () => window.setTimeout(start, mobile ? 400 : 0);
+  if(document.readyState === "complete") begin();
+  else window.addEventListener("load", begin, { once:true });
+
+  // Save battery and data: only play while the hero is on screen and the tab is visible.
+  if("IntersectionObserver" in window){
+    new IntersectionObserver((entries) => {
+      inView = entries.some((entry) => entry.isIntersecting);
+      if(inView) tryPlay();
+      else if(started) video.pause();
+    }, { threshold:0.05 }).observe(video.parentElement || video);
   }
   document.addEventListener("visibilitychange", () => {
-    if(document.visibilityState === "visible"){
-      tryPlay();
-    }
+    if(document.visibilityState === "visible") tryPlay();
+    else if(started) video.pause();
   });
-  ["pointerdown", "touchstart", "click"].forEach((eventName) => {
-    window.addEventListener(eventName, tryPlay, { once:true, passive:true });
-  });
-  let attempts = 0;
-  const keepAlive = window.setInterval(() => {
-    attempts += 1;
-    if(!video.paused && !video.ended){
-      window.clearInterval(keepAlive);
-      return;
-    }
-    tryPlay();
-    if(attempts >= 10){
-      window.clearInterval(keepAlive);
-    }
-  }, 1500);
-  if(video.paused){
-    video.addEventListener("error", () => {
-      video.style.display = "none";
-    }, { once:true });
-  }
 }
 
 function setState({ loading=false, error=null, ready=false } = {}){
@@ -251,7 +275,11 @@ function setActiveToggle(group, value){
 
 function setActiveTab(value){
   document.querySelectorAll(".k-tab__btn[data-tab]").forEach((btn)=>{
-    btn.classList.toggle("is-active", btn.getAttribute("data-tab") === value);
+    const active = btn.getAttribute("data-tab") === value;
+    btn.classList.toggle("is-active", active);
+    if(active && isMobileView()){
+      try{ btn.scrollIntoView({ inline:"center", block:"nearest", behavior:"smooth" }); }catch{}
+    }
   });
   document.querySelectorAll(".k-tab__pane[data-pane]").forEach((pane)=>{
     pane.hidden = pane.getAttribute("data-pane") !== value;
@@ -454,6 +482,7 @@ function zodiacLongitude(planet){
 }
 
 let kundaliPlanetariumModulePromise = null;
+let planetariumObserver = null;
 
 function ensureKundaliPlanetariumModule(){
   if(!kundaliPlanetariumModulePromise){
@@ -506,7 +535,7 @@ function renderPlanetTable(){
       </div>
     `;
     const mount = els.planetTableSide.querySelector(".kundali-planetarium");
-    ensureKundaliPlanetariumModule()
+    const drawPlanetarium = ()=> ensureKundaliPlanetariumModule()
       .then((mod)=> {
         mod.renderKundaliPlanetarium?.(mount, planets, {
           chart: kundaliState.chart,
@@ -523,6 +552,24 @@ function renderPlanetTable(){
           mount.classList.add("is-fallback-only");
         }
       });
+    // The 3D viewer needs a ~1.3 MB library. Load it only when it is about to be seen,
+    // and keep the light fallback on data-saver / very low-memory phones.
+    const conn = navigator.connection || {};
+    const weakDevice = !!conn.saveData || /(^|-)2g$/.test(String(conn.effectiveType || "")) || (navigator.deviceMemory && navigator.deviceMemory <= 2);
+    if(weakDevice){
+      mount?.classList.add("is-fallback-only");
+    } else if(mount && "IntersectionObserver" in window){
+      if(planetariumObserver) planetariumObserver.disconnect();
+      planetariumObserver = new IntersectionObserver((entries, observer)=>{
+        if(entries.some((entry)=> entry.isIntersecting)){
+          observer.disconnect();
+          drawPlanetarium();
+        }
+      }, { rootMargin:"300px 0px" });
+      planetariumObserver.observe(mount);
+    } else {
+      drawPlanetarium();
+    }
   }
 }
 
@@ -1255,6 +1302,7 @@ function renderExtraPanes(){
 }
 
 function hydrateAll(){
+  document.body.classList.add("k-has-results");
   renderStaticLabels();
   renderSummary();
   renderPhaseShift();
@@ -1312,6 +1360,187 @@ function saveInputs(){
   }catch{}
 }
 
+/* ---------- Place of birth search ---------- */
+const PLACE_API = "/api/places/search";
+const DEFAULT_PLACE = { label:"New Delhi, Delhi, India", lat:28.6139, lon:77.2090, tz:"Asia/Kolkata" };
+const placeState = { resolved:false, results:[], active:-1, timer:null, controller:null };
+
+function setPlaceHint(text, tone){
+  if(!els.placeHint) return;
+  els.placeHint.textContent = text;
+  els.placeHint.dataset.tone = tone || "";
+}
+
+function closePlaceList(){
+  if(!els.placeList) return;
+  els.placeList.hidden = true;
+  els.place?.setAttribute("aria-expanded", "false");
+  placeState.active = -1;
+}
+
+function applyPlace(place){
+  if(els.place) els.place.value = place.label;
+  if(els.lat) els.lat.value = String(place.lat);
+  if(els.lon) els.lon.value = String(place.lon);
+  if(els.tz && place.tz) els.tz.value = place.tz;
+  placeState.resolved = true;
+  if(els.placeClear) els.placeClear.hidden = false;
+  closePlaceList();
+  const ns = Number(place.lat) >= 0 ? "N" : "S";
+  const ew = Number(place.lon) >= 0 ? "E" : "W";
+  setPlaceHint(`✓ ${Math.abs(Number(place.lat)).toFixed(2)}°${ns}, ${Math.abs(Number(place.lon)).toFixed(2)}°${ew}${place.tz ? " · " + place.tz : ""}`, "ok");
+  saveInputs();
+}
+
+async function searchPlaces(query){
+  if(placeState.controller) placeState.controller.abort();
+  placeState.controller = new AbortController();
+  const res = await fetch(`${PLACE_API}?${qs({ q: query })}`, { headers:{ Accept:"application/json" }, signal: placeState.controller.signal });
+  const data = await res.json().catch(()=> ({}));
+  if(!res.ok) throw new Error(String(data?.error || "Place search is unavailable right now."));
+  return Array.isArray(data.results) ? data.results : [];
+}
+
+function renderPlaceList(results){
+  const list = els.placeList;
+  if(!list) return;
+  placeState.results = results;
+  placeState.active = -1;
+  if(!results.length){
+    list.innerHTML = `<li class="k-place__empty" role="presentation">No matching place found. Try a nearby city.</li>`;
+  } else {
+    list.innerHTML = results.map((r, i)=> `
+      <li class="k-place__item" role="option" id="placeOpt${i}" data-index="${i}" aria-selected="false">
+        <span class="k-place__pin" aria-hidden="true">📍</span>
+        <span class="k-place__label">${escapeHtml(r.label)}</span>
+      </li>`).join("");
+  }
+  list.hidden = false;
+  els.place?.setAttribute("aria-expanded", "true");
+}
+
+function highlightPlace(index){
+  const items = els.placeList ? [...els.placeList.querySelectorAll(".k-place__item")] : [];
+  if(!items.length) return;
+  placeState.active = (index + items.length) % items.length;
+  items.forEach((el, i)=>{
+    const on = i === placeState.active;
+    el.classList.toggle("is-active", on);
+    el.setAttribute("aria-selected", on ? "true" : "false");
+    if(on){
+      els.place?.setAttribute("aria-activedescendant", el.id);
+      el.scrollIntoView({ block:"nearest" });
+    }
+  });
+}
+
+async function ensurePlaceResolved(){
+  if(placeState.resolved && Number.isFinite(Number(els.lat?.value)) && Number.isFinite(Number(els.lon?.value))) return true;
+  const text = String(els.place?.value || "").trim();
+  if(text.length < 2){
+    setState({loading:false, error:"Please search for your place of birth.", ready:false});
+    setPlaceHint("Search for your place of birth first.", "error");
+    return false;
+  }
+  try{
+    const results = await searchPlaces(text);
+    if(results.length){
+      applyPlace(results[0]);
+      return true;
+    }
+  }catch(err){
+    if(err?.name === "AbortError") return false;
+    setState({loading:false, error:String(err?.message || err), ready:false});
+    return false;
+  }
+  setState({loading:false, error:"We couldn't find that place. Try the nearest big city.", ready:false});
+  setPlaceHint("No match. Try the nearest big city.", "error");
+  return false;
+}
+
+function initPlaceSearch(){
+  const input = els.place;
+  if(!input) return;
+
+  input.addEventListener("input", ()=>{
+    placeState.resolved = false;
+    if(els.placeClear) els.placeClear.hidden = !input.value;
+    window.clearTimeout(placeState.timer);
+    const query = input.value.trim();
+    if(query.length < 2){
+      closePlaceList();
+      setPlaceHint("Type your birthplace and pick it from the list.", "");
+      return;
+    }
+    setPlaceHint("Searching…", "");
+    placeState.timer = window.setTimeout(async ()=>{
+      try{
+        renderPlaceList(await searchPlaces(query));
+        setPlaceHint("Pick your birthplace from the list.", "");
+      }catch(err){
+        if(err?.name === "AbortError") return;
+        closePlaceList();
+        setPlaceHint(String(err?.message || "Place search failed."), "error");
+      }
+    }, 280);
+  });
+
+  input.addEventListener("keydown", (event)=>{
+    const open = els.placeList && !els.placeList.hidden;
+    if(event.key === "ArrowDown" && open){ event.preventDefault(); highlightPlace(placeState.active + 1); }
+    else if(event.key === "ArrowUp" && open){ event.preventDefault(); highlightPlace(placeState.active - 1); }
+    else if(event.key === "Enter" && open && placeState.active >= 0){
+      event.preventDefault();
+      applyPlace(placeState.results[placeState.active]);
+    } else if(event.key === "Escape"){ closePlaceList(); }
+  });
+
+  input.addEventListener("focus", ()=>{
+    if(!placeState.resolved && placeState.results.length && input.value.trim().length >= 2 && els.placeList){
+      els.placeList.hidden = false;
+      input.setAttribute("aria-expanded", "true");
+    }
+    // Keep the field visible above the on-screen keyboard.
+    window.setTimeout(()=> input.scrollIntoView({ block:"center", behavior:"smooth" }), 250);
+  });
+
+  els.placeList?.addEventListener("pointerdown", (event)=>{
+    const item = event.target.closest(".k-place__item");
+    if(!item) return;
+    event.preventDefault();
+    const place = placeState.results[Number(item.dataset.index)];
+    if(place) applyPlace(place);
+  });
+
+  els.placeClear?.addEventListener("click", ()=>{
+    input.value = "";
+    placeState.resolved = false;
+    placeState.results = [];
+    els.placeClear.hidden = true;
+    closePlaceList();
+    setPlaceHint("Type your birthplace and pick it from the list.", "");
+    input.focus();
+  });
+
+  document.addEventListener("pointerdown", (event)=>{
+    if(!event.target.closest(".k-place")) closePlaceList();
+  });
+
+  // A restored or default place already has coordinates, so it counts as chosen.
+  const hasCoords = Number.isFinite(parseFloat(els.lat?.value)) && Number.isFinite(parseFloat(els.lon?.value));
+  if(!input.value.trim() && hasCoords){
+    // Coordinates saved from before the place search existed: show them as a named place.
+    input.value = `Saved location (${Number(els.lat.value).toFixed(2)}, ${Number(els.lon.value).toFixed(2)})`;
+  }
+  if(input.value.trim() && hasCoords){
+    placeState.resolved = true;
+    if(els.placeClear) els.placeClear.hidden = false;
+    const ns = Number(els.lat.value) >= 0 ? "N" : "S";
+    const ew = Number(els.lon.value) >= 0 ? "E" : "W";
+    setPlaceHint(`✓ ${Math.abs(Number(els.lat.value)).toFixed(2)}°${ns}, ${Math.abs(Number(els.lon.value)).toFixed(2)}°${ew}${els.tz?.value ? " · " + els.tz.value : ""}`, "ok");
+  }
+}
+
 async function detectTimezone(lat, lon){
   try{
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m&timezone=auto`;
@@ -1324,37 +1553,62 @@ async function detectTimezone(lat, lon){
   }
 }
 
+async function reverseGeocode(lat, lon){
+  try{
+    const res = await fetch(`/api/places/reverse?${qs({ lat, lon })}`, { headers:{ Accept:"application/json" } });
+    if(!res.ok) return "";
+    const data = await res.json();
+    return typeof data?.label === "string" ? data.label : "";
+  }catch{
+    return "";
+  }
+}
+
 async function useCurrentLocation(){
   if(!navigator.geolocation){
-    alert("Geolocation not supported.");
+    setPlaceHint("Your browser can't share its location. Search for your place instead.", "error");
     return;
   }
+  const btn = els.useCurrentBtn;
+  const original = btn ? btn.textContent : "";
+  const setBusy = (busy)=>{
+    if(!btn) return;
+    btn.disabled = busy;
+    btn.textContent = busy ? "Locating…" : original;
+  };
+  setBusy(true);
+  setPlaceHint("Finding your location…", "");
   navigator.geolocation.getCurrentPosition(async (pos)=>{
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-    if(els.lat) els.lat.value = String(lat.toFixed(5));
-    if(els.lon) els.lon.value = String(lon.toFixed(5));
-    const tzName = await detectTimezone(lat, lon);
+    const lat = Number(pos.coords.latitude.toFixed(4));
+    const lon = Number(pos.coords.longitude.toFixed(4));
+    setPlaceHint("Finding your place name…", "");
+    const [tzName, label] = await Promise.all([detectTimezone(lat, lon), reverseGeocode(lat, lon)]);
     if(els.tz) els.tz.value = tzName || getBrowserTz();
-    saveInputs();
-  }, ()=>{
-    alert("Location permission denied.");
+    // Exact coordinates are kept for the chart; the box shows the real place name.
+    applyPlace({ label: label || `Current location (${lat.toFixed(2)}, ${lon.toFixed(2)})`, lat, lon, tz: els.tz?.value || "" });
+    setBusy(false);
+  }, (err)=>{
+    setBusy(false);
+    setPlaceHint(err && err.code === 1
+      ? "Location permission was denied. Search for your place instead."
+      : "Couldn't get your location. Search for your place instead.", "error");
   }, { enableHighAccuracy: true, timeout: 12000 });
 }
 
-async function generate(){
+async function generate({ scroll = false } = {}){
   const dob = String(els.dob?.value || "").trim();
   const tob = String(els.tob?.value || "").trim();
-  const lat = Number(els.lat?.value);
-  const lon = Number(els.lon?.value);
-  const tz = String(els.tz?.value || getBrowserTz()).trim() || getBrowserTz();
 
   if(!dob || !tob){
     setState({loading:false, error:"Please enter date and time of birth.", ready:false});
     return;
   }
+  if(!(await ensurePlaceResolved())) return;
+  const lat = Number(els.lat?.value);
+  const lon = Number(els.lon?.value);
+  const tz = String(els.tz?.value || getBrowserTz()).trim() || getBrowserTz();
   if(!Number.isFinite(lat) || !Number.isFinite(lon)){
-    setState({loading:false, error:"Please enter valid latitude and longitude.", ready:false});
+    setState({loading:false, error:"Please search for your place of birth.", ready:false});
     return;
   }
 
@@ -1374,6 +1628,9 @@ async function generate(){
     setActiveToggle("lang", kundaliState.lang);
     setActiveTab("overview");
     hydrateAll();
+    if(scroll && isMobileView()){
+      document.querySelector(".k-summary--portal")?.scrollIntoView({ behavior:"smooth", block:"start" });
+    }
   }catch(err){
     setState({loading:false, error:String(err?.message || err), ready:false});
   }
@@ -1426,8 +1683,8 @@ function initDefaults(){
   const params = new URLSearchParams(window.location.search);
   if(els.dob && !els.dob.value) els.dob.value = isoToday();
   if(els.tz && !els.tz.value) els.tz.value = getBrowserTz();
-  if(els.lat && !els.lat.value) els.lat.value = "28.6139";
-  if(els.lon && !els.lon.value) els.lon.value = "77.2090";
+  if(els.lat && !els.lat.value) els.lat.value = String(DEFAULT_PLACE.lat);
+  if(els.lon && !els.lon.value) els.lon.value = String(DEFAULT_PLACE.lon);
   if(els.tob && !els.tob.value) els.tob.value = isoNowTime();
   if(els.dob && params.get("dob")) els.dob.value = String(params.get("dob"));
   if(els.tob && params.get("tob")) els.tob.value = String(params.get("tob"));
@@ -1435,6 +1692,7 @@ function initDefaults(){
   if(els.lat && params.get("lat")) els.lat.value = String(params.get("lat"));
   if(els.lon && params.get("lon")) els.lon.value = String(params.get("lon"));
   if(els.tz && params.get("tz")) els.tz.value = String(params.get("tz"));
+  if(els.place && !els.place.value.trim() && !params.get("lat") && Number(els.lat?.value) === DEFAULT_PLACE.lat) els.place.value = DEFAULT_PLACE.label;
 }
 
 function setInputsToNow(){
@@ -1450,14 +1708,16 @@ function init(){
   loadSavedInputs();
   initDefaults();
   initHeroVideo();
+  initPlaceSearch();
   initToggles();
   if(els.useCurrentBtn) els.useCurrentBtn.addEventListener("click", useCurrentLocation);
   if(els.todayBtn) els.todayBtn.addEventListener("click", ()=>{
     setInputsToNow();
-    generate();
+    generate({ scroll:true });
   });
   if(els.seeHoroscopeBtn) {
-    els.seeHoroscopeBtn.addEventListener("click", ()=>{
+    els.seeHoroscopeBtn.addEventListener("click", async ()=>{
+      if(!(await ensurePlaceResolved())) return;
       const params = new URLSearchParams({
         dob: String(els.dob?.value || ""),
         tob: String(els.tob?.value || ""),
@@ -1470,7 +1730,7 @@ function init(){
       window.location.href = `/horoscope/?${params.toString()}`;
     });
   }
-  if(els.generateBtn) els.generateBtn.addEventListener("click", generate);
+  if(els.generateBtn) els.generateBtn.addEventListener("click", ()=> generate({ scroll:true }));
   setActiveToggle("lang", kundaliState.lang);
   setActiveTab("overview");
   renderStaticLabels();

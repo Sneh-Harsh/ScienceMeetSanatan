@@ -84,6 +84,43 @@ if(Array.isArray(list) && list.length) return list[0].name;
 return deity.fallback?.[gender] || "—";
 }
 
+
+/* Cloudinary serves a smaller encode / still frame on request, so phones aren't sent 8 MB clips. */
+const IS_PHONE = window.matchMedia("(max-width: 760px)").matches;
+const SAVE_DATA = !!(navigator.connection && (navigator.connection.saveData || /(^|-)2g$/.test(String(navigator.connection.effectiveType || ""))));
+
+function cdnVideo(url, transform){
+  return String(url).replace("/video/upload/", `/video/upload/${transform}/`).replace(/\.(mov|mp4)$/i, ".mp4");
+}
+
+function cardVideoUrl(url){
+  return IS_PHONE ? cdnVideo(url, "f_mp4,vc_h264,q_auto:low,w_540,br_600k") : url;
+}
+
+function modalVideoUrl(url){
+  return IS_PHONE ? cdnVideo(url, "f_mp4,vc_h264,q_auto:low,w_720,br_900k") : url;
+}
+
+function videoPoster(url){
+  return String(url).replace("/video/upload/", "/video/upload/so_0,w_480,q_auto,f_jpg/").replace(/\.(mov|mp4)$/i, ".jpg");
+}
+
+const cardVideoObserver = ("IntersectionObserver" in window)
+  ? new IntersectionObserver((entries)=>{
+      entries.forEach((entry)=>{
+        const video = entry.target;
+        if(entry.isIntersecting){
+          if(!video.getAttribute("src") && !SAVE_DATA){
+            video.src = video.dataset.src;
+          }
+          if(video.getAttribute("src")) video.play().catch(()=>{});
+        } else if(video.getAttribute("src")){
+          video.pause();
+        }
+      });
+    }, { rootMargin:"150px 0px" })
+  : null;
+
 function renderCards(){
 
 if(!deityGrid) return;
@@ -101,7 +138,7 @@ cardElement.dataset.deityIndex = String(index);
 
 cardElement.innerHTML=`
 
-<video src="${deity.video}" muted loop playsinline></video>
+<video muted loop playsinline preload="none" poster="${videoPoster(deity.video)}" data-src="${cardVideoUrl(deity.video)}"></video>
 
 <div class="card-label">
 <h3>${deity.deity}</h3>
@@ -112,10 +149,13 @@ cardElement.innerHTML=`
 
 const video = cardElement.querySelector("video");
 
-video.play().catch(()=>{});
+// Cards only fetch and play their video while they are on screen.
+if(cardVideoObserver) cardVideoObserver.observe(video);
+else if(!SAVE_DATA){ video.src = video.dataset.src; video.play().catch(()=>{}); }
 
 cardElement.addEventListener("mouseenter",()=>{
-video.play();
+if(!video.getAttribute("src")) video.src = video.dataset.src;
+video.play().catch(()=>{});
 });
 
 cardElement.addEventListener("mouseleave",()=>{
@@ -282,7 +322,8 @@ const list = modal.querySelector(".deity-modal__list");
 const empty = modal.querySelector(".deity-modal__empty");
 
 title.textContent = deity.deity;
-video.src = deity.video;
+video.poster = videoPoster(deity.video);
+video.src = modalVideoUrl(deity.video);
 video.currentTime = 0;
 video.play().catch(()=>{});
 
