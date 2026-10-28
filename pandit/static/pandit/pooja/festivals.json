@@ -1,0 +1,2937 @@
+{
+"generatedOn": "2026-10-27",
+"location": "Patna, Bihar, India (Drik Panchang geoname-id 1260086, lat 25.594, lon 85.136, Asia/Kolkata IST)",
+"note": "Dates for Patna, Bihar (IST), from Drik Panchang; see each entry's sourceUrl. Re-check with your panchang before the day.",
+"festivals": [
+{
+"id": "karwa-chauth-2026",
+"name": {
+"en": "Karwa Chauth",
+"hi": "करवा चौथ"
+},
+"date": "2026-10-29",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"other"
+],
+"note": {
+"en": "Kartika Krishna Chaturthi; also Vakratunda Sankashti Chaturthi.",
+"hi": "कार्तिक कृष्ण चतुर्थी; इसी दिन वक्रतुण्ड संकष्टी चतुर्थी भी है।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "sankashti-2026-10-29",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2026-10-29",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Karwa Chauth, Vakratunda Sankashti. Chaturthi 01:06 AM, Oct 29 to 10:09 PM, Oct 29; fast broken after moonrise.",
+"hi": "Karwa Chauth, Vakratunda Sankashti। चतुर्थी 01:06 AM, Oct 29 से 10:09 PM, Oct 29; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "ahoi-ashtami-2026",
+"name": {
+"en": "Ahoi Ashtami",
+"hi": "अहोई अष्टमी"
+},
+"date": "2026-11-01",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "rama-ekadashi-2026",
+"name": {
+"en": "Rama Ekadashi",
+"hi": "रमा एकादशी"
+},
+"date": "2026-11-05",
+"endDate": null,
+"kind": "ekadashi",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "dhanteras-2026",
+"name": {
+"en": "Dhanteras",
+"hi": "धनतेरस"
+},
+"date": "2026-11-06",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"lakshmi-puja"
+],
+"note": {
+"en": "Dhanteras puja muhurat 05:36 PM to 07:33 PM (Patna); Trayodashi 10:30 AM Nov 6 to 10:47 AM Nov 7.",
+"hi": "धनतेरस पूजा मुहूर्त शाम 05:36 से 07:33 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/dhanteras/festivals-dhanteras-puja-timings.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "pradosh-2026-11-06",
+"name": {
+"en": "Shukra Pradosh",
+"hi": "शुक्र प्रदोष व्रत"
+},
+"date": "2026-11-06",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 10:30 AM, Nov 06 to 10:47 AM, Nov 07 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "kali-chaudas-2026",
+"name": {
+"en": "Kali Chaudas",
+"hi": "काली चौदस"
+},
+"date": "2026-11-07",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Kali Chaudas muhurat 11:07 PM to 11:59 PM (Patna).",
+"hi": "काली चौदस मुहूर्त रात 11:07 से 11:59।"
+},
+"sourceUrl": "https://www.drikpanchang.com/diwali/kali-chaudas/kali-chaudas-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2026-11-07",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2026-11-07",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 10:47 AM, Nov 07 to 11:27 AM, Nov 08 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 10:47 AM, Nov 07 से 11:27 AM, Nov 08; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "amavasya-2026-11-08",
+"name": {
+"en": "Kartika Amavasya",
+"hi": "कार्तिक अमावस्या"
+},
+"date": "2026-11-08",
+"endDate": "2026-11-09",
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 11:27 AM, Nov 08 to 12:31 PM, Nov 09 (Patna). Drik lists Darsha Amavasya 2026-11-08 and Kartika Amavasya 2026-11-09.",
+"hi": "अमावस्या: 11:27 AM, Nov 08 से 12:31 PM, Nov 09 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "diwali-2026",
+"name": {
+"en": "Diwali / Lakshmi Puja",
+"hi": "दीपावली / लक्ष्मी पूजा"
+},
+"date": "2026-11-08",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"lakshmi-puja",
+"ganesh-puja"
+],
+"note": {
+"en": "Lakshmi Puja muhurat 05:28 PM to 07:25 PM (Patna); Amavasya 11:27 AM Nov 8 to 12:31 PM Nov 9.",
+"hi": "लक्ष्मी पूजा मुहूर्त शाम 05:28 से 07:25 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/lakshmipuja/festivals-lakshmipuja-timings.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "naraka-chaturdashi-2026",
+"name": {
+"en": "Naraka Chaturdashi (Chhoti Diwali)",
+"hi": "नरक चतुर्दशी (छोटी दिवाली)"
+},
+"date": "2026-11-08",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Drik lists Narak Chaturdashi on Nov 8 (Chaturdashi ends 11:27 AM Nov 8); Kali Chaudas night observance falls on Nov 7. Abhyang snan before sunrise Nov 8.",
+"hi": "ड्रिक के अनुसार नरक चतुर्दशी 8 नवंबर; काली चौदस 7 नवंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "govardhan-puja-2026",
+"name": {
+"en": "Govardhan Puja (Annakut)",
+"hi": "गोवर्धन पूजा (अन्नकूट)"
+},
+"date": "2026-11-10",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Pratipada 12:31 PM Nov 9 to 02:00 PM Nov 10; Drik Patna gives Nov 10 (pratahkala muhurat 06:03-08:15 AM). Some Delhi-based lists show Nov 9.",
+"hi": "प्रतिपदा 9 नवंबर दोपहर से 10 नवंबर दोपहर 2 बजे तक; ड्रिक पटना: 10 नवंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/govardhan-puja/govardhan-puja-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "bhai-dooj-2026",
+"name": {
+"en": "Bhai Dooj (Yama Dwitiya)",
+"hi": "भाई दूज (यम द्वितीया)"
+},
+"date": "2026-11-11",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"bhai-dooj"
+],
+"note": {
+"en": "Tika aparahna muhurat 12:39 PM to 02:51 PM (Patna); Dwitiya 02:00 PM Nov 10 to 03:53 PM Nov 11.",
+"hi": "तिलक अपराह्न मुहूर्त 12:39 से 02:51।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/bhai-dooj/bhai-dooj-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "chitragupta-puja-2026",
+"name": {
+"en": "Chitragupta Puja (Kalam-Dawat)",
+"hi": "चित्रगुप्त पूजा"
+},
+"date": "2026-11-11",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"chitragupta",
+"bhai-dooj"
+],
+"note": {
+"en": "Observed on Bhai Dooj day; aparahna muhurat 12:39 PM to 02:51 PM (Patna).",
+"hi": "भाई दूज के दिन; अपराह्न मुहूर्त 12:39 से 02:51।"
+},
+"sourceUrl": "https://www.drikpanchang.com/diwali/chitragupta-puja/chitragupta-puja-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2026-11-13",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2026-11-13",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Labh Chaturthi. Chaturthi 06:09 PM, Nov 12 to 08:42 PM, Nov 13.",
+"hi": "Labh Chaturthi। चतुर्थी 06:09 PM, Nov 12 से 08:42 PM, Nov 13।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "chhath-2026",
+"name": {
+"en": "Chhath Puja (Nahay-Khay to Usha Arghya)",
+"hi": "छठ पूजा (नहाय-खाय से उषा अर्घ्य)"
+},
+"date": "2026-11-15",
+"endDate": "2026-11-16",
+"kind": "festival",
+"guides": [
+"chhath"
+],
+"note": {
+"en": "Sandhya Arghya (main day) Nov 15; Nahay-Khay Nov 13, Lohanda-Kharna Nov 14, Usha Arghya / parana Nov 16. Sunset Nov 15 05:01 PM, sunrise Nov 16 per Drik Patna calendar.",
+"hi": "मुख्य संध्या अर्घ्य 15 नवंबर; नहाय-खाय 13, खरना 14, उषा अर्घ्य व पारण 16 नवंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/chhath/chhath-puja-calendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "devutthana-ekadashi-2026",
+"name": {
+"en": "Devutthana (Prabodhini) Ekadashi",
+"hi": "देवउठनी एकादशी"
+},
+"date": "2026-11-20",
+"endDate": "2026-11-21",
+"kind": "ekadashi",
+"guides": [
+"other"
+],
+"note": {
+"en": "Drik also lists Gauna (Vaishnava) Devutthana Ekadashi on Nov 21.",
+"hi": "वैष्णव देवउठनी एकादशी 21 नवंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "tulsi-vivah-2026",
+"name": {
+"en": "Tulsi Vivah",
+"hi": "तुलसी विवाह"
+},
+"date": "2026-11-21",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Dwadashi 06:31 AM Nov 21 to 04:56 AM Nov 22.",
+"hi": "द्वादशी 21 नवंबर प्रातः 06:31 से 22 नवंबर प्रातः 04:56।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/tulasi-vivah/tulasi-vivah-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "pradosh-2026-11-22",
+"name": {
+"en": "Ravi Pradosh",
+"hi": "रवि प्रदोष व्रत"
+},
+"date": "2026-11-22",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 04:56 AM, Nov 22 to 02:36 AM, Nov 23 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "kartik-purnima-2026",
+"name": {
+"en": "Kartik Purnima / Dev Deepawali",
+"hi": "कार्तिक पूर्णिमा / देव दीपावली"
+},
+"date": "2026-11-24",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima 11:42 PM Nov 23 to 08:23 PM Nov 24; moonrise 04:36 PM. Dev Diwali is celebrated on Kartik Purnima per Drik page text. Satyanarayan vrat day.",
+"hi": "पूर्णिमा 23 नवंबर रात 11:42 से 24 नवंबर रात 08:23 तक। देव दीपावली कार्तिक पूर्णिमा को।"
+},
+"sourceUrl": "https://www.drikpanchang.com/purnima/kartik/kartik-purnima-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "purnima-2026-11-24",
+"name": {
+"en": "Kartika Purnima",
+"hi": "कार्तिक पूर्णिमा"
+},
+"date": "2026-11-24",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 11:42 PM, Nov 23 to 08:23 PM, Nov 24 (Patna).",
+"hi": "पूर्णिमा तिथि: 11:42 PM, Nov 23 से 08:23 PM, Nov 24 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "sankashti-2026-11-27",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2026-11-27",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Ganadhipa Sankashti. Chaturthi 09:48 AM, Nov 27 to 06:39 AM, Nov 28; fast broken after moonrise.",
+"hi": "Ganadhipa Sankashti। चतुर्थी 09:48 AM, Nov 27 से 06:39 AM, Nov 28; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "pradosh-2026-12-06",
+"name": {
+"en": "Ravi Pradosh",
+"hi": "रवि प्रदोष व्रत"
+},
+"date": "2026-12-06",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 12:51 AM, Dec 06 to 02:22 AM, Dec 07 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2026-12-07",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2026-12-07",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 02:22 AM, Dec 07 to 04:12 AM, Dec 08 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 02:22 AM, Dec 07 से 04:12 AM, Dec 08; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "amavasya-2026-12-08",
+"name": {
+"en": "Margashirsha Amavasya",
+"hi": "मार्गशीर्ष अमावस्या"
+},
+"date": "2026-12-08",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 04:12 AM, Dec 08 to 06:21 AM, Dec 09 (Patna).",
+"hi": "अमावस्या: 04:12 AM, Dec 08 से 06:21 AM, Dec 09 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2026-12-13",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2026-12-13",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Krichchhra Chaturthi. Chaturthi 02:06 PM, Dec 12 to 04:47 PM, Dec 13.",
+"hi": "Krichchhra Chaturthi। चतुर्थी 02:06 PM, Dec 12 से 04:47 PM, Dec 13।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "vivah-panchami-2026",
+"name": {
+"en": "Vivah Panchami",
+"hi": "विवाह पंचमी"
+},
+"date": "2026-12-14",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"vivah"
+],
+"note": {
+"en": "Marriage of Rama and Sita.",
+"hi": "राम-सीता विवाह।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "gita-jayanti-2026",
+"name": {
+"en": "Gita Jayanti (Mokshada Ekadashi)",
+"hi": "गीता जयंती (मोक्षदा एकादशी)"
+},
+"date": "2026-12-20",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Ekadashi 10:09 PM Dec 19 to 08:14 PM Dec 20.",
+"hi": "एकादशी 19 दिसंबर रात 10:09 से 20 दिसंबर रात 08:14।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/gita-jayanti/gita-jayanti-date-time.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "pradosh-2026-12-21",
+"name": {
+"en": "Soma Pradosh",
+"hi": "सोम प्रदोष व्रत"
+},
+"date": "2026-12-21",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 05:36 PM, Dec 21 to 02:23 PM, Dec 22 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "dattatreya-jayanti-2026",
+"name": {
+"en": "Dattatreya Jayanti",
+"hi": "दत्तात्रेय जयंती"
+},
+"date": "2026-12-23",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "purnima-2026-12-23",
+"name": {
+"en": "Margashirsha Purnima",
+"hi": "मार्गशीर्ष पूर्णिमा"
+},
+"date": "2026-12-23",
+"endDate": "2026-12-24",
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 10:47 AM, Dec 23 to 06:57 AM, Dec 24 (Patna). Drik lists Purnima Vrat on 2026-12-23 and Purnima (snan/daan) on 2026-12-24; tithi spans two days.",
+"hi": "पूर्णिमा तिथि: 10:47 AM, Dec 23 से 06:57 AM, Dec 24 (पटना)। दो दिन तिथि।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "sankashti-2026-12-27",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2026-12-27",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Akhuratha Sankashti. Chaturthi 08:04 PM, Dec 26 to 05:12 PM, Dec 27; fast broken after moonrise.",
+"hi": "Akhuratha Sankashti। चतुर्थी 08:04 PM, Dec 26 से 05:12 PM, Dec 27; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2026&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-01-05",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-01-05",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 08:39 PM, Jan 05 to 11:13 PM, Jan 06 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 08:39 PM, Jan 05 से 11:13 PM, Jan 06; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-01-05",
+"name": {
+"en": "Bhauma Pradosh",
+"hi": "भौम प्रदोष व्रत"
+},
+"date": "2027-01-05",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 06:15 PM, Jan 04 to 08:39 PM, Jan 05 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-01-07",
+"name": {
+"en": "Pausha Amavasya",
+"hi": "पौष अमावस्या"
+},
+"date": "2027-01-07",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 11:13 PM, Jan 06 to 01:53 AM, Jan 08 (Patna).",
+"hi": "अमावस्या: 11:13 PM, Jan 06 से 01:53 AM, Jan 08 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-01-11",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-01-11",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Vighneshvara Chaturthi. Chaturthi 09:28 AM, Jan 11 to 11:29 AM, Jan 12.",
+"hi": "Vighneshvara Chaturthi। चतुर्थी 09:28 AM, Jan 11 से 11:29 AM, Jan 12।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "makar-sankranti-2027",
+"name": {
+"en": "Makar Sankranti",
+"hi": "मकर संक्रांति"
+},
+"date": "2027-01-15",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Sun enters Makara; Pongal same day.",
+"hi": "सूर्य का मकर राशि में प्रवेश।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-01-20",
+"name": {
+"en": "Budha Pradosh",
+"hi": "बुध प्रदोष व्रत"
+},
+"date": "2027-01-20",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 04:41 AM, Jan 20 to 01:11 AM, Jan 21 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-01-22",
+"name": {
+"en": "Pausha Purnima",
+"hi": "पौष पूर्णिमा"
+},
+"date": "2027-01-22",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 09:29 PM, Jan 21 to 05:46 PM, Jan 22 (Patna).",
+"hi": "पूर्णिमा तिथि: 09:29 PM, Jan 21 से 05:46 PM, Jan 22 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-01-25",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-01-25",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Sakat Chauth, Lambodara Sankashti. Chaturthi 08:10 AM, Jan 25 to 06:00 AM, Jan 26; fast broken after moonrise.",
+"hi": "Sakat Chauth, Lambodara Sankashti। चतुर्थी 08:10 AM, Jan 25 से 06:00 AM, Jan 26; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-02-03",
+"name": {
+"en": "Budha Pradosh",
+"hi": "बुध प्रदोष व्रत"
+},
+"date": "2027-02-03",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 01:50 PM, Feb 03 to 04:31 PM, Feb 04 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-02-04",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-02-04",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 04:31 PM, Feb 04 to 07:05 PM, Feb 05 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 04:31 PM, Feb 04 से 07:05 PM, Feb 05; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-02-06",
+"name": {
+"en": "Magha Amavasya",
+"hi": "माघ अमावस्या"
+},
+"date": "2027-02-06",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 07:05 PM, Feb 05 to 09:25 PM, Feb 06 (Patna).",
+"hi": "अमावस्या: 07:05 PM, Feb 05 से 09:25 PM, Feb 06 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "mauni-amavasya-2027",
+"name": {
+"en": "Mauni Amavasya",
+"hi": "मौनी अमावस्या"
+},
+"date": "2027-02-06",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-02-10",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-02-10",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Ganesha Jayanti, Gauriganesha Chaturthi. Chaturthi 02:19 AM, Feb 10 to 03:04 AM, Feb 11.",
+"hi": "Ganesha Jayanti, Gauriganesha Chaturthi। चतुर्थी 02:19 AM, Feb 10 से 03:04 AM, Feb 11।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vasant-panchami-2027",
+"name": {
+"en": "Vasant Panchami (Saraswati Puja)",
+"hi": "वसंत पंचमी (सरस्वती पूजा)"
+},
+"date": "2027-02-11",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"sanskar",
+"other"
+],
+"note": {
+"en": "Saraswati Puja; also considered auspicious for Vidyarambh/Akshararambh sanskar.",
+"hi": "सरस्वती पूजा; विद्यारम्भ के लिए शुभ।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-02-18",
+"name": {
+"en": "Guru Pradosh",
+"hi": "गुरु प्रदोष व्रत"
+},
+"date": "2027-02-18",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 02:27 PM, Feb 18 to 11:14 AM, Feb 19 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-02-20",
+"name": {
+"en": "Magha Purnima",
+"hi": "माघ पूर्णिमा"
+},
+"date": "2027-02-20",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 07:59 AM, Feb 20 to 04:52 AM, Feb 21 (Patna).",
+"hi": "पूर्णिमा तिथि: 07:59 AM, Feb 20 से 04:52 AM, Feb 21 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-02-24",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-02-24",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Dwijapriya Sankashti. Chaturthi 09:48 PM, Feb 23 to 08:39 PM, Feb 24; fast broken after moonrise.",
+"hi": "Dwijapriya Sankashti। चतुर्थी 09:48 PM, Feb 23 से 08:39 PM, Feb 24; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-03-05",
+"name": {
+"en": "Shukra Pradosh",
+"hi": "शुक्र प्रदोष व्रत"
+},
+"date": "2027-03-05",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 09:53 AM, Mar 05 to 12:03 PM, Mar 06 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "maha-shivaratri-2027",
+"name": {
+"en": "Maha Shivaratri",
+"hi": "महाशिवरात्रि"
+},
+"date": "2027-03-06",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 12:03 PM Mar 6 to 01:46 PM Mar 7 (Patna); nishita kaal puja night of Mar 6.",
+"hi": "चतुर्दशी 6 मार्च दोपहर 12:03 से 7 मार्च दोपहर 01:46।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-03-08",
+"name": {
+"en": "Phalguna Amavasya",
+"hi": "फाल्गुन अमावस्या"
+},
+"date": "2027-03-08",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 01:46 PM, Mar 07 to 02:58 PM, Mar 08 (Patna).",
+"hi": "अमावस्या: 01:46 PM, Mar 07 से 02:58 PM, Mar 08 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-03-12",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-03-12",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Dhundhiraja Chaturthi. Chaturthi 03:37 PM, Mar 11 to 02:57 PM, Mar 12.",
+"hi": "Dhundhiraja Chaturthi। चतुर्थी 03:37 PM, Mar 11 से 02:57 PM, Mar 12।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-03-20",
+"name": {
+"en": "Shani Pradosh",
+"hi": "शनि प्रदोष व्रत"
+},
+"date": "2027-03-20",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 11:17 PM, Mar 19 to 08:45 PM, Mar 20 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "holika-dahan-2027",
+"name": {
+"en": "Holika Dahan",
+"hi": "होलिका दहन"
+},
+"date": "2027-03-21",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"havan",
+"other"
+],
+"note": {
+"en": "Phalguna Purnima; Purnima 06:21 PM Mar 21 to 04:13 PM Mar 22 (Patna).",
+"hi": "फाल्गुन पूर्णिमा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "holi-2027",
+"name": {
+"en": "Holi (Rangwali)",
+"hi": "होली (रंगवाली)"
+},
+"date": "2027-03-22",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Day after Holika Dahan.",
+"hi": "होलिका दहन के अगले दिन।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-03-22",
+"name": {
+"en": "Phalguna Purnima",
+"hi": "फाल्गुन पूर्णिमा"
+},
+"date": "2027-03-22",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 06:21 PM, Mar 21 to 04:13 PM, Mar 22 (Patna).",
+"hi": "पूर्णिमा तिथि: 06:21 PM, Mar 21 से 04:13 PM, Mar 22 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-03-25",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-03-25",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Bhalachandra Sankashti. Chaturthi 12:37 PM, Mar 25 to 12:43 PM, Mar 26; fast broken after moonrise.",
+"hi": "Bhalachandra Sankashti। चतुर्थी 12:37 PM, Mar 25 से 12:43 PM, Mar 26; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-04-04",
+"name": {
+"en": "Ravi Pradosh",
+"hi": "रवि प्रदोष व्रत"
+},
+"date": "2027-04-04",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 04:26 AM, Apr 04 to 05:23 AM, Apr 05 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-04-05",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-04-05",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 05:23 AM, Apr 05 to 05:40 AM, Apr 06 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 05:23 AM, Apr 05 से 05:40 AM, Apr 06; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-04-06",
+"name": {
+"en": "Chaitra Amavasya",
+"hi": "चैत्र अमावस्या"
+},
+"date": "2027-04-06",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 05:40 AM, Apr 06 to 05:20 AM, Apr 07 (Patna).",
+"hi": "अमावस्या: 05:40 AM, Apr 06 से 05:20 AM, Apr 07 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "chaitra-navratri-2027",
+"name": {
+"en": "Chaitra Navratri begins (Ghatasthapana)",
+"hi": "चैत्र नवरात्रि प्रारंभ (घटस्थापना)"
+},
+"date": "2027-04-07",
+"endDate": "2027-04-15",
+"kind": "festival",
+"guides": [
+"navagraha",
+"havan",
+"other"
+],
+"note": {
+"en": "Nine-day festival; ends on Rama Navami.",
+"hi": "नौ दिवसीय पर्व; रामनवमी पर समाप्त।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-04-10",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-04-10",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Vasudeva Chaturthi. Chaturthi 01:31 AM, Apr 10 to 11:39 PM, Apr 10.",
+"hi": "Vasudeva Chaturthi। चतुर्थी 01:31 AM, Apr 10 से 11:39 PM, Apr 10।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "ram-navami-2027",
+"name": {
+"en": "Rama Navami",
+"hi": "रामनवमी"
+},
+"date": "2027-04-15",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-04-18",
+"name": {
+"en": "Ravi Pradosh",
+"hi": "रवि प्रदोष व्रत"
+},
+"date": "2027-04-18",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 07:42 AM, Apr 18 to 06:08 AM, Apr 19 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "hanuman-jayanti-2027",
+"name": {
+"en": "Hanuman Jayanti",
+"hi": "हनुमान जयंती"
+},
+"date": "2027-04-20",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Chaitra Purnima.",
+"hi": "चैत्र पूर्णिमा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-04-20",
+"name": {
+"en": "Chaitra Purnima",
+"hi": "चैत्र पूर्णिमा"
+},
+"date": "2027-04-20",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 04:51 AM, Apr 20 to 03:56 AM, Apr 21 (Patna).",
+"hi": "पूर्णिमा तिथि: 04:51 AM, Apr 20 से 03:56 AM, Apr 21 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-04-24",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-04-24",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Vikata Sankashti. Chaturthi 04:20 AM, Apr 24 to 05:41 AM, Apr 25; fast broken after moonrise.",
+"hi": "Vikata Sankashti। चतुर्थी 04:20 AM, Apr 24 से 05:41 AM, Apr 25; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-05-04",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-05-04",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 07:30 PM, May 04 to 06:16 PM, May 05 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 07:30 PM, May 04 से 06:16 PM, May 05; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-05-04",
+"name": {
+"en": "Bhauma Pradosh",
+"hi": "भौम प्रदोष व्रत"
+},
+"date": "2027-05-04",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 08:03 PM, May 03 to 07:30 PM, May 04 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-05-06",
+"name": {
+"en": "Vaishakha Amavasya",
+"hi": "वैशाख अमावस्या"
+},
+"date": "2027-05-06",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 06:16 PM, May 05 to 04:27 PM, May 06 (Patna).",
+"hi": "अमावस्या: 06:16 PM, May 05 से 04:27 PM, May 06 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "akshaya-tritiya-2027",
+"name": {
+"en": "Akshaya Tritiya",
+"hi": "अक्षय तृतीया"
+},
+"date": "2027-05-09",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"lakshmi-puja",
+"griha-pravesh",
+"vivah",
+"other"
+],
+"note": {
+"en": "Auspicious for new beginnings, purchases and start of ventures.",
+"hi": "नए कार्यों के लिए शुभ।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-05-09",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-05-09",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Sankarshana Chaturthi. Chaturthi 09:03 AM, May 09 to 06:22 AM, May 10.",
+"hi": "Sankarshana Chaturthi। चतुर्थी 09:03 AM, May 09 से 06:22 AM, May 10।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-05-17",
+"name": {
+"en": "Soma Pradosh",
+"hi": "सोम प्रदोष व्रत"
+},
+"date": "2027-05-17",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 04:28 PM, May 17 to 04:03 PM, May 18 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "buddha-purnima-2027",
+"name": {
+"en": "Buddha Purnima (Vaishakha Purnima)",
+"hi": "बुद्ध पूर्णिमा"
+},
+"date": "2027-05-20",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"satyanarayan"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-05-20",
+"name": {
+"en": "Vaishakha Purnima",
+"hi": "वैशाख पूर्णिमा"
+},
+"date": "2027-05-20",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 04:02 PM, May 19 to 04:28 PM, May 20 (Patna).",
+"hi": "पूर्णिमा तिथि: 04:02 PM, May 19 से 04:28 PM, May 20 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-05-23",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-05-23",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Ekadanta Sankashti. Chaturthi 08:41 PM, May 23 to 10:58 PM, May 24; fast broken after moonrise.",
+"hi": "Ekadanta Sankashti। चतुर्थी 08:41 PM, May 23 से 10:58 PM, May 24; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-06-02",
+"name": {
+"en": "Budha Pradosh",
+"hi": "बुध प्रदोष व्रत"
+},
+"date": "2027-06-02",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 08:28 AM, Jun 02 to 06:34 AM, Jun 03 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-06-03",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-06-03",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 06:34 AM, Jun 03 to 04:05 AM, Jun 04 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 06:34 AM, Jun 03 से 04:05 AM, Jun 04; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-06-04",
+"name": {
+"en": "Jyeshtha Amavasya",
+"hi": "ज्येष्ठ अमावस्या"
+},
+"date": "2027-06-04",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 04:05 AM, Jun 04 to 01:09 AM, Jun 05 (Patna).",
+"hi": "अमावस्या: 04:05 AM, Jun 04 से 01:09 AM, Jun 05 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-06-08",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-06-08",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Pradyumna Chaturthi. Chaturthi 03:25 PM, Jun 07 to 12:21 PM, Jun 08.",
+"hi": "Pradyumna Chaturthi। चतुर्थी 03:25 PM, Jun 07 से 12:21 PM, Jun 08।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "nirjala-ekadashi-2027",
+"name": {
+"en": "Nirjala Ekadashi",
+"hi": "निर्जला एकादशी"
+},
+"date": "2027-06-14",
+"endDate": null,
+"kind": "ekadashi",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-06-16",
+"name": {
+"en": "Budha Pradosh",
+"hi": "बुध प्रदोष व्रत"
+},
+"date": "2027-06-16",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 02:30 AM, Jun 16 to 03:20 AM, Jun 17 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-06-18",
+"name": {
+"en": "Jyeshtha Purnima",
+"hi": "ज्येष्ठ पूर्णिमा"
+},
+"date": "2027-06-18",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 04:34 AM, Jun 18 to 06:13 AM, Jun 19 (Patna).",
+"hi": "पूर्णिमा तिथि: 04:34 AM, Jun 18 से 06:13 AM, Jun 19 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-06-22",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-06-22",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Krishnapingala Sankashti. Chaturthi 01:07 PM, Jun 22 to 03:42 PM, Jun 23; fast broken after moonrise.",
+"hi": "Krishnapingala Sankashti। चतुर्थी 01:07 PM, Jun 22 से 03:42 PM, Jun 23; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-07-01",
+"name": {
+"en": "Guru Pradosh",
+"hi": "गुरु प्रदोष व्रत"
+},
+"date": "2027-07-01",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 06:14 PM, Jul 01 to 03:23 PM, Jul 02 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-07-02",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-07-02",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 03:23 PM, Jul 02 to 12:05 PM, Jul 03 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 03:23 PM, Jul 02 से 12:05 PM, Jul 03; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-07-03",
+"name": {
+"en": "Ashadha Amavasya",
+"hi": "आषाढ़ अमावस्या"
+},
+"date": "2027-07-03",
+"endDate": "2027-07-04",
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 12:05 PM, Jul 03 to 08:31 AM, Jul 04 (Patna). Drik lists Darsha Amavasya 2027-07-03 and Ashadha Amavasya 2027-07-04.",
+"hi": "अमावस्या: 12:05 PM, Jul 03 से 08:31 AM, Jul 04 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "jagannath-rathyatra-2027",
+"name": {
+"en": "Jagannath Rath Yatra",
+"hi": "जगन्नाथ रथयात्रा"
+},
+"date": "2027-07-05",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-07-07",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-07-07",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Aniruddha Chaturthi. Chaturthi 09:48 PM, Jul 06 to 06:43 PM, Jul 07.",
+"hi": "Aniruddha Chaturthi। चतुर्थी 09:48 PM, Jul 06 से 06:43 PM, Jul 07।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "devshayani-ekadashi-2027",
+"name": {
+"en": "Devshayani Ekadashi",
+"hi": "देवशयनी एकादशी"
+},
+"date": "2027-07-14",
+"endDate": null,
+"kind": "ekadashi",
+"guides": [
+"other"
+],
+"note": {
+"en": "Chaturmas begins; marriages and griha pravesh muhurats pause until Devutthana Ekadashi.",
+"hi": "चातुर्मास आरंभ।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-07-15",
+"name": {
+"en": "Guru Pradosh",
+"hi": "गुरु प्रदोष व्रत"
+},
+"date": "2027-07-15",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 02:40 PM, Jul 15 to 04:34 PM, Jul 16 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "guru-purnima-2027",
+"name": {
+"en": "Guru Purnima (Ashadha Purnima)",
+"hi": "गुरु पूर्णिमा"
+},
+"date": "2027-07-18",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan",
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-07-18",
+"name": {
+"en": "Ashadha Purnima",
+"hi": "आषाढ़ पूर्णिमा"
+},
+"date": "2027-07-18",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 06:48 PM, Jul 17 to 09:14 PM, Jul 18 (Patna).",
+"hi": "पूर्णिमा तिथि: 06:48 PM, Jul 17 से 09:14 PM, Jul 18 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "shravan-somvar-2027-07-19",
+"name": {
+"en": "Shravan Somvar",
+"hi": "श्रावण सोमवार"
+},
+"date": "2027-07-19",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "DERIVED: Mondays between Ashadha Purnima (Jul 18) and Shravana Purnima (Aug 17, 2027) per Drik, i.e. Purnimanta Shravana month used in Bihar. Not a directly listed Drik date.",
+"hi": "व्युत्पन्न: आषाढ़ पूर्णिमा (18 जुलाई) से श्रावण पूर्णिमा (17 अगस्त) के बीच सोमवार (पूर्णिमांत श्रावण)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-07-22",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-07-22",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Gajanana Sankashti. Chaturthi 04:46 AM, Jul 22 to 06:56 AM, Jul 23; fast broken after moonrise.",
+"hi": "Gajanana Sankashti। चतुर्थी 04:46 AM, Jul 22 से 06:56 AM, Jul 23; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "shravan-somvar-2027-07-26",
+"name": {
+"en": "Shravan Somvar",
+"hi": "श्रावण सोमवार"
+},
+"date": "2027-07-26",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "DERIVED: Mondays between Ashadha Purnima (Jul 18) and Shravana Purnima (Aug 17, 2027) per Drik, i.e. Purnimanta Shravana month used in Bihar. Not a directly listed Drik date.",
+"hi": "व्युत्पन्न: आषाढ़ पूर्णिमा (18 जुलाई) से श्रावण पूर्णिमा (17 अगस्त) के बीच सोमवार (पूर्णिमांत श्रावण)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-07-31",
+"name": {
+"en": "Shani Pradosh",
+"hi": "शनि प्रदोष व्रत"
+},
+"date": "2027-07-31",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 02:18 AM, Jul 31 to 10:57 PM, Jul 31 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sawan-shivaratri-2027",
+"name": {
+"en": "Sawan Shivaratri",
+"hi": "सावन शिवरात्रि"
+},
+"date": "2027-07-31",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Shravana Krishna Chaturdashi (Purnimanta Shravana month).",
+"hi": "श्रावण कृष्ण चतुर्दशी।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-08-02",
+"name": {
+"en": "Shravana Amavasya",
+"hi": "श्रावण अमावस्या"
+},
+"date": "2027-08-02",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 07:19 PM, Aug 01 to 03:34 PM, Aug 02 (Patna).",
+"hi": "अमावस्या: 07:19 PM, Aug 01 से 03:34 PM, Aug 02 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "shravan-somvar-2027-08-02",
+"name": {
+"en": "Shravan Somvar",
+"hi": "श्रावण सोमवार"
+},
+"date": "2027-08-02",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "DERIVED: Mondays between Ashadha Purnima (Jul 18) and Shravana Purnima (Aug 17, 2027) per Drik, i.e. Purnimanta Shravana month used in Bihar. Not a directly listed Drik date.",
+"hi": "व्युत्पन्न: आषाढ़ पूर्णिमा (18 जुलाई) से श्रावण पूर्णिमा (17 अगस्त) के बीच सोमवार (पूर्णिमांत श्रावण)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-08-05",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-08-05",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Durva Ganapati Chaturthi. Chaturthi 05:08 AM, Aug 05 to 02:27 AM, Aug 06.",
+"hi": "Durva Ganapati Chaturthi। चतुर्थी 05:08 AM, Aug 05 से 02:27 AM, Aug 06।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "shravan-somvar-2027-08-09",
+"name": {
+"en": "Shravan Somvar",
+"hi": "श्रावण सोमवार"
+},
+"date": "2027-08-09",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "DERIVED: Mondays between Ashadha Purnima (Jul 18) and Shravana Purnima (Aug 17, 2027) per Drik, i.e. Purnimanta Shravana month used in Bihar. Not a directly listed Drik date.",
+"hi": "व्युत्पन्न: आषाढ़ पूर्णिमा (18 जुलाई) से श्रावण पूर्णिमा (17 अगस्त) के बीच सोमवार (पूर्णिमांत श्रावण)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-08-14",
+"name": {
+"en": "Shani Pradosh",
+"hi": "शनि प्रदोष व्रत"
+},
+"date": "2027-08-14",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 05:21 AM, Aug 14 to 07:53 AM, Aug 15 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-08-16",
+"name": {
+"en": "Shravana Purnima",
+"hi": "श्रावण पूर्णिमा"
+},
+"date": "2027-08-16",
+"endDate": "2027-08-17",
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 10:28 AM, Aug 16 to 12:58 PM, Aug 17 (Patna). Drik lists Purnima Vrat on 2027-08-16 and Purnima (snan/daan) on 2027-08-17; tithi spans two days.",
+"hi": "पूर्णिमा तिथि: 10:28 AM, Aug 16 से 12:58 PM, Aug 17 (पटना)। दो दिन तिथि।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "shravan-somvar-2027-08-16",
+"name": {
+"en": "Shravan Somvar",
+"hi": "श्रावण सोमवार"
+},
+"date": "2027-08-16",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "DERIVED: Mondays between Ashadha Purnima (Jul 18) and Shravana Purnima (Aug 17, 2027) per Drik, i.e. Purnimanta Shravana month used in Bihar. Not a directly listed Drik date.",
+"hi": "व्युत्पन्न: आषाढ़ पूर्णिमा (18 जुलाई) से श्रावण पूर्णिमा (17 अगस्त) के बीच सोमवार (पूर्णिमांत श्रावण)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "raksha-bandhan-2027",
+"name": {
+"en": "Raksha Bandhan",
+"hi": "रक्षाबंधन"
+},
+"date": "2027-08-17",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": {
+"en": "Shravana Purnima; Purnima 10:28 AM Aug 16 to 12:58 PM Aug 17 (Patna).",
+"hi": "श्रावण पूर्णिमा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-08-20",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-08-20",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Bahula Chaturthi, Heramba Sankashti. Chaturthi 06:53 PM, Aug 20 to 08:04 PM, Aug 21; fast broken after moonrise.",
+"hi": "Bahula Chaturthi, Heramba Sankashti। चतुर्थी 06:53 PM, Aug 20 से 08:04 PM, Aug 21; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "janmashtami-2027",
+"name": {
+"en": "Krishna Janmashtami",
+"hi": "कृष्ण जन्माष्टमी"
+},
+"date": "2027-08-25",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-08-29",
+"name": {
+"en": "Ravi Pradosh",
+"hi": "रवि प्रदोष व्रत"
+},
+"date": "2027-08-29",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 09:35 AM, Aug 29 to 06:12 AM, Aug 30 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-08-30",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-08-30",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 06:12 AM, Aug 30 to 02:40 AM, Aug 31 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 06:12 AM, Aug 30 से 02:40 AM, Aug 31; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-08-31",
+"name": {
+"en": "Bhadrapada Amavasya",
+"hi": "भाद्रपद अमावस्या"
+},
+"date": "2027-08-31",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 02:40 AM, Aug 31 to 11:10 PM, Aug 31 (Patna).",
+"hi": "अमावस्या: 02:40 AM, Aug 31 से 11:10 PM, Aug 31 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "ganesh-chaturthi-2027",
+"name": {
+"en": "Ganesh Chaturthi",
+"hi": "गणेश चतुर्थी"
+},
+"date": "2027-09-04",
+"endDate": "2027-09-14",
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Bhadrapada Shukla Chaturthi; Chaturthi 02:18 PM Sep 3 to 12:25 PM Sep 4 (Patna). Visarjan / Anant Chaturdashi Sep 14.",
+"hi": "भाद्रपद शुक्ल चतुर्थी; विसर्जन 14 सितंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-09-13",
+"name": {
+"en": "Soma Pradosh",
+"hi": "सोम प्रदोष व्रत"
+},
+"date": "2027-09-13",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 10:12 PM, Sep 12 to 12:39 AM, Sep 14 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-09-15",
+"name": {
+"en": "Bhadrapada Purnima",
+"hi": "भाद्रपद पूर्णिमा"
+},
+"date": "2027-09-15",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 02:48 AM, Sep 15 to 04:32 AM, Sep 16 (Patna).",
+"hi": "पूर्णिमा तिथि: 02:48 AM, Sep 15 से 04:32 AM, Sep 16 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-09-19",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-09-19",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Vighnaraja Sankashti. Chaturthi 07:08 AM, Sep 19 to 07:08 AM, Sep 20; fast broken after moonrise.",
+"hi": "Vighnaraja Sankashti। चतुर्थी 07:08 AM, Sep 19 से 07:08 AM, Sep 20; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-09-27",
+"name": {
+"en": "Soma Pradosh",
+"hi": "सोम प्रदोष व्रत"
+},
+"date": "2027-09-27",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 04:55 PM, Sep 27 to 01:54 PM, Sep 28 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-09-28",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-09-28",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 01:54 PM, Sep 28 to 10:54 AM, Sep 29 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 01:54 PM, Sep 28 से 10:54 AM, Sep 29; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-09-29",
+"name": {
+"en": "Ashwina Amavasya",
+"hi": "आश्विन अमावस्या"
+},
+"date": "2027-09-29",
+"endDate": "2027-09-30",
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 10:54 AM, Sep 29 to 08:05 AM, Sep 30 (Patna). Drik lists Darsha Amavasya 2027-09-29 and Ashwina Amavasya 2027-09-30.",
+"hi": "अमावस्या: 10:54 AM, Sep 29 से 08:05 AM, Sep 30 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sharad-navratri-2027",
+"name": {
+"en": "Sharad Navratri begins (Ghatasthapana)",
+"hi": "शारदीय नवरात्रि प्रारंभ (घटस्थापना)"
+},
+"date": "2027-09-30",
+"endDate": "2027-10-08",
+"kind": "festival",
+"guides": [
+"navagraha",
+"havan",
+"other"
+],
+"note": {
+"en": "Navratri Sep 30 to Maha Navami Oct 8; Durga Ashtami Oct 7; Dussehra Oct 9. Saraswati Avahan Oct 6, Saraswati Puja Oct 7 (Drik).",
+"hi": "नवरात्रि 30 सितंबर से; दुर्गा अष्टमी 7 अक्टूबर; महानवमी 8 अक्टूबर; दशहरा 9 अक्टूबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/navratri/navratri-date.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-10-03",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-10-03",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Kapardisha Chaturthi. Chaturthi 02:08 AM, Oct 03 to 01:28 AM, Oct 04.",
+"hi": "Kapardisha Chaturthi। चतुर्थी 02:08 AM, Oct 03 से 01:28 AM, Oct 04।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "durga-ashtami-2027",
+"name": {
+"en": "Durga Ashtami / Maha Ashtami",
+"hi": "दुर्गा अष्टमी"
+},
+"date": "2027-10-07",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"havan",
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "maha-navami-2027",
+"name": {
+"en": "Maha Navami",
+"hi": "महानवमी"
+},
+"date": "2027-10-08",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"havan",
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "dussehra-2027",
+"name": {
+"en": "Dussehra (Vijayadashami)",
+"hi": "दशहरा (विजयादशमी)"
+},
+"date": "2027-10-09",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-10-12",
+"name": {
+"en": "Bhauma Pradosh",
+"hi": "भौम प्रदोष व्रत"
+},
+"date": "2027-10-12",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 04:13 PM, Oct 12 to 05:48 PM, Oct 13 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sharad-purnima-2027",
+"name": {
+"en": "Sharad Purnima (Kojagara)",
+"hi": "शरद पूर्णिमा"
+},
+"date": "2027-10-14",
+"endDate": "2027-10-15",
+"kind": "purnima",
+"guides": [
+"lakshmi-puja",
+"satyanarayan"
+],
+"note": {
+"en": "Drik lists Kojagara Puja/Sharad Purnima Oct 14 and Ashwina Purnima Oct 15 (Purnima 06:49 PM Oct 14 to 07:16 PM Oct 15).",
+"hi": "कोजागर/शरद पूर्णिमा 14 अक्टूबर; आश्विन पूर्णिमा 15 अक्टूबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-10-15",
+"name": {
+"en": "Ashwina Purnima",
+"hi": "आश्विन पूर्णिमा"
+},
+"date": "2027-10-15",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 06:49 PM, Oct 14 to 07:16 PM, Oct 15 (Patna).",
+"hi": "पूर्णिमा तिथि: 06:49 PM, Oct 14 से 07:16 PM, Oct 15 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "karwa-chauth-2027",
+"name": {
+"en": "Karwa Chauth",
+"hi": "करवा चौथ"
+},
+"date": "2027-10-18",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"other"
+],
+"note": {
+"en": "Kartika Krishna Chaturthi; also Vakratunda Sankashti.",
+"hi": "कार्तिक कृष्ण चतुर्थी।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-10-18",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-10-18",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Karwa Chauth, Vakratunda Sankashti. Chaturthi 05:51 PM, Oct 18 to 04:42 PM, Oct 19; fast broken after moonrise.",
+"hi": "Karwa Chauth, Vakratunda Sankashti। चतुर्थी 05:51 PM, Oct 18 से 04:42 PM, Oct 19; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "ahoi-ashtami-2027",
+"name": {
+"en": "Ahoi Ashtami",
+"hi": "अहोई अष्टमी"
+},
+"date": "2027-10-22",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "dhanteras-2027",
+"name": {
+"en": "Dhanteras",
+"hi": "धनतेरस"
+},
+"date": "2027-10-27",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"lakshmi-puja"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/festivals/dhanteras/festivals-dhanteras-puja-timings.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "kali-chaudas-2027",
+"name": {
+"en": "Kali Chaudas",
+"hi": "काली चौदस"
+},
+"date": "2027-10-27",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/diwali/kali-chaudas/kali-chaudas-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-10-27",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-10-27",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 10:49 PM, Oct 27 to 08:47 PM, Oct 28 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 10:49 PM, Oct 27 से 08:47 PM, Oct 28; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-10-27",
+"name": {
+"en": "Budha Pradosh",
+"hi": "बुध प्रदोष व्रत"
+},
+"date": "2027-10-27",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 01:03 AM, Oct 27 to 10:49 PM, Oct 27 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "naraka-chaturdashi-2027",
+"name": {
+"en": "Naraka Chaturdashi (Chhoti Diwali)",
+"hi": "नरक चतुर्दशी (छोटी दिवाली)"
+},
+"date": "2027-10-28",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-10-29",
+"name": {
+"en": "Kartika Amavasya",
+"hi": "कार्तिक अमावस्या"
+},
+"date": "2027-10-29",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 08:47 PM, Oct 28 to 07:05 PM, Oct 29 (Patna).",
+"hi": "अमावस्या: 08:47 PM, Oct 28 से 07:05 PM, Oct 29 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "diwali-2027",
+"name": {
+"en": "Diwali / Lakshmi Puja",
+"hi": "दीपावली / लक्ष्मी पूजा"
+},
+"date": "2027-10-29",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"lakshmi-puja",
+"ganesh-puja"
+],
+"note": {
+"en": "Kartika Amavasya; Amavasya 08:47 PM Oct 28 to 07:05 PM Oct 29 (Patna).",
+"hi": "कार्तिक अमावस्या।"
+},
+"sourceUrl": "https://www.drikpanchang.com/festivals/lakshmipuja/festivals-lakshmipuja-timings.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "govardhan-puja-2027",
+"name": {
+"en": "Govardhan Puja (Annakut)",
+"hi": "गोवर्धन पूजा (अन्नकूट)"
+},
+"date": "2027-10-30",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/festivals/govardhan-puja/govardhan-puja-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "bhai-dooj-2027",
+"name": {
+"en": "Bhai Dooj (Yama Dwitiya)",
+"hi": "भाई दूज (यम द्वितीया)"
+},
+"date": "2027-10-31",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"bhai-dooj"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/festivals/bhai-dooj/bhai-dooj-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "chitragupta-puja-2027",
+"name": {
+"en": "Chitragupta Puja (Kalam-Dawat)",
+"hi": "चित्रगुप्त पूजा"
+},
+"date": "2027-10-31",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"chitragupta",
+"bhai-dooj"
+],
+"note": {
+"en": "Observed on Bhai Dooj day; aparahna muhurat 12:40 PM to 02:55 PM (Patna).",
+"hi": "भाई दूज के दिन।"
+},
+"sourceUrl": "https://www.drikpanchang.com/diwali/chitragupta-puja/chitragupta-puja-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-11-02",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-11-02",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Labh Chaturthi. Chaturthi 05:15 PM, Nov 01 to 06:01 PM, Nov 02.",
+"hi": "Labh Chaturthi। चतुर्थी 05:15 PM, Nov 01 से 06:01 PM, Nov 02।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "chhath-2027",
+"name": {
+"en": "Chhath Puja (Nahay-Khay to Usha Arghya)",
+"hi": "छठ पूजा (नहाय-खाय से उषा अर्घ्य)"
+},
+"date": "2027-11-04",
+"endDate": "2027-11-05",
+"kind": "festival",
+"guides": [
+"chhath"
+],
+"note": {
+"en": "Sandhya Arghya (main day) Nov 4; Nahay-Khay Nov 2, Lohanda-Kharna Nov 3, Usha Arghya / parana Nov 5.",
+"hi": "मुख्य संध्या अर्घ्य 4 नवंबर; नहाय-खाय 2, खरना 3, उषा अर्घ्य 5 नवंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/chhath/chhath-puja-calendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "devutthana-ekadashi-2027",
+"name": {
+"en": "Devutthana (Prabodhini) Ekadashi",
+"hi": "देवउठनी एकादशी"
+},
+"date": "2027-11-10",
+"endDate": null,
+"kind": "ekadashi",
+"guides": [
+"other"
+],
+"note": {
+"en": "Chaturmas ends; marriage muhurats resume.",
+"hi": "चातुर्मास समाप्त।"
+},
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-11-11",
+"name": {
+"en": "Guru Pradosh",
+"hi": "गुरु प्रदोष व्रत"
+},
+"date": "2027-11-11",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 10:07 AM, Nov 11 to 10:20 AM, Nov 12 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "tulsi-vivah-2027",
+"name": {
+"en": "Tulsi Vivah",
+"hi": "तुलसी विवाह"
+},
+"date": "2027-11-11",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/festivals/tulasi-vivah/tulasi-vivah-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "kartik-purnima-2027",
+"name": {
+"en": "Kartik Purnima / Dev Deepawali",
+"hi": "कार्तिक पूर्णिमा / देव दीपावली"
+},
+"date": "2027-11-13",
+"endDate": "2027-11-14",
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Drik Patna: Purnima vrat Nov 13 (tithi 09:55 AM Nov 13 to 08:55 AM Nov 14); Kartik Purnima snan/daan and Dev Deepawali Nov 14 (Drik festival list and Kartik Purnima page).",
+"hi": "पूर्णिमा व्रत 13 नवंबर; कार्तिक पूर्णिमा स्नान/देव दीपावली 14 नवंबर।"
+},
+"sourceUrl": "https://www.drikpanchang.com/purnima/kartik/kartik-purnima-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-11-13",
+"name": {
+"en": "Kartika Purnima",
+"hi": "कार्तिक पूर्णिमा"
+},
+"date": "2027-11-13",
+"endDate": "2027-11-14",
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 09:55 AM, Nov 13 to 08:55 AM, Nov 14 (Patna). Drik lists Purnima Vrat on 2027-11-13 and Purnima (snan/daan) on 2027-11-14; tithi spans two days.",
+"hi": "पूर्णिमा तिथि: 09:55 AM, Nov 13 से 08:55 AM, Nov 14 (पटना)। दो दिन तिथि।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-11-17",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-11-17",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Ganadhipa Sankashti. Chaturthi 03:41 AM, Nov 17 to 01:35 AM, Nov 18; fast broken after moonrise.",
+"hi": "Ganadhipa Sankashti। चतुर्थी 03:41 AM, Nov 17 से 01:35 AM, Nov 18; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-11-25",
+"name": {
+"en": "Guru Pradosh",
+"hi": "गुरु प्रदोष व्रत"
+},
+"date": "2027-11-25",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 10:50 AM, Nov 25 to 09:47 AM, Nov 26 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-11-26",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-11-26",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 09:47 AM, Nov 26 to 09:07 AM, Nov 27 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 09:47 AM, Nov 26 से 09:07 AM, Nov 27; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-11-27",
+"name": {
+"en": "Margashirsha Amavasya",
+"hi": "मार्गशीर्ष अमावस्या"
+},
+"date": "2027-11-27",
+"endDate": "2027-11-28",
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 09:07 AM, Nov 27 to 08:53 AM, Nov 28 (Patna). Drik lists Darsha Amavasya 2027-11-27 and Margashirsha Amavasya 2027-11-28.",
+"hi": "अमावस्या: 09:07 AM, Nov 27 से 08:53 AM, Nov 28 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-12-02",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-12-02",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Krichchhra Chaturthi. Chaturthi 11:39 AM, Dec 01 to 01:43 PM, Dec 02.",
+"hi": "Krichchhra Chaturthi। चतुर्थी 11:39 AM, Dec 01 से 01:43 PM, Dec 02।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vivah-panchami-2027",
+"name": {
+"en": "Vivah Panchami",
+"hi": "विवाह पंचमी"
+},
+"date": "2027-12-03",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"vivah"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "gita-jayanti-2027",
+"name": {
+"en": "Gita Jayanti (Mokshada Ekadashi)",
+"hi": "गीता जयंती (मोक्षदा एकादशी)"
+},
+"date": "2027-12-09",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/festivals/gita-jayanti/gita-jayanti-date-time.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-12-11",
+"name": {
+"en": "Shani Pradosh",
+"hi": "शनि प्रदोष व्रत"
+},
+"date": "2027-12-11",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 02:53 AM, Dec 11 to 01:42 AM, Dec 12 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "dattatreya-jayanti-2027",
+"name": {
+"en": "Dattatreya Jayanti",
+"hi": "दत्तात्रेय जयंती"
+},
+"date": "2027-12-13",
+"endDate": null,
+"kind": "festival",
+"guides": [
+"other"
+],
+"note": null,
+"sourceUrl": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "purnima-2027-12-13",
+"name": {
+"en": "Margashirsha Purnima",
+"hi": "मार्गशीर्ष पूर्णिमा"
+},
+"date": "2027-12-13",
+"endDate": null,
+"kind": "purnima",
+"guides": [
+"satyanarayan"
+],
+"note": {
+"en": "Purnima tithi 11:54 PM, Dec 12 to 09:38 PM, Dec 13 (Patna).",
+"hi": "पूर्णिमा तिथि: 11:54 PM, Dec 12 से 09:38 PM, Dec 13 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/purnimasidates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "sankashti-2027-12-16",
+"name": {
+"en": "Sankashti Chaturthi",
+"hi": "संकष्टी चतुर्थी"
+},
+"date": "2027-12-16",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Akhuratha Sankashti. Chaturthi 01:21 PM, Dec 16 to 10:34 AM, Dec 17; fast broken after moonrise.",
+"hi": "Akhuratha Sankashti। चतुर्थी 01:21 PM, Dec 16 से 10:34 AM, Dec 17; चंद्रोदय के बाद पारण।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/sankashti-chaturthi-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "pradosh-2027-12-25",
+"name": {
+"en": "Shani Pradosh",
+"hi": "शनि प्रदोष व्रत"
+},
+"date": "2027-12-25",
+"endDate": null,
+"kind": "vrat",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Trayodashi 11:08 PM, Dec 24 to 11:31 PM, Dec 25 (Patna); Shiva puja in pradosh kaal.",
+"hi": "त्रयोदशी; प्रदोष काल में शिव पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/pradoshdates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "masik-shivaratri-2027-12-26",
+"name": {
+"en": "Masik Shivaratri",
+"hi": "मासिक शिवरात्रि"
+},
+"date": "2027-12-26",
+"endDate": null,
+"kind": "shivratri",
+"guides": [
+"rudrabhishek"
+],
+"note": {
+"en": "Chaturdashi 11:31 PM, Dec 25 to 12:22 AM, Dec 27 (Patna); nishita puja that night.",
+"hi": "चतुर्दशी 11:31 PM, Dec 25 से 12:22 AM, Dec 27; निशीथ काल पूजा।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/masik-shivaratri-dates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "amavasya-2027-12-27",
+"name": {
+"en": "Pausha Amavasya",
+"hi": "पौष अमावस्या"
+},
+"date": "2027-12-27",
+"endDate": null,
+"kind": "amavasya",
+"guides": [
+"other"
+],
+"note": {
+"en": "Amavasya 12:22 AM, Dec 27 to 01:41 AM, Dec 28 (Patna).",
+"hi": "अमावस्या: 12:22 AM, Dec 27 से 01:41 AM, Dec 28 (पटना)।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/amavasyadates.html?year=2027&geoname-id=1260086"
+},
+{
+"id": "vinayaka-2027-12-31",
+"name": {
+"en": "Vinayaka Chaturthi",
+"hi": "विनायक चतुर्थी"
+},
+"date": "2027-12-31",
+"endDate": null,
+"kind": "chaturthi",
+"guides": [
+"ganesh-puja"
+],
+"note": {
+"en": "Vighneshvara Chaturthi. Chaturthi 08:11 AM, Dec 31 to 10:55 AM, Jan 01.",
+"hi": "Vighneshvara Chaturthi। चतुर्थी 08:11 AM, Dec 31 से 10:55 AM, Jan 01।"
+},
+"sourceUrl": "https://www.drikpanchang.com/vrats/vinayaka-chaturthi-dates.html?year=2027&geoname-id=1260086"
+}
+],
+"sources": [
+{
+"name": "Drik Panchang Hindu festivals calendar (Patna) 2026/2027",
+"url": "https://www.drikpanchang.com/calendars/hindu/hinducalendar.html?year=2027&geoname-id=1260086",
+"role": "primary",
+"files": [
+"src/calendar/drik_patna_hindu_2026.html",
+"src/calendar/drik_patna_hindu_2027.html"
+]
+},
+{
+"name": "Drik Panchang vrat list pages (purnima, amavasya, masik shivaratri, pradosh, sankashti, vinayaka chaturthi, ekadashi), Patna",
+"url": "https://www.drikpanchang.com/vrats/purnimasidates.html?geoname-id=1260086",
+"role": "primary",
+"files": [
+"src/calendar/drik_patna_*dates_*.html",
+"src/calendar/drik_patna_ekadashi_*.html"
+]
+},
+{
+"name": "Drik Panchang festival pages (Dhanteras, Lakshmi Puja, Kali Chaudas, Govardhan, Bhai Dooj, Chitragupta, Chhath + Chhath calendar, Tulasi Vivah, Kartik Purnima, Gita Jayanti, Navratri), Patna",
+"url": "https://www.drikpanchang.com/chhath/chhath-puja-calendar.html?geoname-id=1260086",
+"role": "primary",
+"files": [
+"src/calendar/drik_patna_*_2026.html",
+"src/calendar/drik_patna_*_2027.html"
+]
+},
+{
+"name": "hindupad.com Hindu Festivals 2026 / 2027",
+"url": "https://hindupad.com/hindu-festivals-2027/",
+"role": "cross-check",
+"files": [
+"src/calendar/x_hindupad_2026.html",
+"src/calendar/x_hindupad_2027.html"
+]
+},
+{
+"name": "Wikipedia festival articles (Diwali, Chhath, Ganesh Chaturthi, Rama Navami, Vasant Panchami, Maha Shivaratri, Karwa Chauth, Bhai Dooj ...)",
+"url": "https://en.wikipedia.org/wiki/Diwali",
+"role": "cross-check",
+"files": [
+"src/calendar/wiki_*.html"
+]
+},
+{
+"name": "hindutone.com Chitragupta Puja 2026; Bihar Diwali 2026",
+"url": "https://hindutone.com/festivals/chitragupta-puja-2026-date-kalam-dawat-puja/",
+"role": "cross-check",
+"files": [
+"src/calendar/x_hindutone_chitragupta2026.html",
+"src/calendar/x_hindutone_diwali2026.html"
+]
+},
+{
+"name": "kundligpt.com, calendarific.com, hindu-blog.com, vedicmarga.com 2027",
+"url": "https://kundligpt.com/festivals/2027/",
+"role": "cross-check",
+"files": [
+"src/calendar/x_kundligpt_2027.html",
+"src/calendar/x_calendarific_2027.html",
+"src/calendar/x_hindublog_2027.html",
+"src/calendar/x_vedicmarga_2027_10.html"
+]
+}
+]
+}

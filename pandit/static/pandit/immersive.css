@@ -1,0 +1,75 @@
+/* Pandit Booking page only: depth, parallax and motion. Everything here is progressive enhancement:
+   the page is fully usable without it, and it is switched off for reduced-motion users. */
+
+.psb-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 400; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, #ff9933, #ffd27a, #ff9933); box-shadow: 0 0 12px rgba(255, 153, 51, 0.7); pointer-events: none; }
+
+/* ---- Hero depth ---- */
+.psb-hero__grid { perspective: 1400px; }
+.psb-hero__copy, .psb-hero__card { transform-style: preserve-3d; will-change: transform; }
+.psb-hero__copy h1 { text-shadow: 0 18px 38px rgba(8, 12, 24, 0.45); }
+
+.psb-hero__card { transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease; transform: rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); box-shadow: 0 40px 80px -30px rgba(5, 9, 20, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.12) inset; }
+.psb-hero__card.is-live { transition: transform 0.08s linear; }
+.psb-glare { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 5; opacity: 0; transition: opacity 0.3s; background: radial-gradient(520px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 233, 190, 0.28), transparent 55%); mix-blend-mode: soft-light; }
+.is-live > .psb-glare { opacity: 1; }
+
+/* floating embers + a slow golden orbit disc under the hero */
+.psb-embers { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.psb-ember { position: absolute; bottom: -20px; left: var(--l); width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle, #ffe2a8 0%, #ff9933 55%, transparent 72%); opacity: 0; filter: blur(0.4px); animation: psbEmber var(--t) linear var(--dl) infinite; }
+@keyframes psbEmber {
+  0% { transform: translate3d(0, 0, 0) scale(0.6); opacity: 0; }
+  12% { opacity: 0.85; }
+  100% { transform: translate3d(var(--dx), -105vh, 0) scale(1.15); opacity: 0; }
+}
+.psb-orbit { position: absolute; left: 50%; bottom: -34%; width: min(1100px, 150vw); aspect-ratio: 1; transform: translateX(-50%) rotateX(68deg); transform-style: preserve-3d; pointer-events: none; z-index: 1; opacity: 0.55; }
+.psb-orbit i { position: absolute; inset: calc(var(--k) * 7%); border-radius: 50%; border: 1px solid rgba(255, 190, 110, calc(0.5 - var(--k) * 0.045)); box-shadow: 0 0 22px rgba(255, 153, 51, 0.18), inset 0 0 22px rgba(255, 153, 51, 0.1); animation: psbSpin calc(40s + var(--k) * 9s) linear infinite; animation-direction: var(--dir, normal); }
+.psb-orbit i::after { content: ""; position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; background: #ffd27a; box-shadow: 0 0 14px 3px rgba(255, 190, 90, 0.9); }
+.psb-orbit i:nth-child(even) { --dir: reverse; border-style: dashed; }
+@keyframes psbSpin { to { transform: rotate(360deg); } }
+
+/* ---- Scroll reveal (only when the script has run) ---- */
+.psb-anim [data-rv] { opacity: 0; transform: translate3d(0, 46px, -80px) rotateX(10deg); transform-origin: 50% 100%; transition: opacity 0.7s ease var(--d, 0ms), transform 0.85s cubic-bezier(0.16, 0.84, 0.3, 1) var(--d, 0ms); will-change: transform, opacity; }
+.psb-anim [data-rv].is-in { opacity: 1; transform: none; }
+.psb-anim [data-rv="left"] { transform: translate3d(-60px, 0, -60px) rotateY(12deg); }
+.psb-anim [data-rv="zoom"] { transform: scale(0.88) translate3d(0, 24px, 0); }
+.psb-anim [data-rv].is-in { transition-property: opacity, transform; }
+.psb-anim .psb-section, .psb-anim .psb-wrap { perspective: 1200px; }
+.psb-head .psb-eyebrow::after { content: ""; display: block; width: 0; height: 2px; margin: 0.5rem auto 0; background: currentColor; opacity: 0.6; transition: width 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s; }
+.psb-head.is-in .psb-eyebrow::after { width: 56px; }
+
+/* ---- Tilting cards ---- */
+.psb-tilt { transform-style: preserve-3d; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease; }
+.psb-tilt.is-tilting { transition: transform 0.08s linear, box-shadow 0.2s ease; transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) translateZ(10px); box-shadow: 0 26px 44px -22px rgba(23, 36, 59, 0.55); }
+.psb-tilt > .psb-glare { border-radius: inherit; }
+.psb-tilt.is-tilting > .psb-glare { opacity: 1; }
+.psb-anim [data-rv].psb-tilt.is-in.is-tilting { transform: perspective(900px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)) translateZ(10px); }
+.psb-puja, .pr-card, .psb-steps li { position: relative; }
+.psb-puja:active, .pr-card:active { transform: scale(0.985); }
+
+/* image parallax inside library cards */
+.pr-card .pr-img img { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.pr-card:hover .pr-img img, .pr-card.is-tilting .pr-img img { transform: scale(1.06); }
+
+/* how-it-works numbers float */
+.psb-steps__n { display: inline-grid; transform: translateZ(30px); animation: psbBob 5s ease-in-out infinite; }
+.psb-steps li:nth-child(2) .psb-steps__n { animation-delay: -1.6s; }
+.psb-steps li:nth-child(3) .psb-steps__n { animation-delay: -3.2s; }
+@keyframes psbBob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+
+/* form step change */
+.psb-step { animation: psbStepIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes psbStepIn { from { opacity: 0; transform: translate3d(24px, 0, 0); } to { opacity: 1; transform: none; } }
+
+/* phones: lighter effects (no tilt, fewer embers, flatter orbit) */
+@media (max-width: 639px) {
+  .psb-orbit { bottom: -18%; opacity: 0.4; }
+  .psb-ember:nth-child(n+8) { display: none; }
+  .psb-anim [data-rv] { transform: translate3d(0, 30px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .psb-embers, .psb-orbit, .psb-progress { display: none; }
+  .psb-anim [data-rv] { opacity: 1; transform: none; transition: none; }
+  .psb-steps__n, .psb-step { animation: none; }
+  .psb-hero__card, .psb-tilt { transform: none !important; }
+}

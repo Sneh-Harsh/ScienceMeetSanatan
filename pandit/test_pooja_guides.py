@@ -14,7 +14,7 @@ BASE = Path(__file__).resolve().parent / "static" / "pandit" / "pooja"
 FORM_PUJAS = [
     "Griha Pravesh Puja", "Satyanarayan Puja", "Rudrabhishek", "Ganesh Puja", "Lakshmi Puja",
     "Navagraha Shanti", "Vastu Shanti", "Bhoomi Puja", "Havan and other rituals",
-    "Naamkaran and Mundan Sanskar", "Marriage and Vivah ceremonies", "Other Puja",
+    "Naamkaran and Mundan Sanskar", "Marriage and Vivah ceremonies", "Bhai Dooj", "Chitragupta Puja", "Chhath Puja", "Other Puja",
 ]
 
 
@@ -53,7 +53,7 @@ class PoojaGuideDataTests(SimpleTestCase):
 
     def test_documented_guides_are_complete_and_sourced(self):
         documented = [g for g in self.guides["guides"] if g["availability"] == "documented"]
-        self.assertGreaterEqual(len(documented), 11)
+        self.assertGreaterEqual(len(documented), 15)
         for g in documented:
             self.assertEqual(g["review"]["status"], "draft-pandit-review-needed")
             for source in g["sources"]:
@@ -146,3 +146,41 @@ class PoojaImageConfigTests(SimpleTestCase):
         for needle in ("api_secret", "api_key", "cloudinary://", "secret\":", "password"):
             self.assertNotIn(needle, text)
         self.assertEqual(self.images["cloudName"], "dmnm8z8dc")
+
+
+class FestivalAndKathaDataTests(SimpleTestCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.guides = json.loads((BASE / "guides.json").read_text(encoding="utf-8"))
+        cls.fest = json.loads((BASE / "festivals.json").read_text(encoding="utf-8"))
+        cls.kathas = json.loads((BASE / "kathas.json").read_text(encoding="utf-8"))
+        cls.ids = {g["id"] for g in cls.guides["guides"]}
+
+    def test_festival_dates_are_valid_and_point_at_real_guides(self):
+        import datetime
+        self.assertGreater(len(self.fest["festivals"]), 50)
+        for f in self.fest["festivals"]:
+            start = datetime.date.fromisoformat(f["date"])
+            if f.get("endDate"):
+                self.assertGreaterEqual(datetime.date.fromisoformat(f["endDate"]), start, f["id"])
+            self.assertTrue(f["name"]["en"] and f["sourceUrl"], f["id"])
+            for gid in f["guides"]:
+                self.assertIn(gid, self.ids, f["id"])
+
+    def test_every_festival_guide_has_its_festival_in_the_calendar(self):
+        covered = {g for f in self.fest["festivals"] for g in f["guides"]}
+        for gid in ("chhath", "bhai-dooj", "chitragupta", "lakshmi-puja", "satyanarayan"):
+            self.assertIn(gid, covered)
+
+    def test_kathas_are_licensed_sourced_and_have_text_and_pdf(self):
+        self.assertTrue(self.kathas["kathas"])
+        for k in self.kathas["kathas"]:
+            self.assertTrue(k["license"] and k["sourceUrl"].startswith("https://"), k["id"])
+            self.assertTrue(k["paragraphs"] and re.search(r"[ऀ-ॿ]", k["paragraphs"][0]), k["id"])
+            self.assertEqual(k["review"]["status"], "unreviewed", k["id"])
+            for gid in k["guides"]:
+                self.assertIn(gid, self.ids, k["id"])
+            pdf = k["pdf"]
+            self.assertTrue((BASE / pdf["file"]).read_bytes().startswith(b"%PDF"), k["id"])
+            self.assertTrue(pdf["publicId"].startswith("sms/katha/") and pdf["pages"] >= 1, k["id"])

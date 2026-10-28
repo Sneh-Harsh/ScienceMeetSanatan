@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#17243B" />
-  <title>Book a Pandit in Patna | Science Meets Sanatan</title>
-  <meta name="description" content="Tell us about your puja and we will coordinate with a suitable pandit in Patna, check availability and share the complete charges on WhatsApp before you confirm." />
+  <title>Book a Pandit in Patna, Gurugram and Bengaluru | Science Meet Sanatan</title>
+  <meta name="description" content="Tell us about your puja and we will coordinate with a suitable pandit in Patna, Gurugram or Bengaluru, check availability and share the complete charges on WhatsApp before you confirm." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
@@ -14,15 +14,16 @@
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2" />
-  <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=2" />
-  <link rel="stylesheet" href="{% static 'pandit/booking.css' %}?v=6" />
-  <link rel="stylesheet" href="{% static 'pandit/pooja.css' %}?v=2" />
+  <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
+  <link rel="stylesheet" href="{% static 'pandit/booking.css' %}?v=7" />
+  <link rel="stylesheet" href="{% static 'pandit/pooja.css' %}?v=11" />
+  <link rel="stylesheet" href="{% static 'pandit/immersive.css' %}?v=3" />
 </head>
 <body class="psb-body">
   <header class="header">
     <a href="/welcome/" class="logo" aria-label="SMS Home">
       <span class="logo-mark">SMS</span>
-      <span class="logo-text">Science Meets Sanatan</span>
+      <span class="logo-text">Science Meet Sanatan</span>
     </a>
     <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -111,8 +112,8 @@
 
         <div class="psb-wrap psb-hero__grid">
           <div class="psb-hero__copy">
-            <p class="psb-eyebrow">Patna &amp; nearby areas</p>
-            <h1 id="psbTitle">Book a Pandit in Patna, with Confidence.</h1>
+            <p class="psb-eyebrow">Patna &middot; Gurugram &middot; Bengaluru</p>
+            <h1 id="psbTitle">Book a Pandit, with Confidence.</h1>
             <p class="psb-lede">Tell us about your puja. We&rsquo;ll help coordinate a suitable pandit, check availability, and clarify the complete charges before you confirm.</p>
             <div class="psb-cta-row">
               <a class="psb-cta psb-cta--primary" href="#book" id="psbHeroBook" data-specular="primary">Book a Pandit</a>
@@ -131,7 +132,7 @@
               <div class="psb-card" id="psbCard">
                           <noscript>
                             <p class="psb-noscript">The enquiry form needs JavaScript. You can also message us directly on
-                              <a href="https://wa.me/919353206153">WhatsApp</a> with your puja, date and area in Patna.</p>
+                              <a href="https://wa.me/919353206153">WhatsApp</a> with your puja, date and city.</p>
                           </noscript>
               
                           <ol class="psb-progress" id="psbProgress" aria-label="Form progress">
@@ -162,6 +163,9 @@
                           <option value="Havan and other rituals">Havan and other rituals</option>
                           <option value="Naamkaran and Mundan Sanskar">Naamkaran and Mundan Sanskar</option>
                           <option value="Marriage and Vivah ceremonies">Marriage and Vivah ceremonies</option>
+                          <option value="Bhai Dooj">Bhai Dooj</option>
+                          <option value="Chitragupta Puja">Chitragupta Puja</option>
+                          <option value="Chhath Puja">Chhath Puja</option>
                           <option value="Other Puja">Other Puja</option>
                                 </select>
                                 <p class="psb-error" id="err-puja" role="alert"></p>
@@ -187,7 +191,23 @@
               
                             <div class="psb-step" data-step="2" hidden>
                               <div class="psb-field">
-                                <label for="psbArea">Locality or area in Patna</label>
+                                <label for="psbCity">City</label>
+                                <select id="psbCity" name="city" aria-describedby="psbCityHint">
+                                  <option value="Patna">Patna</option>
+                                  <option value="Gurugram">Gurugram</option>
+                                  <option value="Bengaluru">Bengaluru</option>
+                                  <option value="Another city">Another city (we are expanding)</option>
+                                </select>
+                                <p class="psb-hint" id="psbCityHint">We are starting in Patna, Gurugram and Bengaluru.</p>
+                              </div>
+                              <div class="psb-field" id="psbCityOtherWrap" hidden>
+                                <label for="psbCityOther">Which city?</label>
+                                <input id="psbCityOther" name="cityOther" type="text" maxlength="60" autocomplete="off" placeholder="e.g. Ranchi" aria-describedby="err-cityOther" />
+                                <p class="psb-hint">We are adding more cities soon. We will tell you honestly if we cannot help there yet.</p>
+                                <p class="psb-error" id="err-cityOther" role="alert"></p>
+                              </div>
+                              <div class="psb-field">
+                                <label for="psbArea" id="psbAreaLabel">Locality or area in Patna</label>
                                 <input id="psbArea" name="area" type="text" maxlength="80" list="psbAreas" autocomplete="off" placeholder="e.g. Kankarbagh" aria-describedby="err-area" />
                                 <datalist id="psbAreas">
                           <option value="Boring Road"></option>
@@ -353,6 +373,24 @@
           <span class="psb-puja__hint">Wedding rituals</span>
           <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
         </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Bhai Dooj" data-id="bhaidooj" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-lotus"/></svg></span>
+          <span class="psb-puja__name">Bhai Dooj</span>
+          <span class="psb-puja__hint">Brother–sister tilak festival</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Chitragupta Puja" data-id="chitragupta" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-book"/></svg></span>
+          <span class="psb-puja__name">Chitragupta Puja</span>
+          <span class="psb-puja__hint">Kalam-dawat and accounts puja</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
+        <li><button type="button" class="psb-puja" data-puja="Chhath Puja" data-id="chhath" aria-pressed="false">
+          <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-lotus"/></svg></span>
+          <span class="psb-puja__name">Chhath Puja</span>
+          <span class="psb-puja__hint">Sun worship, four-day vrat</span>
+          <span class="psb-puja__tick" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-check"/></svg></span>
+        </button></li>
         <li><button type="button" class="psb-puja" data-puja="Other Puja" data-id="other" aria-pressed="false">
           <span class="psb-puja__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="#psb-i-other"/></svg></span>
           <span class="psb-puja__name">Other Puja</span>
@@ -379,7 +417,7 @@
       </section>
 
       <!-- POOJA VIDHI -->
-      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle" data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=1" data-images-url="{% static 'pandit/pooja/images.json' %}?v=1">
+      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle" data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=2" data-images-url="{% static 'pandit/pooja/images.json' %}?v=2" data-festivals-url="{% static 'pandit/pooja/festivals.json' %}?v=2" data-kathas-url="{% static 'pandit/pooja/kathas.json' %}?v=2">
         <div class="psb-wrap">
           <header class="psb-head">
             <p class="psb-eyebrow psb-eyebrow--dark">Pooja Vidhi</p>
@@ -388,8 +426,6 @@
           </header>
           <ul class="psb-legend" aria-label="What the labels mean">
             <li><span class="psb-badge psb-badge--draft">Draft &mdash; Pandit Review Needed</span> A sourced guide you can read now; not yet checked by a pandit.</li>
-            <li><span class="psb-badge psb-badge--prep">Guide in preparation</span> No steps are shown until a reliable source is ready.</li>
-            <li><span class="psb-badge psb-badge--book">Enquiry open</span> You can ask for a pandit for any of these pujas.</li>
           </ul>
           <div id="poojaLibrary" class="psb-library" aria-live="polite">
             <p class="psb-loading">Loading the guide library&hellip;</p>
@@ -408,7 +444,7 @@
           </header>
           <div class="psb-faq">
             <details><summary>How much will the puja cost?</summary><p>Charges depend on the puja, the date, the venue and whether samagri is included. We share the complete charges and inclusions on WhatsApp before you confirm anything.</p></details>
-            <details><summary>Is a pandit available on my date?</summary><p>We check with pandits in Patna after we receive your enquiry. Availability for your date and location is confirmed personally. Sending the form does not reserve a pandit.</p></details>
+            <details><summary>Is a pandit available on my date?</summary><p>We check with pandits in your city (Patna, Gurugram or Bengaluru) after we receive your enquiry. We are expanding to more cities soon. Availability for your date and location is confirmed personally. Sending the form does not reserve a pandit.</p></details>
             <details><summary>Who arranges the samagri?</summary><p>You choose in the form: we can arrange it, you can arrange it yourself, or you can ask us for guidance on what is needed. We confirm what is included when we share the charges.</p></details>
             <details><summary>Can I choose the language of the puja?</summary><p>Yes, you can tell us your preference &mdash; Hindi, Sanskrit or no preference. We will try to match it, subject to pandit availability.</p></details>
             <details><summary>When is my booking confirmed?</summary><p>Only after we have discussed your requirements and the charges with you on WhatsApp and you have agreed. Until then, your request is an enquiry.</p></details>
@@ -450,7 +486,8 @@
   <script defer src="{% static 'pandit/vendor/glass-surface.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/silk.js' %}?v=1"></script>
-  <script defer src="{% static 'pandit/booking.js' %}?v=5"></script>
-  <script defer src="{% static 'pandit/pooja.js' %}?v=4"></script>
+  <script defer src="{% static 'pandit/booking.js' %}?v=7"></script>
+  <script defer src="{% static 'pandit/pooja.js' %}?v=11"></script>
+  <script defer src="{% static 'pandit/immersive.js' %}?v=1"></script>
 </body>
 </html>

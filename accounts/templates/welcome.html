@@ -2,8 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome | Science Meets Sanatan</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1020" />
+    <title>Science Meet Sanatan | Panchang, Kundali, Pandit Booking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,17 +13,19 @@
     />
     <link rel="stylesheet" href="{% static 'header.css' %}?v=4" />
     <link rel="stylesheet" href="{% static 'welcome.css' %}?v=9" />
+    <link rel="stylesheet" href="{% static 'welcome_book.css' %}?v=1" />
+    <link rel="stylesheet" href="{% static 'welcome_app.css' %}?v=3" />
     <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3" />
     <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
     <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
     <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2" />
-    <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=2" />
+    <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
   </head>
   <body>
     <header class="header">
         <a href="/welcome/" class="logo" aria-label="SMS Home">
           <span class="logo-mark">SMS</span>
-          <span class="logo-text">Science Meets Sanatan</span>
+          <span class="logo-text">Science Meet Sanatan</span>
         </a>
         <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -103,15 +106,19 @@
         </div>
 
         <div class="hero-copy hero-copy--center">
-          <div class="hero-kicker">Wisdom of the Ancients • Precision of Science</div>
-          <h1>Decoding the <span>Celestial</span> Blueprint</h1>
+          <div class="hero-book-wrap">
+            <a class="hero-book" id="heroBookPandit" href="/pandits/#book" data-specular="primary" aria-label="Book a Pandit in Patna, new service">Book a Pandit</a>
+            <p class="hero-book-note"><span class="hero-book-new">New</span> Book a pandit in Patna, Gurugram &amp; Bengaluru</p>
+          </div>
+          <div class="hero-kicker">Panchang • Kundali • Pandit Booking • Library</div>
+          <h1>Your Sanatan life, <span>made simple</span></h1>
           <p>
-            A refined spiritual observatory where Panchang, Kundali, Horoscope, Library, Baby Names, and
-            Quizzes breathe together inside one premium Sanatan experience.
+            Check today’s Panchang, make your Kundali, read aartis and kathas, and book a pandit for your
+            puja. All in one place, in simple language.
           </p>
           <div class="hero-actions">
-            <a class="hero-btn hero-btn--primary" href="#featurePulse">Begin Observation</a>
-            <a class="hero-btn hero-btn--ghost" href="/panchang/">Explore Panchang</a>
+            <a class="hero-btn hero-btn--primary" href="#featurePulse">See what you can do</a>
+            <a class="hero-btn hero-btn--ghost" href="/panchang/">Today’s Panchang</a>
           </div>
         </div>
 
@@ -119,74 +126,87 @@
           <form class="aether-form" id="aetherForm" autocomplete="off">
             <div class="aether-icon">✦</div>
             <div class="aether-copy">
-              <label class="aether-label" for="aetherInput">Aether Access</label>
+              <label class="aether-label" for="aetherInput">Quick search</label>
               <input
                 id="aetherInput"
                 class="aether-input"
                 type="search"
-                placeholder="Search constellations, festivals, or your Raashi..."
+                placeholder="Search a festival, rashi or nakshatra…"
               />
             </div>
             <button class="aether-btn" type="submit">
               <span class="aether-btn__glow"></span>
               <span class="aether-btn__icon">✦</span>
-              <span class="aether-btn__text">Aether Search</span>
+              <span class="aether-btn__text">Search</span>
             </button>
           </form>
           <div class="aether-results" id="aetherResults" hidden></div>
         </div>
       </section>
 
-      <section class="feature-pulse" id="featurePulse" aria-label="Platform features">
+      <section class="city-strip" aria-label="Cities where pandit booking is available">
+        <div class="city-strip__inner">
+          <p class="city-strip__label"><span aria-hidden="true">📍</span> Pandit booking available in</p>
+          <ul class="city-strip__list">
+            <li class="city-chip city-chip--live">Patna</li>
+            <li class="city-chip city-chip--live">Gurugram</li>
+            <li class="city-chip city-chip--live">Bengaluru</li>
+            <li class="city-chip city-chip--soon">More cities coming soon</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="feature-pulse" id="featurePulse" aria-label="What you can do here">
         <div class="section-head">
           <div>
-            <div class="section-kicker">Feature Pulse</div>
-            <h2>Navigate each part of the cosmos</h2>
-            <p>The core spiritual tools of Science Meets Sanatan, presented as a calm, premium observatory.</p>
+            <div class="section-kicker">What you can do here</div>
+            <h2>Everything in one place</h2>
+            <p>Tap any card to open it. Pandit booking is our newest service.</p>
           </div>
         </div>
 
-        <div class="feature-rail">
-          <a class="pulse-card pulse-card--baby" href="/baby-names/">
-            <div class="pulse-meta">Baby Names</div>
-            <h3>Find divine, meaningful names</h3>
-            <p>Browse deity-based names with alphabets, meanings, and immersive card experiences.</p>
-            <div class="pulse-foot"><span>Open feature</span><span>→</span></div>
+        <div class="app-grid">
+          <a class="app-tile app-tile--hero" href="/pandits/#book">
+            <span class="app-tile__icon" aria-hidden="true">🪔</span>
+            <span class="app-tile__new">New</span>
+            <h3>Book a Pandit</h3>
+            <p>Tell us your puja, date and city. We arrange a pandit and confirm with you on WhatsApp. Learn pooja vidhi step by step too.</p>
+            <span class="app-tile__go">Book now <b aria-hidden="true">→</b></span>
           </a>
-
-          <a class="pulse-card pulse-card--panchang" href="/panchang/">
-            <div class="pulse-meta">Panchang</div>
-            <h3>Read the day through cosmic timing</h3>
-            <p>Track tithi, nakshatra, paksha, festivals, weather, and a living spiritual calendar.</p>
-            <div class="pulse-foot"><span>Open feature</span><span>→</span></div>
+          <a class="app-tile" href="/panchang/">
+            <span class="app-tile__icon" aria-hidden="true">📅</span>
+            <h3>Panchang</h3>
+            <p>Today’s tithi, nakshatra, festivals and good timings.</p>
           </a>
-
-          <a class="pulse-card pulse-card--kundali" href="/kundali/">
-            <div class="pulse-meta">Kundali</div>
-            <h3>Generate a refined Janma chart</h3>
-            <p>See North Indian chart layouts, houses, yogas, doshas, and planetary placements.</p>
-            <div class="pulse-foot"><span>Open feature</span><span>→</span></div>
+          <a class="app-tile" href="/library/">
+            <span class="app-tile__icon" aria-hidden="true">📚</span>
+            <h3>Library</h3>
+            <p>Read aartis, kathas and holy books.</p>
           </a>
-
-          <a class="pulse-card pulse-card--horoscope" href="/horoscope/">
-            <div class="pulse-meta">Horoscope</div>
-            <h3>Receive transit-driven insight</h3>
-            <p>Read personalized daily to yearly horoscope guidance shaped by chart and dasha logic.</p>
-            <div class="pulse-foot"><span>Open feature</span><span>→</span></div>
+          <a class="app-tile" href="/kundali/">
+            <span class="app-tile__icon" aria-hidden="true">🔯</span>
+            <h3>Kundali</h3>
+            <p>Make your birth chart in a minute.</p>
           </a>
-
-          <a class="pulse-card pulse-card--library" href="/library/">
-            <div class="pulse-meta">Library</div>
-            <h3>Enter the sacred reading archive</h3>
-            <p>Open aartis and scriptures in an immersive spiritual library and premium reading environment.</p>
-            <div class="pulse-foot"><span>Open feature</span><span>→</span></div>
+          <a class="app-tile" href="/horoscope/">
+            <span class="app-tile__icon" aria-hidden="true">♈</span>
+            <h3>Horoscope</h3>
+            <p>Daily to yearly guidance for your rashi.</p>
           </a>
-
-          <a class="pulse-card pulse-card--quizzes" href="/quizzes/">
-            <div class="pulse-meta">Quizzes</div>
-            <h3>Test your Sanatan knowledge</h3>
-            <p>Challenge yourself with interactive quizzes, streaks, scoreboards, and playful learning.</p>
-            <div class="pulse-foot"><span>Open feature</span><span>→</span></div>
+          <a class="app-tile" href="/astrologers/">
+            <span class="app-tile__icon" aria-hidden="true">🔮</span>
+            <h3>Astrology</h3>
+            <p>Talk to an astrologer about your questions.</p>
+          </a>
+          <a class="app-tile" href="/quizzes/">
+            <span class="app-tile__icon" aria-hidden="true">🧠</span>
+            <h3>Quizzes</h3>
+            <p>Play and test what you know about Sanatan Dharma.</p>
+          </a>
+          <a class="app-tile" href="/baby-names/">
+            <span class="app-tile__icon" aria-hidden="true">👶</span>
+            <h3>Baby Names</h3>
+            <p>Find meaningful names with meanings and first letters.</p>
           </a>
         </div>
       </section>
@@ -194,37 +214,37 @@
       <section class="raashi-pulse" aria-label="Raashi Pulse">
         <div class="section-head">
           <div>
-            <div class="section-kicker">Raashi Pulse</div>
-            <h2>Today’s cosmic note for every sign</h2>
-            <p>Transit-led daily guidance for all twelve raashis, expressed in a calm Krishna voice.</p>
+            <div class="section-kicker">Today’s Rashifal</div>
+            <h2>Today’s message for every rashi</h2>
+            <p>A short note for each of the 12 rashis, based on where the planets are today.</p>
           </div>
-          <div class="section-meta" id="raashiGeneratedAt">Loading live transits…</div>
+          <div class="section-meta" id="raashiGeneratedAt">Loading today…</div>
         </div>
         <div class="raashi-track" id="raashiTrack">
-          <div class="loading-card">Attuning today’s raashi pulse…</div>
+          <div class="loading-card">Getting today’s rashifal…</div>
         </div>
       </section>
 
       <section class="festival-orbit" aria-label="Festival orbit">
         <div class="orbit-copy">
-          <div class="section-kicker">Temporal Alignment</div>
-          <h2>Festival Orbit</h2>
+          <div class="section-kicker">Festivals</div>
+          <h2>Festivals this month</h2>
           <p>
-            Follow this month’s sacred rhythm through Panchang-driven observances, dates, and timing windows.
+            See the festivals and fasts coming up this month, with their dates.
           </p>
 
           <div class="festival-timeline" id="festivalTimeline">
-            <div class="timeline-loading">Collecting this month’s sacred milestones…</div>
+            <div class="timeline-loading">Loading this month’s festivals…</div>
           </div>
 
-          <a class="orbit-link" href="/panchang/">View annual calendar →</a>
+          <a class="orbit-link" href="/panchang/">See the full calendar →</a>
         </div>
 
         <div class="orbit-visual">
           <div class="planetarium-card">
             <div class="planetarium-card__copy">
-              <div class="section-kicker">Live Planet System</div>
-              <p>Drag to orbit the camera. Real 3D planets render with scaled motion and cinematic lighting.</p>
+              <div class="section-kicker">Solar system</div>
+              <p>Drag to turn the view. The planets move as they do in the sky.</p>
             </div>
             <div class="planetarium" id="planetarium">
               <div class="planetarium-canvas" id="planetariumCanvas"></div>
@@ -236,58 +256,20 @@
         </div>
       </section>
 
-      <section class="celestial-grid" aria-label="Feature grid">
-        <div class="section-head section-head--split">
+      <section class="city-cta" id="cities" aria-label="Pandit booking cities">
+        <div class="section-head">
           <div>
-            <div class="section-kicker">Cosmic Methodology</div>
-            <h2>Everything connected, everything discoverable</h2>
+            <div class="section-kicker">Pandit booking</div>
+            <h2>Find a pandit in your city</h2>
+            <p>We are starting in three cities and growing. More areas are coming soon.</p>
           </div>
-          <p class="section-note">A homepage designed as a premium entry system into your spiritual toolkit.</p>
         </div>
-
-        <div class="bento-grid">
-          <a class="bento-card bento-card--wide bento-card--panchang" href="/panchang/">
-            <div class="bento-kicker">Real-time Calendar</div>
-            <h3>Panchang API & Dashboard</h3>
-            <p>Interactive calendar, sky system, live clock, timing cards, and year-aware core festivals.</p>
-            <span class="bento-link">Explore feature</span>
-          </a>
-
-          <a class="bento-card bento-card--small bento-card--kundali" href="/kundali/">
-            <div class="bento-kicker">Astrology</div>
-            <h3>Kundali AI</h3>
-            <p>Traditional chart structure with interactive house details.</p>
-            <span class="bento-link">Get your chart</span>
-          </a>
-
-          <a class="bento-card bento-card--tall bento-card--library" href="/library/">
-            <div class="bento-kicker">Sacred Archive</div>
-            <h3>The Sanatan Library</h3>
-            <p>Read aartis and scriptures in a premium, devotional reading experience.</p>
-            <span class="bento-link">Enter library</span>
-          </a>
-
-          <a class="bento-card bento-card--small bento-card--baby" href="/baby-names/">
-            <div class="bento-kicker">Naming</div>
-            <h3>Baby Names</h3>
-            <p>Deity-inspired names with alphabet filters and meanings.</p>
-            <span class="bento-link">Browse names</span>
-          </a>
-
-          <a class="bento-card bento-card--small bento-card--horoscope" href="/horoscope/">
-            <div class="bento-kicker">Predictions</div>
-            <h3>Horoscope</h3>
-            <p>Transit-based insights from daily to yearly guidance.</p>
-            <span class="bento-link">View insight</span>
-          </a>
-
-          <a class="bento-card bento-card--small bento-card--quizzes" href="/quizzes/">
-            <div class="bento-kicker">Learning</div>
-            <h3>Quizzes</h3>
-            <p>Game-like knowledge tests for spiritual learners and students.</p>
-            <span class="bento-link">Start playing</span>
-          </a>
-        </div>
+        <ul class="city-cards">
+          <li class="city-card"><span class="city-card__badge city-card__badge--live">Available</span><h3>Patna</h3><p>Bihar</p><a class="city-card__go" href="/pandits/?city=Patna#book">Book here →</a></li>
+          <li class="city-card"><span class="city-card__badge city-card__badge--live">Available</span><h3>Gurugram</h3><p>Haryana (NCR)</p><a class="city-card__go" href="/pandits/?city=Gurugram#book">Book here →</a></li>
+          <li class="city-card"><span class="city-card__badge city-card__badge--live">Available</span><h3>Bengaluru</h3><p>Karnataka</p><a class="city-card__go" href="/pandits/?city=Bengaluru#book">Book here →</a></li>
+          <li class="city-card city-card--soon"><span class="city-card__badge">Coming soon</span><h3>More cities</h3><p>We are expanding. Tell us your city.</p><a class="city-card__go" href="/pandits/?city=Another%20city#book">Ask for my city →</a></li>
+        </ul>
       </section>
 
       {% include 'components/testimonials.html' %}
@@ -296,13 +278,14 @@
     <footer class="site-footer">
       <div class="site-footer__inner">
         <div>
-          <div class="site-footer__brand">Science Meets Sanatan</div>
+          <div class="site-footer__brand">Science Meet Sanatan</div>
           <p class="site-footer__copy">
-            A modern spiritual platform connecting Panchang, Kundali, Horoscope, Library, Baby Names, and Quizzes.
+            Panchang, Kundali, Horoscope, Library, Quizzes, Baby Names and pandit booking in Patna, Gurugram and Bengaluru.
           </p>
         </div>
         <div class="site-footer__links">
           <a href="/welcome/">Home</a>
+          <a href="/pandits/">Book a Pandit</a>
           <a href="/panchang/">Panchang</a>
           <a href="/kundali/">Kundali</a>
           <a href="/horoscope/">Horoscope</a>
@@ -310,13 +293,20 @@
           <a href="/quizzes/">Quizzes</a>
         </div>
         <div class="site-footer__meta">
-          <div>© 2026 Science Meets Sanatan. All rights reserved.</div>
-          <div>Designed with devotion for seekers, students, and families.</div>
+          <div>© 2026 Science Meet Sanatan. All rights reserved.</div>
+          <div>Made with devotion for families, students and seekers.</div>
           <div>Instagram: <a href="https://instagram.com/sciencemeetsanatan" target="_blank" rel="noreferrer">@sciencemeetsanatan</a></div>
         </div>
       </div>
     </footer>
 
+    <nav class="app-tabbar" id="appTabbar" aria-label="Main">
+      <a class="app-tab is-active" href="/welcome/" aria-current="page"><span class="app-tab__ic" aria-hidden="true">🏠</span><span>Home</span></a>
+      <a class="app-tab" href="/panchang/"><span class="app-tab__ic" aria-hidden="true">📅</span><span>Panchang</span></a>
+      <a class="app-tab app-tab--book" href="/pandits/#book"><span class="app-tab__ic" aria-hidden="true">🪔</span><span>Book</span></a>
+      <a class="app-tab" href="/library/"><span class="app-tab__ic" aria-hidden="true">📚</span><span>Library</span></a>
+      <button class="app-tab" type="button" id="appTabMore" aria-label="Open menu"><span class="app-tab__ic" aria-hidden="true">☰</span><span>More</span></button>
+    </nav>
     {% include 'components/login_popup.html' %}
     {% include 'components/digital_daanpatra.html' %}
     {% include 'components/review_modal.html' %}
@@ -333,7 +323,10 @@
     <script src="{% static 'header.js' %}?v=5"></script>
     {{ welcome_raashi_bootstrap|json_script:"welcome-raashi-bootstrap" }}
     {{ welcome_festivals_bootstrap|json_script:"welcome-festivals-bootstrap" }}
-    <script src="{% static 'welcome.js' %}?v=8"></script>
+    <script src="{% static 'welcome.js' %}?v=9"></script>
+    <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
+    <script defer src="{% static 'welcome_book.js' %}?v=1"></script>
+    <script defer src="{% static 'welcome_app.js' %}?v=2"></script>
     <script>
       // The 3D planetarium pulls in a ~1.3 MB library, so it loads only when it is about to be seen,
       // and not on data-saver / very low-memory phones (they keep the lightweight fallback).
@@ -347,7 +340,7 @@
         function load() {
           if (loaded) return;
           loaded = true;
-          import("{% static 'welcome-planetarium.js' %}?v=1");
+          import("{% static 'welcome-planetarium.js' %}?v=2");
         }
         if (!("IntersectionObserver" in window)) { load(); return; }
         new IntersectionObserver(function (entries, observer) {

@@ -339,7 +339,7 @@ const renderSearchResults = (query) => {
   if (!normalized) {
     aetherResults.hidden = true;
     aetherResults.innerHTML = "";
-    if (aetherSearchButtonText) aetherSearchButtonText.textContent = "Aether Search";
+    if (aetherSearchButtonText) aetherSearchButtonText.textContent = "Search";
     return;
   }
   const results = getSearchResults(normalized);
@@ -347,16 +347,16 @@ const renderSearchResults = (query) => {
     aetherResults.hidden = false;
     aetherResults.innerHTML = `
       <div class="aether-results__head">
-        <span>No exact cosmic match yet</span>
+        <span>No match found yet</span>
         <span>Search: ${escapeHtml(normalized)}</span>
       </div>
-      <div class="loading-card">Try a raashi, festival, or constellation name such as Rohini, Ram Navami, or Meena.</div>
+      <div class="loading-card">Try a rashi, festival or nakshatra, for example Rohini, Ram Navami or Meena.</div>
     `;
-    if (aetherSearchButtonText) aetherSearchButtonText.textContent = "Try Another";
+    if (aetherSearchButtonText) aetherSearchButtonText.textContent = "Search again";
     return;
   }
   aetherResults.hidden = false;
-  if (aetherSearchButtonText) aetherSearchButtonText.textContent = "Refine Search";
+  if (aetherSearchButtonText) aetherSearchButtonText.textContent = "Search again";
   aetherResults.innerHTML = results
     .map(
       (item) => `
@@ -394,6 +394,8 @@ const initializeSearch = () => {
   });
 };
 
+let planetariumOnScreen = true;
+let planetariumWatch = null;
 const startPlanetAnimation = () => {
   if (!planetNodes.length) return;
   if (animationFrameId) {
@@ -415,9 +417,16 @@ const startPlanetAnimation = () => {
       node.style.setProperty("--planet-brightness", brightness.toFixed(3));
       orbit.style.setProperty("--orbit-rotation", `${(angle / 8).toFixed(2)}deg`);
     });
-    animationFrameId = window.requestAnimationFrame(tick);
+    animationFrameId = (planetariumOnScreen && !document.hidden) ? window.requestAnimationFrame(tick) : null;
   };
   tick();
+  if ("IntersectionObserver" in window && planetariumStage && !planetariumWatch) {
+    planetariumWatch = new IntersectionObserver((entries) => {
+      planetariumOnScreen = entries.some((e) => e.isIntersecting);
+      if (planetariumOnScreen && !animationFrameId && !document.hidden) animationFrameId = window.requestAnimationFrame(tick);
+    }, { rootMargin: "80px 0px" });
+    planetariumWatch.observe(planetariumStage);
+  }
 };
 
 const enablePlanetariumInteraction = () => {
@@ -476,7 +485,7 @@ const fetchWelcomeInsights = async () => {
     welcomeInsights = { ...(welcomeInsights || {}), ...bootstrapRaashi };
     renderRaashiPulse(bootstrapRaashi.rashi_pulse);
     if (raashiGeneratedAt && bootstrapRaashi.generated_at) {
-      raashiGeneratedAt.textContent = `Live transits • ${formatGeneratedAt(bootstrapRaashi.generated_at)}`;
+      raashiGeneratedAt.textContent = `Updated ${formatGeneratedAt(bootstrapRaashi.generated_at)}`;
     }
   }
 
@@ -496,11 +505,11 @@ const fetchWelcomeInsights = async () => {
     welcomeInsights = { ...(welcomeInsights || {}), ...raashiResult.value };
     renderRaashiPulse(raashiResult.value.rashi_pulse || []);
     if (raashiGeneratedAt && raashiResult.value.generated_at) {
-      raashiGeneratedAt.textContent = `Live transits • ${formatGeneratedAt(raashiResult.value.generated_at)}`;
+      raashiGeneratedAt.textContent = `Updated ${formatGeneratedAt(raashiResult.value.generated_at)}`;
     }
   } else {
     if (!bootstrapRaashi?.rashi_pulse?.length) {
-      if (raashiGeneratedAt) raashiGeneratedAt.textContent = "Live transits unavailable";
+      if (raashiGeneratedAt) raashiGeneratedAt.textContent = "Could not load today";
       renderRaashiPulse([]);
     }
   }

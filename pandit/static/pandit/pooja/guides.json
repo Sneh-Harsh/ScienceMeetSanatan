@@ -1,6 +1,6 @@
 {
  "schemaVersion": 3,
- "updatedOn": "2026-10-26",
+ "updatedOn": "2026-10-27",
  "labels": {
   "draft-pandit-review-needed": "Draft — Pandit Review Needed",
   "reviewed-approved": "Reviewed and Approved",
@@ -1071,6 +1071,17 @@
     "The Patrika list of five auspicious items is incomplete.",
     "Primary scriptural source: sources say the rites are from the Matsya Purana, but no Matsya Purana text was checked.",
     "Duration: SmartPuja says 1.5-4 hours by package; not set in the file."
+   ],
+   "categories": [
+    "home"
+   ],
+   "keywords": [
+    "housewarming",
+    "new",
+    "home",
+    "house",
+    "warming",
+    "grihapravesh"
    ]
   },
   {
@@ -4431,7 +4442,17 @@
    "havanNote": {
     "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
     "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
-   }
+   },
+   "categories": [
+    "deity"
+   ],
+   "keywords": [
+    "satyanarayana",
+    "vishnu",
+    "katha",
+    "purnima",
+    "vrat"
+   ]
   },
   {
    "id": "rudrabhishek",
@@ -6053,7 +6074,19 @@
    "havanNote": {
     "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
     "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
-   }
+   },
+   "categories": [
+    "deity"
+   ],
+   "keywords": [
+    "shiv",
+    "shiva",
+    "mahadev",
+    "abhishek",
+    "rudri",
+    "mahashivratri",
+    "sawan"
+   ]
   },
   {
    "id": "ganesh-puja",
@@ -8588,7 +8621,17 @@
    "havanNote": {
     "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
     "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
-   }
+   },
+   "categories": [
+    "deity"
+   ],
+   "keywords": [
+    "ganpati",
+    "vinayaka",
+    "ganesha",
+    "chaturthi",
+    "vighnaharta"
+   ]
   },
   {
    "id": "lakshmi-puja",
@@ -11008,7 +11051,18 @@
    "havanNote": {
     "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
     "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
-   }
+   },
+   "categories": [
+    "deity"
+   ],
+   "keywords": [
+    "laxmi",
+    "mahalakshmi",
+    "diwali",
+    "deepawali",
+    "dhanteras",
+    "wealth"
+   ]
   },
   {
    "id": "navagraha",
@@ -12115,6 +12169,19 @@
     "No Navagraha-specific aarti found; Om Jai Jagdish Hare used as the general aarti.",
     "Wikipedia grain table and Dekho Panchang disagree for Mars (and describe Moon as paddy vs white rice).",
     "Gemstones and remedies are not part of this puja in any source used."
+   ],
+   "categories": [
+    "deity"
+   ],
+   "keywords": [
+    "nine",
+    "planets",
+    "graha",
+    "shanti",
+    "shani",
+    "rahu",
+    "ketu",
+    "jyotish"
    ]
   },
   {
@@ -13299,6 +13366,16 @@
     "The four 'quarter-guard' prayers and the door-post mantras of Pāraskara 3.4.9-18 and the first two ghee ahutis ('इहरतिः') were not included.",
     "No classical manual (e.g. Matsya Purāṇa, Vastu-shastra) with the full Vastu-puja procedure could be fetched; the sequence of the modern rite rests on commercial and blog sources.",
     "Fire safety text is general common-sense guidance, not from a ritual source."
+   ],
+   "categories": [
+    "home"
+   ],
+   "keywords": [
+    "vastu",
+    "shanti",
+    "vaastu",
+    "house",
+    "building"
    ]
   },
   {
@@ -14132,6 +14209,18 @@
     "Pit size, direction of sitting, and the 64-square drawing at the site rest on a single commercial source each.",
     "Vastu-deva aarti text: no special text found; Ganesh aarti is used.",
     "Dakshina amount and charity are not specified in any source."
+   ],
+   "categories": [
+    "home"
+   ],
+   "keywords": [
+    "bhumi",
+    "pujan",
+    "land",
+    "plot",
+    "foundation",
+    "construction",
+    "shilanyas"
    ]
   },
   {
@@ -15823,6 +15912,17 @@
     "Sandhya-havan in the Arya Samaj 'Sanskar Vidhi' or 'Panchmahayajna Vidhi' of Dayananda could not be fetched as a primary text.",
     "Safety advice is general common-sense guidance written for this guide, not from a ritual source (only a few points are from amitray.com).",
     "No source gives a waiting time for the fire to die down or an aarti for havan."
+   ],
+   "categories": [
+    "fire"
+   ],
+   "keywords": [
+    "homa",
+    "yagya",
+    "yajna",
+    "agnihotra",
+    "fire",
+    "hom"
    ]
   },
   {
@@ -17558,6 +17658,20 @@
     "Fixed age for modern families: not settled; ask the pandit and see the muhurta.",
     "No sourced aarti.",
     "No source found for bathing the child after the haircut as a prescribed step beyond washing the head (Pāraskara 2.1.20) and the Gayatri Pariwar new-clothes worship; the bath is a sensible custom."
+   ],
+   "categories": [
+    "sanskar"
+   ],
+   "keywords": [
+    "naamkaran",
+    "namkaran",
+    "mundan",
+    "baby",
+    "naming",
+    "first",
+    "haircut",
+    "child",
+    "chudakarana"
    ]
   },
   {
@@ -19251,7 +19365,3628 @@
    "havanNote": {
     "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
     "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
-   }
+   },
+   "categories": [
+    "sanskar"
+   ],
+   "keywords": [
+    "wedding",
+    "marriage",
+    "shaadi",
+    "shadi",
+    "saptapadi",
+    "kanyadan"
+   ]
+  },
+  {
+   "id": "bhai-dooj",
+   "name": {
+    "en": "Bhai Dooj",
+    "hi": "भाई दूज"
+   },
+   "deity": {
+    "en": "Yama and Yamunā; brother–sister festival",
+    "hi": "यम और यमुना; भाई-बहन का पर्व"
+   },
+   "availability": "documented",
+   "review": {
+    "status": "draft-pandit-review-needed",
+    "label": "Draft — Pandit Review Needed",
+    "reviewedBy": null,
+    "reviewedOn": null,
+    "note": "No pandit has reviewed this guide yet. Please follow your own pandit's guidance wherever it differs."
+   },
+   "summary": {
+    "en": "Bhai Dooj (Yama Dwitiya) is celebrated on Kartik Shukla Dwitiya, two days after Diwali. Sisters put tilak on their brothers, do aarti and feed them, praying for their long life.",
+    "hi": "भाई दूज (यम द्वितीया) कार्तिक शुक्ल द्वितीया को, दीपावली के दो दिन बाद मनाई जाती है। बहनें भाई को तिलक करती हैं, आरती उतारती हैं और भोजन कराती हैं, और उनकी लंबी आयु की प्रार्थना करती हैं।"
+   },
+   "tradition": {
+    "en": "Steps follow the common North Indian household practice as described by Drik Panchang and Bhakti Bharat, with the folk rite (rice-paste seat, palm offerings) from Hindi Wikipedia. It is a family rite, not a priest-led puja.",
+    "hi": "चरण ड्रिक पंचांग और भक्ति भारत में वर्णित उत्तर भारतीय घरेलू प्रथा के अनुसार हैं, और लोकविधि (चावल-घोल का पीढ़ा, हथेली पर अर्पण) हिंदी विकिपीडिया से ली गई है। यह पारिवारिक विधि है, पुरोहित-संचालित पूजा नहीं।"
+   },
+   "duration": null,
+   "havan": null,
+   "variation": {
+    "en": "Names differ by region: Bhai Dooj, Bhaiya Dooj, Bhai Tika, Bhau Beej, Yama Dwitiya. A folk rite with rice paste, makhana and water-pouring is reported on Hindi Wikipedia, but the page does not name a region, so the Bihar/Mithila-specific form needs a local pandit's check. The Yama/Chitragupta worship and the evening Yamraj lamp are practised in some places only.",
+    "hi": "क्षेत्र के अनुसार नाम अलग हैं: भाई दूज, भैया दूज, भाई टीका, भाऊबीज, यम द्वितीया। चावल-घोल, मखाना और जल-अर्पण वाली लोकविधि हिंदी विकिपीडिया में मिलती है, पर वह क्षेत्र का नाम नहीं बताती, इसलिए बिहार/मिथिला का विशिष्ट रूप स्थानीय पंडित से जाँच लें। यम/चित्रगुप्त पूजन और संध्या का यमराज-दीप कुछ स्थानों पर ही होता है।"
+   },
+   "preparation": {
+    "conduct": [],
+    "samagri": [
+     {
+      "id": "thali",
+      "name": {
+       "en": "Puja thali",
+       "hi": "पूजा की थाली"
+      },
+      "essential": true,
+      "note": {
+       "en": "A clean plate (steel, brass or silver) to hold everything below.",
+       "hi": "सारी सामग्री रखने के लिए साफ थाली (स्टील, पीतल या चांदी की)।"
+      }
+     },
+     {
+      "id": "roli_kumkum",
+      "name": {
+       "en": "Roli / kumkum / sindoor",
+       "hi": "रोली / कुमकुम / सिंदूर"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "chandan",
+      "name": {
+       "en": "Sandalwood paste (chandan)",
+       "hi": "चंदन"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "akshat",
+      "name": {
+       "en": "Whole rice grains (akshat)",
+       "hi": "अक्षत (साबुत चावल)"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "rice_paste",
+      "name": {
+       "en": "Rice paste or rice flour for the chowk",
+       "hi": "चौक के लिए चावल का घोल या आटा"
+      },
+      "essential": true,
+      "note": {
+       "en": "Used to draw the square (chowk) the brother sits on.",
+       "hi": "भाई जिस चौक पर बैठता है उसे बनाने के लिए।"
+      }
+     },
+     {
+      "id": "flowers",
+      "name": {
+       "en": "Flowers and flower garland",
+       "hi": "फूल और फूलमाला"
+      },
+      "essential": true,
+      "note": {
+       "en": "Kumhra (pumpkin) flower is used in the folk rite; marigold can replace it.",
+       "hi": "लोकविधि में कुम्हरे का फूल लिया जाता है; न मिले तो गेंदा चलेगा।"
+      }
+     },
+     {
+      "id": "durva",
+      "name": {
+       "en": "Durva grass",
+       "hi": "दूब घास"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "paan_supari",
+      "name": {
+       "en": "Betel leaf and supari",
+       "hi": "पान का पत्ता और सुपारी"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "coconut",
+      "name": {
+       "en": "Dry coconut (gola)",
+       "hi": "सूखा नारियल (गोला)"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "coin",
+      "name": {
+       "en": "Silver coin",
+       "hi": "चांदी का सिक्का"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "kalawa",
+      "name": {
+       "en": "Sacred thread (kalawa/moli)",
+       "hi": "कलावा (मौली)"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "banana",
+      "name": {
+       "en": "Banana",
+       "hi": "केला"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "sweets",
+      "name": {
+       "en": "Sweets (mithai)",
+       "hi": "मिठाई"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "batasha_chana",
+      "name": {
+       "en": "Batasha and black gram (kale chane)",
+       "hi": "बताशे और काले चने"
+      },
+      "essential": false,
+      "note": {
+       "en": "Given to the brother after tilak (Bhakti Bharat).",
+       "hi": "तिलक के बाद भाई को दिए जाते हैं (भक्ति भारत)।"
+      }
+     },
+     {
+      "id": "makhana",
+      "name": {
+       "en": "Roasted makhana",
+       "hi": "भुना हुआ मखाना"
+      },
+      "essential": false,
+      "note": {
+       "en": "Fed after tilak in the folk rite described on Hindi Wikipedia.",
+       "hi": "हिंदी विकिपीडिया में बताई लोकविधि में तिलक के बाद खिलाया जाता है।"
+      }
+     },
+     {
+      "id": "honey_ghee",
+      "name": {
+       "en": "Honey, cow ghee, sandal paste",
+       "hi": "मधु, गाय का घी, चंदन"
+      },
+      "essential": false,
+      "note": {
+       "en": "Applied on the brother's palms in the folk rite.",
+       "hi": "लोकविधि में भाई की हथेलियों पर लगाया जाता है।"
+      }
+     },
+     {
+      "id": "water",
+      "name": {
+       "en": "Clean water in a small vessel",
+       "hi": "स्वच्छ जल (छोटे पात्र में)"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "diya",
+      "name": {
+       "en": "Ghee lamp (diya) for aarti",
+       "hi": "आरती के लिए घी का दीया"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "meal",
+      "name": {
+       "en": "Home-cooked meal made by the sister",
+       "hi": "बहन के हाथ का बना भोजन"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "gifts",
+      "name": {
+       "en": "Gift from the brother",
+       "hi": "भाई की ओर से उपहार"
+      },
+      "essential": false,
+      "note": {
+       "en": "Clothes, money or any token as per capacity.",
+       "hi": "कपड़े, पैसे या अपनी सामर्थ्य के अनुसार कोई भेंट।"
+      }
+     },
+     {
+      "id": "yama_diya",
+      "name": {
+       "en": "Four-faced (chaumukh) earthen lamp for Yamraj",
+       "hi": "यमराज के लिए चौमुख दीया"
+      },
+      "essential": false,
+      "note": null
+     }
+    ],
+    "substitution": null
+   },
+   "steps": [
+    {
+     "id": "tidy-place",
+     "group": "setup",
+     "title": {
+      "en": "Clean the home and the place of tilak",
+      "hi": "घर और तिलक के स्थान की सफाई"
+     },
+     "do": {
+      "en": "Sweep and wipe the room or courtyard where you will welcome your brother. Keep the spot where he will sit clean and dry. If you like, make a simple rangoli at the doorway.",
+      "hi": "जिस कमरे या आँगन में भाई का स्वागत करना है उसे झाड़कर पोंछ लें। जहाँ भाई बैठेगा वह जगह साफ और सूखी रखें। चाहें तो दरवाजे पर साधारण रंगोली बना लें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "The sources describe the tilak itself, not house-cleaning. This step is plain practical advice added so the guide starts from the beginning; the pandit may adjust it.",
+       "hi": "स्रोत तिलक की विधि बताते हैं, घर की सफाई नहीं। यह कदम शुरुआत से मार्गदर्शन देने के लिए सामान्य व्यावहारिक सलाह है; पंडित जी इसमें बदलाव कर सकते हैं।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      }
+     ]
+    },
+    {
+     "id": "bath-vow",
+     "group": "setup",
+     "title": {
+      "en": "Morning bath, clean clothes and the vow",
+      "hi": "प्रातः स्नान, स्वच्छ वस्त्र और संकल्प"
+     },
+     "do": {
+      "en": "Sisters take an early-morning bath and put on clean clothes. Remember God with a short prayer. Then take the resolve (sankalp) to observe the day's fast until the tilak is done, and invite your brother to your home.",
+      "hi": "बहनें सुबह जल्दी स्नान करके स्वच्छ वस्त्र पहनें। थोड़ी देर भगवान का स्मरण करें। फिर तिलक होने तक व्रत रखने का संकल्प लें और भाई को अपने घर आने का निमंत्रण दें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "Drik Panchang says sisters take a vow to observe a fast; Bhakti Bharat only says bath, clean clothes and worship of God. How strictly to fast varies by family.",
+       "hi": "ड्रिक पंचांग में बहनों के व्रत का संकल्प लिखा है; भक्ति भारत केवल स्नान, स्वच्छ वस्त्र और भगवान की आराधना बताता है। व्रत कितना कठोर हो, यह परिवार पर निर्भर है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      },
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      }
+     ]
+    },
+    {
+     "id": "timing",
+     "group": "prep",
+     "title": {
+      "en": "Choose the time for tilak",
+      "hi": "तिलक का समय चुनें"
+     },
+     "do": {
+      "en": "Do the tilak in the afternoon (Aparahna) part of Dwitiya, as given in your local panchang. Keep the thali ready before that time.",
+      "hi": "तिलक द्वितीया तिथि के अपराह्न (दोपहर बाद) के समय में करें, जैसा आपके स्थानीय पंचांग में दिया हो। उससे पहले थाली तैयार रखें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "For 2026, Drik Panchang (New Delhi) gives Aparahna time 01:10 PM to 03:20 PM on Wednesday 11 November 2026, and Bhakti Bharat gives Dwitiya from 10 November 2:00 PM to 11 November 3:53 PM. Times differ by city; check a Patna or local panchang.",
+       "hi": "2026 के लिए ड्रिक पंचांग (नई दिल्ली) में बुधवार 11 नवम्बर 2026 को अपराह्न समय दोपहर 01:10 से 03:20 बजे तक दिया है, और भक्ति भारत में द्वितीया 10 नवम्बर दोपहर 2:00 से 11 नवम्बर दोपहर 3:53 तक है। समय शहर के अनुसार बदलता है; पटना या स्थानीय पंचांग देखें।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      },
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      }
+     ]
+    },
+    {
+     "id": "thali",
+     "group": "prep",
+     "title": {
+      "en": "Prepare the puja thali",
+      "hi": "पूजा की थाली सजाएँ"
+     },
+     "do": {
+      "en": "Take a clean plate and place on it roli or kumkum, sindoor, sandal paste, whole rice grains, flowers, flower garland, betel leaf and supari, dry coconut, a silver coin, kalawa (sacred thread), durva grass, banana and sweets. Keep a ghee lamp and a small vessel of water beside it.",
+      "hi": "एक साफ थाली लें और उसमें रोली या कुमकुम, सिंदूर, चंदन, साबुत चावल, फूल, फूलमाला, पान का पत्ता और सुपारी, सूखा नारियल, चांदी का सिक्का, कलावा, दूब घास, केला और मिठाई रखें। पास में घी का दीया और जल का छोटा पात्र रखें।"
+     },
+     "materials": [
+      "thali",
+      "roli_kumkum",
+      "chandan",
+      "akshat",
+      "flowers",
+      "durva",
+      "paan_supari",
+      "coconut",
+      "coin",
+      "kalawa",
+      "banana",
+      "sweets",
+      "diya",
+      "water"
+     ],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "Prabhat Khabar lists: sindoor, flowers, a few whole rice grains, silver coin, betel leaf, dry coconut, garland, kalawa, sweets, durva and banana. Bhakti Bharat lists kumkum, sindoor, chandan, fruit, flowers, sweets, akshat and supari. Merged here.",
+       "hi": "प्रभात खबर की सूची: सिंदूर, फूल, साबुत चावल, चांदी का सिक्का, पान का पत्ता, सूखा नारियल, माला, कलावा, मिठाई, दूब और केला। भक्ति भारत की सूची: कुमकुम, सिंदूर, चंदन, फल, फूल, मिठाई, अक्षत और सुपारी। यहाँ दोनों मिला दी गई हैं।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xd89dfef1",
+       "cite": "Puja thali contents; Yama-Yamuna reason; the folk couplet recited at puja."
+      },
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      },
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      }
+     ]
+    },
+    {
+     "id": "chowk",
+     "group": "setup",
+     "title": {
+      "en": "Make the seat (chowk) for the brother",
+      "hi": "भाई के बैठने का चौक बनाएँ"
+     },
+     "do": {
+      "en": "Make a square (chowk) on the floor with rice paste or rice flour, and place a low wooden seat (pidha) on it. In the folk rite, draw five cone shapes of rice paste on the seat and put a dot of sindoor in the middle of them. Put a vessel of clean water, flowers, sindoor, betel leaves, supari, cardamom and similar items in front.",
+      "hi": "चावल के घोल या आटे से ज़मीन पर चौकोर चौक बनाएँ और उस पर पीढ़ा रखें। लोकविधि में पीढ़े पर चावल के घोल से पाँच शंक्वाकार आकृतियाँ बनाकर उनके बीच सिंदूर लगाते हैं। सामने स्वच्छ जल, फूल, सिंदूर, पान के पत्ते, सुपारी, इलायची आदि रखें।"
+     },
+     "materials": [
+      "rice_paste",
+      "water",
+      "flowers",
+      "paan_supari"
+     ],
+     "mantras": [],
+     "variation": {
+      "en": "The five rice-paste cones with six betel leaves and six supari are the folk practice reported on Hindi Wikipedia (the page does not name a region); Bhakti Bharat gives only the square chowk. Ask your family elder.",
+      "hi": "पाँच चावल-घोल की आकृतियाँ और छह पान-छह सुपारी की लोकविधि हिंदी विकिपीडिया में है (पृष्ठ क्षेत्र का नाम नहीं देता); भक्ति भारत में केवल चौकोर चौक का उल्लेख है। अपने परिवार के बड़ों से पूछें।"
+     },
+     "sources": [
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      },
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      }
+     ]
+    },
+    {
+     "id": "katha",
+     "group": "prep",
+     "title": {
+      "en": "Read or hear the Yama-Yamuna katha",
+      "hi": "यम-यमुना की कथा सुनें या पढ़ें"
+     },
+     "do": {
+      "en": "Before the tilak, the sister (or the family together) reads or listens to the story. In short: Yamuna, daughter of Surya, invited her brother Yamraj again and again. On Kartik Shukla Dwitiya he finally came. Yamuna welcomed him, bathed and worshipped him, fed him, and put tilak on his forehead. Pleased, Yamraj asked her for a boon. Yamuna asked that he visit her every year on this day, and that a brother who gets tilak from his sister should have no fear of Yama. Yamraj said 'so be it'.",
+      "hi": "तिलक से पहले बहन (या पूरा परिवार) कथा पढ़ता या सुनता है। संक्षेप में: सूर्य की पुत्री यमुना अपने भाई यमराज को बार-बार बुलाती थीं। कार्तिक शुक्ल द्वितीया को वे आखिर उनके घर गए। यमुना ने उनका आदर किया, स्नान और पूजन कराया, भोजन कराया और माथे पर तिलक किया। प्रसन्न होकर यमराज ने वर माँगने को कहा। यमुना ने माँगा कि आप हर साल इसी दिन आएँ और जो भाई इस दिन बहन से तिलक कराए उसे यम का भय न रहे। यमराज ने 'तथास्तु' कहा।"
+     },
+     "materials": [],
+     "mantras": [],
+     "pending": {
+      "en": "Full katha text is read from the family's own book; it is not reproduced here yet.",
+      "hi": "पूरी कथा परिवार की अपनी पुस्तक से पढ़ी जाती है; वह अभी यहाँ शामिल नहीं है।"
+     },
+     "notes": [
+      {
+       "en": "This is a summary in our own words of the version in Prabhat Khabar. The full katha text is not reproduced here; the family may read it from their own book. A second story (the folk 'old mother, seven sons and a daughter' story) is on Bhakti Bharat as 'Bhaiya Dooj Lauk Katha' and is not included here.",
+       "hi": "यह प्रभात खबर वाली कथा का हमारे शब्दों में सार है। पूरी कथा यहाँ नहीं दी गई; परिवार अपनी पुस्तक से पढ़ सकता है। एक और लोककथा (बुढ़िया माई, सात बेटे और एक बेटी) भक्ति भारत पर 'भैया दूज लोक कथा' नाम से है, वह यहाँ शामिल नहीं है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x48a5e3cc",
+       "cite": "Full Yama-Yamuna katha (read for the summary)."
+      },
+      {
+       "source": "xd89dfef1",
+       "cite": "Puja thali contents; Yama-Yamuna reason; the folk couplet recited at puja."
+      },
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      }
+     ]
+    },
+    {
+     "id": "welcome",
+     "group": "core",
+     "title": {
+      "en": "Welcome the brother, wash his feet and seat him",
+      "hi": "भाई का स्वागत करें, पैर धुलाएँ और बिठाएँ"
+     },
+     "do": {
+      "en": "Welcome the brother at the door. Wash his feet with water and wipe them with a cloth, then seat him on the chowk. Sit in front of him with the thali.",
+      "hi": "भाई का द्वार पर स्वागत करें। उसके पैर जल से धुलाकर कपड़े से पोंछ दें, फिर उसे चौक पर बिठाएँ। उसके सामने थाली लेकर बैठें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "Hindi Wikipedia (citing the traditional text) says the sister should seat the brother on an auspicious seat and have him wash his hands and feet, without touching him herself; the folk rite on the same page says the sister washes his feet. The two differ: follow your family custom.",
+       "hi": "हिंदी विकिपीडिया (परंपरागत पाठ के आधार पर) कहता है कि बहन भाई को शुभ आसन पर बिठाकर उसके हाथ-पैर धुलवाए, स्वयं स्पर्श न करे; उसी पृष्ठ की लोकविधि में बहन पैर धुलाती है। दोनों में भेद है: अपने परिवार की रीति मानें।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      }
+     ]
+    },
+    {
+     "id": "hands",
+     "group": "core",
+     "title": {
+      "en": "Rice paste, honey-ghee and offerings on the palms",
+      "hi": "हथेलियों पर चावल-घोल, मधु-घी और अर्पण"
+     },
+     "do": {
+      "en": "Folk rite: with folded hands, the sister puts rice paste and sindoor on both palms of the brother, then honey, cow ghee and sandal paste. She places a betel leaf, supari, pumpkin flower and nutmeg in his joined palms and says the words below, then pours a little water into his palms. She does this three times, then washes his hands and feet and dries them with a cloth.",
+      "hi": "लोकविधि: बहन हाथ जोड़कर भाई की दोनों हथेलियों में चावल का घोल और सिंदूर लगाती है, फिर मधु, गाय का घी और चंदन। भाई की अंजलि में पान का पत्ता, सुपारी, कुम्हरे का फूल और जायफल रखकर नीचे लिखा वाक्य कहती है और अंजलि में थोड़ा जल डालती है। ऐसा तीन बार करती है, फिर हाथ-पैर जल से धोकर कपड़े से पोंछ देती है।"
+     },
+     "materials": [
+      "rice_paste",
+      "roli_kumkum",
+      "honey_ghee",
+      "paan_supari",
+      "flowers",
+      "water"
+     ],
+     "mantras": [
+      {
+       "id": "hands-m1",
+       "devanagari": "यमुना ने निमंत्रण दिया यम को, मैं निमंत्रण दे रही हूं अपने भाई को; जितनी बड़ी यमुना जी की धारा, उतनी बड़ी मेरे भाई की आयु।",
+       "meaning": {
+        "en": "Yamuna invited Yama; I invite my brother. As big as the stream of the Yamuna, so long be my brother's life.",
+        "hi": "यमुना ने यम को निमंत्रण दिया; मैं अपने भाई को निमंत्रण दे रही हूँ। यमुना जी की धारा जितनी बड़ी है, मेरे भाई की आयु उतनी बड़ी हो।"
+       },
+       "transliteration": "yamunā ne nimaṁtraṇa diyā yama ko, maiṁ nimaṁtraṇa de rahī hūṁ apane bhāī ko; jitanī bar̤ī yamunā jī kī dhārā, utanī bar̤ī mere bhāī kī āyu।",
+       "verified": true,
+       "sourceUrl": "https://hi.wikipedia.org/wiki/भाई_दूज",
+       "note": "A folk saying in Hindi, not a Sanskrit mantra. Source: the 'लोक प्रचलित विधि' section."
+      }
+     ],
+     "variation": {
+      "en": "This palm rite is the folk practice reported on Hindi Wikipedia. Many homes skip it and go directly to the tilak.",
+      "hi": "यह हथेली वाली विधि हिंदी विकिपीडिया में दर्ज लोकविधि है। कई घरों में इसे छोड़कर सीधे तिलक करते हैं।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      }
+     ]
+    },
+    {
+     "id": "tilak",
+     "group": "core",
+     "title": {
+      "en": "Apply the tilak",
+      "hi": "तिलक लगाएँ"
+     },
+     "do": {
+      "en": "Put roli (or kumkum) and a few whole rice grains on the brother's forehead as tilak. While doing the tilak, the sister says the couplet below, praying for her brother's long life. Then tie the kalawa on his wrist.",
+      "hi": "भाई के माथे पर रोली (या कुमकुम) और कुछ साबुत चावल से तिलक करें। तिलक करते समय बहन नीचे लिखा दोहा बोलकर भाई की लंबी आयु की प्रार्थना करती है। फिर उसकी कलाई पर कलावा बाँधें।"
+     },
+     "materials": [
+      "roli_kumkum",
+      "akshat",
+      "kalawa"
+     ],
+     "mantras": [
+      {
+       "id": "tilak-m1",
+       "devanagari": "गंगा पूजे यमुना को यमी पूजे यमराज को, सुभद्रा पूजे कृष्ण को, गंगा यमुना नीर बहे मेरे भाई की आयु बढ़े.",
+       "meaning": {
+        "en": "Ganga worships Yamuna, Yami worships Yamraj, Subhadra worships Krishna; as the waters of Ganga and Yamuna flow, may my brother's life grow longer.",
+        "hi": "गंगा यमुना की पूजा करती हैं, यमी यमराज की, सुभद्रा कृष्ण की; जैसे गंगा-यमुना का जल बहता है, वैसे मेरे भाई की आयु बढ़ती रहे।"
+       },
+       "transliteration": "gaṁgā pūje yamunā ko yamī pūje yamarāja ko, subhadrā pūje kṛṣṇa ko, gaṁgā yamunā nīra bahe mere bhāī kī āyu bar̤he.",
+       "verified": true,
+       "sourceUrl": "https://www.prabhatkhabar.com/top-stories/bhai-dooj-2021-date-in-india-bhaiya-dooj-puja-vidhi-muhurat-mantra-samagri-list-in-hindi-bhaiya-dooj-ki-shubhkaamnaen-tikka-muhurat-sry-tvi",
+       "note": "A Hindi folk couplet, not a Sanskrit mantra. Bhakti Bharat prints a variant ending 'मेरे भाई आप बढ़ें, फूले-फलें'. No Sanskrit tilak mantra was found in the sources."
+      }
+     ],
+     "variation": {
+      "en": "Prabhat Khabar says to put roli and rice; Bhakti Bharat says roli and akshat; Drik Panchang says tilak first, then the sacred thread. Some families give the couplet in a different wording.",
+      "hi": "प्रभात खबर में रोली-चावल, भक्ति भारत में रोली-अक्षत का उल्लेख है; ड्रिक पंचांग में पहले तिलक फिर कलावा बाँधना बताया है। कुछ परिवारों में दोहे के शब्द भिन्न होते हैं।"
+     },
+     "sources": [
+      {
+       "source": "xd89dfef1",
+       "cite": "Puja thali contents; Yama-Yamuna reason; the folk couplet recited at puja."
+      },
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      },
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      }
+     ]
+    },
+    {
+     "id": "offer-brother",
+     "group": "core",
+     "title": {
+      "en": "Give flowers, supari, batasha and black gram",
+      "hi": "फूल, सुपारी, बताशे और काले चने दें"
+     },
+     "do": {
+      "en": "After the tilak, place a flower, supari, batasha and a few black gram in the brother's hands. Some homes also feed him a little roasted makhana.",
+      "hi": "तिलक के बाद भाई के हाथ में फूल, सुपारी, बताशे और काले चने दें। कुछ घरों में थोड़ा भुना हुआ मखाना भी खिलाया जाता है।"
+     },
+     "materials": [
+      "flowers",
+      "paan_supari",
+      "batasha_chana",
+      "makhana"
+     ],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      },
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      }
+     ]
+    },
+    {
+     "id": "aarti",
+     "group": "aarti",
+     "title": {
+      "en": "Aarti of the brother",
+      "hi": "भाई की आरती"
+     },
+     "do": {
+      "en": "Light the ghee lamp. Move the lit lamp (or the thali with the lamp) in a clockwise circle in front of the brother's face, while the family sings the aarti. Then put the lamp down safely.",
+      "hi": "घी का दीया जलाएँ। भाई के चेहरे के सामने जलता दीया (या दीये सहित थाली) घड़ी की दिशा में घुमाएँ और परिवार आरती गाए। फिर दीये को सुरक्षित जगह रख दें।"
+     },
+     "materials": [
+      "diya",
+      "thali"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Keep the lamp steady and away from clothes, dupatta and hair. Do not leave a burning lamp where children can knock it over.",
+      "hi": "दीया स्थिर पकड़ें और कपड़े, दुपट्टे और बालों से दूर रखें। जलता दीया बच्चों की पहुँच या गिरने की जगह पर न छोड़ें।"
+     },
+     "notes": [
+      {
+       "en": "No aarti written only for Bhai Dooj was found. Bhakti Bharat's Bhai Dooj page lists 'Om Jai Jagdish Hare' among the aartis for the day, so it is used here. The text is the same as in the common aarti file.",
+       "hi": "केवल भाई दूज के लिए लिखी कोई आरती नहीं मिली। भक्ति भारत के भाई दूज पृष्ठ पर इस दिन की आरतियों में 'ॐ जय जगदीश हरे' दी है, इसलिए वही ली गई है। पाठ सामान्य आरती फ़ाइल वाला ही है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      },
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      },
+      {
+       "source": "x0fd099bf",
+       "cite": "Lyrics copied verbatim."
+      },
+      {
+       "source": "xd4b71b02",
+       "cite": "Aarti lyrics, cross-checked against this page."
+      }
+     ],
+     "aarti": {
+      "title": {
+       "en": "Om Jai Jagdish Hare",
+       "hi": "ॐ जय जगदीश हरे"
+      },
+      "lyrics": "ॐ जय जगदीश हरे,\nस्वामी जय जगदीश हरे ।\nभक्त जनों के संकट,\nदास जनों के संकट,\nक्षण में दूर करे ॥\n॥ ॐ जय जगदीश हरे..॥\nजो ध्यावे फल पावे,\nदुःख बिनसे मन का,\nस्वामी दुःख बिनसे मन का ।\nसुख सम्पति घर आवे,\nसुख सम्पति घर आवे,\nकष्ट मिटे तन का ॥\n॥ ॐ जय जगदीश हरे..॥\nमात पिता तुम मेरे,\nशरण गहूं किसकी,\nस्वामी शरण गहूं मैं किसकी ।\nतुम बिन और न दूजा,\nतुम बिन और न दूजा,\nआस करूं मैं जिसकी ॥\n॥ ॐ जय जगदीश हरे..॥\nतुम पूरण परमात्मा,\nतुम अन्तर्यामी,\nस्वामी तुम अन्तर्यामी ।\nपारब्रह्म परमेश्वर,\nपारब्रह्म परमेश्वर,\nतुम सब के स्वामी ॥\n॥ ॐ जय जगदीश हरे..॥\nतुम करुणा के सागर,\nतुम पालनकर्ता,\nस्वामी तुम पालनकर्ता ।\nमैं मूरख फलकामी,\nमैं सेवक तुम स्वामी,\nकृपा करो भर्ता॥\n॥ ॐ जय जगदीश हरे..॥\nतुम हो एक अगोचर,\nसबके प्राणपति,\nस्वामी सबके प्राणपति ।\nकिस विधि मिलूं दयामय,\nकिस विधि मिलूं दयामय,\nतुमको मैं कुमति ॥\n॥ ॐ जय जगदीश हरे..॥\nदीन-बन्धु दुःख-हर्ता,\nठाकुर तुम मेरे,\nस्वामी रक्षक तुम मेरे ।\nअपने हाथ उठाओ,\nअपने शरण लगाओ,\nद्वार पड़ा तेरे ॥\n॥ ॐ जय जगदीश हरे..॥\nविषय-विकार मिटाओ,\nपाप हरो देवा,\nस्वमी पाप(कष्ट) हरो देवा ।\nश्रद्धा भक्ति बढ़ाओ,\nश्रद्धा भक्ति बढ़ाओ,\nसन्तन की सेवा ॥\nॐ जय जगदीश हरे,\nस्वामी जय जगदीश हरे ।\nभक्त जनों के संकट,\nदास जनों के संकट,\nक्षण में दूर करे ॥",
+      "transliteration": "oṁ jaya jagadīśa hare,\nsvāmī jaya jagadīśa hare ।\nbhakta janoṁ ke saṁkaṭa,\ndāsa janoṁ ke saṁkaṭa,\nkṣaṇa meṁ dūra kare ॥\n॥ oṁ jaya jagadīśa hare..॥\njo dhyāve phala pāve,\nduḥkha binase mana kā,\nsvāmī duḥkha binase mana kā ।\nsukha sampati ghara āve,\nsukha sampati ghara āve,\nkaṣṭa miṭe tana kā ॥\n॥ oṁ jaya jagadīśa hare..॥\nmāta pitā tuma mere,\nśaraṇa gahūṁ kisakī,\nsvāmī śaraṇa gahūṁ maiṁ kisakī ।\ntuma bina aura na dūjā,\ntuma bina aura na dūjā,\nāsa karūṁ maiṁ jisakī ॥\n॥ oṁ jaya jagadīśa hare..॥\ntuma pūraṇa paramātmā,\ntuma antaryāmī,\nsvāmī tuma antaryāmī ।\npārabrahma parameśvara,\npārabrahma parameśvara,\ntuma saba ke svāmī ॥\n॥ oṁ jaya jagadīśa hare..॥\ntuma karuṇā ke sāgara,\ntuma pālanakartā,\nsvāmī tuma pālanakartā ।\nmaiṁ mūrakha phalakāmī,\nmaiṁ sevaka tuma svāmī,\nkṛpā karo bhartā॥\n॥ oṁ jaya jagadīśa hare..॥\ntuma ho eka agocara,\nsabake prāṇapati,\nsvāmī sabake prāṇapati ।\nkisa vidhi milūṁ dayāmaya,\nkisa vidhi milūṁ dayāmaya,\ntumako maiṁ kumati ॥\n॥ oṁ jaya jagadīśa hare..॥\ndīna-bandhu duḥkha-hartā,\nṭhākura tuma mere,\nsvāmī rakṣaka tuma mere ।\napane hātha uṭhāo,\napane śaraṇa lagāo,\ndvāra par̤ā tere ॥\n॥ oṁ jaya jagadīśa hare..॥\nviṣaya-vikāra miṭāo,\npāpa haro devā,\nsvamī pāpa(kaṣṭa) haro devā ।\nśraddhā bhakti bar̤hāo,\nśraddhā bhakti bar̤hāo,\nsantana kī sevā ॥\noṁ jaya jagadīśa hare,\nsvāmī jaya jagadīśa hare ।\nbhakta janoṁ ke saṁkaṭa,\ndāsa janoṁ ke saṁkaṭa,\nkṣaṇa meṁ dūra kare ॥",
+      "meaning": {
+       "en": "A prayer to the Lord of the World (Jagdish): you remove the troubles of your devotees, you are mother, father and protector, forgive our faults and increase our faith.",
+       "hi": "जगत के स्वामी जगदीश से प्रार्थना: आप भक्तों के संकट दूर करते हैं, आप ही माता-पिता और रक्षक हैं, हमारी भूल क्षमा करें और श्रद्धा बढ़ाएँ।"
+      },
+      "verified": true,
+      "sourceUrl": "https://www.bhaktibharat.com/aarti/om-jai-jagdish-hare",
+      "secondSourceUrl": "https://www.drikpanchang.com/lyrics/aarti/lord-narayan/jai-jagdish-aarti.html?lang=hi"
+     }
+    },
+    {
+     "id": "sweets-meal",
+     "group": "core",
+     "title": {
+      "en": "Feed the brother sweets and the meal",
+      "hi": "भाई को मिठाई और भोजन कराएँ"
+     },
+     "do": {
+      "en": "Feed the brother sweets with your own hands, then serve him a meal you have cooked yourself, with love. Any good dishes you can prepare are fine (dal-rice, puri, kheer, laddu and so on).",
+      "hi": "भाई को अपने हाथ से मिठाई खिलाएँ, फिर अपने हाथ का बना भोजन प्रेम से परोसें। जो भी अच्छे पकवान बना सकें वे चलेंगे (दाल-भात, पूरी, खीर, लड्डू आदि)।"
+     },
+     "materials": [
+      "sweets",
+      "meal"
+     ],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "Eating the sister's food on this day is the central rite in the Wikipedia description, which says the brother should not have his main meal at home on this day.",
+       "hi": "हिंदी विकिपीडिया के वर्णन में इस दिन बहन के हाथ का भोजन करना मुख्य क्रिया है; उसमें लिखा है कि भाई को इस दिन घर में मुख्य भोजन नहीं करना चाहिए।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      },
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      },
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      }
+     ]
+    },
+    {
+     "id": "gifts",
+     "group": "close",
+     "title": {
+      "en": "Gifts and blessings",
+      "hi": "उपहार और आशीर्वाद"
+     },
+     "do": {
+      "en": "The brother gives his sister a gift according to his means (clothes, money or anything she values), touches her feet and receives her blessing. The sister blesses him with good wishes for his long life.",
+      "hi": "भाई अपनी सामर्थ्य के अनुसार बहन को उपहार (कपड़े, पैसे या कोई प्रिय वस्तु) देता है, उसके चरण छूकर आशीर्वाद लेता है। बहन उसे लंबी आयु और सुख की शुभकामना देती है।"
+     },
+     "materials": [
+      "gifts"
+     ],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      },
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      }
+     ]
+    },
+    {
+     "id": "no-brother",
+     "group": "close",
+     "title": {
+      "en": "If the brother cannot come",
+      "hi": "यदि भाई न आ सके"
+     },
+     "do": {
+      "en": "If the brother cannot come, the sister can go to his home. Where there is no real sister, the tradition allows the cousin sister (daughter of a paternal or maternal uncle or aunt) or a good friend's sister to do the rite.",
+      "hi": "यदि भाई न आ पाए तो बहन उसके घर जा सकती है। सगी बहन न हो तो चाचा, मामा, मौसी की पुत्री या अच्छे मित्र की बहन से भी यह विधि कराई जा सकती है।"
+     },
+     "materials": [],
+     "mantras": [],
+     "optional": true,
+     "sources": [
+      {
+       "source": "x501d8816",
+       "cite": "Describes the folk rite: rice-paste cones on a raised seat, washing the brother's feet, honey-ghee-sandal on hands, betel leaf/supari/pumpkin flower in his hands, the water-pouring saying (three times), tilak, roasted makhana, then a meal and gifts."
+      }
+     ]
+    },
+    {
+     "id": "yama-diya",
+     "group": "close",
+     "title": {
+      "en": "Evening lamp for Yamraj",
+      "hi": "संध्या का दीप यमराज के नाम"
+     },
+     "do": {
+      "en": "Belief reported on Bhakti Bharat: in the evening sisters light a four-faced (chaumukh) earthen lamp in the name of Yamraj and keep it outside the house. Light it only where it is safe.",
+      "hi": "भक्ति भारत में दी गई मान्यता: शाम को बहनें यमराज के नाम का चौमुख मिट्टी का दीया जलाकर घर के बाहर रखती हैं। इसे वहीं जलाएँ जहाँ सुरक्षित हो।"
+     },
+     "materials": [
+      "yama_diya"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Place the lamp on a stable, non-flammable surface away from curtains, dry leaves and the road; watch it until it burns down.",
+      "hi": "दीया स्थिर, न जलने वाली सतह पर रखें, पर्दों, सूखे पत्तों और सड़क से दूर; जब तक बुझ न जाए ध्यान रखें।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "x09d7718b",
+       "cite": "Tilak method: bath and clean clothes, thali with kumkum/sindoor/chandan/fruit/flowers/sweets/akshat/supari, rice-flour chowk, tilak, flower-supari-batasha-black gram, aarti, sweets and home-cooked food; evening four-faced lamp for Yamraj."
+      }
+     ]
+    },
+    {
+     "id": "yama-worship",
+     "group": "close",
+     "title": {
+      "en": "Yama Dwitiya worship (where observed)",
+      "hi": "यम द्वितीया पूजन (जहाँ किया जाता है)"
+     },
+     "do": {
+      "en": "Drik Panchang says that on Yama Dwitiya, Yamraj, Chitragupta and the Yamadutas are worshipped in the Aparahna time after a holy dip in the Yamuna. If you cannot go to the Yamuna, bathe at home and remember the Yamuna while you bathe. For Chitragupta worship on this day, see the separate Chitragupta Puja guide.",
+      "hi": "ड्रिक पंचांग के अनुसार यम द्वितीया पर यमुना में स्नान के बाद अपराह्न में यमराज, चित्रगुप्त और यमदूतों की पूजा होती है। यमुना जाना संभव न हो तो घर पर स्नान करते समय यमुना का स्मरण करें। इस दिन चित्रगुप्त पूजा के लिए अलग चित्रगुप्त पूजा गाइड देखें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "pending": {
+      "en": "Text of a Yama puja (mantras) was not found in the sources and is not included.",
+      "hi": "यम पूजा के मंत्र स्रोतों में नहीं मिले, इसलिए शामिल नहीं हैं।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "x899fd0ac",
+       "cite": "Early bath, vow to fast, invite brothers, decorated thali, tilak then sacred thread, aarti, sweets and meal, gifts; Aparahna time for tilak; Yama Dwitiya worship of Yama, Chitragupta, Yamadutas in Aparahna after a dip in the Yamuna."
+      }
+     ]
+    }
+   ],
+   "sources": [
+    "x899fd0ac",
+    "x09d7718b",
+    "xd89dfef1",
+    "x501d8816",
+    "x48a5e3cc",
+    "x0fd099bf",
+    "xd4b71b02"
+   ],
+   "sourceMap": {
+    "x899fd0ac": {
+     "title": "Drik Panchang: Bhai Dooj",
+     "publisher": "drikpanchang.com",
+     "url": "https://www.drikpanchang.com/festivals/bhai-dooj/bhai-dooj-date-time.html",
+     "note": ""
+    },
+    "x09d7718b": {
+     "title": "Bhakti Bharat: Bhai Dooj",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/festival/bhai-dooj",
+     "note": ""
+    },
+    "xd89dfef1": {
+     "title": "Prabhat Khabar: Bhai Dooj puja vidhi",
+     "publisher": "prabhatkhabar.com",
+     "url": "https://www.prabhatkhabar.com/top-stories/bhai-dooj-2021-date-in-india-bhaiya-dooj-puja-vidhi-muhurat-mantra-samagri-list-in-hindi-bhaiya-dooj-ki-shubhkaamnaen-tikka-muhurat-sry-tvi",
+     "note": ""
+    },
+    "x501d8816": {
+     "title": "Hindi Wikipedia: Yama Dwitiya / Bhai Dooj",
+     "publisher": "hi.wikipedia.org",
+     "url": "https://hi.wikipedia.org/wiki/भाई_दूज",
+     "note": ""
+    },
+    "x48a5e3cc": {
+     "title": "Prabhat Khabar: Bhai Dooj vrat katha",
+     "publisher": "prabhatkhabar.com",
+     "url": "https://www.prabhatkhabar.com/religion/bhai-dooj-vrat-katha-sisters-read-this-story-on-bhai-dooj-know-the-auspicious-time-to-tilak-brother-tvi",
+     "note": ""
+    },
+    "x0fd099bf": {
+     "title": "Bhakti Bharat: Om Jai Jagdish Hare",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/aarti/om-jai-jagdish-hare",
+     "note": ""
+    },
+    "xd4b71b02": {
+     "title": "https://www.drikpanchang.com/lyrics/aarti/lord-narayan/jai-jagdish-aarti.html?lang=hi",
+     "publisher": "drikpanchang.com",
+     "url": "https://www.drikpanchang.com/lyrics/aarti/lord-narayan/jai-jagdish-aarti.html?lang=hi",
+     "note": ""
+    }
+   },
+   "gaps": [
+    "No Sanskrit tilak mantra was found in any source; only the Hindi folk couplet (Prabhat Khabar / Bhakti Bharat) is given.",
+    "No aarti written specifically for Bhai Dooj or for Yamuna/Yamraj was found; 'Om Jai Jagdish Hare' (listed by Bhakti Bharat for the day) is used.",
+    "Yama deepdaan: only the Bhakti Bharat belief about a four-faced lamp for Yamraj in the evening was found; no mantra or detailed rule from a shastra text.",
+    "Which direction the brother should face while taking tilak was not stated in any saved source.",
+    "Full katha text (Yama-Yamuna) is summarised, not reproduced; the folk 'Lauk katha' is not included.",
+    "Exact Bihar/Maithil form of the rite is not confirmed by a Bihar-specific source.",
+    "The 2026 muhurat times are for New Delhi per Drik Panchang/Bhakti Bharat; Patna times were not obtained.",
+    "Yama puja mantras for Yama Dwitiya were not found."
+   ],
+   "havanNote": {
+    "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
+    "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
+   },
+   "aartiNote": null,
+   "categories": [
+    "festival"
+   ],
+   "keywords": [
+    "bhaiya",
+    "dooj",
+    "bhai",
+    "tika",
+    "yama",
+    "dwitiya",
+    "yamuna",
+    "sister",
+    "brother",
+    "tilak"
+   ]
+  },
+  {
+   "id": "chitragupta",
+   "name": {
+    "en": "Chitragupta Puja",
+    "hi": "चित्रगुप्त पूजा"
+   },
+   "deity": {
+    "en": "Lord Chitragupta, the divine scribe",
+    "hi": "भगवान चित्रगुप्त"
+   },
+   "availability": "documented",
+   "review": {
+    "status": "draft-pandit-review-needed",
+    "label": "Draft — Pandit Review Needed",
+    "reviewedBy": null,
+    "reviewedOn": null,
+    "note": "No pandit has reviewed this guide yet. Please follow your own pandit's guidance wherever it differs."
+   },
+   "summary": {
+    "en": "Chitragupta Puja (Kalam-Dawat Puja) is done on Kartik Shukla Dwitiya, the day of Bhai Dooj / Yama Dwitiya. Chitragupta, the keeper of every person's deeds in Yama's court, is worshipped with the pen, ink-pot and account books, especially by Kayasthas.",
+    "hi": "चित्रगुप्त पूजा (कलम-दवात पूजा) कार्तिक शुक्ल द्वितीया, यानी भाई दूज / यम द्वितीया के दिन होती है। यमराज के दरबार में सबके कर्मों का हिसाब रखने वाले चित्रगुप्त जी की पूजा कलम, दवात और बही-खातों के साथ की जाती है, विशेषकर कायस्थ परिवारों में।"
+   },
+   "tradition": {
+    "en": "Steps follow the Kayastha Samaj (kayasthasamaj.in) vidhi, short and long forms, cross-checked with Bhakti Bharat, Prabhu Sharnam and Navbharat Live.",
+    "hi": "चरण कायस्थ समाज (kayasthasamaj.in) की विधि (संक्षिप्त और विस्तृत) के अनुसार हैं, भक्ति भारत, प्रभु शरणम् और नवभारत लाइव से मिलान के साथ।"
+   },
+   "duration": null,
+   "havan": null,
+   "variation": {
+    "en": "Practice differs: the short family vidhi (picture, ghee lamp, Ganesh, panchamrit, paper with accounts, 11 recitations, aarti) versus the longer one with kalash, Ganesh-Ambika, navagraha, upachara and havan. Some write 'Shri Ganeshaya Namah' and 'Om Chitraguptaya Namah' 11 times; some write a full account with swastik. Bihar and Uttar Pradesh Kayastha homes follow this dawat puja, but no Bihar-specific source was found to confirm local details such as the use of a reed pen.",
+    "hi": "पद्धति भिन्न है: छोटी पारिवारिक विधि (चित्र, घी का दीपक, गणेश, पंचामृत, हिसाब वाला कागज, 11 बार पाठ, आरती) बनाम लंबी विधि जिसमें कलश, गणेश-अम्बिका, नवग्रह, उपचार और हवन हैं। कुछ लोग 'श्री गणेशाय नमः' और 'ॐ चित्रगुप्ताय नमः' 11 बार लिखते हैं, कुछ स्वस्तिक के साथ पूरा हिसाब लिखते हैं। बिहार और उत्तर प्रदेश के कायस्थ घरों में यह दवात पूजा होती है, पर कलम के प्रकार जैसे स्थानीय ब्योरों की पुष्टि करने वाला कोई बिहार-विशिष्ट स्रोत नहीं मिला।"
+   },
+   "preparation": {
+    "conduct": [],
+    "samagri": [
+     {
+      "id": "chowki",
+      "name": {
+       "en": "Wooden chowki (low seat) with a clean cloth",
+       "hi": "चौकी और उस पर बिछाने का साफ कपड़ा"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "picture",
+      "name": {
+       "en": "Picture or idol of Shri Chitragupta",
+       "hi": "श्री चित्रगुप्त जी का चित्र या मूर्ति"
+      },
+      "essential": true,
+      "note": {
+       "en": "If no picture is available, kalam-dawat and a kalash can stand for Chitragupta (Kayastha Samaj).",
+       "hi": "चित्र न हो तो कलम-दवात और कलश को चित्रगुप्त जी का प्रतीक मानकर स्थापित करें (कायस्थ समाज)।"
+      }
+     },
+     {
+      "id": "kalam",
+      "name": {
+       "en": "Pen/kalam (uncut, unsplit)",
+       "hi": "कलम (बिना चिरी हुई)"
+      },
+      "essential": true,
+      "note": {
+       "en": "Kayastha Samaj lists 'बिना चिरी हुई' kalam, i.e. a reed pen whose nib is not yet split. A fresh ordinary pen is used by many today.",
+       "hi": "कायस्थ समाज की सूची में 'बिना चिरी हुई' कलम लिखी है; आजकल कई लोग नया साधारण पेन भी लेते हैं।"
+      }
+     },
+     {
+      "id": "dawat",
+      "name": {
+       "en": "Ink pot (dawat) and ink; red ink for writing the mantra",
+       "hi": "दवात और स्याही; मंत्र लिखने के लिए लाल स्याही"
+      },
+      "essential": true,
+      "note": {
+       "en": "Prabhu Sharnam says the upasana mantra should be written in red ink.",
+       "hi": "प्रभु शरणम् के अनुसार उपासना मंत्र लाल स्याही से लिखना चाहिए।"
+      }
+     },
+     {
+      "id": "paper",
+      "name": {
+       "en": "Plain white paper",
+       "hi": "सफेद कागज़"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "books",
+      "name": {
+       "en": "Account books, books, copies and other writing items",
+       "hi": "बही-खाता, किताबें, कॉपी और लिखने-पढ़ने की वस्तुएँ"
+      },
+      "essential": true,
+      "note": {
+       "en": "Family members bring their own books and pens to the puja.",
+       "hi": "परिवार के सभी सदस्य अपनी किताब-कलम आदि पूजा में रखते हैं।"
+      }
+     },
+     {
+      "id": "kalash",
+      "name": {
+       "en": "Kalash with water",
+       "hi": "जल से भरा कलश"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "lamp",
+      "name": {
+       "en": "Lamp with cow ghee",
+       "hi": "गाय के घी का दीपक"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "dhoop",
+      "name": {
+       "en": "Incense (dhoop)",
+       "hi": "धूप"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "chandan",
+      "name": {
+       "en": "Sandalwood paste (chandan)",
+       "hi": "चन्दन"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "haldi_roli",
+      "name": {
+       "en": "Turmeric (haldi) and roli",
+       "hi": "हल्दी और रोली"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "akshat",
+      "name": {
+       "en": "Whole rice (akshat)",
+       "hi": "अक्षत"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "durva",
+      "name": {
+       "en": "Durva grass",
+       "hi": "दूब"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "flowers",
+      "name": {
+       "en": "Red flowers",
+       "hi": "लाल फूल"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "curd_gangajal",
+      "name": {
+       "en": "Curd and Gangajal",
+       "hi": "दही और गंगाजल"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "ghee_camphor",
+      "name": {
+       "en": "Ghee and camphor",
+       "hi": "घी और कपूर"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "paan_supari",
+      "name": {
+       "en": "Betel leaf and supari",
+       "hi": "पान और सुपारी"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "jaggery",
+      "name": {
+       "en": "Jaggery (gud)",
+       "hi": "गुड़"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "fruits",
+      "name": {
+       "en": "Five fruits",
+       "hi": "पाँच फल"
+      },
+      "essential": true,
+      "note": {
+       "en": "Prabhu Sharnam says five seasonal fruits.",
+       "hi": "प्रभु शरणम् के अनुसार पाँच मौसमी फल।"
+      }
+     },
+     {
+      "id": "sweets",
+      "name": {
+       "en": "Five kinds of sweets",
+       "hi": "पाँच प्रकार की मिठाई"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "dryfruit",
+      "name": {
+       "en": "Five kinds of dry fruit (mewa)",
+       "hi": "पाँच प्रकार के मेवे"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "lai",
+      "name": {
+       "en": "Lai, chura and dhan ka lawa (puffed rice, flattened rice, puffed paddy)",
+       "hi": "लाई, चूड़ा, धान का लावा"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "panchamrit",
+      "name": {
+       "en": "Panchamrit made for this day: milk, ghee, crushed ginger, jaggery and Gangajal",
+       "hi": "इस दिन के लिए बना पंचामृत: दूध, घी, कुचला अदरक, गुड़ और गंगाजल"
+      },
+      "essential": true,
+      "note": {
+       "en": "Composition as given by Kayastha Samaj (differs from the usual curd-honey panchamrit).",
+       "hi": "कायस्थ समाज द्वारा बताई गई सामग्री (सामान्य दही-शहद वाले पंचामृत से अलग)।"
+      }
+     },
+     {
+      "id": "appan",
+      "name": {
+       "en": "Appan: rice flour, turmeric, ghee and water paste (for the swastik)",
+       "hi": "एप्पन: चावल का आटा, हल्दी, घी और पानी का घोल (स्वस्तिक के लिए)"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "havan",
+      "name": {
+       "en": "Havan samagri and wood (only if havan is done)",
+       "hi": "हवन सामग्री और लकड़ी (केवल यदि हवन किया जाए)"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "sword",
+      "name": {
+       "en": "Sword/talwar (some families place it with the kalam)",
+       "hi": "तलवार (कुछ परिवार कलम के साथ रखते हैं)"
+      },
+      "essential": false,
+      "note": {
+       "en": "Kayastha Samaj mentions establishing a sword with the dawat-kalam; not required in a simple puja.",
+       "hi": "कायस्थ समाज में दवात-कलम के साथ तलवार की स्थापना का उल्लेख है; सरल पूजा में आवश्यक नहीं।"
+      }
+     }
+    ],
+    "substitution": null
+   },
+   "steps": [
+    {
+     "id": "bath-clothes",
+     "group": "setup",
+     "title": {
+      "en": "Morning bath and clean clothes",
+      "hi": "प्रातः स्नान और स्वच्छ वस्त्र"
+     },
+     "do": {
+      "en": "Bathe in the morning and put on clean clothes. Keep the family together: the puja is done by all members, each with their own book and pen.",
+      "hi": "सुबह स्नान करके स्वच्छ वस्त्र पहनें। परिवार के सभी सदस्य साथ रहें: पूजा सब मिलकर करते हैं और हर कोई अपनी किताब-कलम साथ रखता है।"
+     },
+     "materials": [],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "Navbharat Live starts with 'bath, then clean the puja place'. The family-together point is from Kayastha Samaj ('all family members worship their book, pen, dawat').",
+       "hi": "नवभारत लाइव में 'स्नान के बाद पूजा स्थल की सफाई' से शुरुआत है। परिवार के साथ पूजा करने की बात कायस्थ समाज से है ('परिवार के सभी सदस्य अपनी किताब, कलम, दवात की पूजा करें')।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x7fca3dc5",
+       "cite": "Bath, clean the puja place, set kalam, dawat, account book and image; dhoop-deep-flowers; offer kalam, copy, itra, sweet bhog; aarti."
+      },
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      }
+     ]
+    },
+    {
+     "id": "clean-place",
+     "group": "setup",
+     "title": {
+      "en": "Clean the puja place",
+      "hi": "पूजा का स्थान साफ करें"
+     },
+     "do": {
+      "en": "Sweep and wipe the place of worship (a corner of the house or the room where the family sits). Remove clutter and keep the floor clean and dry.",
+      "hi": "पूजा का स्थान (घर का कोना या वह कमरा जहाँ परिवार बैठेगा) झाड़कर पोंछ लें। अनावश्यक सामान हटाएँ और फर्श साफ व सूखा रखें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "x7fca3dc5",
+       "cite": "Bath, clean the puja place, set kalam, dawat, account book and image; dhoop-deep-flowers; offer kalam, copy, itra, sweet bhog; aarti."
+      },
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      }
+     ]
+    },
+    {
+     "id": "chowki",
+     "group": "setup",
+     "title": {
+      "en": "Set up the chowki and Chitragupta",
+      "hi": "चौकी और चित्रगुप्त जी की स्थापना"
+     },
+     "do": {
+      "en": "Spread a clean cloth on a chowki and place the picture (or idol) of Shri Chitragupta on it. If you have no picture, place the kalam-dawat and a kalash on the chowki and treat them as the symbol of Chitragupta, remembering him in your heart.",
+      "hi": "चौकी पर साफ कपड़ा बिछाकर श्री चित्रगुप्त जी का चित्र (या मूर्ति) रखें। चित्र न हो तो कलम-दवात और कलश को चित्रगुप्त जी का प्रतीक मानकर चौकी पर रखें और मन से उनका स्मरण करें।"
+     },
+     "materials": [
+      "chowki",
+      "picture",
+      "kalash",
+      "kalam",
+      "dawat"
+     ],
+     "mantras": [],
+     "variation": {
+      "en": "Kayastha Samaj's longer vidhi also sets a kalash for Varuna, Ganesh-Ambika and a navagraha altar to the north-east (Ishan) before this; its short vidhi skips them. Bhakti Bharat says the kalam itself is worshipped as the image of Chitragupta.",
+      "hi": "कायस्थ समाज की लंबी विधि में इससे पहले वरुण का कलश, गणेश-अम्बिका और ईशान कोण में नवग्रह की वेदी भी बनती है; छोटी विधि में ये नहीं हैं। भक्ति भारत के अनुसार कलम को ही चित्रगुप्त की प्रतिमा मानकर पूजा जाता है।"
+     },
+     "notes": [
+      {
+       "en": "Which direction to face is not stated in the sources found.",
+       "hi": "किस दिशा में बैठें, यह मिले स्रोतों में नहीं है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      },
+      {
+       "source": "xf0337ec4",
+       "cite": "Pen (kalam) worshipped as image of Chitragupta; picture on a post with roli, akshat, flowers, sweets, fruit; account details placed before him; Shri Ganeshaya Namah and Om Chitraguptaya Namah written 11 times; new books worshipped."
+      },
+      {
+       "source": "x7fca3dc5",
+       "cite": "Bath, clean the puja place, set kalam, dawat, account book and image; dhoop-deep-flowers; offer kalam, copy, itra, sweet bhog; aarti."
+      }
+     ]
+    },
+    {
+     "id": "samagri",
+     "group": "setup",
+     "title": {
+      "en": "Arrange the samagri",
+      "hi": "सामग्री सजाएँ"
+     },
+     "do": {
+      "en": "Keep within reach: dhoop, lamp, sandal paste, red flowers, turmeric, roli, akshat, curd, durva, Gangajal, ghee, camphor, an uncut kalam, the dawat, paper, betel leaf and supari, jaggery, five fruits, five sweets, five dry fruits, lai-chura-lawa, and the books, copies and pens of the family. Prepare the special panchamrit (milk, ghee, crushed ginger, jaggery, Gangajal). If a havan is planned, also keep havan samagri and wood.",
+      "hi": "ये चीज़ें पास रखें: धूप, दीपक, चन्दन, लाल फूल, हल्दी, रोली, अक्षत, दही, दूब, गंगाजल, घी, कपूर, बिना चिरी हुई कलम, दवात, कागज, पान-सुपारी, गुड़, पाँच फल, पाँच मिठाई, पाँच मेवे, लाई-चूड़ा-लावा, और परिवार की किताबें, कॉपियाँ व कलमें। विशेष पंचामृत (दूध, घी, कुचला अदरक, गुड़, गंगाजल) तैयार रखें। हवन करना हो तो हवन सामग्री और लकड़ी भी रखें।"
+     },
+     "materials": [
+      "kalam",
+      "dawat",
+      "paper",
+      "books",
+      "lamp",
+      "dhoop",
+      "chandan",
+      "haldi_roli",
+      "akshat",
+      "durva",
+      "flowers",
+      "curd_gangajal",
+      "ghee_camphor",
+      "paan_supari",
+      "jaggery",
+      "fruits",
+      "sweets",
+      "dryfruit",
+      "lai",
+      "panchamrit",
+      "appan",
+      "havan"
+     ],
+     "mantras": [
+      {
+       "id": "samagri-m1",
+       "devanagari": "नमस्तेस्तु चित्रगुप्ते, यमपुरी सुरपूजिते | लेखनी-मसिपात्र, हस्ते, चित्रगुप्त नमोस्तुते ||",
+       "meaning": {
+        "en": "Salutations to Chitragupta, worshipped by the gods in Yampuri, who holds pen and ink-pot in his hands. (Said while sprinkling holy water on the samagri and remembering the Lord.)",
+        "hi": "यमपुरी में देवताओं से पूजित, हाथ में लेखनी और मसिपात्र धारण करने वाले चित्रगुप्त को नमस्कार। (सामग्री पर पवित्र जल छिड़कते हुए प्रभु का स्मरण करते समय।)"
+       },
+       "transliteration": "namastestu citragupte, yamapurī surapūjite । lekhanī-masipātra, haste, citragupta namostute ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "note": "Text kept as printed by the source."
+      }
+     ],
+     "notes": [
+      {
+       "en": "Lists combine Kayastha Samaj (main), Prabhu Sharnam and Navbharat Live. Prabhu Sharnam also names new pencils/slates/copies, cardamom and mango leaves; Navbharat names itra (perfume).",
+       "hi": "सूचियाँ कायस्थ समाज (मुख्य), प्रभु शरणम् और नवभारत लाइव को मिलाकर बनी हैं। प्रभु शरणम् में नई पेंसिल/स्लेट/कॉपी, इलायची और आम के पत्ते तथा नवभारत में इत्र का भी उल्लेख है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      },
+      {
+       "source": "x7fca3dc5",
+       "cite": "Bath, clean the puja place, set kalam, dawat, account book and image; dhoop-deep-flowers; offer kalam, copy, itra, sweet bhog; aarti."
+      }
+     ]
+    },
+    {
+     "id": "lamp-ganesh",
+     "group": "prep",
+     "title": {
+      "en": "Light the ghee lamp and worship Ganesh",
+      "hi": "घी का दीपक जलाएँ और गणेश पूजन करें"
+     },
+     "do": {
+      "en": "Light a lamp of cow ghee. First worship Shri Ganesh: offer sandal paste, turmeric, roli, akshat, durva, flowers and incense. (You can use the common steps for lamp lighting and Ganesh dhyana.) In the simplest form, offer a little of the samagri in Ganesh's name, say 'Om Gam Ganapataye Namah' (as Prabhu Sharnam suggests) and ask his permission to begin.",
+      "hi": "गाय के घी का दीपक जलाएँ। पहले श्री गणेश जी का पूजन करें: चन्दन, हल्दी, रोली, अक्षत, दूब, फूल और धूप अर्पित करें। (दीप प्रज्वलन और गणेश ध्यान के लिए सामान्य चरणों का उपयोग किया जा सकता है।) सबसे सरल रूप में गणेश जी के नाम से थोड़ी सामग्री अर्पित करें, प्रभु शरणम् के अनुसार 'ॐ गं गणपत्यै नमः' बोलें और पूजा आरंभ करने की अनुमति माँगें।"
+     },
+     "materials": [
+      "lamp",
+      "chandan",
+      "haldi_roli",
+      "akshat",
+      "durva",
+      "flowers",
+      "dhoop"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Keep the lamp on a stable plate, away from the cloth and paper on the chowki, and do not leave it unattended.",
+      "hi": "दीपक स्थिर थाली में चौकी के कपड़े और कागज से दूर रखें और अकेला न छोड़ें।"
+     },
+     "notes": [
+      {
+       "en": "Use the common steps (lamp lighting, achamana, Ganesh dhyana) from the base file instead of re-copying them. The Ganesh mantra 'Om Gam Ganapataye Namah' is only mentioned in the source in a variant form and is not copied here as a verified text.",
+       "hi": "दीप प्रज्वलन, आचमन और गणेश ध्यान के लिए आधार फ़ाइल के सामान्य चरण लें। 'ॐ गं गणपत्यै नमः' का स्रोत में केवल संकेत है, इसे सत्यापित पाठ के रूप में यहाँ नहीं लिया गया।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      }
+     ]
+    },
+    {
+     "id": "kalash-devas",
+     "group": "prep",
+     "title": {
+      "en": "Kalash, Ganesh-Ambika and navagraha (fuller vidhi)",
+      "hi": "कलश, गणेश-अम्बिका और नवग्रह (विस्तृत विधि)"
+     },
+     "do": {
+      "en": "In the longer Kayastha vidhi, first set up the kalash and invoke Varuna; then invoke and worship Ganesh and Ambika; then make a vedi in the north-east, set up the navagraha and invoke them; then set up the dawat, kalam, paper and sword and begin the worship given in the next steps. Use the common kalash puja step for the kalash.",
+      "hi": "कायस्थ की विस्तृत विधि में पहले कलश स्थापना कर वरुण का आवाहन करें; फिर गणेश-अम्बिका का आवाहन-पूजन; फिर ईशान कोण में वेदी बनाकर नवग्रह की स्थापना व आवाहन; फिर दवात, कलम, पत्र और तलवार की स्थापना करके अगले चरणों की पूजा करें। कलश के लिए सामान्य कलश पूजा चरण का उपयोग करें।"
+     },
+     "materials": [
+      "kalash"
+     ],
+     "mantras": [
+      {
+       "id": "kalash-devas-m1",
+       "devanagari": "ॐ गणना त्वां गणपति हवामहे, प्रियाणां त्वां प्रियेपत्र हवामहे निधीनां त्वां निधिपते हवामहे वसो मम आहमजानि गर्भधामा त्वमजासि गर्भधम |",
+       "meaning": {
+        "en": "The source's invocation to Ganapati (printed text is corrupted compared with the Vedic Ganapati mantra).",
+        "hi": "स्रोत में गणपति के आवाहन का पाठ (छपा पाठ वैदिक गणपति मंत्र की तुलना में बिगड़ा हुआ है)।"
+       },
+       "transliteration": "oṁ gaṇanā tvāṁ gaṇapati havāmahe, priyāṇāṁ tvāṁ priyepatra havāmahe nidhīnāṁ tvāṁ nidhipate havāmahe vaso mama āhamajāni garbhadhāmā tvamajāsi garbhadhama ।",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "optional": true,
+       "note": "REVIEWER: the printed text is garbled (e.g. 'प्रियेपत्र', 'आहमजानि'); it resembles the Gana-pati mantra of the Yajurveda. Kept exactly as printed; replace by the correct text if the family uses the standard one."
+      },
+      {
+       "id": "kalash-devas-m2",
+       "devanagari": "ॐ गणपत्यादि पंचदेवा नवग्रहाः इन्द्रादि दिग्पाला दुर्गादि महादेव्यः इहा गच्छत स्वकीयाम् पूजां ग्रहीत भगवतः चित्रगुप्त देवस्य पूजमं विघ्नरहित कुरूत |",
+       "meaning": {
+        "en": "O Ganapati and the other five gods, nine planets, Indra and the guardians of the directions, the great goddesses beginning with Durga: come here, accept our worship of Lord Chitragupta and remove all obstacles.",
+        "hi": "हे गणपति आदि पंचदेव, नवग्रह, इन्द्रादि दिक्पाल और दुर्गा आदि महादेवियों, यहाँ पधारें, हमारी पूजा स्वीकार करें और भगवान चित्रगुप्त की पूजा को विघ्नरहित करें।"
+       },
+       "transliteration": "oṁ gaṇapatyādi paṁcadevā navagrahāḥ indrādi digpālā durgādi mahādevyaḥ ihā gacchata svakīyām pūjāṁ grahīta bhagavataḥ citragupta devasya pūjamaṁ vighnarahita kurūta ।",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "optional": true,
+       "note": "Printed spelling kept ('पूजमं', 'कुरूत')."
+      }
+     ],
+     "variation": {
+      "en": "Skipped in the simple household vidhi.",
+      "hi": "सरल घरेलू विधि में इसे छोड़ दिया जाता है।"
+     },
+     "pending": {
+      "en": "The full kalash/Varuna, Ganesh-Ambika and navagraha invocations are not reproduced here; use the common steps or the pandit's text.",
+      "hi": "कलश/वरुण, गणेश-अम्बिका और नवग्रह के पूरे आवाहन मंत्र यहाँ नहीं दिए गए; सामान्य चरण या पंडित जी का पाठ लें।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      }
+     ]
+    },
+    {
+     "id": "dhyana",
+     "group": "core",
+     "title": {
+      "en": "Dhyana (meditation) on Chitragupta",
+      "hi": "चित्रगुप्त जी का ध्यान"
+     },
+     "do": {
+      "en": "With folded hands, picture Shri Chitragupta: dark-complexioned, lotus-eyed, with a conch-like neck and a face like the full moon, holding pen, ink-pot and book. Recite the dhyana verses.",
+      "hi": "हाथ जोड़कर श्री चित्रगुप्त जी का ध्यान करें: श्याम वर्ण, कमल जैसे नेत्र, शंख जैसी गर्दन, पूर्ण चन्द्र जैसा मुख, हाथों में कलम, दवात और पुस्तक। ध्यान के श्लोक पढ़ें।"
+     },
+     "materials": [],
+     "mantras": [
+      {
+       "id": "dhyana-m1",
+       "devanagari": "तच्छरी रान्महाबाहुः श्याम कमल लोचनः कम्वु ग्रीवोगूढ शिरः पूर्ण चन्द्र निभाननः || काल दण्डोस्तवोवसो हस्ते लेखनी पत्र संयुतः | निःमत्य दर्शनेतस्थौ ब्रह्मणोत्वयक्त जन्मनः ||",
+       "meaning": {
+        "en": "From the body of Brahma he appeared: mighty-armed, dark, lotus-eyed, conch-necked, moon-faced, with staff of time, pen and paper in hand.",
+        "hi": "ब्रह्मा के शरीर से प्रकट हुए महाबाहु, श्याम वर्ण, कमलनयन, शंख जैसी ग्रीवा, पूर्ण चन्द्र जैसे मुख वाले, हाथ में कालदण्ड, लेखनी और पत्र धारण किए हुए।"
+       },
+       "transliteration": "taccharī rānmahābāhuḥ śyāma kamala locanaḥ kamvu grīvogūḍha śiraḥ pūrṇa candra nibhānanaḥ ॥ kāla daṇḍostavovaso haste lekhanī patra saṁyutaḥ । niḥmatya darśanetasthau brahmaṇotvayakta janmanaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "note": "Printed text has several irregular spellings; kept as printed. The meaning given is a simple summary, to be checked by the pandit."
+      },
+      {
+       "id": "dhyana-m2",
+       "devanagari": "लेखनी खडगहस्ते च- मसि भाजन पुस्तकः | कायस्थ कुल उत्पन्न चित्रगुप्त नमो नमः || मसी भाजन संयुक्तश्चरोसि त्वं महीतले | लेखनी कठिन हस्ते चित्रगुप्त नमोस्तुते ||",
+       "meaning": {
+        "en": "Salutations again and again to Chitragupta, born in the Kayastha family, with pen and sword in hand, holding an ink-pot and book.",
+        "hi": "कायस्थ कुल में उत्पन्न, हाथ में लेखनी और खड्ग, मसिपात्र और पुस्तक धारण करने वाले चित्रगुप्त को बार-बार नमस्कार।"
+       },
+       "transliteration": "lekhanī khaḍagahaste ca- masi bhājana pustakaḥ । kāyastha kula utpanna citragupta namo namaḥ ॥ masī bhājana saṁyuktaścarosi tvaṁ mahītale । lekhanī kaṭhina haste citragupta namostute ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "dhyana-m3",
+       "devanagari": "मसी भाजन संयुक्तश्चरोसि त्वं महीतले | लेखनी कठिन हस्ते चित्रगुप्त नमोस्तुते || चित्रगुप्त नमस्तुभ्यं लेखकाक्षर दायक | कायस्थ जाति मासाद्य चित्रगुप्त मनोस्तुते ||",
+       "meaning": {
+        "en": "You move on the earth holding ink-pot and pen in your hand; salutations to you, Chitragupta.",
+        "hi": "आप मसिपात्र और कलम हाथ में लिए पृथ्वी पर विचरते हैं; चित्रगुप्त जी, आपको नमस्कार।"
+       },
+       "transliteration": "masī bhājana saṁyuktaścarosi tvaṁ mahītale । lekhanī kaṭhina haste citragupta namostute ॥ citragupta namastubhyaṁ lekhakākṣara dāyaka । kāyastha jāti māsādya citragupta manostute ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "dhyana-m4",
+       "devanagari": "चित्रगुप्त नमस्तुभ्यं लेखकाक्षर दायक | कायस्थ जाति मासाद्य चित्रगुप्त मनोस्तुते || योषात्वया लेखनस्य जीविकायेन निर्मित | तेषा च पालको यस्भात्रतः शान्ति प्रयच्छ मे ||",
+       "meaning": {
+        "en": "Salutations to you, Chitragupta, giver of the letters to writers, born into the Kayastha community.",
+        "hi": "लेखकों को अक्षर देने वाले, कायस्थ जाति में प्रकट चित्रगुप्त जी, आपको नमस्कार।"
+       },
+       "transliteration": "citragupta namastubhyaṁ lekhakākṣara dāyaka । kāyastha jāti māsādya citragupta manostute ॥ yoṣātvayā lekhanasya jīvikāyena nirmita । teṣā ca pālako yasbhātrataḥ śānti prayaccha me ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "dhyana-m5",
+       "devanagari": "योषात्वया लेखनस्य जीविकायेन निर्मित | तेषा च पालको यस्भात्रतः शान्ति प्रयच्छ मे ||",
+       "meaning": {
+        "en": "Those who live by writing, which you made their livelihood, you are their protector; give me peace.",
+        "hi": "जिनकी आजीविका आपने लेखन से बनाई है, उनके आप पालक हैं; मुझे शान्ति दीजिए।"
+       },
+       "transliteration": "yoṣātvayā lekhanasya jīvikāyena nirmita । teṣā ca pālako yasbhātrataḥ śānti prayaccha me ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "note": "Printed text is irregular ('यस्भात्रतः'); kept as printed; the meaning is approximate."
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      }
+     ]
+    },
+    {
+     "id": "avahana",
+     "group": "core",
+     "title": {
+      "en": "Invite Chitragupta (avahana)",
+      "hi": "चित्रगुप्त जी का आवाहन"
+     },
+     "do": {
+      "en": "With both hands joined, request: 'Lord Chitragupta, I invite you. Please sit here and stay near me as long as I do the puja.' Recite the verses.",
+      "hi": "दोनों हाथ जोड़कर प्रार्थना करें: 'हे चित्रगुप्त जी, मैं आपका आवाहन करता हूँ। जब तक मैं पूजा करूँ, आप यहाँ विराजमान रहिए।' मंत्र पढ़ें।"
+     },
+     "materials": [],
+     "mantras": [
+      {
+       "id": "avahana-m1",
+       "devanagari": "ॐ आगच्छ भगवन्देव स्थाने चात्र स्थिरौ भव | यावत्पूजं करिष्यामि तावत्वं सान्निधौ भव | ॐ भगवन्तं श्री चित्रगुप्त आवाहयामि स्थापयामि ||",
+       "meaning": {
+        "en": "Come, Lord, and stay steady in this place; as long as I do the puja, be near me.",
+        "hi": "हे भगवन्, आइए और इस स्थान पर स्थिर होइए; जब तक मैं पूजा करूँ, आप समीप रहिए।"
+       },
+       "transliteration": "oṁ āgaccha bhagavandeva sthāne cātra sthirau bhava । yāvatpūjaṁ kariṣyāmi tāvatvaṁ sānnidhau bhava । oṁ bhagavantaṁ śrī citragupta āvāhayāmi sthāpayāmi ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "avahana-m2",
+       "devanagari": "ॐ भगवन्तं श्री चित्रगुप्त आवाहयामि स्थापयामि ||",
+       "meaning": {
+        "en": "I invite and establish the Lord Shri Chitragupta.",
+        "hi": "मैं भगवान श्री चित्रगुप्त का आवाहन करता हूँ और उन्हें स्थापित करता हूँ।"
+       },
+       "transliteration": "oṁ bhagavantaṁ śrī citragupta āvāhayāmi sthāpayāmi ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      }
+     ],
+     "notes": [
+      {
+       "en": "The same invocation is also given by HinduPad (hindupad.com/chitragupta-mantras).",
+       "hi": "यही आवाहन हिंदूपैड (hindupad.com/chitragupta-mantras) पर भी है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "x3ec30a2b",
+       "cite": "Same avahana verse."
+      }
+     ]
+    },
+    {
+     "id": "upachara1",
+     "group": "core",
+     "title": {
+      "en": "Offer seat, water for the feet, achamana and bath",
+      "hi": "आसन, पाद्य, आचमन और स्नान अर्पण"
+     },
+     "do": {
+      "en": "Offer, one by one, a seat (asana), water for the feet (padya), water for sipping (achamana) and water for bathing (snana) to Chitragupta, sprinkling a little water each time (on the picture, kalam or kalash) and saying the line. After each line say 'Om Bhagavate Chitraguptaya Namah' as written.",
+      "hi": "क्रम से चित्रगुप्त जी को आसन, पाद्य (चरण धोने का जल), आचमन और स्नान का जल अर्पित करें; हर बार थोड़ा जल (चित्र, कलम या कलश पर) छिड़कें और पंक्ति बोलें। हर पंक्ति के बाद लिखे अनुसार 'भगवते चित्रगुप्ताय नमः' कहें।"
+     },
+     "materials": [
+      "kalash",
+      "flowers"
+     ],
+     "mantras": [
+      {
+       "id": "upachara1-m1",
+       "devanagari": "ॐ इदमासनं समर्पयामि | भगवते चित्रगुप्त देवाय नमः ||",
+       "meaning": {
+        "en": "I offer this seat. Salutations to Lord Chitragupta.",
+        "hi": "यह आसन समर्पित करता हूँ। भगवान चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ idamāsanaṁ samarpayāmi । bhagavate citragupta devāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "upachara1-m2",
+       "devanagari": "ॐ पादयोः पाद्यं समर्पयामि | भगवते चित्रगुप्त देवाय नमः ||",
+       "meaning": {
+        "en": "I offer water for the feet. Salutations to Lord Chitragupta.",
+        "hi": "चरणों के लिए पाद्य जल समर्पित करता हूँ। भगवान चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ pādayoḥ pādyaṁ samarpayāmi । bhagavate citragupta devāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "upachara1-m3",
+       "devanagari": "ॐ मुखे आचमनीयं समर्पयामि | भगवते चित्रगुप्ताय नमः ||",
+       "meaning": {
+        "en": "I offer water for sipping to the mouth. Salutations to Lord Chitragupta.",
+        "hi": "मुख के लिए आचमनीय जल समर्पित करता हूँ। भगवान चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ mukhe ācamanīyaṁ samarpayāmi । bhagavate citraguptāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "upachara1-m4",
+       "devanagari": "ॐ स्नानार्तः जलं समर्पयामि | भगवते श्री चित्रगुप्ताय नमः ||",
+       "meaning": {
+        "en": "I offer water for the bath. Salutations to Lord Shri Chitragupta.",
+        "hi": "स्नान के लिए जल समर्पित करता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ snānārtaḥ jalaṁ samarpayāmi । bhagavate śrī citraguptāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "note": "'स्नानार्तः' is as printed (probably 'स्नानार्थं')."
+      }
+     ],
+     "variation": {
+      "en": "The base file's sixteen-step worship (shodashopachara) can be used instead of these shorter formulas; the Kayastha text gives only these short lines.",
+      "hi": "इन छोटे सूत्रों की जगह आधार फ़ाइल की षोडशोपचार पूजा भी की जा सकती है; कायस्थ पाठ में केवल ये छोटी पंक्तियाँ हैं।"
+     },
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      }
+     ]
+    },
+    {
+     "id": "upachara2",
+     "group": "core",
+     "title": {
+      "en": "Offer cloth, flower garland, incense and lamp",
+      "hi": "वस्त्र, पुष्पमाला, धूप और दीप अर्पण"
+     },
+     "do": {
+      "en": "Offer a clean cloth (a thread or small cloth), a garland of flowers, incense and show the lamp, saying each line.",
+      "hi": "स्वच्छ वस्त्र (धागा या छोटा कपड़ा), पुष्पमाला अर्पित करें, धूप दिखाएँ और दीप दिखाएँ; हर बार पंक्ति बोलें।"
+     },
+     "materials": [
+      "flowers",
+      "dhoop",
+      "lamp"
+     ],
+     "mantras": [
+      {
+       "id": "upachara2-m1",
+       "devanagari": "ॐ पवित्रों वस्त्रं समर्पयामि | भगवते श्री चित्रगुप्त देवाय नमः ||",
+       "meaning": {
+        "en": "I offer clean cloth. Salutations to Lord Shri Chitragupta.",
+        "hi": "पवित्र वस्त्र समर्पित करता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ pavitroṁ vastraṁ samarpayāmi । bhagavate śrī citragupta devāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "upachara2-m2",
+       "devanagari": "ॐ पुष्पमालां च समर्पयामि | भगवते श्री चित्रगुप्तदेवाय नमः ||",
+       "meaning": {
+        "en": "I offer a garland of flowers. Salutations to Lord Shri Chitragupta.",
+        "hi": "पुष्पमाला समर्पित करता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ puṣpamālāṁ ca samarpayāmi । bhagavate śrī citraguptadevāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "upachara2-m3",
+       "devanagari": "ॐ धूपं माधापयामी | भगवते श्री चित्रगुप्तदेवाय नमः ||",
+       "meaning": {
+        "en": "I offer incense. Salutations to Lord Shri Chitragupta.",
+        "hi": "धूप अर्पित करता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ dhūpaṁ mādhāpayāmī । bhagavate śrī citraguptadevāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "note": "'माधापयामी' is as printed (probably 'आघ्रापयामि')."
+      },
+      {
+       "id": "upachara2-m4",
+       "devanagari": "ॐ दीपं दर्शयामि | भगवते श्री चित्रगुप्त देवाय नमः ||",
+       "meaning": {
+        "en": "I show the lamp. Salutations to Lord Shri Chitragupta.",
+        "hi": "दीप दिखाता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ dīpaṁ darśayāmi । bhagavate śrī citragupta devāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      }
+     ],
+     "safety": {
+      "en": "Keep incense and the lamp away from the paper, cloth and books.",
+      "hi": "धूप और दीपक को कागज, कपड़े और किताबों से दूर रखें।"
+     },
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      }
+     ]
+    },
+    {
+     "id": "bhog",
+     "group": "core",
+     "title": {
+      "en": "Naivedya (bhog), panchamrit, fruit, sweets and paan-supari",
+      "hi": "नैवेद्य (भोग): पंचामृत, फल, मिठाई और पान-सुपारी"
+     },
+     "do": {
+      "en": "Offer fruit, sweets, the day's special panchamrit (milk, ghee, crushed ginger, jaggery and Gangajal) and betel leaf with supari. Also offer tambula and dakshina (a coin) and say the lines. In some homes lai, chura and puffed paddy, jaggery and dry fruit are also offered.",
+      "hi": "फल, मिठाई, इस दिन का विशेष पंचामृत (दूध, घी, कुचला अदरक, गुड़ और गंगाजल) तथा पान-सुपारी का भोग लगाएँ। ताम्बूल और दक्षिणा (सिक्का) भी अर्पित करें और पंक्तियाँ बोलें। कुछ घरों में लाई, चूड़ा, धान का लावा, गुड़ और मेवे भी चढ़ाए जाते हैं।"
+     },
+     "materials": [
+      "fruits",
+      "sweets",
+      "panchamrit",
+      "paan_supari",
+      "lai",
+      "jaggery",
+      "dryfruit"
+     ],
+     "mantras": [
+      {
+       "id": "bhog-m1",
+       "devanagari": "ॐ नैवेद्यं समर्पयामि | भगवते श्री चित्रगुप्त देवाय नमः ||",
+       "meaning": {
+        "en": "I offer the food. Salutations to Lord Shri Chitragupta.",
+        "hi": "नैवेद्य समर्पित करता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ naivedyaṁ samarpayāmi । bhagavate śrī citragupta devāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      },
+      {
+       "id": "bhog-m2",
+       "devanagari": "ॐ ताम्बूलं समर्पयामि ॐ दक्षिणा समर्पयामि भगवते श्री चित्रगुप्त देवाय नमः ||",
+       "meaning": {
+        "en": "I offer betel and dakshina. Salutations to Lord Shri Chitragupta.",
+        "hi": "ताम्बूल और दक्षिणा समर्पित करता हूँ। भगवान श्री चित्रगुप्त को नमस्कार।"
+       },
+       "transliteration": "oṁ tāmbūlaṁ samarpayāmi oṁ dakṣiṇā samarpayāmi bhagavate śrī citragupta devāya namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      },
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      }
+     ]
+    },
+    {
+     "id": "kalam-dawat",
+     "group": "core",
+     "title": {
+      "en": "Worship of the dawat, kalam and books",
+      "hi": "दवात, कलम और पुस्तक का पूजन"
+     },
+     "do": {
+      "en": "Put the dawat, kalam, books and copies of the family before Chitragupta. Offer turmeric, roli, akshat, flowers and sweets to them, remembering that the pen is the symbol of Chitragupta. Recite the dawat-lekhani verses.",
+      "hi": "दवात, कलम, किताबें और कॉपियाँ चित्रगुप्त जी के सामने रखें। उन पर हल्दी, रोली, अक्षत, फूल और मिठाई अर्पित करें; मन में रखें कि कलम चित्रगुप्त जी का प्रतीक है। दवात-लेखनी के श्लोक पढ़ें।"
+     },
+     "materials": [
+      "kalam",
+      "dawat",
+      "books",
+      "haldi_roli",
+      "akshat",
+      "flowers",
+      "sweets"
+     ],
+     "mantras": [
+      {
+       "id": "kalam-dawat-m1",
+       "devanagari": "लेखनी निर्मितां पूर्व ब्रह्यणा परमेष्ठिना | लोकानां च हितार्थाय तस्माताम पूजयाम्ह्यम|| पुस्तके चर्चिता देवी , सर्व विद्यान्न्दा भवः | मदगृहे धन-धान्यादि-समृद्धि कुरु सदा || लेखयै ते नमस्तेस्तु , लाभकत्रर्ये नमो नमः | सर्व विद्या प्रकाशिन्ये , शुभदायै नमो नमः ||",
+       "meaning": {
+        "en": "The pen was first made by Brahma for the good of the worlds, therefore I worship it. O goddess present in the book, source of all knowledge, always bring wealth and grain to my house. Salutations to the pen, the giver of gain, who shines all knowledge and gives auspiciousness.",
+        "hi": "लेखनी को पहले परमेष्ठी ब्रह्मा ने लोकों के हित के लिए बनाया, इसलिए मैं उसकी पूजा करता हूँ। पुस्तक में विराजमान हे देवी, सब विद्याओं का आनन्द देने वाली, मेरे घर में सदा धन-धान्य की समृद्धि कीजिए। लाभ देने वाली, सब विद्याओं को प्रकाशित करने वाली, शुभ देने वाली लेखनी को बार-बार नमस्कार।"
+       },
+       "transliteration": "lekhanī nirmitāṁ pūrva brahyaṇā parameṣṭhinā । lokānāṁ ca hitārthāya tasmātāma pūjayāmhyama॥ pustake carcitā devī , sarva vidyānndā bhavaḥ । madagṛhe dhana-dhānyādi-samṛddhi kuru sadā ॥ lekhayai te namastestu , lābhakatrarye namo namaḥ । sarva vidyā prakāśinye , śubhadāyai namo namaḥ ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+       "note": "Printed text has irregular spellings ('ब्रह्यणा', 'पूजयाम्ह्यम', 'विद्यान्न्दा'); kept as printed; the meaning is a simple reading for the pandit to check."
+      }
+     ],
+     "variation": {
+      "en": "Bhakti Bharat describes the same day as 'Lekhi-Dawat' (writing-ink) puja and says people keep writing work closed that day. HinduPad's page says Dawat Puja is observed mainly by Kayasthas.",
+      "hi": "भक्ति भारत इसी दिन को 'लेखी-दावत (लेखन-स्याही)' की पूजा कहता है और बताता है कि लोग उस दिन लेखन का काम बंद रखते हैं। हिंदूपैड के अनुसार दावात पूजा मुख्यतः कायस्थ करते हैं।"
+     },
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      },
+      {
+       "source": "xf0337ec4",
+       "cite": "Pen (kalam) worshipped as image of Chitragupta; picture on a post with roli, akshat, flowers, sweets, fruit; account details placed before him; Shri Ganeshaya Namah and Om Chitraguptaya Namah written 11 times; new books worshipped."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      }
+     ]
+    },
+    {
+     "id": "paper-accounts",
+     "group": "core",
+     "title": {
+      "en": "The paper: swastik, names, accounts and request",
+      "hi": "कागज: स्वस्तिक, नाम, हिसाब और प्रार्थना"
+     },
+     "do": {
+      "en": "Each family member takes a sheet of white paper. Draw a swastik on it with appan (rice flour, turmeric, ghee and water) and roli. Below it write the names of five gods, e.g. 'Shri Ganesh ji sahay namah', 'Shri Chitragupt ji sahay namah', 'Shri Sarvadevta sahay namah'. Below that, on one side write your name, address and date; on the other side write your income and expenses of the year, and ask for the money you need next year. Sign it.",
+      "hi": "हर सदस्य सफेद कागज लेकर उस पर एप्पन (चावल का आटा, हल्दी, घी, पानी) और रोली से स्वस्तिक बनाए। उसके नीचे पाँच देवी-देवताओं के नाम लिखे, जैसे 'श्री गणेश जी सहाय नमः', 'श्री चित्रगुप्त जी सहाय नमः', 'श्री सर्वदेवता सहाय नमः'। उसके नीचे एक ओर अपना नाम, पता और दिनांक लिखे और दूसरी ओर साल की आय-व्यय का विवरण दे तथा अगले साल के लिए आवश्यक धन की प्रार्थना करे। फिर हस्ताक्षर करे।"
+     },
+     "materials": [
+      "paper",
+      "appan",
+      "haldi_roli",
+      "dawat",
+      "kalam"
+     ],
+     "mantras": [],
+     "variation": {
+      "en": "Bhakti Bharat gives a shorter form: put the account of your past work before Chitragupta, and write 'Shri Ganeshaya Namah' and 'Om Chitraguptaya Namah' 11 times on white paper (next step). Businesses also write 'Shri' on new account books (Bhakti Bharat, Hindi Wikipedia).",
+      "hi": "भक्ति भारत में छोटा रूप है: अपने पिछले कार्यों का विवरण चित्रगुप्त जी के सामने रखें और सफेद कागज पर 'श्री गणेशाय नमः' तथा 'ॐ चित्रगुप्ताय नमः' 11 बार लिखें (अगला चरण)। व्यापारी नई बही पर 'श्री' लिखते हैं (भक्ति भारत, हिंदी विकिपीडिया)।"
+     },
+     "notes": [
+      {
+       "en": "Prabhu Sharnam adds that the Chitragupta upasana mantra should be written in red ink below the five names. Which mantra is not stated; use 'Om Shri Chitraguptay Namah' as in Bhakti Bharat's version, if the family agrees.",
+       "hi": "प्रभु शरणम् जोड़ता है कि पाँच नामों के नीचे चित्रगुप्त का उपासना मंत्र लाल स्याही से लिखें। कौन-सा मंत्र, यह नहीं बताया; परिवार सहमत हो तो भक्ति भारत वाला 'ॐ चित्रगुप्ताय नमः' लिख सकते हैं।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      },
+      {
+       "source": "xf0337ec4",
+       "cite": "Pen (kalam) worshipped as image of Chitragupta; picture on a post with roli, akshat, flowers, sweets, fruit; account details placed before him; Shri Ganeshaya Namah and Om Chitraguptaya Namah written 11 times; new books worshipped."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      }
+     ]
+    },
+    {
+     "id": "offer-paper",
+     "group": "core",
+     "title": {
+      "en": "Worship the paper and kalam",
+      "hi": "कागज और कलम का पूजन"
+     },
+     "do": {
+      "en": "Offer turmeric, roli, akshat and sweets to the paper and the kalam and worship them.",
+      "hi": "कागज और कलम पर हल्दी, रोली, अक्षत और मिठाई अर्पित करके उनका पूजन करें।"
+     },
+     "materials": [
+      "paper",
+      "kalam",
+      "haldi_roli",
+      "akshat",
+      "sweets"
+     ],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      }
+     ]
+    },
+    {
+     "id": "write-mantra",
+     "group": "core",
+     "title": {
+      "en": "Write 'Shri Ganeshaya Namah' and 'Om Chitraguptaya Namah' 11 times",
+      "hi": "'श्री गणेशाय नमः' और 'ॐ चित्रगुप्ताय नमः' 11 बार लिखें"
+     },
+     "do": {
+      "en": "On a sheet of white paper, write 'Shri Ganeshaya Namah' and 'Om Chitraguptaya Namah', eleven times each (as in Bhakti Bharat). Then pray to Chitragupta for education, intelligence and progress in life.",
+      "hi": "सफेद कागज पर 'श्री गणेशाय नमः' और 'ॐ चित्रगुप्ताय नमः' ग्यारह-ग्यारह बार लिखें (भक्ति भारत के अनुसार)। फिर चित्रगुप्त जी से शिक्षा, बुद्धि और जीवन में उन्नति की प्रार्थना करें।"
+     },
+     "materials": [
+      "paper",
+      "kalam",
+      "dawat"
+     ],
+     "mantras": [
+      {
+       "id": "write-mantra-m1",
+       "devanagari": "श्री गणेशाय नमः और ॐ चित्रगुप्ताय नमः",
+       "meaning": {
+        "en": "Salutations to Shri Ganesh; salutations to Chitragupta (to be written 11 times).",
+        "hi": "श्री गणेश को नमस्कार; चित्रगुप्त को नमस्कार (11 बार लिखने के लिए)।"
+       },
+       "transliteration": "śrī gaṇeśāya namaḥ aura oṁ citraguptāya namaḥ",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/festival/chitragupta-puja",
+       "note": "Taken from the instruction line on Bhakti Bharat. The form 'ॐ श्री चित्रगुप्ताय नमः' is also common in other sites."
+      }
+     ],
+     "optional": true,
+     "sources": [
+      {
+       "source": "xf0337ec4",
+       "cite": "Pen (kalam) worshipped as image of Chitragupta; picture on a post with roli, akshat, flowers, sweets, fruit; account details placed before him; Shri Ganeshaya Namah and Om Chitraguptaya Namah written 11 times; new books worshipped."
+      }
+     ]
+    },
+    {
+     "id": "japa",
+     "group": "core",
+     "title": {
+      "en": "Recite the Chitragupta mantra at least 11 times",
+      "hi": "चित्रगुप्त मंत्र का कम से कम 11 बार पाठ"
+     },
+     "do": {
+      "en": "Meditating on Shri Chitragupta, recite the two lines below at least eleven times.",
+      "hi": "श्री चित्रगुप्त जी का ध्यान करते हुए नीचे की दो पंक्तियाँ कम से कम ग्यारह बार बोलें।"
+     },
+     "materials": [],
+     "mantras": [
+      {
+       "id": "japa-m1",
+       "devanagari": "मसीभाजन संयुक्तश्चरसि त्वम् ! महीतले | लेखनी कटिनीहस्त चित्रगुप्त नमोस्तुते || चित्रगुप्त ! मस्तुभ्यं लेखकाक्षरदायकं | कायस्थजातिमासाद्य चित्रगुप्त ! नामोअस्तुते ||",
+       "meaning": {
+        "en": "You move on earth with ink-pot and pen in hand; salutations, Chitragupta. Salutations to you, giver of letters to writers, who appeared in the Kayastha community.",
+        "hi": "आप मसिपात्र और कलम धारण कर पृथ्वी पर विचरते हैं; चित्रगुप्त जी, नमस्कार। लेखकों को अक्षर देने वाले, कायस्थ जाति में प्रकट चित्रगुप्त जी, आपको नमस्कार।"
+       },
+       "transliteration": "masībhājana saṁyuktaścarasi tvam ! mahītale । lekhanī kaṭinīhasta citragupta namostute ॥ citragupta ! mastubhyaṁ lekhakākṣaradāyakaṁ । kāyasthajātimāsādya citragupta ! nāmoastute ॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/4",
+       "note": "HinduPad (hindupad.com/chitragupta-mantras) prints the same two verses with small spelling differences ('कटिनीहस्त', 'लेखकाक्षरदयकम्')."
+      }
+     ],
+     "notes": [
+      {
+       "en": "Chant counting with a mala is not described in the sources; 'at least 11 times' is from Kayastha Samaj.",
+       "hi": "माला से गिनने का वर्णन स्रोतों में नहीं है; 'कम से कम 11 बार' कायस्थ समाज से है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      },
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "x3ec30a2b",
+       "cite": "Same verses with spelling variants."
+      }
+     ]
+    },
+    {
+     "id": "katha",
+     "group": "core",
+     "title": {
+      "en": "Hear the Chitragupta katha",
+      "hi": "चित्रगुप्त कथा सुनें"
+     },
+     "do": {
+      "en": "The family sits together and one person reads the katha while the others listen. In short: Brahma created Chitragupta from his own body (hence the name Kayastha) to be the writer of deeds for Dharmaraj (Yama). A sinful king, Saudas, once observed the Yama Dwitiya vow by chance in Kartik, worshipping Yama and Chitragupta. When he died, Chitragupta told Yama about this one vow, and Yama released him from hell. So worship Dharmaraj and Chitragupta, then the dawat and kalam, and hear the katha.",
+      "hi": "परिवार साथ बैठता है; एक व्यक्ति कथा पढ़ता है और बाकी सुनते हैं। संक्षेप में: ब्रह्मा ने धर्मराज (यम) के कर्म-लेखक के रूप में चित्रगुप्त को अपने शरीर से प्रकट किया (इसी से कायस्थ नाम)। पापी राजा सौदास ने संयोग से कार्तिक में यम द्वितीया का व्रत किया और यम व चित्रगुप्त का पूजन किया। मृत्यु के बाद चित्रगुप्त ने यमराज को उस एक व्रत की बात बताई और यमराज ने उसे नरक से छुड़ा दिया। इसलिए धर्मराज-चित्रगुप्त का पूजन, फिर दवात-कलम की पूजा और कथा-श्रवण करें।"
+     },
+     "materials": [],
+     "mantras": [
+      {
+       "id": "katha-m1",
+       "devanagari": "मंत्री श्री धर्मराजस्य चित्रगुप्त: शुभंकर: । पायान्मां सर्वपापेभ्य: शरणागत वत्सल: ॥",
+       "meaning": {
+        "en": "Chitragupta, the minister of Dharmaraj, the doer of good, who is kind to those who take refuge: may he protect me from all sins.",
+        "hi": "धर्मराज के मंत्री, शुभ करने वाले, शरण में आए हुओं पर कृपा करने वाले श्री चित्रगुप्त जी सब पापों से मेरी रक्षा करें।"
+       },
+       "transliteration": "maṁtrī śrī dharmarājasya citragupta: śubhaṁkara: । pāyānmāṁ sarvapāpebhya: śaraṇāgata vatsala: ॥",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/katha/chitragupt-ji-ki-katha-yam-dwitiya",
+       "note": "Opening verse of the katha on Bhakti Bharat."
+      }
+     ],
+     "pending": {
+      "en": "The full katha text is read from a book or website (Bhakti Bharat 'चित्रगुप्त की कथा - यम द्वितीया'; Kayastha Samaj has another version, Bhishma-Pulastya dialogue). It is not reproduced here; only a summary is given.",
+      "hi": "पूरी कथा पुस्तक या वेबसाइट से पढ़ी जाती है (भक्ति भारत 'चित्रगुप्त की कथा - यम द्वितीया'; कायस्थ समाज पर भीष्म-पुलस्त्य संवाद वाली दूसरी कथा है)। वह यहाँ पूरी नहीं दी गई, केवल सार दिया है।"
+     },
+     "notes": [
+      {
+       "en": "The two sources tell the story with different details (e.g. Bhakti Bharat: Yudhishthira asks Bhishma; Kayastha Samaj: Bhishma asks Pulastya). Both feature King Saudas.",
+       "hi": "दोनों स्रोत कथा अलग ब्योरे से कहते हैं (भक्ति भारत में युधिष्ठिर भीष्म से पूछते हैं; कायस्थ समाज में भीष्म पुलस्त्य से)। दोनों में राजा सौदास हैं।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xe754a91e",
+       "cite": "Katha of Chitragupta's origin from Brahma and of King Saudas; says worship Dharmaraj and Chitragupta, then dawat-kalam puja."
+      },
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      }
+     ]
+    },
+    {
+     "id": "havan",
+     "group": "core",
+     "title": {
+      "en": "Havan (only if your family does it)",
+      "hi": "हवन (केवल यदि आपका परिवार करता हो)"
+     },
+     "do": {
+      "en": "Kayastha Samaj and Prabhu Sharnam mention havan after the katha. If your family performs it, the pandit leads it. The havan mantras for this puja were not found in the sources, so they are not included.",
+      "hi": "कायस्थ समाज और प्रभु शरणम् में कथा के बाद हवन का उल्लेख है। यदि आपके परिवार में होता है तो पंडित जी कराते हैं। इस पूजा के हवन मंत्र स्रोतों में नहीं मिले, इसलिए शामिल नहीं हैं।"
+     },
+     "materials": [
+      "havan"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Havan fire safety: use a heat-resistant kund in a ventilated place, only suitable havan samagri and wood, keep water or sand ready, keep paper, cloth and books well away, and keep an adult in charge at all times.",
+      "hi": "हवन में अग्नि-सुरक्षा: हवन कुंड ताप-रोधी हो और स्थान हवादार; केवल उपयुक्त हवन सामग्री और लकड़ी लें, पास में पानी या रेत रखें, कागज, कपड़े और किताबें दूर रखें और हर समय कोई वयस्क जिम्मेदारी से मौजूद रहे।"
+     },
+     "pending": {
+      "en": "Havan mantras and procedure for Chitragupta puja are not included yet; recited by the pandit.",
+      "hi": "चित्रगुप्त पूजा के हवन के मंत्र व विधि अभी शामिल नहीं हैं; पंडित जी कराते हैं।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "x0391f59a",
+       "cite": "Preparation list incl. writing items, five seasonal fruits; kalash, Ganesh, upasana mantra written in red ink; aarti-havan after katha."
+      }
+     ]
+    },
+    {
+     "id": "aarti",
+     "group": "aarti",
+     "title": {
+      "en": "Aarti of Shri Chitragupta and the stuti",
+      "hi": "श्री चित्रगुप्त जी की आरती और स्तुति"
+     },
+     "do": {
+      "en": "All present sing the aarti while one person moves the lit lamp in a clockwise circle in front of the picture and the kalam-dawat. Then sing the stuti if you wish.",
+      "hi": "उपस्थित सभी आरती गाएँ और एक व्यक्ति जलता दीपक चित्र तथा कलम-दवात के सामने घड़ी की दिशा में घुमाए। चाहें तो फिर स्तुति गाएँ।"
+     },
+     "materials": [
+      "lamp",
+      "ghee_camphor"
+     ],
+     "mantras": [
+      {
+       "id": "aarti-m1",
+       "devanagari": "जय चित्रगुप्त यमेश तव ,शरणागतम ,शरणागतम|\nजय पूज्य पद पद्मेश तव शरणागतम ,शरणागतम||\nजय देव देव दयानिधे ,जय दीनबंधु कृपानिधे |\nकर्मेश तव धर्मेश तव शरणागतम ,शरणागतम||\nजय चित्र अवतारी प्रभो ,जय लेखनीधारी विभो |\nजय श्याम तन चित्रेश तव शरणागतम ,शरणागतम||\nपुरुषादि भगवत् अंश जय ,कायस्थ कुल अवतंश जय |\nजय शक्ति बुद्धि विशेष तव शरणागतम ,शरणागतम||\nजय विज्ञ मंत्री धर्म के ,ज्ञाता शुभाशुभ कर्म के |\nजय शांतिमय न्यायेश तव शरणागतम ,शरणागतम||\nतव नाथ नाम प्रताप से ,छूट जाएँ भय त्रय ताप से |\nहों दूर सर्व क्लेश तव शरणागतम ,शरणागतम||\nहों दीन अनुरागी हरि, चाहें दया दृष्टि तेरी |\nकीजै कृपा करुणेश तव शरणागतम ,शरणागतम||",
+       "meaning": {
+        "en": "A prayer: victory to Chitragupta, lord of Yama; we take refuge in you; you are the friend of the poor and ocean of mercy; you know good and bad deeds; by the power of your name may the three sufferings go.",
+        "hi": "स्तुति: जय चित्रगुप्त, यम के स्वामी; हम आपकी शरण में हैं; आप दीनबन्धु और कृपासागर हैं, शुभ-अशुभ कर्मों के ज्ञाता हैं; आपके नाम के प्रताप से तीनों ताप दूर हों।"
+       },
+       "transliteration": "jaya citragupta yameśa tava ,śaraṇāgatama ,śaraṇāgatama।\njaya pūjya pada padmeśa tava śaraṇāgatama ,śaraṇāgatama॥\njaya deva deva dayānidhe ,jaya dīnabaṁdhu kṛpānidhe ।\nkarmeśa tava dharmeśa tava śaraṇāgatama ,śaraṇāgatama॥\njaya citra avatārī prabho ,jaya lekhanīdhārī vibho ।\njaya śyāma tana citreśa tava śaraṇāgatama ,śaraṇāgatama॥\npuruṣādi bhagavat aṁśa jaya ,kāyastha kula avataṁśa jaya ।\njaya śakti buddhi viśeṣa tava śaraṇāgatama ,śaraṇāgatama॥\njaya vijña maṁtrī dharma ke ,jñātā śubhāśubha karma ke ।\njaya śāṁtimaya nyāyeśa tava śaraṇāgatama ,śaraṇāgatama॥\ntava nātha nāma pratāpa se ,chūṭa jāe~ bhaya traya tāpa se ।\nhoṁ dūra sarva kleśa tava śaraṇāgatama ,śaraṇāgatama॥\nhoṁ dīna anurāgī hari, cāheṁ dayā dṛṣṭi terī ।\nkījai kṛpā karuṇeśa tava śaraṇāgatama ,śaraṇāgatama॥",
+       "verified": true,
+       "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/5",
+       "optional": true,
+       "note": "Bhakti Bharat (bhaktibharat.com/aarti/shri-chitragupt-stuti) prints a slightly different wording; this is the Kayastha Samaj version."
+      }
+     ],
+     "safety": {
+      "en": "Hold the lamp steady; keep it away from the paper, cloth and books on the chowki.",
+      "hi": "दीपक स्थिर पकड़ें; चौकी पर रखे कागज, कपड़े और किताबों से दूर रखें।"
+     },
+     "notes": [
+      {
+       "en": "Kayastha Samaj reads 'कलम, दवात, तलवार, पत्रिका'; Drik Panchang and Bhakti Bharat read 'कलम, दवात, शङ्ख, पत्रिका'. Kayastha Samaj's last stanza has 'चौरासी के छूटैं बंधन'; Drik Panchang has 'चौरासी से निश्चित छूटैं'. A second aarti, 'Shri Viranchi Kulbhushan', is on Bhakti Bharat and is not used here.",
+       "hi": "कायस्थ समाज में 'कलम, दवात, तलवार, पत्रिका' है; ड्रिक पंचांग और भक्ति भारत में 'कलम, दवात, शङ्ख, पत्रिका'। कायस्थ समाज में अंतिम छंद 'चौरासी के छूटैं बंधन' है, ड्रिक पंचांग में 'चौरासी से निश्चित छूटैं'। एक दूसरी आरती 'श्री विरंचि कुलभूषण' भक्ति भारत पर है, वह यहाँ नहीं ली गई।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xee975b8a",
+       "cite": "Aarti and stuti text."
+      },
+      {
+       "source": "x94bfe273",
+       "cite": "Second source for aarti text."
+      }
+     ],
+     "aarti": {
+      "title": {
+       "en": "Shri Chitragupt Ji ki Aarti: Om Jai Chitragupt Hare",
+       "hi": "श्री चित्रगुप्त जी की आरती: ॐ जय चित्रगुप्त हरे"
+      },
+      "lyrics": "ॐ जय चित्रगुप्त हरे, स्वामी जय चित्रगुप्त हरे।\nभक्त जनों के इच्छित, फल को पूर्ण करे॥\nॐ जय चित्रगुप्त हरे...॥\nविघ्न विनाशक मंगलकर्ता, सन्तन सुखदायी।\nभक्तन के प्रतिपालक, त्रिभुवन यश छायी॥\nॐ जय चित्रगुप्त हरे...॥\nरूप चतुर्भुज, श्यामल मूरति, पीताम्बर राजै।\nमातु इरावती, दक्षिणा, वाम अङ्ग साजै॥\nॐ जय चित्रगुप्त हरे...॥\nकष्ट निवारण, दुष्ट संहारण, प्रभु अन्तर्यामी।\nसृष्टि संहारण, जन दु:ख हारण, प्रकट हुये स्वामी॥\nॐ जय चित्रगुप्त हरे...॥\nकलम, दवात, तलवार,पत्रिका, कर में अति सोहै।\nवैजयन्ती वनमाला, त्रिभुवन मन मोहै॥\nॐ जय चित्रगुप्त हरे...॥\nसिंहासन का कार्य सम्भाला, ब्रह्मा हर्षाये।\nतैंतीस कोटि देवता, चरणन में धाये॥\nॐ जय चित्रगुप्त हरे...॥\nनृपति सौदास, भीष्म पितामह, याद तुम्हें कीन्हा।\nवेगि विलम्ब न लायो, इच्छित फल दीन्हा॥\nॐ जय चित्रगुप्त हरे...॥\nदारा, सुत, भगिनी, सब अपने स्वास्थ के कर्ता।\nजाऊँ कहाँ शरण में किसकी, तुम तज मैं भर्ता॥\nॐ जय चित्रगुप्त हरे...॥\nबन्धु, पिता तुम स्वामी, शरण गहूँ किसकी।\nतुम बिन और न दूजा, आस करूँ जिसकी॥\nॐ जय चित्रगुप्त हरे...॥\nजो जन चित्रगुप्त जी की आरती, प्रेम सहित गावैं।\nचौरासी के छूटैं बंधन, इच्छित फल पावैं॥\nॐ जय चित्रगुप्त हरे...॥\nन्यायाधीश बैकुण्ठ निवासी, पाप पुण्य लिखते।\nहम हैं शरण तिहारी, आस न दूजी करते॥",
+      "transliteration": "oṁ jaya citragupta hare, svāmī jaya citragupta hare।\nbhakta janoṁ ke icchita, phala ko pūrṇa kare॥\noṁ jaya citragupta hare...॥\nvighna vināśaka maṁgalakartā, santana sukhadāyī।\nbhaktana ke pratipālaka, tribhuvana yaśa chāyī॥\noṁ jaya citragupta hare...॥\nrūpa caturbhuja, śyāmala mūrati, pītāmbara rājai।\nmātu irāvatī, dakṣiṇā, vāma aṅga sājai॥\noṁ jaya citragupta hare...॥\nkaṣṭa nivāraṇa, duṣṭa saṁhāraṇa, prabhu antaryāmī।\nsṛṣṭi saṁhāraṇa, jana du:kha hāraṇa, prakaṭa huye svāmī॥\noṁ jaya citragupta hare...॥\nkalama, davāta, talavāra,patrikā, kara meṁ ati sohai।\nvaijayantī vanamālā, tribhuvana mana mohai॥\noṁ jaya citragupta hare...॥\nsiṁhāsana kā kārya sambhālā, brahmā harṣāye।\ntaiṁtīsa koṭi devatā, caraṇana meṁ dhāye॥\noṁ jaya citragupta hare...॥\nnṛpati saudāsa, bhīṣma pitāmaha, yāda tumheṁ kīnhā।\nvegi vilamba na lāyo, icchita phala dīnhā॥\noṁ jaya citragupta hare...॥\ndārā, suta, bhaginī, saba apane svāstha ke kartā।\njāū~ kahā~ śaraṇa meṁ kisakī, tuma taja maiṁ bhartā॥\noṁ jaya citragupta hare...॥\nbandhu, pitā tuma svāmī, śaraṇa gahū~ kisakī।\ntuma bina aura na dūjā, āsa karū~ jisakī॥\noṁ jaya citragupta hare...॥\njo jana citragupta jī kī āratī, prema sahita gāvaiṁ।\ncaurāsī ke chūṭaiṁ baṁdhana, icchita phala pāvaiṁ॥\noṁ jaya citragupta hare...॥\nnyāyādhīśa baikuṇṭha nivāsī, pāpa puṇya likhate।\nhama haiṁ śaraṇa tihārī, āsa na dūjī karate॥",
+      "meaning": {
+       "en": "The aarti praises Chitragupta as remover of obstacles, protector of devotees, four-armed and dark, with pen, ink-pot and paper; it recalls King Saudas and Bhishma who remembered him and received their wish, asks for his refuge, and says that one who sings it with love is freed from the cycle of rebirth.",
+       "hi": "आरती चित्रगुप्त जी को विघ्नहर्ता और भक्तों का पालक बताती है, जो चतुर्भुज, श्यामवर्ण हैं और हाथ में कलम, दवात, पत्रिका धारण करते हैं; राजा सौदास और भीष्म पितामह के स्मरण करने पर इच्छित फल मिलने का स्मरण करती है, शरण माँगती है और कहती है कि प्रेम से गाने वाला चौरासी के बंधन से छूटता है।"
+      },
+      "verified": true,
+      "sourceUrl": "https://www.kayasthasamaj.in/home/shriChitragupt/5",
+      "secondSourceUrl": "https://www.drikpanchang.com/lyrics/aarti/lord-chitragupta/lord-chitragupta-aarti.html"
+     }
+    },
+    {
+     "id": "prasad",
+     "group": "close",
+     "title": {
+      "en": "Bow, ask for blessings and share prasad",
+      "hi": "प्रणाम, आशीर्वाद और प्रसाद वितरण"
+     },
+     "do": {
+      "en": "Happily bow to Chitragupta and Ganesh and ask for blessings for yourself and your family. Then distribute the prasad (fruit, sweets, panchamrit) to all.",
+      "hi": "प्रसन्नतापूर्वक चित्रगुप्त जी और गणेश जी को प्रणाम करके अपने और अपने परिवार के लिए मंगल आशीर्वाद माँगें। फिर प्रसाद (फल, मिठाई, पंचामृत) सबको बाँटें।"
+     },
+     "materials": [
+      "fruits",
+      "sweets",
+      "panchamrit"
+     ],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "xa87b2abc",
+       "cite": "Full order: kalash, Ganesh-Ambika, navagraha, dawat-kalam-patra and sword; samagri list; verses; upachara formulas; paper with swastik, accounts; 11 recitations; katha; aarti; prasad."
+      },
+      {
+       "source": "xa009d45a",
+       "cite": "Simple method: clean place, chowki with cloth, picture or kalam-dawat and kalash as symbol, cow-ghee lamp, Ganesh then Chitragupt worship, panchamrit, paper with swastik, 11 recitations, aarti-stuti, prasad."
+      }
+     ]
+    },
+    {
+     "id": "after",
+     "group": "close",
+     "title": {
+      "en": "After the puja: the kalam-dawat and account books",
+      "hi": "पूजा के बाद: कलम-दवात और बही-खाते"
+     },
+     "do": {
+      "en": "Keep the worshipped books, kalam and dawat with respect. Bhakti Bharat says people keep writing work closed on this day and start new account books by writing 'Shri' on them at an auspicious time. Follow your family custom on when to take the pen up again.",
+      "hi": "पूजा की हुई किताबें, कलम और दवात आदर से रखें। भक्ति भारत के अनुसार इस दिन लोग लेखन का काम बंद रखते हैं और शुभ मुहूर्त में नई बही पर 'श्री' लिखकर काम की शुरुआत करते हैं। कलम फिर कब उठानी है, यह अपने परिवार की रीति से तय करें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "pending": {
+      "en": "Rules about when the kalam may be used again are not given by a usable source; ask the pandit.",
+      "hi": "कलम फिर कब उपयोग हो, इसके नियम किसी उपयोगी स्रोत में नहीं मिले; पंडित जी से पूछें।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "xf0337ec4",
+       "cite": "Pen (kalam) worshipped as image of Chitragupta; picture on a post with roli, akshat, flowers, sweets, fruit; account details placed before him; Shri Ganeshaya Namah and Om Chitraguptaya Namah written 11 times; new books worshipped."
+      }
+     ]
+    }
+   ],
+   "sources": [
+    "x7fca3dc5",
+    "xa009d45a",
+    "xf0337ec4",
+    "xa87b2abc",
+    "x0391f59a",
+    "x3ec30a2b",
+    "xe754a91e",
+    "xee975b8a",
+    "x94bfe273"
+   ],
+   "sourceMap": {
+    "x7fca3dc5": {
+     "title": "Navbharat Live: Chitragupta puja vidhi",
+     "publisher": "navbharatlive.com",
+     "url": "https://navbharatlive.com/religion/chitragupta-puja-will-be-celebrated-tomorrow-in-shivavas-yoga-1398954.html",
+     "note": ""
+    },
+    "xa009d45a": {
+     "title": "Kayastha Samaj: simplest Chitragupt puja vidhi",
+     "publisher": "kayasthasamaj.in",
+     "url": "https://www.kayasthasamaj.in/home/shriChitragupt/4",
+     "note": ""
+    },
+    "xf0337ec4": {
+     "title": "Bhakti Bharat: Chitragupta Puja",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/festival/chitragupta-puja",
+     "note": ""
+    },
+    "xa87b2abc": {
+     "title": "Kayastha Samaj (kayasthasamaj.in): Shri Chitragupt katha and full puja vidhi",
+     "publisher": "kayasthasamaj.in",
+     "url": "https://www.kayasthasamaj.in/home/shriChitragupt/3",
+     "note": ""
+    },
+    "x0391f59a": {
+     "title": "Prabhu Sharnam: Dawat puja",
+     "publisher": "prabhusharnam.com",
+     "url": "https://prabhusharnam.com/chitragupta-pooja-kalam-dawat-pooja/",
+     "note": ""
+    },
+    "x3ec30a2b": {
+     "title": "HinduPad: Chitragupta mantras",
+     "publisher": "hindupad.com",
+     "url": "https://hindupad.com/chitragupta-mantras/",
+     "note": ""
+    },
+    "xe754a91e": {
+     "title": "Bhakti Bharat: Chitragupt katha - Yam Dwitiya",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/katha/chitragupt-ji-ki-katha-yam-dwitiya",
+     "note": ""
+    },
+    "xee975b8a": {
+     "title": "Kayastha Samaj: Chitragupt aarti and stuti",
+     "publisher": "kayasthasamaj.in",
+     "url": "https://www.kayasthasamaj.in/home/shriChitragupt/5",
+     "note": ""
+    },
+    "x94bfe273": {
+     "title": "Drik Panchang: Chitragupta aarti",
+     "publisher": "drikpanchang.com",
+     "url": "https://www.drikpanchang.com/lyrics/aarti/lord-chitragupta/lord-chitragupta-aarti.html",
+     "note": ""
+    }
+   },
+   "gaps": [
+    "Text of the full katha is not reproduced; only a summary and the opening verse (Bhakti Bharat). Kayastha Samaj and Bhakti Bharat tell it differently.",
+    "Havan mantras and procedure for Chitragupta puja were not found.",
+    "Kalash/Varuna, Ganesh-Ambika and navagraha invocations are not included (use the common steps or the pandit's text).",
+    "Several verses in the Kayastha Samaj text are printed with spelling errors (e.g. in the Ganapati invocation, dhyana, upachara lines); kept as printed and flagged for review. Meanings given are simple readings.",
+    "Chitragupta Gayatri, jap and arogya mantras exist on HinduPad but the page's text has errors and no scholarly source was found, so they are not included.",
+    "No Bihar-specific source for the kalam-dawat puja was found; Kayastha Samaj is a national Kayastha organisation (site based in Bhopal).",
+    "Direction to face, auspicious time (muhurat) for the puja and rules for when the kalam can be used again are not reliably stated; Drik Panchang/Bhakti Bharat give only the date (Wednesday 11 November 2026) and Bhai Dooj Aparahna time. The Navbharat page gave a 2025 muhurat of 1:13-3:28 PM, which is not for 2026.",
+    "Rules for immersion/visarjan of the picture are not given."
+   ],
+   "aartiNote": null,
+   "categories": [
+    "festival"
+   ],
+   "keywords": [
+    "chitragupt",
+    "kalam",
+    "dawat",
+    "kayastha",
+    "ledger",
+    "pen",
+    "ink"
+   ]
+  },
+  {
+   "id": "chhath",
+   "name": {
+    "en": "Chhath Puja",
+    "hi": "छठ पूजा"
+   },
+   "deity": {
+    "en": "Sūrya (Sun) and Chhathi Maiya",
+    "hi": "सूर्य देव और छठी मैया"
+   },
+   "availability": "documented",
+   "review": {
+    "status": "draft-pandit-review-needed",
+    "label": "Draft — Pandit Review Needed",
+    "reviewedBy": null,
+    "reviewedOn": null,
+    "note": "No pandit has reviewed this guide yet. Please follow your own pandit's guidance wherever it differs."
+   },
+   "summary": {
+    "en": "Chhath Puja is the four-day festival of Surya Dev and Chhathi Maiya, from Kartik Shukla Chaturthi to Saptami, mainly in Bihar, Jharkhand and eastern Uttar Pradesh. The vrati keeps a 36-hour waterless fast and gives arghya to the setting and the rising sun.",
+    "hi": "छठ पूजा सूर्य देव और छठी मैया का चार दिन का पर्व है, कार्तिक शुक्ल चतुर्थी से सप्तमी तक, मुख्यतः बिहार, झारखंड और पूर्वी उत्तर प्रदेश में। व्रती 36 घंटे का निर्जला व्रत रखकर डूबते और उगते सूर्य को अर्घ्य देती/देता है।"
+   },
+   "tradition": {
+    "en": "Steps follow the Bihar folk practice as described on Hindi Wikipedia, Bhakti Bharat and Drik Panchang. Chhath has no required priest or idol; the Surya mantras and aarti are added as optional prayers.",
+    "hi": "चरण हिंदी विकिपीडिया, भक्ति भारत और ड्रिक पंचांग में वर्णित बिहार की लोक परंपरा के अनुसार हैं। छठ में पुरोहित या मूर्ति आवश्यक नहीं; सूर्य मंत्र और आरती वैकल्पिक प्रार्थना के रूप में जोड़े हैं।"
+   },
+   "duration": "36 hours of nirjala vrat (Kharna evening to Usha Arghya morning); the festival runs four days.",
+   "havan": null,
+   "variation": {
+    "en": "Names of days and details differ by region: Nahay-Khay, Kharna/Lohanda, Sandhya Arghya, Usha Arghya. Bhojpuri, Maithil and Magahi homes sing different songs. Some stay at the ghat overnight; the Brahm Baba (peepal) worship is a village custom. Chhath is also observed on Chaitra Shukla Shashthi (Chaiti Chhath). Arghya may be of water or milk. The sources do not agree on the exact way of pouring.",
+    "hi": "दिनों के नाम और ब्योरे क्षेत्र के अनुसार भिन्न हैं: नहाय-खाय, खरना/लोहंडा, संध्या अर्घ्य, उषा अर्घ्य। भोजपुरी, मैथिल और मगही घरों में गीत अलग हैं। कुछ लोग रात घाट पर रुकते हैं; ब्रह्म बाबा (पीपल) की पूजा गाँव की रीति है। चैत्र शुक्ल षष्ठी पर भी छठ (चैती छठ) मनाई जाती है। अर्घ्य जल या दूध का हो सकता है। डालने की सही विधि पर स्रोत एकमत नहीं हैं।"
+   },
+   "preparation": {
+    "conduct": [],
+    "samagri": [
+     {
+      "id": "soop",
+      "name": {
+       "en": "Bamboo soop (winnowing tray) and daura/tokri (bamboo basket)",
+       "hi": "बाँस का सूप और दउरा/टोकरी"
+      },
+      "essential": true,
+      "note": {
+       "en": "Soop and daura are carried to the ghat; a new one is usual.",
+       "hi": "सूप और दउरा घाट ले जाए जाते हैं; नया लेने की प्रथा है।"
+      }
+     },
+     {
+      "id": "thekua",
+      "name": {
+       "en": "Thekua (wheat-flour sweet pressed in a wooden mould)",
+       "hi": "ठेकुआ"
+      },
+      "essential": true,
+      "note": {
+       "en": "Made by the vrati with wheat flour; ghee/jaggery are used.",
+       "hi": "व्रती गेहूँ के आटे से बनाती है; घी और गुड़ का उपयोग होता है।"
+      }
+     },
+     {
+      "id": "kachwania",
+      "name": {
+       "en": "Kachwania (rice-flour laddu)",
+       "hi": "कचवनिया (चावल के लड्डू)"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "coconut",
+      "name": {
+       "en": "Coconut",
+       "hi": "नारियल"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "fruits",
+      "name": {
+       "en": "Five kinds of fruit, whole and uncut",
+       "hi": "पाँच प्रकार के फल (साबुत)"
+      },
+      "essential": true,
+      "note": {
+       "en": "Whole, uncut fruits and vegetables only (Hindi Wikipedia).",
+       "hi": "केवल साबुत, बिना कटे फल-सब्जियाँ (हिंदी विकिपीडिया)।"
+      }
+     },
+     {
+      "id": "sugarcane",
+      "name": {
+       "en": "Sugarcane",
+       "hi": "गन्ना"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "seasonal",
+      "name": {
+       "en": "New root and seasonal produce: ol (elephant-foot yam), turmeric (haldi) root, bada nimbu (pomelo), ripe banana",
+       "hi": "नए कंद-मूल और मौसमी उपज: ओल, हल्दी, बड़ा नींबू, पके केले"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "kusahi",
+      "name": {
+       "en": "Kusahi keraav (small light green-black pea grains)",
+       "hi": "कुसही केराव के दाने"
+      },
+      "essential": false,
+      "note": {
+       "en": "Brought in the basket but not offered at the evening arghya; kept for the morning (Hindi Wikipedia).",
+       "hi": "टोकरे में लाए जाते हैं पर सांध्य अर्घ्य में नहीं चढ़ते; सुबह के लिए रखे जाते हैं (हिंदी विकिपीडिया)।"
+      }
+     },
+     {
+      "id": "diyas",
+      "name": {
+       "en": "New earthen diyas, new wicks and ghee",
+       "hi": "नए दीपक, नई बत्तियाँ और घी"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "milk",
+      "name": {
+       "en": "Milk (raw) and clean water for arghya",
+       "hi": "अर्घ्य के लिए दूध (कच्चा) और स्वच्छ जल"
+      },
+      "essential": true,
+      "note": {
+       "en": "Arghya is given in water or milk from a clean vessel; Hindi Wikipedia says 'milk'.",
+       "hi": "अर्घ्य स्वच्छ पात्र से जल या दूध का दिया जाता है; हिंदी विकिपीडिया में 'दूध' लिखा है।"
+      }
+     },
+     {
+      "id": "rice_gud",
+      "name": {
+       "en": "Rice, jaggery (gud) and sugarcane juice for kheer; wheat flour for roti",
+       "hi": "खीर के लिए चावल, गुड़ और गन्ने का रस; रोटी के लिए गेहूँ का आटा"
+      },
+      "essential": true,
+      "note": {
+       "en": "No salt and no sugar in the kharna kheer.",
+       "hi": "खरना की खीर में नमक और चीनी नहीं।"
+      }
+     },
+     {
+      "id": "nahay_food",
+      "name": {
+       "en": "Day-1 food: pumpkin (kaddu) curry, chana dal, rice; sendha salt; ghee",
+       "hi": "पहले दिन का भोजन: कद्दू की सब्जी, चने की दाल, चावल; सेंधा नमक; घी"
+      },
+      "essential": true,
+      "note": {
+       "en": "Fried items are not allowed (Hindi Wikipedia/Bhakti Bharat).",
+       "hi": "तला हुआ भोजन वर्जित है (हिंदी विकिपीडिया/भक्ति भारत)।"
+      }
+     },
+     {
+      "id": "cooking",
+      "name": {
+       "en": "Clay chulha, mango wood and bronze or clay vessels",
+       "hi": "मिट्टी का चूल्हा, आम की लकड़ी और काँसे या मिट्टी के बर्तन"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "gangajal",
+      "name": {
+       "en": "Ganga water (Gangajal)",
+       "hi": "गंगाजल"
+      },
+      "essential": false,
+      "note": {
+       "en": "Brought from the bath for cooking, if available.",
+       "hi": "स्नान के बाद लाया जाता है और भोजन बनाने में उपयोग होता है।"
+      }
+     },
+     {
+      "id": "clothes",
+      "name": {
+       "en": "New unstitched clothes (sari for women, dhoti for men)",
+       "hi": "बिना सिले नए वस्त्र (महिलाओं के लिए साड़ी, पुरुषों के लिए धोती)"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "blanket",
+      "name": {
+       "en": "Blanket or sheet to sleep on the floor",
+       "hi": "फर्श पर सोने के लिए कंबल या चादर"
+      },
+      "essential": true,
+      "note": null
+     },
+     {
+      "id": "mud_chaura",
+      "name": {
+       "en": "Clay from the river for the chaura (Chhathi Maiya's platform) at the ghat",
+       "hi": "घाट पर चौरा बनाने के लिए नदी की मिट्टी"
+      },
+      "essential": false,
+      "note": null
+     },
+     {
+      "id": "flowers",
+      "name": {
+       "en": "Flowers, sindoor and incense for the ghat puja",
+       "hi": "घाट पूजा के लिए फूल, सिंदूर और धूप"
+      },
+      "essential": false,
+      "note": {
+       "en": "Bhakti Bharat and Wikipedia do not list these; they are common in household puja. Check with your family.",
+       "hi": "भक्ति भारत और विकिपीडिया इनकी सूची नहीं देते; ये घरेलू पूजा में सामान्य हैं। परिवार से पूछ लें।"
+      }
+     },
+     {
+      "id": "lamp_lighter",
+      "name": {
+       "en": "Matchbox/lighter, a small torch and a bucket of water",
+       "hi": "माचिस/लाइटर, छोटी टॉर्च और पानी की बाल्टी"
+      },
+      "essential": false,
+      "note": {
+       "en": "Safety items for the ghat (plain advice, not from a source).",
+       "hi": "घाट की सुरक्षा के लिए (सामान्य सलाह, किसी स्रोत से नहीं)।"
+      }
+     }
+    ],
+    "substitution": null
+   },
+   "steps": [
+    {
+     "id": "d1-clean-house",
+     "group": "setup",
+     "title": {
+      "en": "Day 1 (Nahay-Khay): Clean and purify the house",
+      "hi": "पहला दिन (नहाय-खाय): घर की सफाई और शुद्धि"
+     },
+     "do": {
+      "en": "Begin with a thorough cleaning of the house, the kitchen and the surroundings. Wash the cooking place and utensils. Keep the home clean and pure for all four days; onion and garlic are not used.",
+      "hi": "सबसे पहले घर, रसोई और आसपास की पूरी सफाई करें। चूल्हे की जगह और बर्तन धो लें। चारों दिन घर को स्वच्छ और पवित्र रखें; लहसुन-प्याज का उपयोग नहीं होता।"
+     },
+     "materials": [],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "Hindi Wikipedia: 'सबसे पहले घर की सफाई कर उसे पवित्र किया जाता है'; 'पूजा में पवित्रता का विशेष ध्यान रखा जाता है; लहसुन, प्याज वर्जित'. Chhath is not done in a house where there has been a death in the family that year (Hindi Wikipedia).",
+       "hi": "हिंदी विकिपीडिया: घर की सफाई कर उसे पवित्र किया जाता है; पूजा में पवित्रता का विशेष ध्यान रखा जाता है और लहसुन-प्याज वर्जित है। जिस घर में उस वर्ष किसी की मृत्यु हुई हो वहाँ यह पर्व नहीं मनाया जाता (हिंदी विकिपीडिया)।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d1-bath",
+     "group": "setup",
+     "title": {
+      "en": "Day 1: Holy bath, nails and hair, clean clothes",
+      "hi": "पहला दिन: पवित्र स्नान, नाखून-बाल और स्वच्छ वस्त्र"
+     },
+     "do": {
+      "en": "The vrati (the person keeping the vrat) cuts the nails and washes the hair well, then bathes in the Ganga, a river or a pond (or, if none is near, at home with clean water). Put on clean, unstitched clothes (sari for women, dhoti for men). On the way back bring some Ganga water for cooking.",
+      "hi": "व्रती नाखून अच्छी तरह काटकर और बाल स्वच्छ जल से धोकर गंगा, नदी या तालाब में स्नान करती/करता है (पास में न हो तो घर पर स्वच्छ जल से)। स्वच्छ बिना सिले वस्त्र (महिलाओं के लिए साड़ी, पुरुषों के लिए धोती) पहनें। लौटते समय खाना बनाने के लिए गंगाजल साथ लाएँ।"
+     },
+     "materials": [
+      "clothes",
+      "gangajal"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "If you bathe at a river or pond, go with others, in daylight, in shallow water only, and see the ghat safety advice later in this guide.",
+      "hi": "नदी या तालाब में स्नान साथ में, दिन के उजाले में और केवल कम गहरे पानी में करें; इसी गाइड में आगे घाट सुरक्षा सलाह देखें।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d1-rules",
+     "group": "prep",
+     "title": {
+      "en": "The rules of the vrat",
+      "hi": "व्रत के नियम"
+     },
+     "do": {
+      "en": "Decide to keep the Chhath vrat for the four days. The vrati sleeps on the floor on a blanket or sheet in the room made ready for the festival, wears new unstitched clothes, and keeps purity. The vrat, once begun, is kept year after year until a married woman of the next generation takes it up.",
+      "hi": "चार दिन छठ व्रत रखने का निश्चय करें। व्रती पर्व के लिए तैयार किए गए कमरे में फर्श पर कंबल या चादर बिछाकर सोती/सोता है, बिना सिले नए वस्त्र पहनती/पहनता है और पवित्रता रखती/रखता है। एक बार शुरू करने पर यह व्रत हर साल तब तक किया जाता है जब तक अगली पीढ़ी की कोई विवाहित महिला इसके लिए तैयार न हो जाए।"
+     },
+     "materials": [
+      "blanket",
+      "clothes"
+     ],
+     "mantras": [],
+     "pending": {
+      "en": "A sankalp (vow) text for Chhath was not found in the sources and is not included.",
+      "hi": "छठ के संकल्प का पाठ स्रोतों में नहीं मिला और शामिल नहीं है।"
+     },
+     "notes": [
+      {
+       "en": "The sources do not give a Sanskrit sankalp. A sankalp text is not included.",
+       "hi": "स्रोतों में कोई संस्कृत संकल्प नहीं है; संकल्प का पाठ शामिल नहीं किया गया।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      }
+     ]
+    },
+    {
+     "id": "d1-cook",
+     "group": "core",
+     "title": {
+      "en": "Day 1: Cook and eat the one pure meal",
+      "hi": "पहला दिन: शुद्ध भोजन बनाना और करना"
+     },
+     "do": {
+      "en": "Cook the one meal of the day on a clay chulha with mango wood in bronze or clay vessels, using Ganga water if you have it: rice, chana dal and pumpkin (kaddu) curry, with sendha salt and ghee. No fried puri, paratha or vegetables. The vrati eats first, and only after that the rest of the family.",
+      "hi": "दिन का एक भोजन मिट्टी के चूल्हे पर आम की लकड़ी से काँसे या मिट्टी के बर्तनों में बनाएँ, गंगाजल हो तो उसका उपयोग करें: चावल, चने की दाल और कद्दू की सब्जी, सेंधा नमक और घी के साथ। तली हुई पूरी, पराठे या सब्जियाँ नहीं। पहले व्रती भोजन करती/करता है, उसके बाद ही परिवार के बाकी लोग।"
+     },
+     "materials": [
+      "nahay_food",
+      "cooking",
+      "gangajal"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Cooking on a wood chulha: keep the area ventilated, keep children away from the fire, and keep water close.",
+      "hi": "लकड़ी के चूल्हे पर खाना बनाते समय जगह हवादार रखें, बच्चों को आग से दूर रखें और पानी पास रखें।"
+     },
+     "variation": {
+      "en": "Bihar practice (Hindi Wikipedia): arwa rice with sendha salt and ghee plus kaddu sabzi as prasad. Drik Panchang and Bhakti Bharat describe the same single meal.",
+      "hi": "बिहार की प्रथा (हिंदी विकिपीडिया): सेंधा नमक और घी के साथ अरवा चावल और कद्दू की सब्जी प्रसाद रूप में। ड्रिक पंचांग और भक्ति भारत भी यही एक समय का भोजन बताते हैं।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "xd02f7689",
+       "cite": "Calendar: Nahay Khay, Lohanda-Kharna, Sandhya Arghya, Usha Arghya, Parana; festival of Surya mainly in Bihar and neighbouring regions."
+      }
+     ]
+    },
+    {
+     "id": "d2-fast",
+     "group": "prep",
+     "title": {
+      "en": "Day 2 (Kharna / Lohanda): Fast through the day",
+      "hi": "दूसरा दिन (खरना/लोहंडा): दिनभर उपवास"
+     },
+     "do": {
+      "en": "The vrati fasts the whole day. Not even a drop of water is taken until sunset. Prepare the place and the kitchen again, keep it clean, and make the kharna prasad in the evening.",
+      "hi": "व्रती पूरे दिन उपवास रखती/रखता है; सूर्यास्त से पहले पानी की एक बूँद भी नहीं ली जाती। रसोई और स्थान फिर साफ करके शाम को खरना का प्रसाद बनाने की तैयारी करें।"
+     },
+     "materials": [],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d2-kharna-cook",
+     "group": "core",
+     "title": {
+      "en": "Day 2: Make the kharna kheer and roti",
+      "hi": "दूसरा दिन: खरना की खीर और रोटी बनाना"
+     },
+     "do": {
+      "en": "In the evening make kheer with rice, jaggery and sugarcane juice (no salt and no sugar), on the clay chulha with mango wood, and make rotis of wheat flour with ghee. Rice-flour pittha with ghee can also be made as prasad.",
+      "hi": "शाम को चावल, गुड़ और गन्ने के रस की खीर (नमक और चीनी नहीं) मिट्टी के चूल्हे पर आम की लकड़ी से बनाएँ और गेहूँ के आटे की घी लगी रोटी बनाएँ। चावल का पिठ्ठा और घी भी प्रसाद में बनाया जाता है।"
+     },
+     "materials": [
+      "rice_gud",
+      "cooking"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Same chulha precautions as on Day 1.",
+      "hi": "पहले दिन की तरह चूल्हे की सावधानी रखें।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "xd02f7689",
+       "cite": "Calendar: Nahay Khay, Lohanda-Kharna, Sandhya Arghya, Usha Arghya, Parana; festival of Surya mainly in Bihar and neighbouring regions."
+      }
+     ]
+    },
+    {
+     "id": "d2-naivedya",
+     "group": "core",
+     "title": {
+      "en": "Day 2: Offer to Surya and eat in solitude (kharna)",
+      "hi": "दूसरा दिन: सूर्य को नैवेद्य और एकान्त में ग्रहण (खरना)"
+     },
+     "do": {
+      "en": "After sunset offer the kheer and roti to Surya Dev as naivedya in the house. Then the vrati eats it alone, in a quiet place; family members leave the house or keep absolutely quiet, because hearing any noise while eating is against the rule.",
+      "hi": "सूर्यास्त के बाद खीर-रोटी का सूर्य देव को घर में नैवेद्य लगाएँ। फिर व्रती उसे एकान्त और शांत जगह पर अकेले ग्रहण करती/करता है; परिवार के सदस्य घर से बाहर चले जाते हैं या पूर्ण शांति रखते हैं, क्योंकि खाते समय आवाज सुनना नियम के विरुद्ध है।"
+     },
+     "materials": [
+      "rice_gud"
+     ],
+     "mantras": [
+      {
+       "id": "d2-naivedya-m1",
+       "devanagari": "ॐ सूर्याय नम: ।",
+       "meaning": {
+        "en": "Salutations to Surya.",
+        "hi": "सूर्य को नमस्कार।"
+       },
+       "transliteration": "oṁ sūryāya nama: ।",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/surya-mantra",
+       "optional": true,
+       "note": "Optional short mantra for the naivedya; the sources for kharna give no fixed mantra."
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "xd02f7689",
+       "cite": "Calendar: Nahay Khay, Lohanda-Kharna, Sandhya Arghya, Usha Arghya, Parana; festival of Surya mainly in Bihar and neighbouring regions."
+      },
+      {
+       "source": "x83664042",
+       "cite": "Text of the mantra copied from this page."
+      }
+     ]
+    },
+    {
+     "id": "d2-prasad",
+     "group": "close",
+     "title": {
+      "en": "Day 2: Share the kharna prasad; the 36-hour nirjala vrat begins",
+      "hi": "दूसरा दिन: खरना प्रसाद बाँटना; 36 घंटे का निर्जला व्रत आरंभ"
+     },
+     "do": {
+      "en": "After the vrati has eaten, give the kheer-roti prasad to the family, friends and relatives. From now the vrati keeps the waterless (nirjala) fast for the next 36 hours. At midnight (as Wikipedia describes) the vrati begins to make the thekua.",
+      "hi": "व्रती के खा लेने के बाद खीर-रोटी का प्रसाद परिवार, मित्रों और रिश्तेदारों को दें। इसके बाद व्रती अगले 36 घंटे निर्जला व्रत रखती/रखता है। हिंदी विकिपीडिया के अनुसार मध्य रात्रि में व्रती ठेकुआ बनाना शुरू करती है।"
+     },
+     "materials": [
+      "rice_gud"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "The 36-hour waterless fast is hard on the body. People with diabetes, blood pressure, heart or kidney problems, pregnant or elderly vratis should talk to a doctor first. This is plain advice, not from the sources.",
+      "hi": "36 घंटे का निर्जला व्रत शरीर के लिए कठिन है। मधुमेह, रक्तचाप, हृदय या गुर्दे की समस्या वाले, गर्भवती या वृद्ध व्रती पहले डॉक्टर से सलाह लें। यह सामान्य सलाह है, स्रोतों से नहीं।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "xd02f7689",
+       "cite": "Calendar: Nahay Khay, Lohanda-Kharna, Sandhya Arghya, Usha Arghya, Parana; festival of Surya mainly in Bihar and neighbouring regions."
+      }
+     ]
+    },
+    {
+     "id": "d3-thekua",
+     "group": "prep",
+     "title": {
+      "en": "Day 3 (Sandhya Arghya): Make thekua and kachwania",
+      "hi": "तीसरा दिन (संध्या अर्घ्य): ठेकुआ और कचवनिया बनाना"
+     },
+     "do": {
+      "en": "The whole family helps to prepare the prasad. Make thekua of wheat flour by pressing the dough on a wooden mould, and kachwania (rice-flour laddu). Keep everything clean and covered.",
+      "hi": "पूरा परिवार प्रसाद बनाने में सहयोग करता है। गेहूँ के आटे से लकड़ी के साँचे पर दबाकर ठेकुआ और चावल के आटे के लड्डू (कचवनिया) बनाएँ। सब कुछ साफ और ढँका रखें।"
+     },
+     "materials": [
+      "thekua",
+      "kachwania"
+     ],
+     "mantras": [],
+     "notes": [
+      {
+       "en": "The name thekua comes from 'thokna' (to pound the dough onto a carved wooden mould), says Hindi Wikipedia.",
+       "hi": "हिंदी विकिपीडिया के अनुसार 'ठेकुआ' नाम आटे को साँचे पर ठोकने से पड़ा है।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d3-daura",
+     "group": "prep",
+     "title": {
+      "en": "Day 3: Fill the soop and daura",
+      "hi": "तीसरा दिन: सूप और दउरा सजाना"
+     },
+     "do": {
+      "en": "Fill the bamboo daura/basket with the prasad and fruits and keep it in the devkari (the puja corner of the house) after worship there. In the soop put a coconut, five kinds of fruit and the rest of the puja material: sugarcane, ol, turmeric, bada nimbu, ripe banana. All must be whole, uncut. Keep kusahi keraav in the basket but do not offer it at the evening arghya; save it for the morning.",
+      "hi": "बाँस के दउरा/टोकरी में प्रसाद और फल भरकर देवकरी (घर के पूजा स्थान) में पूजा के बाद रखें। सूप में नारियल, पाँच प्रकार के फल और अन्य पूजा सामग्री रखें: गन्ना, ओल, हल्दी, बड़ा नींबू, पके केले। सब साबुत, बिना कटे हों। कुसही केराव टोकरे में रखें पर संध्या अर्घ्य में न चढ़ाएँ; उसे सुबह के लिए बचाकर रखें।"
+     },
+     "materials": [
+      "soop",
+      "coconut",
+      "fruits",
+      "sugarcane",
+      "seasonal",
+      "kusahi",
+      "thekua",
+      "kachwania"
+     ],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d3-ghat-prep",
+     "group": "prep",
+     "title": {
+      "en": "Day 3: Plan the ghat visit and read the safety advice",
+      "hi": "तीसरा दिन: घाट जाने की योजना और सुरक्षा सलाह"
+     },
+     "do": {
+      "en": "Decide who goes with the vrati, the route and the time. Reach the ghat well before sunset. Take new diyas, wicks and ghee, matches, a torch and a towel. Read the ghat safety advice below.",
+      "hi": "तय करें कि व्रती के साथ कौन जाएगा, रास्ता कौन-सा होगा और कब निकलना है। सूर्यास्त से काफी पहले घाट पहुँचें। नए दीपक, बत्ती और घी, माचिस, टॉर्च और तौलिया साथ रखें। नीचे घाट सुरक्षा सलाह पढ़ लें।"
+     },
+     "materials": [
+      "diyas",
+      "lamp_lighter"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "PLAIN ADVICE (not from the sources): (1) Go to the ghat in a group, never alone, and keep children and elders with an adult. (2) Stand only in knee-deep water as the tradition itself says; never go to deeper water, and stay inside the barricade or the marked area where there is one. Check the water depth before you step in; river beds are uneven and slippery. (3) Do not push in a crowd; keep clear of the water's edge when it is packed. Follow police and volunteers. (4) Avoid boats overloaded with people. (5) Place diyas on a tray or on the ground away from clothes, dry grass and sugarcane leaves; light them carefully and keep sari ends and dupattas tied away. (6) A vrati who has fasted without water for a day may feel faint; keep a helper next to her and have sugar-water or a seat ready for the end of the vrat. (7) Keep a phone charged and know the nearest help point. (8) Carry your own waste back or use the bins; keep the ghat clean.",
+      "hi": "सामान्य सलाह (स्रोतों से नहीं): (1) घाट पर समूह में जाएँ, अकेले नहीं; बच्चों और बुजुर्गों को वयस्क के साथ रखें। (2) परंपरा के अनुसार घुटने तक पानी में ही खड़े हों; इससे गहरे में न जाएँ और जहाँ घेरा या निशान लगा हो उसी के भीतर रहें। पानी में उतरने से पहले गहराई जाँच लें; नदी की तलहटी ऊबड़-खाबड़ और फिसलन भरी होती है। (3) भीड़ में धक्का न दें; भीड़ भरे किनारे पर पानी के पास न रुकें। पुलिस और स्वयंसेवकों की बात मानें। (4) लोगों से भरी नावों पर न चढ़ें। (5) दीये थाली या जमीन पर कपड़ों, सूखी घास और गन्ने की पत्तियों से दूर रखें; सावधानी से जलाएँ और साड़ी का पल्लू व दुपट्टा बाँधकर दूर रखें। (6) एक दिन से निर्जल व्रती को चक्कर आ सकता है; उसके पास सहायक रखें और व्रत पूरा होने पर बैठने की जगह व चीनी का पानी तैयार रखें। (7) फोन चार्ज रखें और नजदीकी सहायता केंद्र जान लें। (8) अपना कचरा साथ वापस लाएँ या कूड़ेदान में डालें; घाट साफ रखें।"
+     }
+    },
+    {
+     "id": "d3-carry",
+     "group": "core",
+     "title": {
+      "en": "Day 3: Carry the daura to the ghat",
+      "hi": "तीसरा दिन: दउरा घाट ले जाना"
+     },
+     "do": {
+      "en": "In the afternoon a man of the house lifts the daura with the soop onto his head with his own hands (so it is not touched or made impure) and carries it to the ghat. Women usually walk along singing Chhath songs.",
+      "hi": "दोपहर बाद घर का कोई पुरुष दउरा और सूप को अपने हाथों से सिर पर उठाकर (ताकि अपवित्र न हो) घाट ले जाता है। महिलाएँ आमतौर पर छठ के गीत गाते हुए साथ चलती हैं।"
+     },
+     "materials": [
+      "soop"
+     ],
+     "mantras": [
+      {
+       "id": "d3-carry-m1",
+       "devanagari": "कांच ही बांस के बहंगिया,\nबहंगी लचकत जाय\nबहंगी लचकत जाय\nहोई ना बलम जी कहरिया,\nबहंगी घाटे पहुंचाय\nकांच ही बांस के बहंगिया,\nबहंगी लचकत जाय\nबहंगी लचकत जाय\nबाट जे पूछेला बटोहिया,\nबहंगी केकरा के जाय\nबहंगी केकरा के जाय",
+       "meaning": {
+        "en": "Folk song on carrying the bahangi to the ghat for Chhath Maiya: the bamboo carrying-pole bends as it goes; whoever asks the way, tell him it is going to Chhath Maiya.",
+        "hi": "बहँगी को घाट ले जाते समय का लोकगीत: कच्चे बाँस की बहँगी लचकती जाती है; रास्ता पूछने वाले को बताया जाता है कि बहँगी छठ मैया के पास जा रही है।"
+       },
+       "transliteration": "kāṁca hī bāṁsa ke bahaṁgiyā,\nbahaṁgī lacakata jāya\nbahaṁgī lacakata jāya\nhoī nā balama jī kahariyā,\nbahaṁgī ghāṭe pahuṁcāya\nkāṁca hī bāṁsa ke bahaṁgiyā,\nbahaṁgī lacakata jāya\nbahaṁgī lacakata jāya\nbāṭa je pūchelā baṭohiyā,\nbahaṁgī kekarā ke jāya\nbahaṁgī kekarā ke jāya",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/bhajan/chhath-kanch-hi-bans-ke-bahangiya",
+       "optional": true,
+       "note": "A Bhojpuri folk song (geet), first stanzas only. Not a mantra."
+      }
+     ],
+     "variation": {
+      "en": "Chhath songs differ by region (Bhojpuri, Maithili, Magahi); many other songs are sung. The text of other songs is not included.",
+      "hi": "छठ के गीत क्षेत्र (भोजपुरी, मैथिली, मगही) के अनुसार भिन्न हैं; कई अन्य गीत गाए जाते हैं। उनका पाठ यहाँ नहीं दिया गया।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "xf94dd67f",
+       "cite": "Text of the mantra copied from this page."
+      }
+     ]
+    },
+    {
+     "id": "d3-chaura",
+     "group": "setup",
+     "title": {
+      "en": "Day 3: Set up the ghat (chaura, soop, coconut, lamp)",
+      "hi": "तीसरा दिन: घाट सजाना (चौरा, सूप, नारियल, दीप)"
+     },
+     "do": {
+      "en": "At the riverside or pond, a family member makes a raised platform (chabutra). Take clay from the river and make Chhathi Maiya's chaura on it. Place all the puja material on it, offer the coconut and light the lamps (new diya, new wick, ghee).",
+      "hi": "नदी या तालाब के किनारे घर का कोई सदस्य चबूतरा बनाता है। नदी से मिट्टी निकालकर उस पर छठ माता का चौरा बनाएँ। उस पर सारा पूजा सामान रखें, नारियल अर्पित करें और दीप जलाएँ (नया दीया, नई बत्ती, घी)।"
+     },
+     "materials": [
+      "mud_chaura",
+      "diyas",
+      "coconut",
+      "soop",
+      "fruits",
+      "thekua"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Place lamps on the platform, not near dry grass, cloth or sugarcane leaves; the vrati and helpers keep their clothing away from the flames.",
+      "hi": "दीपक चबूतरे पर रखें, सूखी घास, कपड़े या गन्ने की पत्तियों के पास नहीं; व्रती और सहायक अपने वस्त्र लपटों से दूर रखें।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d3-arghya",
+     "group": "core",
+     "title": {
+      "en": "Day 3: Sandhya Arghya to the setting sun",
+      "hi": "तीसरा दिन: डूबते सूर्य को संध्या अर्घ्य"
+     },
+     "do": {
+      "en": "A little before sunset the vrati takes the soop with all the puja material and goes into knee-deep water, facing the sun. As the sun sets, offer arghya (water or milk) to the setting sun and do five parikramas (circles). Say the Surya arghya mantra or simply the names of Surya, if you wish.",
+      "hi": "सूर्यास्त से कुछ पहले व्रती सूप में सारा पूजा सामान लेकर घुटने तक पानी में सूर्य की ओर मुँह करके खड़ी/खड़ा हो। सूर्यास्त के समय डूबते सूर्य को अर्घ्य (जल या दूध) दें और पाँच बार परिक्रमा करें। चाहें तो सूर्य का अर्घ्य मंत्र या सूर्य के नाम बोलें।"
+     },
+     "materials": [
+      "soop",
+      "milk",
+      "coconut",
+      "fruits"
+     ],
+     "mantras": [
+      {
+       "id": "d3-arghya-m1",
+       "devanagari": "ॐ ऐहि सूर्य सहस्त्रांशों तेजो राशे जगत्पते, अनुकंपयेमां भक्त्या, गृहाणार्घय दिवाकर: ।",
+       "meaning": {
+        "en": "Come, Surya, of a thousand rays, mass of brightness, lord of the world; kindly accept my arghya with devotion, O maker of the day.",
+        "hi": "हे सहस्र किरणों वाले सूर्य, तेज के पुंज, जगत के स्वामी, आइए; कृपा करके भक्ति से दिया मेरा अर्घ्य स्वीकार कीजिए, हे दिवाकर।"
+       },
+       "transliteration": "oṁ aihi sūrya sahastrāṁśoṁ tejo rāśe jagatpate, anukaṁpayemāṁ bhaktyā, gṛhāṇārghaya divākara: ।",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/surya-mantra",
+       "note": "Printed as on Bhakti Bharat ('ऐहि', 'गृहाणार्घय'). Patrika prints it as 'एहि सूर्य सहस्त्रांशो तेजोराशे जगत्पते। अनुकम्पां हि मे कृत्वा गृहाणाघ्र्यं दिवाकर।।' (see next entry). The sources do not say this mantra is a fixed part of Chhath; Chhath is a folk festival without a required priest or mantra."
+      },
+      {
+       "id": "d3-arghya-m2",
+       "devanagari": "एहि सूर्य सहस्त्रांशो तेजोराशे जगत्पते। अनुकम्पां हि मे कृत्वा गृहाणाघ्र्यं दिवाकर।।",
+       "meaning": {
+        "en": "Same prayer in another reading: come, Surya of a thousand rays, mass of brightness, lord of the world; be kind to me and accept this arghya, O Divakar.",
+        "hi": "वही प्रार्थना दूसरे पाठ में: हे सहस्र किरणों वाले सूर्य, तेज के पुंज, जगत के स्वामी, आइए; मुझ पर कृपा कर यह अर्घ्य स्वीकार कीजिए, हे दिवाकर।"
+       },
+       "transliteration": "ehi sūrya sahastrāṁśo tejorāśe jagatpate। anukampāṁ hi me kṛtvā gṛhāṇāghryaṁ divākara॥",
+       "verified": true,
+       "sourceUrl": "https://www.patrika.com/dharma-karma/surya-upasna-tips-tips-to-please-the-lord-sun-to-get-good-luck-7945923/",
+       "optional": true,
+       "note": "Second reading from Patrika; it is a wider-known form of this arghya verse. Choose one reading with the pandit; the meaning is the same."
+      }
+     ],
+     "safety": {
+      "en": "Stay in knee-deep water only; the vrati may be weak after a day without water. Keep a helper within arm's reach and do not crowd the water's edge.",
+      "hi": "केवल घुटने तक पानी में रहें; एक दिन निर्जल रहने के बाद व्रती कमजोर हो सकती है। सहायक हाथ की पहुँच में रहे और पानी के किनारे भीड़ न करें।"
+     },
+     "variation": {
+      "en": "Some families offer arghya by pouring water or raw milk from a clean vessel on the soop; Hindi Wikipedia says 'milk'. Sources differ on the exact method of pouring.",
+      "hi": "कुछ परिवार स्वच्छ पात्र से जल या कच्चा दूध सूप पर डालकर अर्घ्य देते हैं; हिंदी विकिपीडिया में 'दूध' लिखा है। डालने की विधि पर स्रोतों में भेद है।"
+     },
+     "notes": [
+      {
+       "en": "Short names to repeat while giving arghya (from Bhakti Bharat's Surya mantra page): 'ॐ सूर्याय नम:', 'ॐ घृणि सूर्याय नम:', 'ॐ ह्रीं ह्रीं सूर्याय नमः'. They are added in the next step as optional mantras.",
+       "hi": "अर्घ्य के समय दोहराने योग्य छोटे नाम (भक्ति भारत के सूर्य मंत्र पृष्ठ से): 'ॐ सूर्याय नम:', 'ॐ घृणि सूर्याय नम:', 'ॐ ह्रीं ह्रीं सूर्याय नमः'। इन्हें अगले चरण में वैकल्पिक मंत्र के रूप में जोड़ा है।"
+      },
+      {
+       "en": "Bhakti Bharat: Patna sunset on 15 November 2026 is about 05:01 PM; Drik Panchang gives Sandhya Arghya on Sunday 15 November 2026. Check your local sunset time.",
+       "hi": "भक्ति भारत: पटना में 15 नवम्बर 2026 को सूर्यास्त लगभग 05:01 बजे; ड्रिक पंचांग में संध्या अर्घ्य रविवार 15 नवम्बर 2026 को है। अपने स्थान का सूर्यास्त समय देखें।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "x83664042",
+       "cite": "Arghya mantra and other Surya mantras."
+      },
+      {
+       "source": "xd6af59c4",
+       "cite": "Second reading of the arghya verse; the Surya aarti text."
+      }
+     ]
+    },
+    {
+     "id": "d3-surya-names",
+     "group": "core",
+     "title": {
+      "en": "Day 3: Surya names to chant (optional)",
+      "hi": "तीसरा दिन: सूर्य के नाम जप (वैकल्पिक)"
+     },
+     "do": {
+      "en": "After the arghya, stand with folded hands and repeat the short Surya mantras below, as many times as you like.",
+      "hi": "अर्घ्य के बाद हाथ जोड़कर खड़े होकर नीचे के छोटे सूर्य मंत्र जितनी बार चाहें दोहराएँ।"
+     },
+     "materials": [],
+     "mantras": [
+      {
+       "id": "d3-surya-names-m1",
+       "devanagari": "ॐ सूर्याय नम: ।",
+       "meaning": {
+        "en": "Salutations to Surya.",
+        "hi": "सूर्य को नमस्कार।"
+       },
+       "transliteration": "oṁ sūryāya nama: ।",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/surya-mantra",
+       "optional": true
+      },
+      {
+       "id": "d3-surya-names-m2",
+       "devanagari": "ॐ घृणि सूर्याय नम: ।",
+       "meaning": {
+        "en": "Salutations to Ghrini Surya, the radiant sun.",
+        "hi": "तेजस्वी घृणि सूर्य को नमस्कार।"
+       },
+       "transliteration": "oṁ ghṛṇi sūryāya nama: ।",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/surya-mantra",
+       "optional": true,
+       "note": "Bhakti Bharat; the Patrika/other news sites also call 'ॐ घृणि सूर्याय नमः' the most common."
+      },
+      {
+       "id": "d3-surya-names-m3",
+       "devanagari": "ॐ ह्रीं ह्रीं सूर्याय नमः ।",
+       "meaning": {
+        "en": "Om Hrim Hrim, salutations to Surya.",
+        "hi": "ॐ ह्रीं ह्रीं, सूर्य को नमस्कार।"
+       },
+       "transliteration": "oṁ hrīṁ hrīṁ sūryāya namaḥ ।",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/surya-mantra",
+       "optional": true
+      }
+     ],
+     "optional": true,
+     "sources": [
+      {
+       "source": "x83664042",
+       "cite": "Arghya mantra and other Surya mantras."
+      }
+     ]
+    },
+    {
+     "id": "d3-aarti",
+     "group": "aarti",
+     "title": {
+      "en": "Day 3: Aarti of Surya Dev at the ghat",
+      "hi": "तीसरा दिन: घाट पर सूर्य देव की आरती"
+     },
+     "do": {
+      "en": "After the arghya the family sings the Surya aarti at the ghat, while the lamps burn. The vrati returns with the soop (or, as some families do, the family stays at the ghat for the night).",
+      "hi": "अर्घ्य के बाद परिवार घाट पर दीप जलते रहने के दौरान सूर्य की आरती गाता है। फिर व्रती सूप के साथ लौटती/लौटता है (कुछ परिवार रात घाट पर ही रुकते हैं)।"
+     },
+     "materials": [
+      "diyas"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Keep lamps on a tray and away from clothes.",
+      "hi": "दीपक थाली में रखें और कपड़ों से दूर रखें।"
+     },
+     "notes": [
+      {
+       "en": "Bhakti Bharat tags this aarti as a Chhath aarti. Patrika prints the same text with slightly different wording (e.g. 'सारथी अरुण' vs 'अरूण'; 'ऊं' vs 'ऊँ'). No Chhathi Maiya aarti with a reliable text was found.",
+       "hi": "भक्ति भारत इस आरती को छठ आरती के रूप में टैग करता है। पत्रिका में वही पाठ थोड़े अलग शब्दों के साथ है (जैसे 'सारथी अरुण' बनाम 'अरूण'; 'ऊं' बनाम 'ऊँ')। छठी मैया की कोई विश्वसनीय आरती नहीं मिली।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "x6be14e9b",
+       "cite": "Surya aarti text; the page is tagged with Chhath Puja aarti."
+      },
+      {
+       "source": "xd6af59c4",
+       "cite": "Second reading of the arghya verse; the Surya aarti text."
+      }
+     ],
+     "aarti": {
+      "title": {
+       "en": "Om Jai Surya Bhagwan",
+       "hi": "ॐ जय सूर्य भगवान"
+      },
+      "lyrics": "ऊँ जय सूर्य भगवान,\nजय हो दिनकर भगवान ।\nजगत् के नेत्र स्वरूपा,\nतुम हो त्रिगुण स्वरूपा ।\nधरत सब ही तव ध्यान,\nऊँ जय सूर्य भगवान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nसारथी अरूण हैं प्रभु तुम,\nश्वेत कमलधारी ।\nतुम चार भुजाधारी ॥\nअश्व हैं सात तुम्हारे,\nकोटी किरण पसारे ।\nतुम हो देव महान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nऊषाकाल में जब तुम,\nउदयाचल आते ।\nसब तब दर्शन पाते ॥\nफैलाते उजियारा,\nजागता तब जग सारा ।\nकरे सब तब गुणगान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nसंध्या में भुवनेश्वर,\nअस्ताचल जाते ।\nगोधन तब घर आते॥\nगोधुली बेला में,\nहर घर हर आंगन में ।\nहो तव महिमा गान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nदेव दनुज नर नारी,\nऋषि मुनिवर भजते ।\nआदित्य हृदय जपते ॥\nस्त्रोत ये मंगलकारी,\nइसकी है रचना न्यारी ।\nदे नव जीवनदान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nतुम हो त्रिकाल रचियता,\nतुम जग के आधार ।\nमहिमा तब अपरम्पार ॥\nप्राणों का सिंचन करके,\nभक्तों को अपने देते ।\nबल बृद्धि और ज्ञान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nभूचर जल चर खेचर,\nसब के हो प्राण तुम्हीं ।\nसब जीवों के प्राण तुम्हीं ॥\nवेद पुराण बखाने,\nधर्म सभी तुम्हें माने ।\nतुम ही सर्व शक्तिमान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nपूजन करती दिशाएं,\nपूजे दश दिक्पाल ।\nतुम भुवनों के प्रतिपाल ॥\nऋतुएं तुम्हारी दासी,\nतुम शाश्वत अविनाशी ।\nशुभकारी अंशुमान ॥\n॥ ऊँ जय सूर्य भगवान..॥\nऊँ जय सूर्य भगवान,\nजय हो दिनकर भगवान ।\nजगत के नेत्र रूवरूपा,\nतुम हो त्रिगुण स्वरूपा ॥\nधरत सब ही तव ध्यान,",
+      "transliteration": "ū~ jaya sūrya bhagavāna,\njaya ho dinakara bhagavāna ।\njagat ke netra svarūpā,\ntuma ho triguṇa svarūpā ।\ndharata saba hī tava dhyāna,\nū~ jaya sūrya bhagavāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\nsārathī arūṇa haiṁ prabhu tuma,\nśveta kamaladhārī ।\ntuma cāra bhujādhārī ॥\naśva haiṁ sāta tumhāre,\nkoṭī kiraṇa pasāre ।\ntuma ho deva mahāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\nūṣākāla meṁ jaba tuma,\nudayācala āte ।\nsaba taba darśana pāte ॥\nphailāte ujiyārā,\njāgatā taba jaga sārā ।\nkare saba taba guṇagāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\nsaṁdhyā meṁ bhuvaneśvara,\nastācala jāte ।\ngodhana taba ghara āte॥\ngodhulī belā meṁ,\nhara ghara hara āṁgana meṁ ।\nho tava mahimā gāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\ndeva danuja nara nārī,\nṛṣi munivara bhajate ।\nāditya hṛdaya japate ॥\nstrota ye maṁgalakārī,\nisakī hai racanā nyārī ।\nde nava jīvanadāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\ntuma ho trikāla raciyatā,\ntuma jaga ke ādhāra ।\nmahimā taba aparampāra ॥\nprāṇoṁ kā siṁcana karake,\nbhaktoṁ ko apane dete ।\nbala bṛddhi aura jñāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\nbhūcara jala cara khecara,\nsaba ke ho prāṇa tumhīṁ ।\nsaba jīvoṁ ke prāṇa tumhīṁ ॥\nveda purāṇa bakhāne,\ndharma sabhī tumheṁ māne ।\ntuma hī sarva śaktimāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\npūjana karatī diśāeṁ,\npūje daśa dikpāla ।\ntuma bhuvanoṁ ke pratipāla ॥\nṛtueṁ tumhārī dāsī,\ntuma śāśvata avināśī ।\nśubhakārī aṁśumāna ॥\n॥ ū~ jaya sūrya bhagavāna..॥\nū~ jaya sūrya bhagavāna,\njaya ho dinakara bhagavāna ।\njagata ke netra rūvarūpā,\ntuma ho triguṇa svarūpā ॥\ndharata saba hī tava dhyāna,",
+      "meaning": {
+       "en": "Praise of Surya, the eye of the world: the charioteer Aruna, seven horses, the sun that rises at dawn and sets at dusk, whom gods, sages and all beings praise, who gives life, strength and wisdom to devotees.",
+       "hi": "जगत के नेत्र सूर्य की स्तुति: सारथी अरुण, सात अश्व, उषा काल में उदय और संध्या में अस्त होने वाले, जिन्हें देव, ऋषि और सब जीव भजते हैं और जो भक्तों को प्राण, बल और ज्ञान देते हैं।"
+      },
+      "verified": true,
+      "sourceUrl": "https://www.bhaktibharat.com/aarti/shri-surya-dev-om-jai-surya-bhagwan",
+      "secondSourceUrl": "https://www.patrika.com/dharma-karma/surya-upasna-tips-tips-to-please-the-lord-sun-to-get-good-luck-7945923/"
+     }
+    },
+    {
+     "id": "d3-chhathi",
+     "group": "aarti",
+     "title": {
+      "en": "Day 3: Songs and prayer to Chhathi Maiya",
+      "hi": "तीसरा दिन: छठी मैया के गीत और प्रार्थना"
+     },
+     "do": {
+      "en": "Women sing songs for Chhathi Maiya while preparing the prasad, going to the ghat, giving arghya and returning home. Bhakti Bharat has a collection of Chhath songs; the family or village elders know the songs they sing.",
+      "hi": "महिलाएँ प्रसाद बनाते समय, घाट जाते समय, अर्घ्य देते समय और घर लौटते समय छठी मैया के गीत गाती हैं। भक्ति भारत पर छठ गीतों का संग्रह है; परिवार या गाँव की बुजुर्ग महिलाएँ अपने गीत जानती हैं।"
+     },
+     "materials": [],
+     "mantras": [],
+     "pending": {
+      "en": "A traditional aarti or stotra of Chhathi Maiya (Shashthi Devi) with a reliable text was not found in the sources and is not included. Folk songs of modern composition are not copied.",
+      "hi": "छठी मैया (षष्ठी देवी) की पारंपरिक आरती या स्तोत्र का विश्वसनीय पाठ स्रोतों में नहीं मिला और शामिल नहीं है। आधुनिक रचना वाले लोकगीत नहीं लिए गए।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Mentions songs sung while preparing prasad, at kharna, going to the ghat, at arghya and returning."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Collection of Chhath songs (https://www.bhaktibharat.com/bhajan/chhath-geet-lyrics)."
+      }
+     ]
+    },
+    {
+     "id": "d3-return",
+     "group": "close",
+     "title": {
+      "en": "Day 3: Return home and keep the night vigil",
+      "hi": "तीसरा दिन: घर लौटना और रात्रि जागरण"
+     },
+     "do": {
+      "en": "Return home singing Chhath songs with the puja material and place it back in the devkari. Many people stay at the ghat all night. The vrati continues the nirjala fast, rests on the floor and keeps the kusahi keraav ready for the morning.",
+      "hi": "छठ के गीत गाते हुए पूजा सामग्री लेकर घर लौटें और उसे देवकरी में रख दें। बहुत लोग रात भर घाट पर रुकते हैं। व्रती निर्जला व्रत जारी रखती/रखता है, फर्श पर विश्राम करती/करता है और कुसही केराव सुबह के लिए तैयार रखती/रखता है।"
+     },
+     "materials": [
+      "kusahi"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "If staying at the ghat overnight, stay in a group, away from the water's edge, with a torch; keep lamps and fires away from tents and cloth.",
+      "hi": "रात को घाट पर रुकें तो समूह में, पानी के किनारे से दूर और टॉर्च के साथ रहें; दीपक व आग तंबू और कपड़ों से दूर रखें।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      }
+     ]
+    },
+    {
+     "id": "d4-prep",
+     "group": "prep",
+     "title": {
+      "en": "Day 4 (Usha Arghya): Get up early and prepare new prasad",
+      "hi": "चौथा दिन (उषा अर्घ्य): जल्दी उठें और नया प्रसाद तैयार करें"
+     },
+     "do": {
+      "en": "Wake before dawn. Take a bath and put on clean unstitched clothes. Replace the thekua and other cooked items with fresh ones; the roots, fruits and vegetables remain the same. Fill the soop and daura again and carry them to the ghat before sunrise.",
+      "hi": "सूर्योदय से पहले उठें। स्नान करके स्वच्छ बिना सिले वस्त्र पहनें। ठेकुआ आदि पके पकवान नए बनाकर बदल दें; कंद, मूल, फल और सब्जियाँ वही रहती हैं। सूप और दउरा फिर भरकर सूर्योदय से पहले घाट ले जाएँ।"
+     },
+     "materials": [
+      "soop",
+      "thekua",
+      "fruits",
+      "seasonal",
+      "kusahi",
+      "diyas"
+     ],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d4-ghat",
+     "group": "setup",
+     "title": {
+      "en": "Day 4: Reach the ghat before sunrise",
+      "hi": "चौथा दिन: सूर्योदय से पहले घाट पहुँचें"
+     },
+     "do": {
+      "en": "Reach the ghat before sunrise with family and neighbours. All the rules of the evening arghya are the same. Arrange the soop, coconut, fruits and lamps again as on the previous evening. See the ghat safety advice in the Day 3 steps.",
+      "hi": "परिजनों और पड़ोसियों के साथ सूर्योदय से पहले घाट पहुँचें। संध्या अर्घ्य के सभी नियम वही हैं। सूप, नारियल, फल और दीपक पिछली शाम की तरह फिर सजाएँ। घाट सुरक्षा सलाह के लिए तीसरे दिन के चरण देखें।"
+     },
+     "materials": [
+      "soop",
+      "coconut",
+      "fruits",
+      "diyas"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "Morning at the ghat can be dark, cold and foggy in November; carry a torch and a shawl, and take extra care on slippery steps. See the full advice in Day 3.",
+      "hi": "नवम्बर में सुबह घाट पर अंधेरा, ठंड और कोहरा हो सकता है; टॉर्च और शॉल साथ रखें और फिसलन भरी सीढ़ियों पर विशेष सावधानी रखें। पूरी सलाह तीसरे दिन में देखें।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d4-arghya",
+     "group": "core",
+     "title": {
+      "en": "Day 4: Usha Arghya to the rising sun",
+      "hi": "चौथा दिन: उगते सूर्य को उषा अर्घ्य"
+     },
+     "do": {
+      "en": "The vrati stands in the water facing east (towards the sunrise), holding the soop. As the sun rises, offer arghya to the rising sun, worship the sun and do the parikramas as in the evening. The kusahi keraav is offered now.",
+      "hi": "व्रती पूर्व दिशा की ओर मुँह करके, सूप हाथ में लेकर पानी में खड़ी/खड़ा हो। सूर्य उदय होने पर उगते सूर्य को अर्घ्य दें, सूर्योपासना करें और संध्या की तरह परिक्रमा करें। कुसही केराव अब अर्पित किया जाता है।"
+     },
+     "materials": [
+      "soop",
+      "milk",
+      "kusahi"
+     ],
+     "mantras": [
+      {
+       "id": "d4-arghya-m1",
+       "devanagari": "ॐ ऐहि सूर्य सहस्त्रांशों तेजो राशे जगत्पते, अनुकंपयेमां भक्त्या, गृहाणार्घय दिवाकर: ।",
+       "meaning": {
+        "en": "Come, Surya, of a thousand rays, mass of brightness, lord of the world; kindly accept my arghya with devotion, O maker of the day.",
+        "hi": "हे सहस्र किरणों वाले सूर्य, तेज के पुंज, जगत के स्वामी, आइए; कृपा करके भक्ति से दिया मेरा अर्घ्य स्वीकार कीजिए, हे दिवाकर।"
+       },
+       "transliteration": "oṁ aihi sūrya sahastrāṁśoṁ tejo rāśe jagatpate, anukaṁpayemāṁ bhaktyā, gṛhāṇārghaya divākara: ।",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/surya-mantra",
+       "optional": true,
+       "note": "Same arghya verse as in the evening step; optional."
+      }
+     ],
+     "safety": {
+      "en": "Same water safety as the evening: knee-deep only, helper within reach.",
+      "hi": "संध्या की तरह जल-सुरक्षा: केवल घुटने तक पानी, सहायक पास में।"
+     },
+     "notes": [
+      {
+       "en": "Bhakti Bharat: Patna sunrise on 16 November 2026 is about 06:07 AM; Drik Panchang gives Usha Arghya on Monday 16 November 2026. Check your local sunrise time. Hindi Wikipedia: only the vrati faces east in the water.",
+       "hi": "भक्ति भारत: पटना में 16 नवम्बर 2026 को सूर्योदय लगभग 06:07 बजे; ड्रिक पंचांग में उषा अर्घ्य सोमवार 16 नवम्बर 2026 को है। अपने स्थान का सूर्योदय समय देखें। हिंदी विकिपीडिया: केवल व्रती पूर्व की ओर मुँह करके पानी में खड़े होते हैं।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      },
+      {
+       "source": "x83664042",
+       "cite": "Arghya mantra and other Surya mantras."
+      }
+     ]
+    },
+    {
+     "id": "d4-aditya",
+     "group": "core",
+     "title": {
+      "en": "Day 4: Aditya Hridaya verses (optional)",
+      "hi": "चौथा दिन: आदित्य हृदय के श्लोक (वैकल्पिक)"
+     },
+     "do": {
+      "en": "If you know it, recite from the Aditya Hridaya stotra, the hymn to Surya from the Ramayana, on this morning. Two short passages are given here.",
+      "hi": "यदि आपको आता हो तो इस प्रातः वाल्मीकि रामायण के सूर्य स्तोत्र आदित्य हृदय का पाठ करें। यहाँ दो छोटे अंश दिए हैं।"
+     },
+     "materials": [],
+     "mantras": [
+      {
+       "id": "d4-aditya-m1",
+       "devanagari": "रश्मिमन्तं समुद्यन्तं देवासुरनमस्कृतम् । पूजयस्व विवस्वन्तं भास्करं भुवनेश्वरम् ॥6॥",
+       "meaning": {
+        "en": "Worship Vivasvan, the Sun, the lord of the worlds, who has rays, who rises, whom gods and demons bow to.",
+        "hi": "किरणों वाले, उदय होते हुए, देव-असुर जिनको नमस्कार करते हैं, उन विवस्वान भास्कर भुवनेश्वर सूर्य की पूजा करो।"
+       },
+       "transliteration": "raśmimantaṁ samudyantaṁ devāsuranamaskṛtam । pūjayasva vivasvantaṁ bhāskaraṁ bhuvaneśvaram ॥6॥",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/aditya-hridaya-stotra",
+       "optional": true,
+       "note": "Verse 6 of Aditya Hridayam as printed on Bhakti Bharat."
+      },
+      {
+       "id": "d4-aditya-m2",
+       "devanagari": "नमः पूर्वाय गिरये पश्चिमायाद्रये नमः । ज्योतिर्गणानां पतये दिनाधिपतये नमः ॥16॥",
+       "meaning": {
+        "en": "Salutations to the eastern mountain, to the western mountain; salutations to the lord of the lights, the lord of the day.",
+        "hi": "पूर्व के पर्वत को नमस्कार, पश्चिम के पर्वत को नमस्कार; ज्योतिर्गणों के स्वामी, दिन के अधिपति को नमस्कार।"
+       },
+       "transliteration": "namaḥ pūrvāya giraye paścimāyādraye namaḥ । jyotirgaṇānāṁ pataye dinādhipataye namaḥ ॥16॥",
+       "verified": true,
+       "sourceUrl": "https://www.bhaktibharat.com/mantra/aditya-hridaya-stotra",
+       "optional": true,
+       "note": "Verse 16 as printed."
+      }
+     ],
+     "pending": {
+      "en": "The rest of the Aditya Hridaya stotra (31 verses) is on Bhakti Bharat and is not reproduced here.",
+      "hi": "आदित्य हृदय स्तोत्र के शेष श्लोक (कुल 31) भक्ति भारत पर हैं, यहाँ नहीं दिए गए।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "x56c79c62",
+       "cite": "Verse text."
+      }
+     ]
+    },
+    {
+     "id": "d4-ghat-puja",
+     "group": "aarti",
+     "title": {
+      "en": "Day 4: Worship of the ghat and prasad",
+      "hi": "चौथा दिन: घाट पूजन और प्रसाद"
+     },
+     "do": {
+      "en": "When the arghya is over, worship the ghat itself. Then share the prasad with everyone present. The Surya aarti (given in the Day 3 evening step) may be sung again if the family wishes.",
+      "hi": "अर्घ्य पूरा होने पर घाट का पूजन करें। फिर वहाँ उपस्थित सबको प्रसाद बाँटें। परिवार चाहे तो सूर्य की आरती (तीसरे दिन के चरण में दी गई) फिर गाई जा सकती है।"
+     },
+     "materials": [
+      "flowers",
+      "thekua"
+     ],
+     "mantras": [],
+     "pending": {
+      "en": "The method and text of the ghat puja are not given by the sources found.",
+      "hi": "घाट पूजन की विधि और पाठ मिले स्रोतों में नहीं हैं।"
+     },
+     "notes": [
+      {
+       "en": "Hindi Wikipedia and Bhakti Bharat say 'घाट का पूजन' is done but give no method or mantra; the details are left to local custom.",
+       "hi": "हिंदी विकिपीडिया और भक्ति भारत में 'घाट का पूजन' का उल्लेख है पर विधि या मंत्र नहीं; ब्योरे स्थानीय रीति पर हैं।"
+      }
+     ],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    },
+    {
+     "id": "d4-home",
+     "group": "close",
+     "title": {
+      "en": "Day 4: Prasad at home and worship at the peepal (Brahm Baba)",
+      "hi": "चौथा दिन: घर पर प्रसाद और पीपल (ब्रह्म बाबा) की पूजा"
+     },
+     "do": {
+      "en": "Return home and share the prasad with the family. In Bihar villages the vrati then goes to the village peepal tree, called Brahm Baba, and worships there.",
+      "hi": "घर लौटकर परिवार को प्रसाद बाँटें। बिहार के गाँवों में व्रती फिर गाँव के पीपल के पेड़ (ब्रह्म बाबा) के पास जाकर पूजा करती है।"
+     },
+     "materials": [],
+     "mantras": [],
+     "variation": {
+      "en": "Brahm Baba (peepal) worship is a village custom reported by Hindi Wikipedia; not every home does it.",
+      "hi": "ब्रह्म बाबा (पीपल) की पूजा गाँव की रीति है जो हिंदी विकिपीडिया में दर्ज है; हर घर में नहीं होती।"
+     },
+     "optional": true,
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      }
+     ]
+    },
+    {
+     "id": "d4-parana",
+     "group": "close",
+     "title": {
+      "en": "Day 4: Parana, breaking the fast",
+      "hi": "चौथा दिन: पारण, व्रत खोलना"
+     },
+     "do": {
+      "en": "The vrati breaks the nirjala fast by drinking a sherbet of raw milk and eating a little prasad. Then take the normal food of the day, with salt (the vrati has had no salt since Kharna). Eat gently, as the body has been fasting for about 36 hours.",
+      "hi": "व्रती कच्चे दूध का शरबत पीकर और थोड़ा प्रसाद खाकर निर्जला व्रत खोलती/खोलता है। फिर दिन का सामान्य भोजन नमक सहित लें (खरना के बाद से व्रती ने नमक नहीं लिया है)। धीरे-धीरे खाएँ क्योंकि शरीर लगभग 36 घंटे उपवासी रहा है।"
+     },
+     "materials": [
+      "milk"
+     ],
+     "mantras": [],
+     "safety": {
+      "en": "After a long fast start with liquids and small bites; if the vrati feels faint or unwell, seek medical help. Plain advice, not from the sources.",
+      "hi": "लंबे उपवास के बाद पहले तरल और थोड़ा-थोड़ा खाएँ; व्रती को चक्कर या अस्वस्थता लगे तो डॉक्टर को दिखाएँ। सामान्य सलाह, स्रोतों से नहीं।"
+     },
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      }
+     ]
+    },
+    {
+     "id": "d4-close",
+     "group": "close",
+     "title": {
+      "en": "Day 4: Distribute prasad and clean up the ghat",
+      "hi": "चौथा दिन: प्रसाद बाँटें और घाट की सफाई"
+     },
+     "do": {
+      "en": "Give prasad to relatives, neighbours and friends, as the festival is a community event. Take back or properly dispose of the puja waste and plastic from the ghat so that it stays clean for others.",
+      "hi": "रिश्तेदारों, पड़ोसियों और मित्रों को प्रसाद दें, क्योंकि यह सामुदायिक उत्सव है। घाट से पूजा का कचरा और प्लास्टिक वापस ले आएँ या ठीक से डालें ताकि दूसरों के लिए घाट साफ रहे।"
+     },
+     "materials": [],
+     "mantras": [],
+     "sources": [
+      {
+       "source": "xf454eeba",
+       "cite": "Four-day sequence, nahay-khay food and rules, kharna kheer, thekua, soop/daura, samagri (sugarcane, ol, haldi, coconut, bada nimbu, banana), knee-deep water, five parikrama, usha arghya, ghat puja, brahm baba, parana, 36-hour nirjala, unstitched clothes."
+      },
+      {
+       "source": "x936d45c0",
+       "cite": "Day-wise rites and times (Patna sunset/sunrise 2026); cleaning the house, bath, one meal, kharna kheer, thekua, kachwania, daura, chaura at the river, lamp, arghya and five parikrama."
+      }
+     ]
+    }
+   ],
+   "sources": [
+    "xf454eeba",
+    "x936d45c0",
+    "xd02f7689",
+    "x83664042",
+    "xf94dd67f",
+    "xd6af59c4",
+    "x6be14e9b",
+    "x56c79c62"
+   ],
+   "sourceMap": {
+    "xf454eeba": {
+     "title": "Hindi Wikipedia: छठ",
+     "publisher": "hi.wikipedia.org",
+     "url": "https://hi.wikipedia.org/wiki/छठ",
+     "note": ""
+    },
+    "x936d45c0": {
+     "title": "Bhakti Bharat: Chhath Puja",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/festival/chhath-puja",
+     "note": ""
+    },
+    "xd02f7689": {
+     "title": "Drik Panchang: Chhath Puja",
+     "publisher": "drikpanchang.com",
+     "url": "https://www.drikpanchang.com/festivals/chhath-puja/chhath-puja-date-time.html",
+     "note": ""
+    },
+    "x83664042": {
+     "title": "https://www.bhaktibharat.com/mantra/surya-mantra",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/mantra/surya-mantra",
+     "note": ""
+    },
+    "xf94dd67f": {
+     "title": "https://www.bhaktibharat.com/bhajan/chhath-kanch-hi-bans-ke-bahangiya",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/bhajan/chhath-kanch-hi-bans-ke-bahangiya",
+     "note": ""
+    },
+    "xd6af59c4": {
+     "title": "Patrika: Surya upasana tips",
+     "publisher": "patrika.com",
+     "url": "https://www.patrika.com/dharma-karma/surya-upasna-tips-tips-to-please-the-lord-sun-to-get-good-luck-7945923/",
+     "note": ""
+    },
+    "x6be14e9b": {
+     "title": "Bhakti Bharat: Om Jai Surya Bhagwan",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/aarti/shri-surya-dev-om-jai-surya-bhagwan",
+     "note": ""
+    },
+    "x56c79c62": {
+     "title": "Bhakti Bharat: Aditya Hridaya Stotra",
+     "publisher": "bhaktibharat.com",
+     "url": "https://www.bhaktibharat.com/mantra/aditya-hridaya-stotra",
+     "note": ""
+    }
+   },
+   "gaps": [
+    "No traditional aarti or stotra of Chhathi Maiya (Shashthi Devi) with a reliable text was found; the Surya aarti is used. Chhath folk songs are modern or oral; only the first stanzas of one traditional Bhojpuri song ('कांच ही बांस के बहंगिया') are quoted.",
+    "No sankalp text and no fixed mantra for Kharna or the ghat puja was found; Chhath is a folk festival and the sources do not give a Sanskrit rite.",
+    "The Surya arghya mantra comes from Bhakti Bharat and Patrika with spelling differences; no scriptural edition (Wikisource/GRETIL) was fetched to verify it. Aditya Hridaya verses are from Bhakti Bharat, not a scholarly edition.",
+    "Method of the 'ghat puja' and of 'Brahm Baba' worship is not described in sources.",
+    "Whether arghya is poured in water or milk, and the exact way to hold the soop, differ between sources and are not specified in detail.",
+    "Ghat safety guidance is plain advice written by the research agent (not from a source) and should be reviewed by the local authority/pandit.",
+    "Dates and Patna sunset/sunrise are for 2026 per Drik Panchang and Bhakti Bharat; they change every year.",
+    "Pregnancy, diabetes and health rules for the nirjala vrat are not covered by the sources; only a general caution is given."
+   ],
+   "havanNote": {
+    "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
+    "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
+   },
+   "aartiNote": null,
+   "categories": [
+    "festival"
+   ],
+   "keywords": [
+    "chath",
+    "chhat",
+    "dala",
+    "chhath",
+    "surya",
+    "sun",
+    "arghya",
+    "thekua",
+    "chhathi",
+    "maiya",
+    "sandhya",
+    "usha"
+   ]
   },
   {
    "id": "other",
@@ -21681,7 +25416,20 @@
    "havanNote": {
     "en": "This guide does not include a havan (fire ritual). A havan is a separate rite; see the Havan guide, which covers it with fire-safety guidance.",
     "hi": "इस मार्गदर्शिका में हवन शामिल नहीं है। हवन एक अलग अनुष्ठान है; अग्नि-सुरक्षा निर्देशों सहित उसके लिए हवन मार्गदर्शिका देखें।"
-   }
+   },
+   "categories": [
+    "general"
+   ],
+   "keywords": [
+    "general",
+    "any",
+    "puja",
+    "how",
+    "to",
+    "start",
+    "puja",
+    "basic"
+   ]
   }
  ]
 }

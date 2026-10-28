@@ -13,6 +13,8 @@ html,
 body {
   max-width: 100%;
   overflow-x: hidden;
+  /* "clip" hides sideways overflow without turning html/body into scroll containers, which made touch and wheel scrolling stick or stutter */
+  overflow-x: clip;
 }
 
 body {

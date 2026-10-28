@@ -16,12 +16,18 @@
 
   var GUIDES_URL = section.getAttribute("data-guides-url");
   var IMAGES_URL = section.getAttribute("data-images-url");
+  var FESTIVALS_URL = section.getAttribute("data-festivals-url");
+  var KATHAS_URL = section.getAttribute("data-kathas-url");
   var PREFS_KEY = "psb.pooja.prefs.v1";
   var PROGRESS_KEY = "psb.pooja.progress.v1";
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var data = null;        // guides.json
   var images = null;      // images.json
+  var fest = null;        // festivals.json (optional)
+  var kathas = null;      // kathas.json (optional)
+  var tab = "guides";     // library tab: guides | kathas
+  var openKatha = null;   // id of the katha being read
   var loading = null;
   var openId = null;      // guide currently open in the reader
   var view = "overview";  // overview | prep | step | done
@@ -92,7 +98,7 @@
 
   function cldUrl(cfg, width, ratio) {
     var cloud = images.cloudName;
-    var crop = ratio ? ",ar_" + ratio + ",c_fill,g_auto" : ",c_limit";
+    var crop = ratio ? (cfg.fit === "pad" ? ",ar_" + ratio + ",c_pad,b_rgb:efe6d2" : ",ar_" + ratio + ",c_fill,g_auto") : ",c_limit";
     if (cfg.resourceType === "video") {
       // First frame of a video that already lives in the Cloudinary library.
       return "https://res.cloudinary.com/" + cloud + "/video/upload/so_0" + crop + ",w_" + width + ",q_auto,f_jpg/" + cfg.publicId + ".jpg";
@@ -114,7 +120,8 @@
     var sizes = big ? "(min-width: 900px) 440px, 92vw" : "(min-width: 960px) 260px, (min-width: 640px) 30vw, 46vw";
     return '<figure class="' + cls + '"><img src="' + esc(cldUrl(cfg, widths[1], "4:3")) + '" srcset="' + esc(srcset) + '" sizes="' + sizes + '" width="' + widths[1] + '" height="' + Math.round(widths[1] * 0.75) +
       '" alt="' + esc(cfg.alt || tx(guide.name)) + '" loading="lazy" decoding="async">' +
-      (big && cfg.caption ? "<figcaption>" + esc(cfg.caption) + "</figcaption>" : "") + "</figure>";
+      (big && cfg.caption ? "<figcaption>" + esc(cfg.caption) + "</figcaption>" : "") +
+      (cfg.license ? '<span class="pr-credit">' + esc(cfg.attribution) + "</span>" : "") + "</figure>";
   }
 
   /* ------------------------------- loading -------------------------------- */
@@ -125,7 +132,11 @@
     loading = Promise.all([
       fetch(GUIDES_URL, { credentials: "same-origin" }).then(function (r) { if (!r.ok) throw new Error("guides " + r.status); return r.json(); }),
       fetch(IMAGES_URL, { credentials: "same-origin" }).then(function (r) { if (!r.ok) throw new Error("images " + r.status); return r.json(); })
-    ]).then(function (res) { data = res[0]; images = res[1]; }).catch(function (err) { loading = null; throw err; });
+    ]).then(function (res) {
+      data = res[0]; images = res[1];
+      var opt = function (url) { return url ? fetch(url, { credentials: "same-origin" }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }) : Promise.resolve(null); };
+      return Promise.all([opt(FESTIVALS_URL), opt(KATHAS_URL)]).then(function (o) { fest = o[0]; kathas = o[1]; });
+    }).catch(function (err) { loading = null; throw err; });
     return loading;
   }
 
@@ -154,25 +165,302 @@
     return '<span class="psb-badge ' + cls + '">' + esc(r.label || "") + "</span>";
   }
 
+  /* --------------------------- coming-up festivals ------------------------- */
+
+  var FEATURE_DAYS = 45;
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  function dayStart(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  function parseDay(str) { var m = /^(\d{4})-(\d\d)-(\d\d)$/.exec(str || ""); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; }
+  function fmtDay(d) { return d.getDate() + " " + MONTHS[d.getMonth()]; }
+  function festInfo(f) {
+    var start = parseDay(f.date), end = parseDay(f.endDate) || start, today = dayStart(new Date());
+    if (!start || end < today) return null;
+    var days = Math.max(0, Math.round((start - today) / 86400000));
+    var when = fmtDay(start) + (f.endDate && f.endDate !== f.date ? " – " + fmtDay(end) : "");
+    var rel = start <= today ? "happening now" : days === 0 ? "today" : days === 1 ? "tomorrow" : "in " + days + " days";
+    return { f: f, days: days, when: when, rel: rel };
+  }
+  var _soon = null;
+  function soonList() {
+    if (_soon) return _soon;
+    var list = [];
+    ((fest && fest.festivals) || []).forEach(function (f) {
+      var i = festInfo(f);
+      if (i && i.days <= FEATURE_DAYS) { i.gs = (f.guides || []).filter(function (g) { return g !== "other"; }); list.push(i); }
+    });
+    list.sort(function (a, b) { return a.days - b.days; });
+    _soon = list;
+    return list;
+  }
+  function soonFor(gid) {
+    var l = soonList(), any = null;
+    for (var i = 0; i < l.length; i++) {
+      if (l[i].gs.indexOf(gid) === -1) continue;
+      if (l[i].f.kind === "festival") return l[i];   // a real festival outranks a monthly vrat
+      if (!any) any = l[i];
+    }
+    return any;
+  }
+  function soonForKatha(k) {
+    var best = null;
+    (k.guides || []).forEach(function (g) { var x = soonFor(g); if (x && (!best || x.days < best.days)) best = x; });
+    soonList().forEach(function (x) {
+      if ((k.match || []).some(function (m) { return x.f.id.indexOf(m) === 0; }) && (!best || x.days < best.days)) best = x;
+    });
+    return best;
+  }
+  function kathasFor(gid) { return ((kathas && kathas.kathas) || []).filter(function (k) { return (k.guides || []).indexOf(gid) !== -1; }); }
+  function kathasForFest(x) {
+    return ((kathas && kathas.kathas) || []).filter(function (k) {
+      return (k.match || []).some(function (m) { return x.f.id.indexOf(m) === 0; }) || x.gs.some(function (g) { return (k.guides || []).indexOf(g) !== -1; });
+    });
+  }
+
+  function soonBand() {
+    var all = soonList().filter(function (x) { return x.gs.length || kathasForFest(x).length; }), seen = {};
+    var uniq = function (x) { var k = x.f.id; if (seen[k]) return false; seen[k] = 1; return true; };
+    var l = all.filter(function (x) { return x.f.kind === "festival"; }).filter(uniq).slice(0, 4);
+    if (l.length < 3) l = l.concat(all.filter(function (x) { return x.f.kind !== "festival"; }).filter(uniq).slice(0, 3 - l.length));
+    if (!l.length) return "";
+    return '<section class="pr-soon" aria-label="Festivals coming up"><h3 class="pr-soon__h"><span aria-hidden="true">🪔</span> Coming up</h3><ul class="pr-soon__list">' +
+      l.map(function (x) {
+        var g = x.gs[0], gd = g ? guideById(g) : null, ks = kathasForFest(x);
+        return '<li class="pr-soon__item"><div class="pr-soon__when"><strong>' + esc(x.when) + '</strong><span>' + esc(x.rel) + "</span></div>" +
+          '<div class="pr-soon__what"><strong>' + esc(x.f.name.en) + (x.f.name.hi ? ' <span class="pr-hi" lang="hi">' + esc(x.f.name.hi) + "</span>" : "") + "</strong></div>" +
+          '<div class="pr-soon__acts">' +
+          (gd && gd.availability === "documented" ? '<button type="button" class="pr-soon__btn" data-open="' + esc(g) + '">Pooja vidhi</button>' : "") +
+          (ks.length ? '<button type="button" class="pr-soon__btn pr-soon__btn--alt" data-katha="' + esc(ks[0].id) + '">Vrat katha</button>' : "") +
+          "</div></li>";
+      }).join("") + "</ul></section>";
+  }
+
+  /* ------------------------------ find & filter --------------------------- */
+
+  var CATS = [
+    { id: "all", label: "All" },
+    { id: "soon", label: "Coming up" },
+    { id: "deity", label: "Deity puja" },
+    { id: "festival", label: "Festivals" },
+    { id: "home", label: "Home & land" },
+    { id: "sanskar", label: "Sanskar & family" },
+    { id: "fire", label: "Havan" },
+    { id: "general", label: "Any puja" }
+  ];
+  var find = { q: "", cat: "all" };
+
+  function fold(str) {
+    return String(str || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\u0900-\u097f ]+/g, " ").replace(/\s+/g, " ").trim();
+  }
+
+  function haystack(g) {
+    if (g._hay) return g._hay;
+    var parts = [g.name.en, g.name.hi, g.deity.en, g.deity.hi, g.summary.en, g.summary.hi, (g.keywords || []).join(" ")];
+    var titles = (g.steps || []).map(function (st) { return st.title.en + " " + st.title.hi; });
+    g._hay = fold(parts.join(" "));
+    g._head = fold([g.name.en, g.name.hi, g.deity.en, (g.keywords || []).join(" ")].join(" "));
+    g._steps = titles.map(fold);
+    return g._hay;
+  }
+
+  function matchGuide(g) {
+    if (find.cat === "soon") { if (!soonFor(g.id)) return null; }
+    else if (find.cat !== "all" && (g.categories || []).indexOf(find.cat) === -1) return null;
+    var tokens = fold(find.q).split(" ").filter(Boolean);
+    if (!tokens.length) return { hit: "" };
+    haystack(g);
+    var hit = "";
+    for (var i = 0; i < tokens.length; i++) {
+      var tk = tokens[i];
+      if (g._hay.indexOf(tk) !== -1) continue;
+      var found = -1;
+      for (var k = 0; k < g._steps.length; k++) if (g._steps[k].indexOf(tk) !== -1) { found = k; break; }
+      if (found === -1) return null;
+      if (!hit) hit = g.steps[found].title.en;
+    }
+    return { hit: hit };
+  }
+
+  function cardHtml(g, m, L) {
+    var documented = g.availability === "documented";
+    var read = documented
+      ? '<button type="button" class="psb-btn psb-btn--navy pr-card__read" data-open="' + esc(g.id) + '">Read Vidhi</button>'
+      : '<p class="pr-card__soon" role="note">' + esc(L.inprep) + "</p>";
+    var sn = soonFor(g.id), ks = kathasFor(g.id);
+    return '<li class="pr-card' + (documented ? " pr-card--doc" : "") + (sn ? " pr-card--soon" : "") + '">' +
+      (sn ? '<span class="pr-ribbon">★ ' + esc(sn.f.name.en) + " · " + esc(sn.when) + "</span>" : "") +
+      imageHtml(g) +
+      '<div class="pr-card__body">' +
+      '<h3>' + esc(g.name.en) + (g.name.hi ? ' <span class="pr-hi" lang="hi">' + esc(g.name.hi) + "</span>" : "") + "</h3>" +
+      '<p class="pr-card__deity">' + esc(g.deity.en) + "</p>" +
+      (m && m.hit ? '<p class="pr-card__hit">Found in step: <strong>' + esc(m.hit) + "</strong></p>" : "") +
+      '<p class="pr-card__badges">' + badge(g) + (ks.length ? '<button type="button" class="pr-card__katha" data-katha="' + esc(ks[0].id) + '" aria-label="Read the vrat katha">📖 Katha</button>' : "") + "</p>" +
+      '<div class="pr-card__actions">' + read +
+      '<button type="button" class="psb-btn psb-btn--line pr-card__book" data-book="' + esc(g.id) + '">Book a Pandit</button></div>' +
+      "</div></li>";
+  }
+
+  function renderCards() {
+    var L = UI.en;
+    var out = [];
+    var hits = [];
+    data.guides.forEach(function (g) { var m = matchGuide(g); if (m) hits.push({ g: g, m: m, s: soonFor(g.id) }); });
+    var feat = hits.filter(function (h) { return h.s; }).sort(function (a, b) {
+      var fa = a.s.f.kind === "festival" ? 0 : 1, fb = b.s.f.kind === "festival" ? 0 : 1;
+      return fa - fb || a.s.days - b.s.days;
+    });
+    var rest = hits.filter(function (h) { return !h.s; });
+    var plain = !find.q && find.cat === "all" && feat.length && rest.length;
+    feat.forEach(function (h) { out.push(cardHtml(h.g, h.m, L)); });
+    rest.forEach(function (h) { out.push(cardHtml(h.g, h.m, L)); });
+    out = out.filter(Boolean);
+    var nGuides = hits.length;
+    var list = libraryEl.querySelector(".pr-cards");
+    list.innerHTML = out.join("");
+    var count = libraryEl.querySelector(".pr-find__count");
+    count.textContent = nGuides === data.guides.length && !find.q && find.cat === "all" ? data.guides.length + " guides" : nGuides + (nGuides === 1 ? " guide found" : " guides found");
+    var empty = libraryEl.querySelector(".pr-empty");
+    empty.hidden = nGuides > 0;
+    list.hidden = nGuides === 0;
+    libraryEl.querySelector(".pr-find__clear").hidden = !find.q;
+    $all(".pr-chip[data-cat]", libraryEl).forEach(function (c) {
+      var on = c.getAttribute("data-cat") === find.cat;
+      c.classList.toggle("is-on", on); c.setAttribute("aria-pressed", on);
+    });
+  }
+
   function renderLibrary() {
     // The library page itself is English; the Hindi/English choice applies inside the reader.
-    var L = UI.en;
-    libraryEl.innerHTML = '<ul class="pr-cards">' + data.guides.map(function (g) {
-      var documented = g.availability === "documented";
-      var read = documented
-        ? '<button type="button" class="psb-btn psb-btn--navy pr-card__read" data-open="' + esc(g.id) + '">' + esc(L.read) + "</button>"
-        : '<p class="pr-card__soon" role="note">' + esc(L.inprep) + "</p>";
-      return '<li class="pr-card' + (documented ? " pr-card--doc" : "") + '">' +
-        imageHtml(g) +
-        '<div class="pr-card__body">' +
-        '<h3>' + esc(g.name.en) + (g.name.hi ? ' <span class="pr-hi" lang="hi">' + esc(g.name.hi) + "</span>" : "") + "</h3>" +
-        '<p class="pr-card__deity">' + esc(g.deity.en) + "</p>" +
-        '<p class="pr-card__sum">' + esc(g.summary.en) + (g.note && g.note.en ? " " + esc(g.note.en) : "") + "</p>" +
-        '<p class="pr-card__badges">' + badge(g) + '<span class="psb-badge psb-badge--book">Enquiry open</span></p>' +
-        '<div class="pr-card__actions">' + read +
-        '<button type="button" class="psb-btn psb-btn--line pr-card__book" data-book="' + esc(g.id) + '">' + esc(L.book) + "</button></div>" +
-        "</div></li>";
-    }).join("") + "</ul>";
+    var cats = CATS.filter(function (c) { return c.id !== "soon" || soonList().length; });
+    var nk = kathas && kathas.kathas ? kathas.kathas.length : 0;
+    libraryEl.innerHTML =
+      soonBand() +
+      (nk ? '<div class="pr-tabs" role="tablist" aria-label="Library">' +
+        '<button type="button" role="tab" class="pr-tab is-on" data-tab="guides" aria-selected="true">Pooja Vidhi <span>' + data.guides.length + "</span></button>" +
+        '<button type="button" role="tab" class="pr-tab" data-tab="kathas" aria-selected="false">Vrat Katha <span>' + nk + "</span></button></div>" : "") +
+      '<div class="pr-find" role="search">' +
+      '<label class="pr-find__box"><span class="sr-only">Search pooja vidhi</span>' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" class="pr-find__ico"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>' +
+      '<input type="search" class="pr-find__input" placeholder="Search a pooja, deity or step (e.g. Chhath, Ganesh, कलश, havan)" autocomplete="off" enterkeyhint="search" maxlength="60">' +
+      '<button type="button" class="pr-find__clear" aria-label="Clear search" hidden>&times;</button></label>' +
+      '<div class="pr-find__chips" role="group" aria-label="Filter by kind of puja">' +
+      cats.map(function (c) { return '<button type="button" class="pr-chip" data-cat="' + c.id + '" aria-pressed="false">' + esc(c.label) + "</button>"; }).join("") +
+      "</div>" +
+      '<p class="pr-find__count" aria-live="polite"></p></div>' +
+      '<ul class="pr-cards"></ul>' +
+      '<ul class="pr-cards pr-kcards" hidden></ul>' +
+      '<div class="pr-empty" hidden><p><strong>No guide matches that yet.</strong></p><p>Try another word, or choose &ldquo;Any puja&rdquo; for a general guide. You can also ask us to arrange a pandit for this puja.</p>' +
+      '<button type="button" class="psb-btn psb-btn--navy" data-book="other">Ask about this puja</button></div>';
+    var input = libraryEl.querySelector(".pr-find__input");
+    var timer = null;
+    input.addEventListener("input", function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () { find.q = input.value; renderActive(); }, 120);
+    });
+    libraryEl.querySelector(".pr-find__clear").addEventListener("click", function () { input.value = ""; find.q = ""; renderActive(); input.focus(); });
+    libraryEl.addEventListener("click", function (e) {
+      var tb = e.target.closest("[data-tab]"); if (!tb) return;
+      setTab(tb.getAttribute("data-tab"));
+    });
+    libraryEl.querySelector(".pr-find__chips").addEventListener("click", function (e) {
+      var c = e.target.closest("[data-cat]"); if (!c) return;
+      find.cat = c.getAttribute("data-cat"); renderCards();
+    });
+    tab = "guides";
+    renderCards();
+  }
+
+  /* ------------------------------ katha library ---------------------------- */
+
+  function renderActive() { if (tab === "kathas") renderKathas(); else renderCards(); }
+
+  function setTab(t) {
+    tab = t;
+    $all(".pr-tab", libraryEl).forEach(function (b) { var on = b.getAttribute("data-tab") === t; b.classList.toggle("is-on", on); b.setAttribute("aria-selected", on); });
+    var isK = t === "kathas";
+    libraryEl.querySelector(".pr-find__chips").hidden = isK;
+    libraryEl.querySelector(".pr-cards:not(.pr-kcards)").hidden = isK;
+    libraryEl.querySelector(".pr-kcards").hidden = !isK;
+    libraryEl.querySelector(".pr-find__input").placeholder = isK ? "Search a katha (e.g. Satyanarayan, छठ, कार्तिक)" : "Search a pooja, deity or step (e.g. Chhath, Ganesh, कलश, havan)";
+    renderActive();
+  }
+
+  function kathaHay(k) {
+    if (!k._hay) k._hay = fold([k.title.en, k.title.hi, (k.festivalName && k.festivalName.en) || "", (k.festivalName && k.festivalName.hi) || "", (k.keywords || []).join(" "), (k.paragraphs || []).join(" ")].join(" "));
+    return k._hay;
+  }
+  function kathaCard(k) {
+    var sn = soonForKatha(k);
+    var g0 = (k.guides || []).filter(function (id) { var g = guideById(id); return g && g.availability === "documented"; })[0];
+    return '<li class="pr-card pr-card--katha' + (sn ? " pr-card--soon" : "") + '" data-sort="' + (sn ? sn.days : 999) + '">' +
+      (sn ? '<span class="pr-ribbon">★ ' + esc(sn.f.name.en) + " · " + esc(sn.when) + "</span>" : "") +
+      '<div class="pr-katha__cover" aria-hidden="true"><span>📖</span></div>' +
+      '<div class="pr-card__body"><h3>' + esc(k.title.en) + (k.title.hi ? ' <span class="pr-hi" lang="hi">' + esc(k.title.hi) + "</span>" : "") + "</h3>" +
+      '<p class="pr-card__deity">' + esc((k.festivalName && k.festivalName.en) || "") + " · " + esc(k.language || "Hindi") + (k.pdf && k.pdf.pages ? " · " + k.pdf.pages + " pp" : "") + "</p>" +
+      '<p class="pr-card__badges"><span class="psb-badge psb-badge--draft">Not pandit-reviewed</span></p>' +
+      '<div class="pr-card__actions"><button type="button" class="psb-btn psb-btn--navy" data-katha="' + esc(k.id) + '">Read Katha</button>' +
+      (g0 ? '<button type="button" class="psb-btn psb-btn--line" data-open="' + esc(g0) + '">Pooja Vidhi</button>' : (k.pdf && k.pdf.file ? '<a class="psb-btn psb-btn--line" href="' + esc(fileUrl(k)) + '" target="_blank" rel="noopener">Open PDF</a>' : "")) +
+      "</div></div></li>";
+  }
+  function renderKathas() {
+    var tokens = fold(find.q).split(" ").filter(Boolean);
+    var hits = ((kathas && kathas.kathas) || []).filter(function (k) { var h = kathaHay(k); return tokens.every(function (t) { return h.indexOf(t) !== -1; }); });
+    var cards = hits.map(kathaCard).sort(function (a, b) { return Number(/data-sort="(\d+)"/.exec(a)[1]) - Number(/data-sort="(\d+)"/.exec(b)[1]); });
+    libraryEl.querySelector(".pr-kcards").innerHTML = cards.join("");
+    libraryEl.querySelector(".pr-find__count").textContent = hits.length + (hits.length === 1 ? " katha" : " kathas") + (find.q ? " found" : "");
+    libraryEl.querySelector(".pr-find__clear").hidden = !find.q;
+    var empty = libraryEl.querySelector(".pr-empty"); empty.hidden = hits.length > 0;
+    libraryEl.querySelector(".pr-kcards").hidden = hits.length === 0;
+  }
+  function fileUrl(k) { return GUIDES_URL.replace(/[^/]*$/, "").replace(/\?.*$/, "") + k.pdf.file; }
+  function pdfPages(k) {
+    var cloud = images.cloudName, out = "";
+    for (var n = 1; n <= k.pdf.pages; n++) {
+      var base = "https://res.cloudinary.com/" + cloud + "/image/upload/pg_" + n + ",f_auto,q_auto,";
+      out += '<img class="pr-pdf__page" loading="lazy" decoding="async" width="900" height="1273" alt="' + esc(k.title.en) + " — page " + n + '" src="' + base + 'w_900/' + k.pdf.publicId + '.jpg" srcset="' + base + "w_600/" + k.pdf.publicId + ".jpg 600w, " + base + "w_900/" + k.pdf.publicId + ".jpg 900w, " + base + "w_1400/" + k.pdf.publicId + '.jpg 1400w" sizes="(min-width: 900px) 800px, 94vw">';
+    }
+    return out;
+  }
+  function katha(id) { return ((kathas && kathas.kathas) || []).filter(function (k) { return k.id === id; })[0] || null; }
+  function hl(text, q) {
+    var out = esc(text);
+    fold(q).split(" ").filter(function (x) { return x.length > 1; }).forEach(function (tk) {
+      var re = new RegExp("(" + tk.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+      out = out.replace(re, "<mark>$1</mark>");
+    });
+    return out;
+  }
+  function viewKatha(k) {
+    var guides = (k.guides || []).filter(function (id) { var g = guideById(id); return g && g.availability === "documented"; });
+    var sn = soonForKatha(k);
+    return '<div class="pr-toolbar"><button type="button" class="pr-link" data-kact="back">← All kathas</button>' +
+      '<div class="pr-tools" role="group" aria-label="Reading options"><span class="pr-tools__label">' + esc(t("textsize")) + "</span>" +
+      '<button type="button" class="pr-chip" data-size="-1" aria-label="Smaller text">A−</button><button type="button" class="pr-chip" data-size="1" aria-label="Larger text">A+</button>' +
+      '<span class="pr-tools__scale" data-scale-label aria-live="polite"></span></div></div>' +
+      '<article class="pr-katha"><h3 data-focus>' + esc(k.title.en) + (k.title.hi ? ' <span class="pr-hi" lang="hi">' + esc(k.title.hi) + "</span>" : "") + "</h3>" +
+      '<p class="pr-card__deity">' + esc((k.festivalName && k.festivalName.en) || "") + " · " + esc(k.language || "Hindi") + "</p>" +
+      (sn ? '<p class="pr-callout">★ ' + esc(sn.f.name.en) + " is " + esc(sn.rel) + " (" + esc(sn.when) + ").</p>" : "") +
+      '<p class="pr-review"><span class="psb-badge psb-badge--draft">Not reviewed by a pandit</span> <span>' + esc((k.review && k.review.note) || "Text taken from the free source below. Versions of this katha differ between families and regions.") + "</span></p>" +
+      '<div class="pr-cta">' +
+      (k.pdf && k.pdf.file ? '<a class="psb-btn psb-btn--navy" href="' + esc(fileUrl(k)) + '" target="_blank" rel="noopener">Open PDF</a><a class="psb-btn psb-btn--line" href="' + esc(fileUrl(k)) + '" download="' + esc(k.id) + '-katha.pdf">Download PDF</a>' : "") +
+      (guides.length ? '<button type="button" class="psb-btn psb-btn--line" data-open="' + esc(guides[0]) + '">Pooja vidhi for this festival</button>' : "") +
+      "</div>" +
+      (k.pdf && k.pdf.publicId && k.pdf.pages ? '<div class="pr-kview" role="tablist" aria-label="How to read"><button type="button" role="tab" class="pr-kview__b is-on" data-kview="text" aria-selected="true">Read as text</button><button type="button" role="tab" class="pr-kview__b" data-kview="pdf" aria-selected="false">View PDF (' + k.pdf.pages + ' pages)</button></div>' : "") +
+      '<div class="pr-katha__text" lang="hi">' + (k.paragraphs || []).map(function (ptxt) { return "<p>" + hl(ptxt, find.q) + "</p>"; }).join("") + "</div>" +
+      '<div class="pr-pdf" data-kpane="pdf" hidden></div>' +
+      '<section class="pr-panel"><h4>Source and licence</h4><p class="pr-small">' + esc(k.sourceName || "") + (k.sourceUrl ? ' — <a href="' + esc(k.sourceUrl) + '" target="_blank" rel="noopener">source page</a>' : "") +
+      "<br>" + esc(k.license || "") + (k.licenseNote ? " — " + esc(k.licenseNote) : "") + "</p></section>" +
+      '<button type="button" class="psb-btn psb-btn--line" data-book="' + esc((k.guides || ["other"])[0]) + '">' + esc(UI.en.book) + "</button></article>";
+  }
+  function openKathaView(id) {
+    var k = katha(id); if (!k) return;
+    openKatha = k.id; openId = null;
+    libraryEl.hidden = true;
+    section.querySelector(".psb-legend").hidden = true;
+    readerEl.hidden = false;
+    readerEl.innerHTML = viewKatha(k);
+    readerEl.setAttribute("data-view", "katha");
+    applyScale();
+    scrollToReader();
   }
 
   /* ------------------------------- reader --------------------------------- */
@@ -188,7 +476,7 @@
   function open(id, startView) {
     var g = guideById(id);
     if (!g || g.availability !== "documented") return;
-    openId = id;
+    openId = id; openKatha = null;
     var p = guideProgress(id);
     view = startView || "overview";
     if (view === "overview" && p.current && p.current !== "overview" && p.completed.length) view = "overview";
@@ -214,6 +502,7 @@
   function close() {
     destroySpecular();
     openId = null;
+    openKatha = null;
     readerEl.hidden = true;
     readerEl.innerHTML = "";
     libraryEl.hidden = false;
@@ -241,8 +530,9 @@
       '<button type="button" class="pr-chip' + (prefs.lang === "hi" ? " is-on" : "") + '" data-lang="hi" lang="hi" aria-pressed="' + (prefs.lang === "hi") + '">हिन्दी</button>' +
       '<button type="button" class="pr-chip' + (prefs.lang === "en" ? " is-on" : "") + '" data-lang="en" aria-pressed="' + (prefs.lang === "en") + '">English</button>' +
       '<span class="pr-tools__label">' + esc(t("textsize")) + '</span>' +
-      '<button type="button" class="pr-chip" data-size="-1" aria-label="Smaller mantra text">A−</button>' +
-      '<button type="button" class="pr-chip" data-size="1" aria-label="Larger mantra text">A+</button>' +
+      '<button type="button" class="pr-chip" data-size="-1" aria-label="Smaller text">A−</button>' +
+      '<button type="button" class="pr-chip" data-size="1" aria-label="Larger text">A+</button>' +
+      '<span class="pr-tools__scale" data-scale-label aria-live="polite"></span>' +
       "</div></div>";
   }
 
@@ -272,7 +562,7 @@
       reviewNote(g) +
       "<p>" + esc(tx(g.summary)) + "</p>" +
       '<dl class="pr-facts">' +
-      "<div><dt>Tradition</dt><dd>" + esc(tx(g.tradition)) + "</dd></div>" +
+      (g.tradition && tx(g.tradition) ? "<div><dt>Tradition</dt><dd>" + esc(tx(g.tradition)) + "</dd></div>" : "") +
       "<div><dt>Steps</dt><dd>" + total + "</dd></div>" +
       "<div><dt>Duration</dt><dd>" + esc(g.duration ? (typeof g.duration === "string" ? g.duration : tx(g.duration)) : "Not stated by the source") + "</dd></div>" +
       "</dl>" +
@@ -281,12 +571,12 @@
       '<div class="pr-cta">' +
       '<button type="button" class="psb-cta psb-cta--dark" data-act="start" data-specular="dark">' + esc(resume ? "Continue the guide" : t("start")) + "</button>" +
       '<button type="button" class="psb-btn psb-btn--line" data-act="book">' + esc(t("book")) + "</button>" +
+      (kathasFor(g.id).length ? '<button type="button" class="psb-btn psb-btn--line" data-katha="' + esc(kathasFor(g.id)[0].id) + '">📖 Read the vrat katha</button>' : "") +
       "</div>" +
       (resume ? '<p class="pr-resume">' + p.completed.length + " / " + total + " steps completed on this device.</p>" : "") +
       "</div></article>" +
       '<div class="pr-twocol">' +
       '<section class="pr-panel"><h4>Samagri at a glance</h4><ul class="pr-list">' + items + '</ul><p class="pr-small">' + esc(tx(g.preparation.substitution)) + "</p></section>" +
-      (g.gaps && g.gaps.length ? '<section class="pr-panel"><h4>Not included yet</h4><ul class="pr-list">' + g.gaps.map(function (x) { return "<li>" + esc(typeof x === "string" ? x : tx(x)) + "</li>"; }).join("") + "</ul></section>" : "") +
       '<section class="pr-panel"><h4>Sources</h4><ul class="pr-list pr-list--src">' + sources + "</ul></section>" +
       "</div>";
   }
@@ -386,7 +676,7 @@
       '<nav class="pr-nav" aria-label="Steps of ' + esc(g.name.en) + '">' +
       '<button type="button" class="pr-nav__toggle" data-act="togglenav" aria-expanded="' + navOpen + '" aria-controls="prNavList">' + esc(t("allsteps")) + " (" + steps.length + ')<span aria-hidden="true">' + (navOpen ? " ▴" : " ▾") + "</span></button>" +
       '<ol class="pr-nav__list' + (navOpen ? " is-open" : "") + '" id="prNavList">' + navList(g) + "</ol></nav>" +
-      '<article class="pr-step" style="--pr-scale:' + prefs.scale + '">' +
+      '<article class="pr-step">' +
       '<div class="pr-progress" role="progressbar" aria-valuemin="0" aria-valuemax="' + steps.length + '" aria-valuenow="' + p.completed.length + '" aria-label="Steps completed"><span style="width:' + pct + '%"></span></div>' +
       '<p class="pr-steplabel" aria-live="polite">' + esc(tx((g.groups && g.groups[s.group]) || data.groups[s.group])) + " · " + esc(t("step")) + " " + (i + 1) + " " + esc(t("of")) + " " + steps.length + (done ? " · ✓" : "") + "</p>" +
       '<h3 data-focus>' + esc(tx(s.title)) + (s.optional ? ' <em class="pr-opt">(' + esc(t("optionalTag")) + ")</em>" : "") + "</h3>" +
@@ -435,8 +725,18 @@
     var body = view === "prep" ? viewPrep(g) : view === "step" ? viewStep(g) : view === "done" ? viewDone(g) : viewOverview(g);
     readerEl.innerHTML = body;
     readerEl.setAttribute("data-view", view);
+    applyScale();
     $all("[data-specular]", readerEl).forEach(function (el) { decorate(el); });
     if (!keepFocus) focusHeading();
+  }
+
+  function applyScale() {
+    readerEl.style.setProperty("--pr-scale", prefs.scale);
+    var small = $all('[data-size="-1"]', readerEl)[0], big = $all('[data-size="1"]', readerEl)[0];
+    if (small) small.disabled = prefs.scale <= 0.9;
+    if (big) big.disabled = prefs.scale >= 1.7;
+    var lab = readerEl.querySelector("[data-scale-label]");
+    if (lab) lab.textContent = Math.round(prefs.scale * 100) + "%";
   }
 
   function $all(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
@@ -468,8 +768,29 @@
   /* ----------------------------- interactions ----------------------------- */
 
   readerEl.addEventListener("click", function (e) {
-    var el = e.target.closest("[data-act], [data-goto], [data-lang], [data-size]");
-    if (!el || !openId) return;
+    var el = e.target.closest("[data-act], [data-goto], [data-lang], [data-size], [data-kact], [data-kview], [data-open], [data-book], [data-katha]");
+    if (!el) return;
+    if (el.hasAttribute("data-katha")) { openKathaView(el.getAttribute("data-katha")); return; }
+    if (el.hasAttribute("data-kact")) { close(); return; }
+    if (el.hasAttribute("data-kview") && openKatha) {
+      var kv = el.getAttribute("data-kview"), kk2 = katha(openKatha);
+      $all(".pr-kview__b", readerEl).forEach(function (b) { var on = b === el; b.classList.toggle("is-on", on); b.setAttribute("aria-selected", on); });
+      var tx2 = readerEl.querySelector(".pr-katha__text"), pane = readerEl.querySelector("[data-kpane=pdf]");
+      if (kv === "pdf" && !pane.firstChild) pane.innerHTML = '<div class="pr-pdf__pages">' + pdfPages(kk2) + '</div>';
+      tx2.hidden = kv === "pdf"; pane.hidden = kv !== "pdf";
+      return;
+    }
+    if (el.hasAttribute("data-open") && openKatha) { open(el.getAttribute("data-open")); return; }
+    if (el.hasAttribute("data-book") && openKatha) {
+      var bg = guideById(el.getAttribute("data-book")); var kk = katha(openKatha);
+      if (bg && window.PanditBooking) { window.PanditBooking.selectPuja(bg.name.en); window.PanditBooking.setReturnLink("Back to the katha", function () { openKathaView(kk.id); }); }
+      return;
+    }
+    if (el.hasAttribute("data-size") && openKatha && !openId) {
+      prefs.scale = Math.max(0.9, Math.min(1.7, Math.round((prefs.scale + Number(el.getAttribute("data-size")) * 0.15) * 100) / 100));
+      savePrefs(); applyScale(); return;
+    }
+    if (!openId) return;
     var g = guideById(openId);
     var p = guideProgress(g.id);
 
@@ -477,8 +798,7 @@
     if (el.hasAttribute("data-size")) {
       prefs.scale = Math.max(0.9, Math.min(1.7, Math.round((prefs.scale + Number(el.getAttribute("data-size")) * 0.15) * 100) / 100));
       savePrefs();
-      var stepEl = readerEl.querySelector(".pr-step");
-      if (stepEl) stepEl.style.setProperty("--pr-scale", prefs.scale);
+      applyScale();
       return;
     }
     if (el.hasAttribute("data-goto")) { go(el.getAttribute("data-goto")); return; }
@@ -546,6 +866,8 @@
   });
 
   libraryEl.addEventListener("click", function (e) {
+    var kt = e.target.closest("[data-katha]");
+    if (kt) { openKathaView(kt.getAttribute("data-katha")); return; }
     var o = e.target.closest("[data-open]");
     if (o) { open(o.getAttribute("data-open")); return; }
     var b = e.target.closest("[data-book]");

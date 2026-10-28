@@ -43,16 +43,16 @@ class PanditMarketplaceTests(TestCase):
     def test_marketplace_page_loads(self):
         response = self.client.get(reverse("pandit_marketplace"))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Book a Pandit in Patna, with Confidence.")
+        self.assertContains(response, "Book a Pandit, with Confidence.")
 
     def test_booking_page_is_the_whatsapp_enquiry_flow(self):
         html = self.client.get(reverse("pandit_marketplace")).content.decode()
-        self.assertIn("Book a Pandit in Patna, with Confidence.", html)
+        self.assertIn("Book a Pandit, with Confidence.", html)
         self.assertIn("wa.me/919353206153", html)
         for puja in [
             "Griha Pravesh Puja", "Satyanarayan Puja", "Rudrabhishek", "Ganesh Puja", "Lakshmi Puja",
             "Navagraha Shanti", "Vastu Shanti", "Bhoomi Puja", "Havan and other rituals",
-            "Naamkaran and Mundan Sanskar", "Marriage and Vivah ceremonies", "Other Puja",
+            "Naamkaran and Mundan Sanskar", "Marriage and Vivah ceremonies", "Bhai Dooj", "Chitragupta Puja", "Chhath Puja", "Other Puja",
         ]:
             self.assertIn(puja, html)
         for field in ('id="psbName"', 'id="psbPuja"', 'id="psbDate"', 'id="psbArea"', 'name="venue"', 'name="language"', 'name="samagri"', 'id="psbNotes"'):

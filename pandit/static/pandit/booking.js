@@ -13,7 +13,7 @@
    *  this value at load, so this is the only value to edit.)
    * ========================================================================== */
   var WHATSAPP_NUMBER = "919353206153";
-  var CITY = "Patna";
+  var CITY = "Patna"; // default; the visitor picks the city in step 2
 
   var root = document.getElementById("psb");
   var form = document.getElementById("psbForm");
@@ -76,12 +76,19 @@
       other: oneLine(get("other"), 80),
       dateMode: get("dateMode") || "date",
       date: get("date"),
+      city: get("city") || "Patna",
+      cityOther: oneLine(get("cityOther"), 60),
       area: oneLine(get("area"), 80),
       venue: get("venue"),
       language: get("language"),
       samagri: get("samagri"),
       notes: multiLine(get("notes"), 500)
     };
+  }
+
+  function cityLabel(v) {
+    if (v.city === "Another city") return v.cityOther ? v.cityOther + " (new city)" : "Another city";
+    return v.city;
   }
 
   function pujaLabel(v) {
@@ -100,7 +107,8 @@
       ["Name", v.name],
       ["Puja", pujaLabel(v)],
       ["Preferred date", v.dateMode === "flexible" ? "Flexible" : prettyDate(v.date)],
-      ["Area", v.area ? v.area + ", " + CITY : ""],
+      ["City", cityLabel(v)],
+      ["Area", v.area],
       ["Venue", v.venue],
       ["Language", v.language],
       ["Samagri", v.samagri],
@@ -177,7 +185,8 @@
       ["Name", v.name],
       ["Puja", pujaLabel(v)],
       ["Date", v.dateMode === "flexible" ? "Flexible" : prettyDate(v.date)],
-      ["Area", v.area ? v.area + ", " + CITY : ""],
+      ["City", cityLabel(v)],
+      ["Area", v.area],
       ["Venue", v.venue],
       ["Language", v.language]
     ];
@@ -238,7 +247,9 @@
 
     if (n === 2) {
       var areaField = document.getElementById("psbArea");
-      if (v.area.length < 2) { setError("area", "Please tell us the locality or area in " + CITY + ".", areaField); ok = bad(areaField); } else setError("area", "", areaField);
+      var cityOtherField = document.getElementById("psbCityOther");
+      if (v.city === "Another city" && v.cityOther.length < 2) { setError("cityOther", "Please tell us which city.", cityOtherField); ok = bad(cityOtherField); } else setError("cityOther", "", cityOtherField);
+      if (v.area.length < 2) { setError("area", "Please tell us the locality or area" + (v.city === "Another city" ? "" : " in " + v.city) + ".", areaField); ok = bad(areaField); } else setError("area", "", areaField);
       if (!v.venue) { setError("venue", "Please choose where the puja will be held."); ok = bad($("input[name='venue']", form)); } else setError("venue", "");
       if (!v.language) { setError("language", "Please choose a language preference."); ok = bad($("input[name='language']", form)); } else setError("language", "");
     }
@@ -264,6 +275,24 @@
     otherWrap.hidden = value !== "Other Puja";
     if (value !== "Other Puja") { otherInput.value = ""; setError("other", "", otherInput); }
   }
+
+  var citySelect = document.getElementById("psbCity");
+  var cityOtherWrap = document.getElementById("psbCityOtherWrap");
+  var cityOtherInput = document.getElementById("psbCityOther");
+  var areaInput = document.getElementById("psbArea");
+  var areaLabel = document.getElementById("psbAreaLabel");
+  var areaList = document.getElementById("psbAreas");
+
+  function syncCity() {
+    var c = citySelect.value;
+    cityOtherWrap.hidden = c !== "Another city";
+    if (c !== "Another city") { cityOtherInput.value = ""; setError("cityOther", "", cityOtherInput); }
+    areaLabel.textContent = c === "Another city" ? "Locality or area" : "Locality or area in " + c;
+    // the suggestion list holds Patna localities only
+    if (c === "Patna") areaInput.setAttribute("list", "psbAreas"); else areaInput.removeAttribute("list");
+    areaInput.placeholder = c === "Gurugram" ? "e.g. DLF Phase 3, Sector 56" : c === "Bengaluru" ? "e.g. Whitefield, Indiranagar" : c === "Patna" ? "e.g. Kankarbagh" : "e.g. your locality";
+  }
+  citySelect.addEventListener("change", syncCity);
 
   var bookCard = document.getElementById("book");
 
@@ -487,10 +516,11 @@
     } catch (e) { silk = null; }
   }
 
+  var BTN_RADIUS = window.matchMedia && window.matchMedia("(max-width: 639px)").matches ? 14 : 999;
   var SPECULAR = {
-    primary: { size: "md", radius: 999, lineColor: "#fff3d6", baseColor: "#8a5a1f", textColor: "#1b1408", intensity: 1, idleIntensity: 0.45, shineSize: 12, shineFade: 40, thickness: 1.4, proximity: 220 },
-    secondary: { size: "md", radius: 999, lineColor: "#f1d9a4", baseColor: "#c58b38", textColor: "#fbf7ef", intensity: 1, idleIntensity: 0.4, shineSize: 12, shineFade: 40, thickness: 1.2, proximity: 220 },
-    dark: { size: "md", radius: 999, lineColor: "#c58b38", baseColor: "#17243b", textColor: "#17243b", intensity: 1, idleIntensity: 0.4, shineSize: 12, shineFade: 40, thickness: 1.2, proximity: 220 }
+    primary: { size: "md", radius: BTN_RADIUS, lineColor: "#fff3d6", baseColor: "#8a5a1f", textColor: "#1b1408", intensity: 1, idleIntensity: 0.45, shineSize: 12, shineFade: 40, thickness: 1.4, proximity: 220 },
+    secondary: { size: "md", radius: BTN_RADIUS, lineColor: "#f1d9a4", baseColor: "#c58b38", textColor: "#fbf7ef", intensity: 1, idleIntensity: 0.4, shineSize: 12, shineFade: 40, thickness: 1.2, proximity: 220 },
+    dark: { size: "md", radius: BTN_RADIUS, lineColor: "#c58b38", baseColor: "#17243b", textColor: "#17243b", intensity: 1, idleIntensity: 0.4, shineSize: 12, shineFade: 40, thickness: 1.2, proximity: 220 }
   };
 
   // Adds the specular highlight to a link/button. Returns a handle with destroy(), or null.
@@ -510,6 +540,11 @@
 
   var startStep = restore();
   syncPuja();
+  try {
+    var qc = new URLSearchParams(location.search).get("city");
+    if (qc) { for (var oi = 0; oi < citySelect.options.length; oi++) if (citySelect.options[oi].value === qc) citySelect.value = qc; }
+  } catch (e) { /* ignore */ }
+  syncCity();
   syncDateMode();
   showStep(startStep, { focus: false, animate: false });
 

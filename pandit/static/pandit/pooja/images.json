@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "cloudName": "dmnm8z8dc",
-  "note": "One entry per guide id (see guides.json). 'status' is 'supplied' when a real Cloudinary asset is configured and 'placeholder' when none has been provided yet: placeholders never show a made-up picture, only a labelled neutral tile. To add or replace an image, upload it to your Cloudinary Media Library, then set publicId (and resourceType) here. resourceType is 'image' for a photo/artwork or 'video' to use the first frame of a video you already uploaded. Never put API keys or secrets in this file.",
+  "note": "One entry per guide id (see guides.json). 'status' is 'supplied' when a real Cloudinary asset is configured and 'placeholder' when none has been provided yet: placeholders never show a made-up picture, only a labelled neutral tile. Images with a 'license' were taken from Wikimedia Commons (public domain, CC0 or CC BY-SA) and uploaded to the Cloudinary folder sms/pooja; the credit line is shown under the picture. To add or replace an image, upload it to your Cloudinary Media Library, then set publicId (and resourceType) here. resourceType is 'image' for a photo/artwork or 'video' to use the first frame of a video you already uploaded. Never put API keys or secrets in this file.",
   "images": {
     "ganesh-puja": {
       "status": "supplied",
@@ -35,13 +35,116 @@
       "caption": "Lord Vishnu (Satyanarayan)",
       "attribution": "Science Meets Sanatan artwork (first frame of the Vishnu clip already used on the Baby Names page)."
     },
-    "griha-pravesh": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "navagraha": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "vastu": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "bhoomi": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "havan": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "sanskar": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "vivah": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "Image coming soon", "attribution": "" },
-    "other": { "status": "placeholder", "publicId": null, "resourceType": "image", "alt": "", "caption": "", "attribution": "" }
+    "griha-pravesh": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/griha-pravesh",
+      "alt": "Ravi Varma Press print of Lord Ganesha seated on a throne with his consorts Riddhi and Siddhi",
+      "caption": "Lord Ganesha with Riddhi and Siddhi",
+      "attribution": "Lord Ganesha with Riddhi and Siddhi: Ganesh himself has two wives, Riddhi and Siddhi, as in this domestic pose from the Ravi Varma Press, c.1910, ravi varma press, via Wikimedia Commons (public domain)",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ganesh_himself_has_two_wives,_Riddhi_and_Siddhi,_as_in_this_domestic_pose_from_the_Ravi_Varma_Press,_c.1910.jpg"
+    },
+    "navagraha": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/navagraha",
+      "alt": "Ancient stone relief panel of the Navagraha, the nine planetary deities",
+      "caption": "The Navagraha",
+      "attribution": "The Navagraha: Navagraha Panel, North India, 9th century CE, Lal Bhai Museum, Ahmedabad, SpeakingArch, via Wikimedia Commons (CC BY-SA 4.0)",
+      "license": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Navagraha_Panel,_North_India,_9th_century_CE,_Lal_Bhai_Museum,_Ahmedabad.jpg",
+      "fit": "pad"
+    },
+    "vastu": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/vastu",
+      "alt": "Carved stone relief of Vastu Purusha at the Keladi temple",
+      "caption": "Vastu Purusha",
+      "attribution": "Vastu Purusha: Keladi - Vaastu Purusha, Venkygrams, via Wikimedia Commons (CC BY-SA 4.0)",
+      "license": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Keladi_-_Vaastu_Purusha.jpg"
+    },
+    "bhoomi": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/bhoomi",
+      "alt": "Stone sculpture of Vishnu as Varaha lifting Bhumi Devi, the Earth goddess",
+      "caption": "Bhumi Devi with Varaha",
+      "attribution": "Bhumi Devi with Varaha: Vishnu as Varaha rescuing Prithvi, British Museum 01, 14GTR, via Wikimedia Commons (CC0)",
+      "license": "CC0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vishnu_as_Varaha_rescuing_Prithvi,_British_Museum_01.jpg"
+    },
+    "havan": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/havan",
+      "alt": "Traditional painting of Agni, the fire god, riding a ram with attendants",
+      "caption": "Agni Deva",
+      "attribution": "Agni Deva: Agni Poona painting, unknown Poona artist, via Wikimedia Commons (public domain)",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Agni_Poona_painting.jpg"
+    },
+    "sanskar": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/sanskar",
+      "alt": "Kalighat painting of Yashoda holding baby Krishna",
+      "caption": "Bal Krishna",
+      "attribution": "Bal Krishna: Yashoda coaxing baby Krishna, Kalighat Painting, Rajan Guptta, via Wikimedia Commons (CC BY-SA 4.0)",
+      "license": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yashoda_coaxing_baby_Krishna,_Kalighat_Painting.jpg"
+    },
+    "vivah": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/vivah",
+      "alt": "Raja Ravi Varma painting of Rama breaking the bow at Sita's swayamvara",
+      "caption": "Rama and Sita (Sita Swayamvara)",
+      "attribution": "Rama and Sita (Sita Swayamvara): Rama breaking the bow to win Sita as wife, Raja Ravi Varma, via Wikimedia Commons (public domain)",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rama_breaking_the_bow_to_win_Sita_as_wife.jpg"
+    },
+    "other": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/other",
+      "alt": "Basohli miniature painting of Lord Ganesha seated on a lotus",
+      "caption": "Lord Ganesha",
+      "attribution": "Lord Ganesha: Ganesha Basohli miniature circa 1730 Dubost p73, anonymous, via Wikimedia Commons (public domain)",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ganesha_Basohli_miniature_circa_1730_Dubost_p73.jpg"
+    },
+    "bhai-dooj": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/bhai-dooj",
+      "alt": "Old coloured illustration of Yama, the god of death, riding his buffalo",
+      "caption": "Yama Deva",
+      "attribution": "Yama Deva: Yama deva, E. A. Rodrigues, via Wikimedia Commons (public domain)",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Yama_deva.JPG"
+    },
+    "chitragupta": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/chitragupta",
+      "alt": "Stone statue of Chitragupta holding a pen and ledger",
+      "caption": "Chitragupta",
+      "attribution": "Chitragupta: Statue of Chitragupta, Suraj Belbase, via Wikimedia Commons (CC BY-SA 4.0)",
+      "license": "CC BY-SA 4.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Statue_of_Chitragupta.jpg"
+    },
+    "chhath": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/pooja/chhath",
+      "alt": "Early 19th century painting of Surya, the Sun god, in his horse-drawn chariot",
+      "caption": "Surya Deva",
+      "attribution": "Surya Deva: Surya Poona painting 1800-05, unknown Pune artist, via Wikimedia Commons (public domain)",
+      "license": "Public domain",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Surya_Poona_painting_1800-05.jpg"
+    }
   }
 }

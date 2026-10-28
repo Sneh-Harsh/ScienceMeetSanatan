@@ -43,7 +43,7 @@ until the steps are complete, and give it a row in `images.json`.
 
 ## Where the current content comes from
 
-All twelve guides are readable. Each opens with cleaning the house/place, purification, setting up the
+All fifteen guides are readable (including Bhai Dooj, Chitragupta Puja and Chhath Puja). Each opens with cleaning the house/place, purification, setting up the
 chowki and idol, then the preparatory rites, the main puja, aarti and closing prayers.
 
 * **Mantras and aartis** were researched from public pages (Veda Union, BhaktiBharat, Vedic Pañcāṅg/ Drik Panchang, Wikisource, Kavita Kosh,
@@ -78,3 +78,27 @@ Cloudinary account (or an authenticated admin workflow), never an open form.
 ## WhatsApp number
 
 `WHATSAPP_NUMBER` at the top of `static/pandit/booking.js` is the only place to change it (country code + number, digits only).
+
+## Deity images (added)
+
+Eleven pictures were taken from Wikimedia Commons (public domain, CC0 or CC BY-SA 4.0 only) and uploaded to the Cloudinary folder `sms/pooja`.
+Each entry in `images.json` records its `license` and `sourceUrl`, and the credit line is shown on the picture. Substitutions to review: Griha Pravesh
+shows Ganesha with Riddhi and Siddhi, Bhai Dooj shows Yama alone, Vivah shows Rama and Sita at the swayamvara. Replace any of them by uploading your
+own artwork and changing `publicId` (set `fit` to `pad` for a wide image).
+
+## Coming-up festivals (`pooja/festivals.json`)
+
+Dates for Patna from Drik Panchang (each entry has its `sourceUrl`; 2026-10 to 2027-12). The library shows a "Coming up" band, puts guides for festivals
+in the next 45 days first with a ribbon, and offers a "Coming up" filter. A real festival outranks a monthly vrat (Sankashti, Pradosh, Purnima).
+Refresh the file each year (rebuild from the panchang) and re-check dates against your own panchang. Known doubts: Govardhan Puja 2026 (Nov 9 vs 10),
+two-day tithis, Shravan Somvar 2027 derived from Purnima dates.
+
+## Vrat Katha library (`pooja/kathas.json`, `pooja/katha/*.pdf`)
+
+Only texts that are free to redistribute are included: five Skanda Purana chapters from Sanskrit Wikisource (CC BY-SA 4.0): Satyanarayan katha (with the
+Hindi translation on Wikisource), Yama Dwitiya (Bhai Dooj), Prabodhini Ekadashi, Bhishma Panchaka (Kartik Purnima) and Vaikuntha Chaturdashi. PDFs were made from
+that text with the credit and licence on the last page; keep the credit if you reuse them. They are uploaded to Cloudinary (`sms/katha/*`) and shown
+page by page from there. **Cloudinary blocks direct PDF delivery by default** (HTTP 401): "Open/Download PDF" therefore serves the copy in `pooja/katha/`.
+To serve PDFs from Cloudinary instead, enable "PDF and ZIP files delivery" in Cloudinary Settings → Security.
+Not found under a free licence: Chhath, Chitragupta, Diwali/Lakshmi, Dhanteras, Karwa Chauth, Santoshi Mata, Tulsi Vivah (most are only in modern
+copyrighted books). Two scanned PDFs (Ganesh Chaturthi 1956, a Shivratri manuscript) were held back because their licence could not be verified.

@@ -32,6 +32,7 @@ body {
     radial-gradient(circle at top right, rgba(91, 96, 255, 0.1), transparent 24%),
     linear-gradient(180deg, #0d1015 0%, #10141a 38%, #0c1016 100%);
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .header.scrolled {

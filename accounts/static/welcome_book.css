@@ -1,0 +1,23 @@
+/* Homepage "Book a Pandit" call to action (specular highlight adapted from React Bits, MIT + Commons Clause; see pandit/static/pandit/vendor/specular-button.js) */
+.hero-book-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.7rem; margin: 0 auto 1.4rem; }
+.hero-book {
+  position: relative; isolation: isolate; display: inline-flex; align-items: center; justify-content: center;
+  min-height: 58px; padding: 0.95rem 2.6rem; border-radius: 999px; border: 1px solid rgba(255, 243, 214, 0.7);
+  background: linear-gradient(135deg, #f4d58d, #c58b38 60%, #a56f1f); color: #1b1408; text-decoration: none;
+  font-family: "Manrope", "Inter", system-ui, sans-serif; font-weight: 800; font-size: 1.12rem; letter-spacing: 0.01em;
+  box-shadow: 0 18px 44px -14px rgba(197, 139, 56, 0.85), 0 0 0 6px rgba(255, 153, 51, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  -webkit-tap-highlight-color: transparent; transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  animation: heroBookPulse 3.2s ease-in-out infinite;
+}
+.hero-book:hover { transform: translateY(-2px); box-shadow: 0 24px 54px -14px rgba(197, 139, 56, 0.95), 0 0 0 8px rgba(255, 153, 51, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.8); }
+.hero-book:active { transform: scale(0.97); }
+.hero-book:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+.hero-book .specular-button__light { position: absolute; inset: -24px; z-index: 1; display: block; width: calc(100% + 48px); height: calc(100% + 48px); max-width: none; pointer-events: none; }
+.hero-book .specular-button__label { position: relative; z-index: 2; display: inline-flex; align-items: center; gap: 0.5rem; }
+.hero-book-note { margin: 0; font-size: 0.9rem; color: rgba(255, 255, 255, 0.88); text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); }
+.hero-book-new { display: inline-block; margin-right: 0.35rem; padding: 0.1rem 0.5rem; border-radius: 999px; background: #ff9933; color: #1b1408; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+@keyframes heroBookPulse { 0%, 100% { box-shadow: 0 18px 44px -14px rgba(197, 139, 56, 0.85), 0 0 0 6px rgba(255, 153, 51, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7); } 50% { box-shadow: 0 18px 44px -14px rgba(197, 139, 56, 0.95), 0 0 0 12px rgba(255, 153, 51, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.7); } }
+@media (max-width: 639px) {
+  .hero-book { width: 100%; max-width: 360px; min-height: 54px; border-radius: 16px; padding: 0.85rem 1.2rem; font-size: 1.05rem; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-book { animation: none; transition: none; } }

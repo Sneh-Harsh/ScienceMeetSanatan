@@ -1016,3 +1016,23 @@
 
   .psb.psb-js .psb-reveal { opacity: 1; transform: none; }
 }
+
+/* ---------- Consistent action buttons on phones: one height, one soft-rounded shape (no big ovals) ---------- */
+@media (max-width: 639px) {
+  .psb .psb-cta,
+  .psb .psb-btn,
+  .psb-sticky .psb-btn {
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 50px;
+    height: auto;
+    padding: 0.7rem 1rem;
+    border-radius: 14px;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+  .psb-cta-row { flex-direction: column; align-items: stretch; }
+  .psb-sticky .psb-btn { flex: 1 1 auto; width: auto; min-height: 48px; }
+  .psb-sticky__wa { width: 48px; height: 48px; border-radius: 14px; }
+  .psb-actions .psb-btn { width: 100%; }
+}

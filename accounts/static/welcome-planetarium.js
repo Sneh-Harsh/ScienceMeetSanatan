@@ -290,7 +290,16 @@ if (mount && fallbackHost && window.WebGLRenderingContext) {
     });
 
     renderer.render(scene, camera);
-    requestAnimationFrame(animate);
+    if (onScreen && !document.hidden) requestAnimationFrame(animate); else running = false;
   };
+  // Draw only while the planetarium is on screen and the tab is visible: it used to render every frame
+  // forever, which made scrolling the rest of the page stutter.
+  let onScreen = true;
+  let running = true;
+  const wake = () => { if (!running && onScreen && !document.hidden) { running = true; requestAnimationFrame(animate); } };
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver((entries) => { onScreen = entries.some((e) => e.isIntersecting); wake(); }, { rootMargin: "80px 0px" }).observe(mount);
+  }
+  document.addEventListener("visibilitychange", wake);
   animate();
 }
