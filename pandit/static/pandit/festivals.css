@@ -1,0 +1,68 @@
+/* Pandit Booking page only: "Upcoming festivals" cards below the hero. */
+.psb-fest { padding: 2.6rem 0 2.2rem; }
+.psb-fest[hidden] { display: none; }
+.psb-fest__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.psb-fcard { position: relative; display: flex; flex-direction: column; gap: 0.7rem; padding: 1.1rem 1.1rem 1.15rem; border-radius: 20px; background: #fff; border: 1.5px solid var(--psb-line); box-shadow: 0 10px 28px -18px rgba(23, 36, 59, 0.55); }
+.psb-fcard--next { border-color: rgba(255, 153, 51, 0.8); box-shadow: 0 0 0 3px rgba(255, 153, 51, 0.18), 0 18px 36px -20px rgba(197, 139, 56, 0.9); }
+.psb-fcard__next { position: absolute; top: -11px; right: 14px; padding: 0.18rem 0.65rem; border-radius: 999px; background: linear-gradient(135deg, #ff9933, #e07b00); color: #fff; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+.psb-fcard__top { display: flex; align-items: center; gap: 0.85rem; }
+.psb-fcard__date { flex: none; display: grid; place-items: center; width: 60px; height: 64px; border-radius: 16px; background: linear-gradient(160deg, #17243b, #24344f); color: #fbf7ef; line-height: 1; }
+.psb-fcard__date b { font-size: 1.55rem; font-weight: 800; }
+.psb-fcard__date span { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffd27a; margin-top: 0.2rem; }
+.psb-fcard__title h3 { margin: 0; font-size: 1.12rem; line-height: 1.25; color: var(--psb-navy); }
+.psb-fcard__title p { margin: 0.15rem 0 0; font-size: 0.9rem; font-weight: 700; color: #7a5a22; }
+.psb-fcard__when { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.6rem; font-size: 0.9rem; color: #3b3730; }
+.psb-fcard__pill { padding: 0.15rem 0.6rem; border-radius: 999px; background: #efe6d2; font-weight: 800; font-size: 0.78rem; color: #6b4a14; }
+.psb-fcard__pill.is-soon { background: #ffe3c2; color: #9a4b00; }
+.psb-fcard__for { margin: 0; font-size: 0.88rem; color: #4b463d; }
+.psb-fcard__acts { margin-top: auto; display: grid; gap: 0.45rem; padding-top: 0.2rem; }
+.psb-fcard .psb-fcard__book { width: 100%; min-height: 48px; padding: 0.6rem 0.9rem; border-radius: 14px; font-size: 0.97rem; }
+.psb-fcard__vidhi { border: 0; background: none; cursor: pointer; min-height: 40px; font: inherit; font-weight: 800; font-size: 0.88rem; color: #6b4a14; text-decoration: underline; text-underline-offset: 3px; }
+.psb-fest__note { margin: 1rem 0 0; text-align: center; font-size: 0.82rem; color: #6b665c; }
+
+.psb-festchip { margin: -0.2rem 0 0.7rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.4rem 0.4rem 0.4rem 0.8rem; border-radius: 12px; background: rgba(255, 210, 122, 0.18); border: 1px solid rgba(255, 210, 122, 0.55); color: #fbf7ef; font-size: 0.85rem; font-weight: 700; }
+.psb-festchip[hidden] { display: none; }
+.psb-festchip button { flex: none; width: 30px; height: 30px; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.15); color: inherit; font-size: 1.2rem; line-height: 1; cursor: pointer; }
+
+@media (max-width: 1000px) { .psb-fest__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* phones: swipeable row of cards, like an app carousel */
+@media (max-width: 639px) {
+  .psb-fest { padding: 2rem 0 1.6rem; }
+  .psb-fest .psb-wrap { padding-right: 0; }
+  .psb-fest .psb-head { padding-right: 1.25rem; margin-bottom: 1.3rem; }
+  .psb-fest__list { display: flex; gap: 0.8rem; overflow-x: auto; padding: 0.9rem 1.25rem 0.6rem 0; margin-top: -0.4rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .psb-fest__list::-webkit-scrollbar { display: none; }
+  .psb-fcard { flex: 0 0 84%; max-width: 330px; scroll-snap-align: start; scroll-margin-left: 1.25rem; }
+  .psb-fcard:first-child { margin-left: 0; }
+  .psb-fest__note { padding-right: 1.25rem; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .psb-fest__list { scroll-behavior: auto; } }
+
+/* ---------- picture backgrounds ---------- */
+.psb-fcard { overflow: hidden; isolation: isolate; }
+.psb-fcard.has-bg { color: #fbf7ef; border-color: rgba(255, 255, 255, 0.14); background: #17243b; }
+.psb-fcard__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.psb-fcard.has-bg::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(14, 22, 38, 0.35) 0%, rgba(14, 22, 38, 0.72) 42%, rgba(14, 22, 38, 0.94) 100%); }
+.psb-fcard.has-bg:hover .psb-fcard__bg { transform: scale(1.1); }
+.psb-fcard.has-bg .psb-fcard__title h3 { color: #fff; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5); }
+.psb-fcard.has-bg .psb-fcard__title p { color: #ffd27a; }
+.psb-fcard.has-bg .psb-fcard__when { color: rgba(251, 247, 239, 0.92); }
+.psb-fcard.has-bg .psb-fcard__pill { background: rgba(255, 255, 255, 0.18); color: #fff; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.psb-fcard.has-bg .psb-fcard__pill.is-soon { background: #ff9933; color: #1b1408; }
+.psb-fcard.has-bg .psb-fcard__for { color: rgba(251, 247, 239, 0.85); }
+.psb-fcard.has-bg .psb-fcard__for strong { color: #fff; }
+.psb-fcard.has-bg .psb-fcard__date { background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.28); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.psb-fcard.has-bg .psb-fcard__vidhi { color: #ffe39a; }
+.psb-fcard__credit { position: absolute; right: 8px; top: 8px; max-width: 70%; font-size: 0.58rem; line-height: 1.2; color: rgba(255, 255, 255, 0.7); text-align: right; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); pointer-events: none; }
+.psb-fcard--next .psb-fcard__next { z-index: 2; }
+.psb-fcard.has-bg { min-height: 300px; }
+@media (prefers-reduced-motion: reduce) { .psb-fcard__bg { transition: none; transform: none; } }
+.psb-fcard__next { top: 10px; right: 10px; }
+.psb-fcard.has-bg .psb-fcard__top { padding-right: 4.6rem; }
+.psb-fcard:not(.psb-fcard--next).has-bg .psb-fcard__top { padding-right: 0; }
+.psb-fcard__credit { position: static; max-width: none; margin: -0.1rem 0 0; text-align: center; font-size: 0.6rem; opacity: 0.8; order: 99; }
+.psb-fcard.has-bg { padding-bottom: 1.7rem; }
+.psb-fcard__credit { position: absolute; left: 10px; right: 10px; bottom: 5px; margin: 0; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.psb-fcard__credit { top: auto; right: 10px; left: 10px; bottom: 6px; }
+.psb-fcard.has-bg::before { background: linear-gradient(180deg, rgba(14, 22, 38, 0.18) 0%, rgba(14, 22, 38, 0.55) 40%, rgba(14, 22, 38, 0.92) 100%); }

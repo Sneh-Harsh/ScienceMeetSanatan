@@ -45,6 +45,14 @@ class PanditMarketplaceTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Book a Pandit, with Confidence.")
 
+    def test_upcoming_festivals_section_sits_between_hero_and_puja_chooser(self):
+        html = self.client.get(reverse("pandit_marketplace")).content.decode()
+        hero, fest, chooser = html.index('class="psb-hero"'), html.index('id="festivals"'), html.index('id="pujas"')
+        self.assertLess(hero, fest)
+        self.assertLess(fest, chooser)
+        self.assertIn("Book ahead", html)
+        self.assertIn('name="festival"', html)
+
     def test_booking_page_is_the_whatsapp_enquiry_flow(self):
         html = self.client.get(reverse("pandit_marketplace")).content.decode()
         self.assertIn("Book a Pandit, with Confidence.", html)

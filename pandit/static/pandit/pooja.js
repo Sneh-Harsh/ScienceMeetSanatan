@@ -216,24 +216,6 @@
     });
   }
 
-  function soonBand() {
-    var all = soonList().filter(function (x) { return x.gs.length || kathasForFest(x).length; }), seen = {};
-    var uniq = function (x) { var k = x.f.id; if (seen[k]) return false; seen[k] = 1; return true; };
-    var l = all.filter(function (x) { return x.f.kind === "festival"; }).filter(uniq).slice(0, 4);
-    if (l.length < 3) l = l.concat(all.filter(function (x) { return x.f.kind !== "festival"; }).filter(uniq).slice(0, 3 - l.length));
-    if (!l.length) return "";
-    return '<section class="pr-soon" aria-label="Festivals coming up"><h3 class="pr-soon__h"><span aria-hidden="true">🪔</span> Coming up</h3><ul class="pr-soon__list">' +
-      l.map(function (x) {
-        var g = x.gs[0], gd = g ? guideById(g) : null, ks = kathasForFest(x);
-        return '<li class="pr-soon__item"><div class="pr-soon__when"><strong>' + esc(x.when) + '</strong><span>' + esc(x.rel) + "</span></div>" +
-          '<div class="pr-soon__what"><strong>' + esc(x.f.name.en) + (x.f.name.hi ? ' <span class="pr-hi" lang="hi">' + esc(x.f.name.hi) + "</span>" : "") + "</strong></div>" +
-          '<div class="pr-soon__acts">' +
-          (gd && gd.availability === "documented" ? '<button type="button" class="pr-soon__btn" data-open="' + esc(g) + '">Pooja vidhi</button>' : "") +
-          (ks.length ? '<button type="button" class="pr-soon__btn pr-soon__btn--alt" data-katha="' + esc(ks[0].id) + '">Vrat katha</button>' : "") +
-          "</div></li>";
-      }).join("") + "</ul></section>";
-  }
-
   /* ------------------------------ find & filter --------------------------- */
 
   var CATS = [
@@ -333,7 +315,6 @@
     var cats = CATS.filter(function (c) { return c.id !== "soon" || soonList().length; });
     var nk = kathas && kathas.kathas ? kathas.kathas.length : 0;
     libraryEl.innerHTML =
-      soonBand() +
       (nk ? '<div class="pr-tabs" role="tablist" aria-label="Library">' +
         '<button type="button" role="tab" class="pr-tab is-on" data-tab="guides" aria-selected="true">Pooja Vidhi <span>' + data.guides.length + "</span></button>" +
         '<button type="button" role="tab" class="pr-tab" data-tab="kathas" aria-selected="false">Vrat Katha <span>' + nk + "</span></button></div>" : "") +

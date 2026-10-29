@@ -88,7 +88,7 @@ own artwork and changing `publicId` (set `fit` to `pad` for a wide image).
 
 ## Coming-up festivals (`pooja/festivals.json`)
 
-Dates for Patna from Drik Panchang (each entry has its `sourceUrl`; 2026-10 to 2027-12). The library shows a "Coming up" band, puts guides for festivals
+Dates for Patna from Drik Panchang (each entry has its `sourceUrl`; 2026-10 to 2027-12). The Pandit page shows an "Upcoming festivals" card section below the hero (with Book-ahead buttons). The library puts guides for festivals
 in the next 45 days first with a ribbon, and offers a "Coming up" filter. A real festival outranks a monthly vrat (Sankashti, Pradosh, Purnima).
 Refresh the file each year (rebuild from the panchang) and re-check dates against your own panchang. Known doubts: Govardhan Puja 2026 (Nov 9 vs 10),
 two-day tithis, Shravan Somvar 2027 derived from Purnima dates.
@@ -102,3 +102,10 @@ page by page from there. **Cloudinary blocks direct PDF delivery by default** (H
 To serve PDFs from Cloudinary instead, enable "PDF and ZIP files delivery" in Cloudinary Settings → Security.
 Not found under a free licence: Chhath, Chitragupta, Diwali/Lakshmi, Dhanteras, Karwa Chauth, Santoshi Mata, Tulsi Vivah (most are only in modern
 copyrighted books). Two scanned PDFs (Ganesh Chaturthi 1956, a Shivratri manuscript) were held back because their licence could not be verified.
+
+## Festival card pictures (AI-generated)
+
+Each festival in the "Upcoming festivals" cards has its own AI-generated picture (`images.json` → `festivals`, Cloudinary folder `sms/festivals`),
+labelled "AI-generated artwork". They were made with Stable Diffusion through the free AI Horde service (stablehorde.net, anonymous), one prompt per festival,
+and checked by eye; two with a stray watermark-like artefact were regenerated. AI figures of deities are approximate, not iconographically exact: have your
+pandit look at them, and replace any picture by uploading your own and changing its `publicId`. The licence status of AI Horde output was not verified.

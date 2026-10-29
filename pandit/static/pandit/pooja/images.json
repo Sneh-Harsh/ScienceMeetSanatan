@@ -146,5 +146,231 @@
       "license": "Public domain",
       "sourceUrl": "https://commons.wikimedia.org/wiki/File:Surya_Poona_painting_1800-05.jpg"
     }
+  },
+  "festivals": {
+    "akshaya-tritiya": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/akshaya-tritiya",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "bhai-dooj": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/bhai-dooj",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "buddha-purnima": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/buddha-purnima",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "chaitra-navratri": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/chaitra-navratri",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "chhath": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/chhath",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "chitragupta-puja": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/chitragupta-puja",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "dattatreya-jayanti": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/dattatreya-jayanti",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "dhanteras": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/dhanteras",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "diwali": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/diwali",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "durga-ashtami": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/durga-ashtami",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "dussehra": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/dussehra",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "gita-jayanti": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/gita-jayanti",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "govardhan-puja": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/govardhan-puja",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "hanuman-jayanti": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/hanuman-jayanti",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "holi": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/holi",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "holika-dahan": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/holika-dahan",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "jagannath-rathyatra": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/jagannath-rathyatra",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "janmashtami": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/janmashtami",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "kali-chaudas": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/kali-chaudas",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "maha-navami": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/maha-navami",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "makar-sankranti": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/makar-sankranti",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "naraka-chaturdashi": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/naraka-chaturdashi",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "raksha-bandhan": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/raksha-bandhan",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "ram-navami": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/ram-navami",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "sharad-navratri": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/sharad-navratri",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "tulsi-vivah": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/tulsi-vivah",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "vasant-panchami": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/vasant-panchami",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    },
+    "vivah-panchami": {
+      "status": "supplied",
+      "resourceType": "image",
+      "publicId": "sms/festivals/vivah-panchami",
+      "alt": "",
+      "attribution": "AI-generated artwork",
+      "generator": "Stable Diffusion via AI Horde (stablehorde.net), anonymous"
+    }
   }
 }

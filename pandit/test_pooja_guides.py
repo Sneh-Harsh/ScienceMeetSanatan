@@ -184,3 +184,15 @@ class FestivalAndKathaDataTests(SimpleTestCase):
             pdf = k["pdf"]
             self.assertTrue((BASE / pdf["file"]).read_bytes().startswith(b"%PDF"), k["id"])
             self.assertTrue(pdf["publicId"].startswith("sms/katha/") and pdf["pages"] >= 1, k["id"])
+
+    def test_every_major_festival_has_its_own_ai_picture(self):
+        import re as _re
+        images = json.loads((BASE / "images.json").read_text(encoding="utf-8"))
+        pics = images["festivals"]
+        bases = {_re.sub(r"-20\d\d.*$", "", f["id"]) for f in self.fest["festivals"] if f["kind"] == "festival"}
+        self.assertFalse(bases - set(pics), "festivals without a picture")
+        ids = [p["publicId"] for p in pics.values()]
+        self.assertEqual(len(ids), len(set(ids)), "pictures must all be different")
+        for p in pics.values():
+            self.assertEqual(p["attribution"], "AI-generated artwork")
+            self.assertTrue(p["publicId"].startswith("sms/festivals/"))

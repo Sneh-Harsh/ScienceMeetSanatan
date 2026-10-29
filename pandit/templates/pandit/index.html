@@ -15,9 +15,10 @@
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
-  <link rel="stylesheet" href="{% static 'pandit/booking.css' %}?v=7" />
+  <link rel="stylesheet" href="{% static 'pandit/booking.css' %}?v=8" />
   <link rel="stylesheet" href="{% static 'pandit/pooja.css' %}?v=11" />
   <link rel="stylesheet" href="{% static 'pandit/immersive.css' %}?v=3" />
+  <link rel="stylesheet" href="{% static 'pandit/festivals.css' %}?v=5" />
 </head>
 <body class="psb-body">
   <header class="header">
@@ -95,6 +96,7 @@
     <symbol id="psb-i-baby" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="M9.8 8.4h.01M14.2 8.4h.01M10 11.2c1 1 3 1 4 0M5.5 21c0-4 2.2-6 6.5-6s6.5 2 6.5 6"/></symbol>
     <symbol id="psb-i-rings" viewBox="0 0 24 24"><circle cx="9" cy="15" r="5"/><circle cx="15" cy="15" r="5"/><path d="M12 2.5l1.8 2.4L12 7.3 10.2 4.9z"/></symbol>
     <symbol id="psb-i-other" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></symbol>
+    <symbol id="psb-i-phone" viewBox="0 0 24 24"><path d="M5 4h3.2l1.6 4-2 1.3a11 11 0 0 0 5.9 5.9l1.3-2 4 1.6V19a2 2 0 0 1-2.2 2A16 16 0 0 1 3 6.2 2 2 0 0 1 5 4z" fill="none"/></symbol>
     <symbol id="psb-i-wa" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.9 7L4 20l1.6-4A8 8 0 1 1 20 11.5z" fill="none"/><path d="M9 8.5c.3 3 2.7 5.6 5.7 6.5l1.3-1.3-1.8-1-.9.7c-.9-.4-1.8-1.3-2.2-2.2l.7-.9-1-1.8z" fill="currentColor" stroke="none"/></symbol>
     <symbol id="psb-i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   </defs>
@@ -119,6 +121,7 @@
               <a class="psb-cta psb-cta--primary" href="#book" id="psbHeroBook" data-specular="primary">Book a Pandit</a>
               <a class="psb-cta psb-cta--secondary" href="#pooja" id="psbHeroExplore" data-specular="secondary">Explore Pooja Vidhi</a>
             </div>
+            <p class="psb-callline">Prefer to talk? <a href="tel:+919353206153" data-call><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-phone"/></svg>Call +91 93532 06153</a></p>
             <p class="psb-note">Personal assistance for your puja requirements. Availability depends on the requested date, location and pandit confirmation.</p>
           </div>
 
@@ -170,6 +173,8 @@
                                 </select>
                                 <p class="psb-error" id="err-puja" role="alert"></p>
                               </div>
+                              <input type="hidden" id="psbFestival" name="festival" value="" />
+                              <p class="psb-festchip" id="psbFestivalChip" hidden><span></span><button type="button" aria-label="Remove festival from this request">&times;</button></p>
                               <div class="psb-field" id="psbOtherWrap" hidden>
                                 <label for="psbOther">Which puja or ritual?</label>
                                 <input id="psbOther" name="other" type="text" maxlength="80" placeholder="e.g. Sundarkand path" aria-describedby="err-other" />
@@ -292,9 +297,22 @@
                             <p class="psb-copy-status" id="psbCopyStatus" role="status"></p>
                           </div>
                         </div>
-              <p class="psb-cardfoot">Prefer to chat? <a id="psbWaDirect" href="https://wa.me/919353206153?text=Namaste%20Science%20Meet%20Sanatan%20%F0%9F%99%8F%0A%0AI%20would%20like%20to%20enquire%20about%20booking%20a%20pandit." target="_blank" rel="noopener">Message us on WhatsApp</a></p>
+              <div class="psb-cardfoot psb-cardfoot--actions"><span>Prefer to talk or chat?</span><a class="psb-callbtn" href="tel:+919353206153" data-call aria-label="Call +91 93532 06153"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-phone"/></svg>Call</a><a class="psb-callbtn psb-callbtn--wa" id="psbWaDirect" href="https://wa.me/919353206153?text=Namaste%20Science%20Meet%20Sanatan%20%F0%9F%99%8F%0A%0AI%20would%20like%20to%20enquire%20about%20booking%20a%20pandit." target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-wa"/></svg>WhatsApp</a></div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- UPCOMING FESTIVALS -->
+      <section class="psb-section psb-section--stone psb-fest" id="festivals" aria-labelledby="psbFestTitle" data-url="{% static 'pandit/pooja/festivals.json' %}?v=2" data-images-url="{% static 'pandit/pooja/images.json' %}?v=3" hidden>
+        <div class="psb-wrap">
+          <header class="psb-head">
+            <p class="psb-eyebrow psb-eyebrow--dark">Book ahead</p>
+            <h2 id="psbFestTitle">Upcoming festivals</h2>
+            <p class="psb-sub">Pandits get busy around festivals. Send your request early so we can check availability for your date.</p>
+          </header>
+          <ul class="psb-fest__list" id="psbFestList"></ul>
+          <p class="psb-fest__note">Dates are for Patna, from Drik Panchang. Please confirm the exact muhurat with your pandit.</p>
         </div>
       </section>
 
@@ -417,7 +435,7 @@
       </section>
 
       <!-- POOJA VIDHI -->
-      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle" data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=2" data-images-url="{% static 'pandit/pooja/images.json' %}?v=2" data-festivals-url="{% static 'pandit/pooja/festivals.json' %}?v=2" data-kathas-url="{% static 'pandit/pooja/kathas.json' %}?v=2">
+      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle" data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=2" data-images-url="{% static 'pandit/pooja/images.json' %}?v=3" data-festivals-url="{% static 'pandit/pooja/festivals.json' %}?v=2" data-kathas-url="{% static 'pandit/pooja/kathas.json' %}?v=2">
         <div class="psb-wrap">
           <header class="psb-head">
             <p class="psb-eyebrow psb-eyebrow--dark">Pooja Vidhi</p>
@@ -458,13 +476,17 @@
       <section class="psb-final" aria-label="Start your enquiry">
         <div class="psb-wrap psb-final__row">
           <h2>Ready to plan your puja?</h2>
-          <a class="psb-cta psb-cta--primary" href="#book" data-specular="primary">Book a Pandit</a>
+          <div class="psb-final__acts">
+            <a class="psb-cta psb-cta--primary" href="#book" data-specular="primary">Book a Pandit</a>
+            <a class="psb-cta psb-cta--call" href="tel:+919353206153" data-call><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-phone"/></svg>Call +91 93532 06153</a>
+          </div>
         </div>
       </section>
     </div>
 
     <div class="psb-sticky" id="psbSticky" hidden>
       <a class="psb-btn psb-btn--gold" href="#book">Book a Pandit</a>
+      <a class="psb-sticky__call" href="tel:+919353206153" data-call aria-label="Call us"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-phone"/></svg></a>
       <a class="psb-sticky__wa" id="psbStickyWa" href="https://wa.me/919353206153" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-wa"/></svg></a>
     </div>
   </main>
@@ -486,8 +508,9 @@
   <script defer src="{% static 'pandit/vendor/glass-surface.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/silk.js' %}?v=1"></script>
-  <script defer src="{% static 'pandit/booking.js' %}?v=7"></script>
-  <script defer src="{% static 'pandit/pooja.js' %}?v=11"></script>
+  <script defer src="{% static 'pandit/booking.js' %}?v=8"></script>
+  <script defer src="{% static 'pandit/pooja.js' %}?v=12"></script>
+  <script defer src="{% static 'pandit/festivals.js' %}?v=3"></script>
   <script defer src="{% static 'pandit/immersive.js' %}?v=1"></script>
 </body>
 </html>

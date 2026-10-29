@@ -76,6 +76,7 @@
       other: oneLine(get("other"), 80),
       dateMode: get("dateMode") || "date",
       date: get("date"),
+      festival: oneLine(get("festival"), 80),
       city: get("city") || "Patna",
       cityOther: oneLine(get("cityOther"), 60),
       area: oneLine(get("area"), 80),
@@ -106,6 +107,7 @@
     var rows = [
       ["Name", v.name],
       ["Puja", pujaLabel(v)],
+      ["Festival", v.festival],
       ["Preferred date", v.dateMode === "flexible" ? "Flexible" : prettyDate(v.date)],
       ["City", cityLabel(v)],
       ["Area", v.area],
@@ -184,6 +186,7 @@
     var items = [
       ["Name", v.name],
       ["Puja", pujaLabel(v)],
+      ["Festival", v.festival],
       ["Date", v.dateMode === "flexible" ? "Flexible" : prettyDate(v.date)],
       ["City", cityLabel(v)],
       ["Area", v.area],
@@ -295,6 +298,15 @@
   citySelect.addEventListener("change", syncCity);
 
   var bookCard = document.getElementById("book");
+  var festivalField = document.getElementById("psbFestival");
+  var festivalChip = document.getElementById("psbFestivalChip");
+  function setFestival(name) {
+    festivalField.value = name || "";
+    festivalChip.hidden = !name;
+    festivalChip.querySelector("span").textContent = name ? "Booking ahead for " + name : "";
+  }
+  festivalChip.querySelector("button").addEventListener("click", function () { setFestival(""); save(); });
+  pujaSelect.addEventListener("change", function () { if (festivalField.value) setFestival(""); });
 
   // Fills a puja into the request form (used by the puja chooser and by the Pooja Vidhi guides).
   function selectPuja(name, opts) {
@@ -315,8 +327,24 @@
   }
 
   cards.forEach(function (card) {
-    card.addEventListener("click", function () { selectPuja(card.getAttribute("data-puja")); });
+    card.addEventListener("click", function () { setFestival(""); selectPuja(card.getAttribute("data-puja")); });
   });
+
+  // Fills puja, festival name and date from an "Upcoming festivals" card, then shows the form.
+  function prefill(opts) {
+    opts = opts || {};
+    if (!selectPuja(opts.puja, { scroll: false })) return false;
+    if (opts.puja === "Other Puja") { otherInput.value = oneLine(opts.other || "", 80); }
+    setFestival(opts.festival || "");
+    var d = opts.date || "";
+    var dateRadio = $("input[name='dateMode'][value='date']", form);
+    if (dateRadio && d && d >= todayIso()) { dateRadio.checked = true; dateInput.value = d; }
+    syncDateMode();
+    save();
+    bookCard.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    bookCard.focus({ preventScroll: true });
+    return true;
+  }
 
   pujaSelect.addEventListener("change", function () { syncPuja(); setError("puja", "", pujaSelect); });
 
@@ -539,6 +567,7 @@
   /* -------------------------------- boot --------------------------------- */
 
   var startStep = restore();
+  setFestival(festivalField.value);
   syncPuja();
   try {
     var qc = new URLSearchParams(location.search).get("city");
@@ -563,6 +592,7 @@
     buildMessage: buildMessage,
     whatsappUrl: whatsappUrl,
     selectPuja: selectPuja,
+    prefill: prefill,
     setReturnLink: setReturnLink,
     decorate: decorate,
     silkActive: !!(silk && silk.active),
