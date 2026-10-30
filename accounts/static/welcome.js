@@ -222,36 +222,80 @@ const renderRaashiPulse = (items = []) => {
     .join("");
 };
 
+// Today as a YYYY-MM-DD string in the visitor's own calendar, used to decide which festivals are done and which are coming.
+const todayKey = () => {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+};
+
+let festivalUserScrolled = false;
+
 const renderFestivalTimeline = (items = []) => {
   if (!festivalTimeline) return;
   if (!items.length) {
     festivalTimeline.innerHTML = '<div class="timeline-loading">Festival orbit is unavailable right now.</div>';
     return;
   }
-  const visibleItems = items.slice(0, 4);
-  festivalTimeline.innerHTML = visibleItems
-    .map((item, index) => {
-      const classes = [
-        "timeline-item",
-        `timeline-item--${item.status || "upcoming"}`,
-        index < 3 ? "timeline-item--focus" : "timeline-item--ghost",
-      ]
-        .filter(Boolean)
-        .join(" ");
-      return `
-        <article class="${classes}">
-          <div class="timeline-dot-wrap"><span class="timeline-dot"></span></div>
-          <div class="timeline-content">
-            <div class="section-kicker">${escapeHtml(item.icon || "✦")} ${index === 3 ? "Upcoming" : "Festival"}</div>
-            <h3>${escapeHtml(item.name)}</h3>
-            ${item.date_label || item.time_label ? `<div class="timeline-date">${escapeHtml(item.date_label || "")}${item.date_label && item.time_label ? " • " : ""}${escapeHtml(item.time_label || "")}</div>` : ""}
-            ${item.festival_meta ? `<div class="timeline-meta">${escapeHtml(item.festival_meta || "")}</div>` : ""}
-            <div class="timeline-desc">Open calendar to see full information.</div>
-          </div>
-        </article>
-      `;
-    })
-    .join("");
+  const today = todayKey();
+  // status comes from the dates (so it stays right after midnight even when the page was loaded earlier);
+  // items without a date keep the status the server gave them
+  const rows = items.map((item) => {
+    const start = item.date || "";
+    const end = item.end_date || start;
+    let status = item.status || "upcoming";
+    if (start) status = end < today ? "past" : start <= today ? "today" : "upcoming";
+    return { ...item, status };
+  });
+  const nextIndex = rows.findIndex((row) => row.status === "upcoming");
+  const live = rows.findIndex((row) => row.status === "today");
+  const badge = (row, index) => {
+    if (row.status === "past") return "Done";
+    if (row.status === "today") return "Happening now";
+    return index === nextIndex ? "Next up" : "Upcoming";
+  };
+  festivalTimeline.innerHTML = `
+    <div class="timeline-scroll" tabindex="0" role="region" aria-label="Festivals this year, scroll to see all">
+      <div class="timeline-track">
+        ${rows
+          .map((item, index) => {
+            const classes = ["timeline-item", `timeline-item--${item.status}`, index === nextIndex ? "timeline-item--next" : ""]
+              .filter(Boolean)
+              .join(" ");
+            return `
+              <article class="${classes}"${index === nextIndex ? ' data-next="1"' : ""}>
+                <div class="timeline-dot-wrap"><span class="timeline-dot"></span></div>
+                <div class="timeline-content">
+                  <div class="section-kicker">${escapeHtml(item.icon || "✦")} ${badge(item, index)}</div>
+                  <h3>${escapeHtml(item.name)}</h3>
+                  ${item.date_label || item.time_label ? `<div class="timeline-date">${escapeHtml(item.date_label || "")}${item.date_label && item.time_label ? " • " : ""}${escapeHtml(item.time_label || "")}</div>` : ""}
+                  ${item.festival_meta ? `<div class="timeline-meta">${escapeHtml(item.festival_meta || "")}</div>` : ""}
+                  ${item.description ? `<div class="timeline-desc">${escapeHtml(item.description)}</div>` : ""}
+                </div>
+              </article>`;
+          })
+          .join("")}
+      </div>
+    </div>`;
+
+  const scroller = festivalTimeline.querySelector(".timeline-scroll");
+  if (!scroller) return;
+  // only a real visitor action counts, not our own positioning (the list is drawn again when fresh data arrives)
+  ["wheel", "pointerdown", "touchstart", "keydown"].forEach((type) => scroller.addEventListener(type, () => { festivalUserScrolled = true; }, { passive: true }));
+  // Open the list so the next upcoming festival is the second-to-last card in view: the festivals already done sit above it,
+  // and just one later card shows below it, hinting that the list carries on. (Scrolling stays free in both directions.)
+  const place = () => {
+    if (festivalUserScrolled) return;
+    const cards = scroller.querySelectorAll(".timeline-item");
+    const focus = nextIndex >= 0 ? nextIndex : live >= 0 ? live : cards.length - 1;
+    const after = cards[Math.min(focus + 1, cards.length - 1)];
+    if (!after) return;
+    const bottom = after.offsetTop + after.offsetHeight;
+    scroller.scrollTop = Math.max(0, bottom - scroller.clientHeight + 12);
+  };
+  place();
+  if ("ResizeObserver" in window) new ResizeObserver(place).observe(scroller);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
 };
 
 const renderPlanetarium = () => {

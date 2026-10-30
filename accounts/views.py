@@ -37,7 +37,7 @@ from .models import Category, QuizAttempt, QuizQuestionMemory, UserStats
 from .quiz_engine import CATEGORY_LABELS, build_quiz_session_payload, resolve_category_slug
 from kundali.calculations import PLANETS, RASHI, _dt_to_jd_ut, _rashi_index, _sidereal_lon
 from panchang.festival_rules import rules_version as festival_rules_version
-from panchang.views import _cached_panchang_for_date, _load_core_festival_rules
+from panchang.views import _cached_panchang_for_date, _load_bundled_core_festival_dates, _load_core_festival_rules
 import swisseph as swe
 
 
@@ -292,9 +292,81 @@ def _format_iso_local(value, tz_name: str, include_date=False):
         return str(value)
 
 
+def _year_festival_rows(year: int):
+    """The resolved core-festival calendar for a Gregorian year (bundled with the app), or None when it is not available."""
+    try:
+        return _load_bundled_core_festival_dates(year=year)
+    except Exception:
+        return None
+
+
+def _welcome_year_festivals(*, today):
+    """
+    Every festival of the current year, in date order, for the home-page timeline.
+    A festival that spans several days (Navratri, Chhath...) comes from the calendar as one row per day; those rows are merged
+    into one entry with a start and an end date. Returns None when the year's calendar is not available.
+    """
+    rows = _year_festival_rows(today.year)
+    if not rows:
+        return None
+    ordered = sorted(
+        (r for r in rows if isinstance(r, dict) and r.get("date") and str(r.get("name") or "").strip()),
+        key=lambda r: (str(r["date"]), str(r.get("name") or "")),
+    )
+    merged = []   # [{"row": first_row, "start": date, "end": date}]
+    open_runs = {}
+    for row in ordered:
+        name = str(row.get("name")).strip()
+        day = dt_date.fromisoformat(str(row["date"]))
+        run = open_runs.get(name)
+        if run and (day - run["end"]).days <= 1:
+            run["end"] = max(run["end"], day)
+            continue
+        run = {"row": row, "start": day, "end": day}
+        open_runs[name] = run
+        merged.append(run)
+    merged.sort(key=lambda r: (r["start"], str(r["row"].get("name") or "")))
+
+    out = []
+    for run in merged:
+        row, start, end = run["row"], run["start"], run["end"]
+        if end > start:
+            same_month = start.month == end.month
+            label = (
+                f"{start.day}\u2013{end.day} {end.strftime('%b %Y')}" if same_month
+                else f"{start.strftime('%d %b')} \u2013 {end.strftime('%d %b %Y')}"
+            )
+        else:
+            label = start.strftime("%d %b %Y")
+        status = "today" if start <= today <= end else ("past" if end < today else "upcoming")
+        description = str(row.get("description") or "").strip()
+        if description.lower().startswith("auspicious day in the sanatan calendar"):
+            description = ""
+        time_rule = row.get("time_rule")
+        out.append(
+            {
+                "name": str(row.get("name")).strip(),
+                "date": start.isoformat(),
+                "end_date": end.isoformat(),
+                "date_label": label,
+                "time_label": TIME_RULE_LABELS.get(str(time_rule), str(time_rule).replace("_", " ").title()) if time_rule else "",
+                "status": status,
+                "icon": row.get("icon") or "\u2726",
+                "description": description[:180],
+                "festival_meta": " \u2022 ".join(
+                    part for part in [str(row.get("month") or ""), str(row.get("paksha") or ""), str(row.get("tithi") or "")] if part
+                ),
+            }
+        )
+    return out
+
+
 def _welcome_festivals(*, lat: float, lon: float, tz_name: str):
     tz = ZoneInfo(tz_name)
     today = datetime.now(tz).date()
+    whole_year = _welcome_year_festivals(today=today)
+    if whole_year:
+        return whole_year
     rules_version = festival_rules_version()
     start_day = dt_date.fromordinal(today.toordinal() - 10)
     end_day = dt_date.fromordinal(today.toordinal() + 40)
@@ -530,11 +602,11 @@ def _welcome_payload_has_items(payload, key):
 
 
 def _welcome_festival_exact_cache_key(*, lat: float, lon: float, tz_name: str):
-    return f"welcome:festivals:exact:v7:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    return f"welcome:festivals:exact:v8:{round(lat,3)}:{round(lon,3)}:{tz_name}"
 
 
 def _welcome_festival_fallback_cache_key(*, lat: float, lon: float, tz_name: str):
-    return f"welcome:festivals:fallback:v7:{round(lat,3)}:{round(lon,3)}:{tz_name}"
+    return f"welcome:festivals:fallback:v8:{round(lat,3)}:{round(lon,3)}:{tz_name}"
 
 
 def _cached_or_fallback_raashi_payload(*, lat: float, lon: float, tz_name: str):
@@ -556,7 +628,16 @@ def _cached_or_fallback_festivals_payload(*, lat: float, lon: float, tz_name: st
     cached_fallback = cache.get(fallback_cache_key)
     if _welcome_payload_has_items(cached_fallback, "monthly_festivals"):
         return cached_fallback
-    payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
+    # the year's calendar ships with the app, so the real list can be built instantly without any astronomy work
+    try:
+        today = datetime.now(ZoneInfo(tz_name)).date()
+        year_items = _welcome_year_festivals(today=today)
+    except Exception:
+        year_items = None
+    if year_items:
+        payload = {"generated_at": datetime.now(ZoneInfo(tz_name)).isoformat(), "monthly_festivals": year_items}
+    else:
+        payload = _fallback_welcome_festivals_payload(tz_name=tz_name)
     cache.set(fallback_cache_key, payload, timeout=min(WELCOME_TIMEOUT, 15 * 60))
     return payload
 

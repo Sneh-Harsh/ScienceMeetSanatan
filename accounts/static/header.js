@@ -1,3 +1,25 @@
+// Refractive glass (GlassSurface, vanilla port) for the navbar slab. Phones and touch devices keep the plain blur: the
+// SVG displacement filter is re-rendered on every scroll frame, which is too costly there.
+(function attachNavGlass() {
+  const base = document.currentScript && document.currentScript.src;
+  const header = document.querySelector(".header");
+  if (!header || !base) return;
+  const start = () => {
+    if (!window.SmsGlassSurface || header.classList.contains("sms-glass")) return;
+    const desktop = window.matchMedia("(min-width: 1121px) and (hover: hover)").matches;
+    try {
+      window.SmsGlassSurface.attach(header, {
+        borderRadius: 26, distortionScale: -180, displace: 0.5, backgroundOpacity: 0.1, svg: desktop
+      });
+    } catch (e) { /* the CSS blur is already applied */ }
+  };
+  if (window.SmsGlassSurface) { start(); return; }
+  const tag = document.createElement("script");
+  tag.src = base.replace(/header\.js.*$/, "glass-surface.js?v=1");
+  tag.onload = start;
+  document.head.appendChild(tag);
+})();
+
 document.querySelectorAll(".header").forEach((header) => {
   const menuButton = header.querySelector(".mobile-menu-btn");
   const navShell = header.querySelector(".nav-shell");

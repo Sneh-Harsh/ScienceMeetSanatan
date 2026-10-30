@@ -8,71 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'header.css' %}?v=4" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=13" />
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
   <link rel="stylesheet" href="{% static 'astrology_consultation/consultation.css' %}?v=2" />
 </head>
 <body class="consult-body">
-  <header class="header">
-    <a href="/welcome/" class="logo" aria-label="SMS Home">
-      <span class="logo-mark">SMS</span>
-      <span class="logo-text">Science Meet Sanatan</span>
-    </a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-shell" aria-hidden="true">
-      <div class="left-nav">
-        <a href="/welcome/" class="nav-link">Home</a>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
-          <div class="dropdown" role="menu" aria-label="Explore menu">
-            <a href="/baby-names/" role="menuitem">Baby names</a>
-            <a href="/library/" role="menuitem">Library</a>
-            <a href="/panchang/" role="menuitem">Panchang</a>
-            <a href="/pandits/" role="menuitem">Pandits</a>
-            <a href="/astrologers/" role="menuitem">Astrologers</a>
-            <a href="#" role="menuitem">8K Wallpapers</a>
-            <a href="#" role="menuitem">Gifs</a>
-          </div>
-        </div>
-        <a href="/panchang/" class="nav-link">Panchang</a>
-        <div class="explore-wrap">
-          <a href="/kundali/" class="nav-link">Kundali ▾</a>
-          <div class="dropdown">
-            <a href="/kundali/">Generator</a>
-            <a href="/horoscope/">Horoscope</a>
-          </div>
-        </div>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link">Consult ▾</a>
-          <div class="dropdown">
-            <a href="/pandits/">Pandits</a>
-            <a href="/astrologers/">Astrologers</a>
-          </div>
-        </div>
-        <a href="/about/" class="nav-link">About Us</a>
-      </div>
-      <div class="right-nav">
-        <a class="quiz-link" href="/library/">Library</a>
-        <a class="quiz-link" href="/quizzes/">Quizzes</a>
-        {% if request.user.is_authenticated %}
-        <div class="profile-wrap">
-          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
-          <div class="profile-card">
-            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-            <p class="profile-status">Logged in</p>
-            <a class="profile-link" href="/profile/">Manage account</a>
-            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
-        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
-        {% endif %}
-      </div>
-    </div>
-  </header>
+{% include 'components/header.html' %}
 
   <main class="consult-page" id="astrologerDashboardPage" data-profile-url="/api/astrologer-dashboard/profile/" data-availability-url="/api/astrologer-dashboard/availability/">
     <section class="consult-dashboard-hero anim">
@@ -132,7 +73,7 @@
       </article>
     </section>
   </main>
-  <script defer src="{% static 'header.js' %}?v=5"></script>
+  <script defer src="{% static 'header.js' %}?v=6"></script>
   <script defer src="{% static 'astrology_consultation/consultation.js' %}?v=2"></script>
 </body>
 </html>

@@ -8,7 +8,7 @@
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="{% static 'header.css' %}?v=4" />
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=13" />
   <link rel="stylesheet" href="{% static 'about.css' %}?v=1"/>
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3" />
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
@@ -65,67 +65,7 @@
 </head>
 
 <body class="bg-background text-on-background font-body antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary">
-  <header class="header">
-    <a href="/welcome/" class="logo" aria-label="SMS Home">
-      <span class="logo-mark">SMS</span>
-      <span class="logo-text">Science Meet Sanatan</span>
-    </a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-shell" aria-hidden="true">
-      <div class="left-nav">
-        <a href="/welcome/" class="nav-link">Home</a>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
-          <div class="dropdown" role="menu" aria-label="Explore menu">
-            <a href="/baby-names/" role="menuitem">Baby names</a>
-            <a href="/library/" role="menuitem">Library</a>
-            <a href="/panchang/" role="menuitem">Panchang</a>
-            <a href="/pandits/" role="menuitem">Pandits</a>
-            <a href="/astrologers/" role="menuitem">Astrologers</a>
-            <a href="#" role="menuitem">8K Wallpapers</a>
-            <a href="#" role="menuitem">Gifs</a>
-          </div>
-        </div>
-        <a href="/panchang/" class="nav-link">Panchang</a>
-        <div class="explore-wrap">
-          <a href="/kundali/" class="nav-link">Kundali ▾</a>
-          <div class="dropdown">
-            <a href="/kundali/">Generator</a>
-            <a href="/horoscope/">Horoscope</a>
-          </div>
-        </div>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link">Consult ▾</a>
-          <div class="dropdown">
-            <a href="/pandits/">Pandits</a>
-            <a href="/astrologers/">Astrologers</a>
-          </div>
-        </div>
-        <a href="/about/" class="nav-link">About Us</a>
-      </div>
-
-      <div class="right-nav">
-        <a class="quiz-link" href="/library/">Library</a>
-        <a class="quiz-link" href="/quizzes/">Quizzes</a>
-        {% if request.user.is_authenticated %}
-        <div class="profile-wrap">
-          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
-          <div class="profile-card">
-            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-            <p class="profile-status">Logged in</p>
-            <a class="profile-link" href="/profile/">Manage account</a>
-            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
-        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
-        {% endif %}
-      </div>
-    </div>
-  </header>
+{% include 'components/header.html' %}
 
   <main class="flex-grow">
     <section data-about-hero class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden grain bg-surface-container-lowest">
@@ -693,7 +633,7 @@
   <script defer src="{% static 'js/login_popup.js' %}?v=3"></script>
   <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
-  <script src="{% static 'header.js' %}?v=5"></script>
+  <script src="{% static 'header.js' %}?v=6"></script>
   <script defer src="{% static 'about.js' %}?v=1"></script>
 </body>
 </html>

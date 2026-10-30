@@ -11,10 +11,11 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Space+Grotesk:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{% static 'header.css' %}?v=4" />
+    <link rel="stylesheet" href="{% static 'header.css' %}?v=13" />
     <link rel="stylesheet" href="{% static 'welcome.css' %}?v=9" />
     <link rel="stylesheet" href="{% static 'welcome_book.css' %}?v=1" />
     <link rel="stylesheet" href="{% static 'welcome_app.css' %}?v=3" />
+    <link rel="stylesheet" href="{% static 'welcome_fx.css' %}?v=25" />
     <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3" />
     <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
     <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
@@ -22,88 +23,11 @@
     <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
   </head>
   <body>
-    <header class="header">
-        <a href="/welcome/" class="logo" aria-label="SMS Home">
-          <span class="logo-mark">SMS</span>
-          <span class="logo-text">Science Meet Sanatan</span>
-        </a>
-        <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      <div class="nav-shell" aria-hidden="true">
-      <div class="left-nav">
-        <a href="/welcome/" class="nav-link">Home</a>
-
-        <div class="explore-wrap">
-          <a href="#" class="nav-link" aria-haspopup="true">Explore ▾</a>
-          <div class="dropdown" role="menu" aria-label="Explore menu">
-            <a href="/baby-names/" role="menuitem">Baby names</a>
-            <a href="/library/" role="menuitem">Library</a>
-            <a href="/panchang/" role="menuitem">Panchang</a>
-            <a href="/pandits/" role="menuitem">Pandits</a>
-            <a href="/astrologers/" role="menuitem">Astrologers</a>
-            <a href="#" role="menuitem">8K Wallpapers</a>
-            <a href="#" role="menuitem">Gifs</a>
-          </div>
-        </div>
-
-        <a href="/panchang/" class="nav-link">Panchang</a>
-        <div class="explore-wrap">
-          <a href="/kundali/" class="nav-link">Kundali ▾</a>
-          <div class="dropdown">
-            <a href="/kundali/">Generator</a>
-            <a href="/horoscope/">Horoscope</a>
-          </div>
-        </div>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link">Consult ▾</a>
-          <div class="dropdown">
-            <a href="/pandits/">Pandits</a>
-            <a href="/astrologers/">Astrologers</a>
-          </div>
-        </div>
-        <a href="/about/" class="nav-link">About Us</a>
-      </div>
-
-      <div class="right-nav">
-        <a class="quiz-link" href="/library/">Library</a>
-        <a class="quiz-link" href="/quizzes/">Quizzes</a>
-        {% if request.user.is_authenticated %}
-        <div class="profile-wrap">
-          <button type="button" class="profile-trigger" aria-label="Open user profile">👤</button>
-          <div class="profile-card">
-            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-            <p class="profile-status">Logged in</p>
-            <a class="profile-link" href="/profile/">Manage account</a>
-            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
-        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
-        {% endif %}
-      </div>
-      </div>
-    </header>
+{% include 'components/header.html' %}
 
     <main class="content">
       <section class="hero-observatory" aria-label="Homepage hero">
-        <div class="hero-backdrop" id="heroArt" aria-hidden="true">
-          <video
-            id="heroVideo"
-            class="hero-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-          >
-            <source
-              src="https://res.cloudinary.com/dmnm8z8dc/video/upload/v1775553091/Welcome_page_background_mirtdn.mp4"
-              type="video/mp4"
-            />
-          </video>
-        </div>
+        <div class="hero-backdrop" id="heroArt" aria-hidden="true"></div>
 
         <div class="hero-copy hero-copy--center">
           <div class="hero-book-wrap">
@@ -155,6 +79,8 @@
           </ul>
         </div>
       </section>
+
+      <div class="laser-zone" id="laserZone">
 
       <section class="feature-pulse" id="featurePulse" aria-label="What you can do here">
         <div class="section-head">
@@ -210,6 +136,7 @@
           </a>
         </div>
       </section>
+      </div>
 
       <section class="raashi-pulse" aria-label="Raashi Pulse">
         <div class="section-head">
@@ -220,21 +147,26 @@
           </div>
           <div class="section-meta" id="raashiGeneratedAt">Loading today…</div>
         </div>
-        <div class="raashi-track" id="raashiTrack">
-          <div class="loading-card">Getting today’s rashifal…</div>
+        <div class="raashi-stage" id="raashiStage">
+          <div class="raashi-track" id="raashiTrack">
+            <div class="loading-card">Getting today’s rashifal…</div>
+          </div>
+          <button class="raashi-nav raashi-nav--prev" type="button" data-circle-nav aria-label="Previous rashi" hidden>‹</button>
+          <button class="raashi-nav raashi-nav--next" type="button" data-circle-nav aria-label="Next rashi" hidden>›</button>
+          <p class="raashi-hint" hidden>Drag or swipe to turn the wheel · tap a rashi to read it larger</p>
         </div>
       </section>
 
       <section class="festival-orbit" aria-label="Festival orbit">
         <div class="orbit-copy">
           <div class="section-kicker">Festivals</div>
-          <h2>Festivals this month</h2>
+          <h2>Festivals this year</h2>
           <p>
-            See the festivals and fasts coming up this month, with their dates.
+            Every festival and fast of the year, in date order. Filled dots are done, empty dots are still to come. Scroll to see them all.
           </p>
 
           <div class="festival-timeline" id="festivalTimeline">
-            <div class="timeline-loading">Loading this month’s festivals…</div>
+            <div class="timeline-loading">Loading this year’s festivals…</div>
           </div>
 
           <a class="orbit-link" href="/panchang/">See the full calendar →</a>
@@ -320,10 +252,16 @@
     <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
     <script defer src="{% static 'js/review.js' %}?v=1"></script>
     <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
-    <script src="{% static 'header.js' %}?v=5"></script>
+    <script src="{% static 'header.js' %}?v=6"></script>
+    <script defer src="{% static 'laser-flow.js' %}?v=5"></script>
+    <script defer src="{% static 'electric-border.js' %}?v=4"></script>
+    <script defer src="{% static 'circular-cards.js' %}?v=4"></script>
+    <script defer src="{% static 'aero-shards.js' %}?v=3"></script>
+    <script type="module" src="{% static 'aero-shards-gpu.js' %}?v=4"></script>
+    <script defer src="{% static 'welcome_fx.js' %}?v=21"></script>
     {{ welcome_raashi_bootstrap|json_script:"welcome-raashi-bootstrap" }}
     {{ welcome_festivals_bootstrap|json_script:"welcome-festivals-bootstrap" }}
-    <script src="{% static 'welcome.js' %}?v=9"></script>
+    <script src="{% static 'welcome.js' %}?v=11"></script>
     <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
     <script defer src="{% static 'welcome_book.js' %}?v=1"></script>
     <script defer src="{% static 'welcome_app.js' %}?v=2"></script>

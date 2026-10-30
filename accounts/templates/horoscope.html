@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500;6..72,700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'header.css' %}?v=4">
+  <link rel="stylesheet" href="{% static 'header.css' %}?v=13">
   <link rel="stylesheet" href="{% static 'horoscope/horoscope.css' %}?v=22">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
@@ -17,65 +17,7 @@
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3">
 </head>
 <body class="horoscope-body">
-  <header class="header">
-    <a href="/welcome/" class="logo">
-      <span class="logo-mark">SMS</span>
-      <span class="logo-text">Science Meet Sanatan</span>
-    </a>
-    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-shell" aria-hidden="true">
-      <div class="left-nav">
-        <a href="/welcome/" class="nav-link">Home</a>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link">Explore ▾</a>
-          <div class="dropdown">
-            <a href="/baby-names/">Baby names</a>
-            <a href="/library/">Library</a>
-            <a href="/quizzes/">Quizzes</a>
-            <a href="/panchang/">Panchang</a>
-            <a href="/pandits/">Pandits</a>
-          <a href="/astrologers/">Astrologers</a>
-          </div>
-        </div>
-        <a href="/panchang/" class="nav-link">Panchang</a>
-        <div class="explore-wrap">
-          <a href="/kundali/" class="nav-link nav-link--active">Kundali ▾</a>
-          <div class="dropdown">
-            <a href="/kundali/">Generator</a>
-            <a href="/horoscope/">Horoscope</a>
-          </div>
-        </div>
-        <div class="explore-wrap">
-          <a href="#" class="nav-link">Consult ▾</a>
-          <div class="dropdown">
-            <a href="/pandits/">Pandits</a>
-            <a href="/astrologers/">Astrologers</a>
-          </div>
-        </div>
-        <a href="/about/" class="nav-link">About Us</a>
-      </div>
-      <div class="right-nav">
-        <a class="quiz-link" href="/library/">Library</a>
-        <a class="quiz-link" href="/quizzes/">Quizzes</a>
-        {% if request.user.is_authenticated %}
-        <div class="profile-wrap">
-          <button class="profile-trigger" type="button" aria-label="Profile">👤</button>
-          <div class="profile-card">
-            <p class="profile-name">{{ request.user.username|default:'User' }} 😊</p>
-            <p class="profile-status">Logged in</p>
-            <a class="profile-link" href="/profile/">Manage account</a>
-            <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
-          </div>
-        </div>
-        {% else %}
-        <a class="quiz-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
-        <a class="quiz-link" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
-        {% endif %}
-      </div>
-    </div>
-  </header>
+{% include 'components/header.html' %}
 
   <main
     class="horoscope-page"
@@ -305,7 +247,7 @@
   <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
-  <script src="{% static 'header.js' %}?v=5"></script>
+  <script src="{% static 'header.js' %}?v=6"></script>
   <script type="module" src="{% static 'horoscope/page.js' %}?v=22"></script>
 </body>
 </html>

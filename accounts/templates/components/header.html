@@ -1,0 +1,52 @@
+{% load static %}{% with p=request.path %}
+<header class="header" data-header>
+  <a href="/welcome/" class="logo" aria-label="SanatanSeva home">
+    <span class="logo-mark"><img src="{% static 'images/sanatanseva-mark.png' %}?v=1" alt="" width="40" height="40" decoding="async" /></span>
+    <span class="logo-text">Sanatan<b>Seva</b></span>
+  </a>
+  <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-shell" aria-hidden="true">
+    <nav class="left-nav" aria-label="Main">
+      <a href="/panchang/" class="nav-link{% if '/panchang' in p %} is-active{% endif %}">Panchang</a>
+      <a href="/pandits/" class="nav-link{% if '/pandits' in p %} is-active{% endif %}">Pandits</a>
+      <a href="/library/" class="nav-link{% if '/library' in p %} is-active{% endif %}">Library</a>
+      <a href="/kundali/" class="nav-link{% if '/kundali' in p %} is-active{% endif %}">Kundali</a>
+      <a href="/horoscope/" class="nav-link{% if '/horoscope' in p %} is-active{% endif %}">Horoscope</a>
+      <a href="/quizzes/" class="nav-link{% if '/quizzes' in p %} is-active{% endif %}">Quizzes</a>
+      <div class="explore-wrap">
+        <a href="#" class="nav-link nav-link--explore{% if '/baby-names' in p or '/astrologers' in p %} is-active{% endif %}" aria-haspopup="true" aria-expanded="false">Explore <svg class="caret" viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2 4.2 6 8l4-3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="dropdown" role="menu" aria-label="Explore menu">
+          <a href="/baby-names/" role="menuitem"><span class="dd-ico" aria-hidden="true">👶</span><span class="dd-txt"><strong>Baby Names</strong><small>Meaningful names with rashi</small></span></a>
+          <a href="/astrologers/" role="menuitem"><span class="dd-ico" aria-hidden="true">🔮</span><span class="dd-txt"><strong>Astrologers</strong><small>Talk to an expert</small></span></a>
+          <span class="dd-item is-soon" role="menuitem" aria-disabled="true"><span class="dd-ico" aria-hidden="true">🖼️</span><span class="dd-txt"><strong>8K Wallpapers</strong><small>Divine art in ultra-HD</small></span><em class="soon">Coming soon</em></span>
+          <span class="dd-item is-soon" role="menuitem" aria-disabled="true"><span class="dd-ico" aria-hidden="true">✨</span><span class="dd-txt"><strong>GIFs</strong><small>Festival greetings</small></span><em class="soon">Coming soon</em></span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="right-nav">
+      <a class="nav-link nav-link--about{% if '/about' in p %} is-active{% endif %}" href="/about/">About Us</a>
+      <div class="profile-wrap">
+        <button type="button" class="profile-trigger" aria-label="{% if request.user.is_authenticated %}Open your profile menu{% else %}Log in or sign up{% endif %}" aria-haspopup="true">
+          {% if request.user.is_authenticated %}<span class="avatar-letter">{{ request.user.username|default:'U'|slice:":1"|upper }}</span>{% else %}<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c.9-3.6 3.9-5.4 7.5-5.4s6.6 1.8 7.5 5.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>{% endif %}
+        </button>
+        <div class="profile-card">
+          {% if request.user.is_authenticated %}
+          <p class="profile-name">{{ request.user.username|default:'User' }}</p>
+          <p class="profile-status">Logged in</p>
+          <a class="profile-link" href="/profile/">Manage account</a>
+          <a class="logout-btn" href="/logout/?next={{ request.get_full_path|urlencode }}">Logout</a>
+          {% else %}
+          <p class="profile-name">Namaste 🙏</p>
+          <p class="profile-status">Log in to save your bookings and kundali.</p>
+          <a class="profile-link" href="/login/?mode=login&next={{ request.get_full_path|urlencode }}">Log in</a>
+          <a class="logout-btn" href="/login/?mode=signup&next={{ request.get_full_path|urlencode }}">Sign up</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endwith %}
