@@ -268,3 +268,6 @@
 .kr-menu button span svg{display:block;width:18px;height:18px}
 .kr-menu button span{display:grid;place-items:center;width:22px}
 .kr-pill svg{width:1.15em;height:1.15em;vertical-align:-.22em;margin-right:.4em}
+
+/* the mini player sits above the reader's bottom bar */
+.kr-body .ap{--ap-bottom:calc(104px + env(safe-area-inset-bottom))}

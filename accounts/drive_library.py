@@ -56,6 +56,33 @@ _token_lock = threading.Lock()
 _token = {"value": "", "expires": 0.0}
 
 
+# ---- the cache must never be able to take the library down (a serverless cache can be slow or briefly unavailable) -----------------
+def _cget(key):
+    try:
+        return cache.get(key)
+    except Exception as exc:
+        logger.warning("Library cache read failed: %s", exc)
+        return None
+
+
+def _cset(key, value, timeout):
+    try:
+        cache.set(key, value, timeout)
+    except Exception as exc:
+        logger.warning("Library cache write failed: %s", exc)
+
+
+def _cdel(key):
+    try:
+        cache.delete(key)
+    except Exception:
+        pass
+
+
+def _serverless() -> bool:
+    return bool(getattr(settings, "ON_VERCEL", False))
+
+
 # ---- configuration ----------------------------------------------------------------------------------------------------------------
 def _cfg(name: str, default=""):
     return getattr(settings, name, default) or default
@@ -302,25 +329,43 @@ def _list_public(fid: str) -> List[Dict]:
 
 
 def _walk_public(root: str) -> List[Dict]:
+    """Reads the folder level by level, listing every folder of a level at the same time."""
+    from concurrent.futures import ThreadPoolExecutor
+
     files: List[Dict] = []
-    stack: List[Tuple[str, List[str]]] = [(root, [])]
-    seen = set()
-    while stack and len(files) < MAX_FILES:
-        fid, path = stack.pop()
-        if fid in seen or len(path) > MAX_DEPTH:
-            continue
-        seen.add(fid)
-        here: List[Dict] = []
-        images: List[Dict] = []
-        for f in _list_public(fid):
-            if f["folder"]:
-                stack.append((f["id"], path + [f["name"]]))
-            elif f["name"].lower().endswith(".pdf"):
-                here.append({"id": f["id"], "name": f["name"], "path": path, "size": 0, "modified": "", "source": "drive", "thumb": f.get("thumb", "")})
-            elif f["name"].lower().endswith(IMAGE_EXT):
-                images.append({"name": f["name"], "thumb": f.get("thumb", "")})
-        _attach_cover_images(here, images)
-        files.extend(here)
+    seen = {root}
+    level: List[Tuple[str, List[str]]] = [(root, [])]
+
+    def list_one(item):
+        fid, path = item
+        try:
+            return item, _list_public(fid)
+        except Exception as exc:
+            if not path:  # the top folder failing means nothing can be shown
+                raise
+            logger.warning("Library sub-folder skipped (%s): %s", "/".join(path), exc)
+            return item, []
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        for _ in range(MAX_DEPTH + 1):
+            if not level or len(files) >= MAX_FILES:
+                break
+            nxt: List[Tuple[str, List[str]]] = []
+            for (fid, path), entries in pool.map(list_one, level):
+                here: List[Dict] = []
+                images: List[Dict] = []
+                for f in entries:
+                    if f["folder"]:
+                        if f["id"] not in seen:
+                            seen.add(f["id"])
+                            nxt.append((f["id"], path + [f["name"]]))
+                    elif f["name"].lower().endswith(".pdf"):
+                        here.append({"id": f["id"], "name": f["name"], "path": path, "size": 0, "modified": "", "source": "drive", "thumb": f.get("thumb", "")})
+                    elif f["name"].lower().endswith(IMAGE_EXT):
+                        images.append({"name": f["name"], "thumb": f.get("thumb", "")})
+                _attach_cover_images(here, images)
+                files.extend(here)
+            level = nxt
     return files
 
 
@@ -351,24 +396,25 @@ def get_tree(force: bool = False) -> Dict:
     if not is_configured():
         return empty
     if not force:
-        fresh = cache.get(TREE_KEY)
+        fresh = _cget(TREE_KEY)
         if fresh:
             return fresh
-        if cache.get(FAIL_KEY):  # a recent failure: serve the old copy rather than hammering Google on every request
-            return cache.get(STALE_KEY) or dict(empty, error=str(cache.get(FAIL_KEY)))
+        failed = _cget(FAIL_KEY)
+        if failed:  # a recent failure: serve the old copy rather than hammering Google on every request
+            return _cget(STALE_KEY) or dict(empty, error=str(failed))
     try:
         ld = local_dir()
         mode = auth_mode()
         files = _walk_local(ld) if ld else (_walk_public(folder_id()) if mode == "public" else _walk_drive(folder_id()))
         tree = {"files": files, "fetched": int(time.time()), "error": "", "source": "local" if ld else "drive", "mode": mode}
-        cache.set(TREE_KEY, tree, ttl())
-        cache.set(STALE_KEY, tree, 7 * 24 * 3600)
-        cache.delete(FAIL_KEY)
+        _cset(TREE_KEY, tree, ttl())
+        _cset(STALE_KEY, tree, 7 * 24 * 3600)
+        _cdel(FAIL_KEY)
         return tree
     except Exception as exc:  # network down, bad credentials, folder not shared, ...
         logger.warning("Library folder could not be read: %s", exc)
-        cache.set(FAIL_KEY, str(exc)[:300], 60)
-        return cache.get(STALE_KEY) or dict(empty, error=str(exc)[:300])
+        _cset(FAIL_KEY, str(exc)[:300], 60)
+        return _cget(STALE_KEY) or dict(empty, error=str(exc)[:300])
 
 
 # ---- tree -> library items ----------------------------------------------------------------------------------------------------------
@@ -430,7 +476,7 @@ def file_meta(file_id: str) -> Optional[Dict]:
     for f in get_tree().get("files", []):
         if f["id"] == file_id:
             return f
-    tree = get_tree(force=True) if cache.get(FAIL_KEY) is None else None  # a brand-new upload may not be in the cache yet
+    tree = get_tree(force=True) if _cget(FAIL_KEY) is None else None  # a brand-new upload may not be in the cache yet
     if tree:
         for f in tree.get("files", []):
             if f["id"] == file_id:
@@ -529,6 +575,8 @@ def warm(meta: Dict) -> None:
     """Start fetching a whole book in the background. Reading starts straight away from Google; once the copy is complete,
     every later request (for anyone) is served from disk."""
     fid = meta["id"]
+    if _serverless():
+        return
     with _dl_lock:
         if fid in _downloading or len(_downloading) >= MAX_PARALLEL_DOWNLOADS or cached_file(fid):
             return
@@ -656,6 +704,13 @@ def stream_cover(request, file_id: str):
     resp = HttpResponse(r.content, content_type=r.headers["content-type"])
     resp["Cache-Control"] = "public, max-age=86400"
     return resp
+
+
+def public_status() -> Dict:
+    """Safe to show anyone: whether the library folder is connected, how, and the last problem (no secrets)."""
+    tree = get_tree()
+    return {"configured": is_configured(), "mode": tree.get("mode") or auth_mode(), "source": tree.get("source") or "none",
+            "books": len(tree.get("files", [])), "error": tree.get("error", ""), "fetched": tree.get("fetched", 0), "serverless": _serverless()}
 
 
 def status_report() -> Dict:

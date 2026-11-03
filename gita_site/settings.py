@@ -277,7 +277,8 @@ if SOCIAL_AUTH_ENABLED:
     SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/welcome/"
 
 # Library books come from a Google Drive folder (or a local folder with the same layout). See accounts/drive_library.py.
-LIBRARY_DRIVE_FOLDER_ID = env("LIBRARY_DRIVE_FOLDER_ID", default="")
+# The default is the public SanatanSeva Library folder, so a deploy (Vercel, Cloud Run) works without setting this variable.
+LIBRARY_DRIVE_FOLDER_ID = env("LIBRARY_DRIVE_FOLDER_ID", default="1bP5pp20OQDk3HrWHuqDi1qibVtSkQFDA")
 LIBRARY_LOCAL_DIR = env("LIBRARY_LOCAL_DIR", default="")
 LIBRARY_DRIVE_TTL = env.int("LIBRARY_DRIVE_TTL", default=600)
 LIBRARY_PDF_VIEWER = env("LIBRARY_PDF_VIEWER", default="proxy")

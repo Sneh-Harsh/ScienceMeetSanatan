@@ -1775,3 +1775,13 @@ def library_cover(request, file_id: str):
     from . import drive_library
 
     return drive_library.stream_cover(request, file_id)
+
+
+@require_GET
+def api_library_status(request):
+    """Is the library folder connected? Handy for checking a deployment: /api/library/status/"""
+    from . import drive_library
+
+    response = JsonResponse(drive_library.public_status())
+    response["Cache-Control"] = "no-store"
+    return response

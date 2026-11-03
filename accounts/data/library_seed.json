@@ -183,20 +183,6 @@
       }
     },
     {
-      "slug": "rigveda-selections",
-      "name": "Rigveda Selections",
-      "category": "Vedas",
-      "deity": "Vedic Wisdom",
-      "featured": false,
-      "popularity": 83,
-      "excerpt": "Illuminating mantras from the Rigveda that celebrate cosmic order, fire, dawn, and the rhythm of truth.",
-      "languages": {
-        "hindi": "अग्निमीळे पुरोहितं यज्ञस्य देवम् ऋत्विजम्।",
-        "english": "I praise Agni, the priest of the sacrifice, divine minister and radiant carrier of offerings.",
-        "sanskrit": "अग्निमीळे पुरोहितं यज्ञस्य देवमृत्विजम् होतारं रत्नधातमम्॥"
-      }
-    },
-    {
       "slug": "ramayan-aranya-kand",
       "name": "Ramayan • Aranya Kand",
       "category": "Books",

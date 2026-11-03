@@ -92,53 +92,6 @@ html.kl-lock,html.kl-lock body{overflow:hidden}
 .kl-kicker{margin:0 0 6px;font:800 .72rem var(--kl-font);letter-spacing:.14em;text-transform:uppercase;color:var(--kl-accent-text)}
 .kl-h2{margin:38px 0 16px;font:600 1.45rem var(--kl-serif);color:var(--kl-ink)}
 
-/* ===== book covers: grained leather, gold foil, page block; or the real first page ===== */
-.kl-cover{position:relative;display:block;width:100%;aspect-ratio:2/3;container-type:inline-size;
-  filter:drop-shadow(0 16px 14px rgba(40,26,6,.42)) drop-shadow(0 3px 3px rgba(40,26,6,.35))}
-.kl-cover__body{position:absolute;inset:0;overflow:hidden;border-radius:3px 8px 8px 3px;
-  background:radial-gradient(120% 90% at 30% 15%,var(--c1),var(--c2));
-  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06),inset 0 -22px 30px -18px rgba(0,0,0,.55),inset 0 14px 22px -14px rgba(255,255,255,.18)}
-.kl-cover__grain{position:absolute;inset:0;opacity:.62;mix-blend-mode:multiply;
-  background-image:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .1 0 0 0 0 .05 0 0 0 0 0 0 0 0 .9 -.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
-  url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.035' numOctaves='2' seed='9'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .7 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");background-size:90px 90px,260px 260px}
-.kl-cover__light{position:absolute;inset:0;background:radial-gradient(70% 55% at 22% 8%,rgba(255,255,255,.22),transparent 60%),linear-gradient(105deg,transparent 40%,rgba(255,255,255,.07) 48%,transparent 58%),radial-gradient(120% 80% at 100% 100%,rgba(0,0,0,.4),transparent 60%)}
-.kl-cover__foil{position:absolute;inset:7% 7% 7% 12%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4%;text-align:center;
-  padding:9% 6%;border-radius:2px;color:#e8c764}
-.kl-cover__foil::before,.kl-cover__foil::after{content:"";position:absolute;inset:0;border-radius:2px;pointer-events:none}
-.kl-cover__foil::before{box-shadow:inset 0 0 0 1px rgba(236,200,100,.85),0 1px 0 rgba(0,0,0,.45)}
-.kl-cover__foil::after{inset:4%;box-shadow:inset 0 0 0 1px rgba(236,200,100,.45)}
-.kl-cover__rule{display:none}
-.kl-cover__type{position:relative;font:700 clamp(.42rem,5cqw,.6rem) var(--kl-font);letter-spacing:.28em;text-transform:uppercase;color:#e8c764;text-shadow:0 1px 0 rgba(0,0,0,.55)}
-.kl-cover__emb{position:relative;width:34%;color:#ebca6c;filter:drop-shadow(0 1px 0 rgba(0,0,0,.55)) drop-shadow(0 0 1.5px rgba(255,236,170,.55))}
-.kl-cover__om{position:relative;font:600 clamp(1.4rem,24cqw,3.4rem) "Noto Serif Devanagari",var(--kl-serif);line-height:1;color:#ebca6c;text-shadow:0 1px 0 rgba(0,0,0,.6),0 0 6px rgba(255,226,140,.35)}
-.kl-cover__title{position:relative;font:600 clamp(.74rem,10.6cqw,1.32rem) var(--kl-serif);line-height:1.12;letter-spacing:.01em;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:break-word;hyphens:auto;
-  background:linear-gradient(120deg,#9a741d 0%,#f4d98a 28%,#fff3c4 42%,#d6a93d 58%,#f1d27a 78%,#a67c22 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 rgba(0,0,0,.5))}
-.kl-cover.is-long .kl-cover__title{font-size:clamp(.66rem,9cqw,1.12rem)}
-.kl-cover__sub{position:relative;font:500 clamp(.42rem,5cqw,.66rem) var(--kl-font);font-style:normal;letter-spacing:.06em;color:#d9b95a;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.kl-cover__hinge{position:absolute;left:0;top:0;bottom:0;width:11%;background:linear-gradient(90deg,rgba(0,0,0,.5),rgba(0,0,0,.16) 28%,rgba(255,255,255,.12) 40%,rgba(0,0,0,.18) 52%,transparent 100%)}
-.kl-cover__sheen{position:absolute;inset:0;background:linear-gradient(118deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,0) 32%,rgba(255,255,255,0) 70%,rgba(255,255,255,.07) 100%);pointer-events:none}
-.kl-cover__pages{position:absolute;right:-3px;top:2.2%;bottom:1.6%;width:6px;border-radius:0 3px 3px 0;
-  background:repeating-linear-gradient(180deg,#f3eddc 0 1px,#d8cfb6 1px 2px);box-shadow:inset 1px 0 1px rgba(0,0,0,.28)}
-.kl-cover__pages::after{content:"";position:absolute;left:-8px;right:-1px;bottom:-3px;height:4px;border-radius:0 0 3px 3px;background:repeating-linear-gradient(90deg,#f3eddc 0 1px,#d8cfb6 1px 2px)}
-/* the real first page, laid over the cover like a paperback */
-.kl-cover__page{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;background:#f4efe3;opacity:0;transition:opacity .45s}
-.kl-cover__page.is-in{opacity:1}
-.kl-cover__page.is-pending{opacity:0}
-.kl-cover__page.is-in~.kl-cover__hinge{background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(0,0,0,.12) 14%,rgba(255,255,255,.18) 22%,rgba(0,0,0,.1) 30%,transparent 46%)}
-.kl-cover__page.is-in~.kl-cover__sheen{background:linear-gradient(118deg,rgba(255,255,255,.28) 0%,rgba(255,255,255,0) 30%,rgba(0,0,0,0) 72%,rgba(0,0,0,.1) 100%)}
-.kl-badges{z-index:3;position:absolute;top:4%;right:5%;display:flex;gap:4px}
-.kl-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:rgba(15,12,8,.72);color:#f6e7b8;font:800 .56rem var(--kl-font);letter-spacing:.05em;box-shadow:0 1px 3px rgba(0,0,0,.4)}
-.kl-flag{z-index:3;position:absolute;top:7%;left:0;padding:3px 9px 3px 8px;background:#2f8f5b;color:#fff;font:800 .58rem var(--kl-font);letter-spacing:.1em;text-transform:uppercase;border-radius:0 6px 6px 0;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-.kl-cover__bar{z-index:3;position:absolute;left:0;right:0;bottom:0;height:5px;background:rgba(0,0,0,.5)}
-.kl-cover__bar i{display:block;height:100%;background:#f2a23c}
-.kl-cover--lg .kl-cover__body{border-radius:4px 12px 12px 4px}
-@container (max-width:100px){
-  .kl-cover__type,.kl-cover__sub,.kl-flag,.kl-badge,.kl-cover__emb{display:none}
-  .kl-cover__om{font-size:1.2rem}
-  .kl-cover__title{font-size:.5rem;letter-spacing:0;-webkit-line-clamp:3;overflow-wrap:anywhere;hyphens:manual}
-  .kl-cover__foil{padding:6% 4%;inset:6% 6% 6% 14%}
-}
-
 /* ===== tiles, shelves, grid ===== */
 .kl-tile{position:relative;width:100%}
 .kl-tile__cover{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer;border-radius:8px;transition:transform .25s cubic-bezier(.3,.9,.3,1)}
@@ -358,7 +311,6 @@ html.kl-lock,html.kl-lock body{overflow:hidden}
   .kl-collpick{margin-left:auto;margin-right:auto;text-align:left}
   .kl-detail__desc{text-align:left}
   .kl-quote{padding:24px 22px}
-  .audio-player-shell{bottom:calc(var(--kl-tabbar) + env(safe-area-inset-bottom))!important}
   .kl-toast{bottom:calc(var(--kl-tabbar) + 18px)}
   .kl-body .daanpatra-floating,.kl-body .review-floating-trigger{bottom:calc(var(--kl-tabbar) + 14px + env(safe-area-inset-bottom))!important}
   .kl-body .review-floating-trigger{transform:scale(.88);transform-origin:left bottom}
@@ -387,3 +339,48 @@ html.kl-lock,html.kl-lock body{overflow:hidden}
   .kl-hero__cta .kl-btn{flex:1 1 auto}
 }
 @media (max-width:1100px){.kl-seg{margin-left:auto}}
+
+/* ===== dropdowns: an inset pill that opens a raised soft list ===== */
+.kl-dd{position:relative;min-width:150px}
+.kl-select select.kl-dd__native{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px;min-width:0;padding:0;border:0;box-shadow:none}
+.kl-dd__btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;height:46px;padding:0 16px 0 18px;border:0;border-radius:23px;background:transparent;box-shadow:var(--sh-in-s);color:var(--kl-ink);font:700 .88rem var(--kl-font);text-transform:none;letter-spacing:0;cursor:pointer;transition:box-shadow .2s,color .2s}
+.kl-dd__btn svg{width:12px;height:12px;flex:none;color:var(--kl-ink-3);transition:transform .25s cubic-bezier(.3,.9,.3,1),color .2s}
+.kl-dd__btn:hover{color:var(--kl-accent-text)}
+.kl-dd.is-open .kl-dd__btn{box-shadow:var(--sh-in-s),0 0 0 2px var(--kl-ring);color:var(--kl-accent-text)}
+.kl-dd.is-open .kl-dd__btn svg{transform:rotate(180deg);color:var(--kl-accent-text)}
+.kl-dd.is-set .kl-dd__btn{color:var(--kl-accent-text)}
+.kl-dd.is-set .kl-dd__val::before{content:"";display:inline-block;width:7px;height:7px;margin-right:9px;border-radius:50%;background:var(--kl-accent);vertical-align:1px;box-shadow:0 0 0 3px rgba(194,93,0,.18)}
+.kl-dd__menu{position:absolute;z-index:60;left:0;top:calc(100% + 10px);min-width:100%;width:max-content;max-width:min(320px,80vw);max-height:300px;overflow-y:auto;margin:0;padding:8px;list-style:none;border-radius:22px;background:var(--convex),var(--nm-bg);
+  box-shadow:12px 14px 30px var(--nm-lo),-8px -8px 22px var(--nm-hi),0 0 0 1px var(--kl-line);transform-origin:top left;animation:klDdIn .2s cubic-bezier(.3,.9,.3,1);scrollbar-width:thin}
+.kl-dd.is-up .kl-dd__menu{top:auto;bottom:calc(100% + 10px);transform-origin:bottom left}
+.kl-dd__menu[hidden]{display:none}
+.kl-dd__menu.is-closing{animation:klDdOut .14s ease forwards}
+@keyframes klDdIn{from{opacity:0;transform:translateY(-6px) scale(.96)}}
+@keyframes klDdOut{to{opacity:0;transform:translateY(-4px) scale(.97)}}
+.kl-dd__menu li{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:11px 14px;border-radius:15px;color:var(--kl-ink-2);font:650 .9rem var(--kl-font);text-transform:none;letter-spacing:0;cursor:pointer;white-space:nowrap;transition:background .12s,color .12s,box-shadow .12s}
+.kl-dd__menu li svg{width:16px;height:16px;flex:none;opacity:0;color:var(--kl-accent)}
+.kl-dd__menu li.is-hot{box-shadow:var(--sh-in-s);color:var(--kl-ink)}
+.kl-dd__menu li[aria-selected="true"]{color:var(--kl-accent-text);font-weight:800}
+.kl-dd__menu li[aria-selected="true"] svg{opacity:1}
+@media (max-width:760px){.kl-dd{min-width:0;width:100%}.kl-dd__menu{max-width:calc(100vw - 52px)}}
+
+/* ===== browse by topic: soft cards with an embossed emblem, no pictures ===== */
+.kl-topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:26px}
+.kl-topic{position:relative;display:flex;flex-direction:row;justify-content:flex-start;align-items:center;gap:18px;min-height:104px;padding:18px 20px;border-radius:28px;overflow:visible;color:var(--kl-ink);text-decoration:none;background:var(--convex),var(--nm-bg);box-shadow:var(--sh-out-s);transition:box-shadow .22s,transform .22s cubic-bezier(.3,.9,.3,1)}
+.kl-topic::before{display:none}
+.kl-topic:hover{transform:translateY(-3px);box-shadow:11px 13px 26px var(--nm-lo),-9px -9px 22px var(--nm-hi)}
+.kl-topic:active{transform:none;box-shadow:var(--sh-in-s)}
+.kl-topic__ico{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:50%;box-shadow:var(--sh-in);color:var(--kl-accent-text)}
+.kl-topic__svg{width:34px;height:34px;filter:drop-shadow(1px 1px 0 var(--nm-hi)) drop-shadow(-1px -1px 0 var(--nm-lo))}
+.kl-topic__om{font:600 1.9rem "Noto Serif Devanagari",var(--kl-serif);line-height:1;text-shadow:1px 1px 0 var(--nm-hi),-1px -1px 0 var(--nm-lo)}
+.kl-topic__txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;text-shadow:none}
+.kl-topic b{font:650 1.2rem var(--kl-serif);color:var(--kl-ink);text-shadow:none}
+.kl-topic span{text-shadow:none}
+.kl-topic__txt>span{font:600 .82rem var(--kl-font);color:var(--kl-ink-3)}
+.kl-topic__go{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:var(--kl-ink-3);box-shadow:var(--sh-out-xs);transition:color .2s,transform .2s}
+.kl-topic__go svg{width:16px;height:16px}
+.kl-topic:hover .kl-topic__go{color:var(--kl-accent-text);transform:translateX(2px)}
+
+/* the site's floating buttons make way for the player */
+html.ap-lock .daanpatra-floating,html.ap-lock .review-floating-trigger{display:none!important}
+.kl-body:has(.ap[data-state="mini"]) .daanpatra-floating,.kl-body:has(.ap[data-state="mini"]) .review-floating-trigger{bottom:calc(var(--kl-tabbar,0px) + 96px + env(safe-area-inset-bottom))!important}

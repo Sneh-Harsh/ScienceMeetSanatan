@@ -10,7 +10,7 @@ from django.templatetags.static import static
 from django.utils.text import slugify
 
 
-LIBRARY_CACHE_KEY = "library::items::local::v8"
+LIBRARY_CACHE_KEY = "library::items::local::v9"
 LIBRARY_DATA_DIR = Path(settings.BASE_DIR) / "accounts" / "data" / "library"
 LIBRARY_SEED_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_seed.json"
 LIBRARY_AUDIO_LINKS_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_audio_links.json"

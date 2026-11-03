@@ -175,6 +175,21 @@
       '<span class="kl-badges">' + badges + "</span>" + tag + bar + '</span><span class="kl-cover__pages" aria-hidden="true"></span></span>';
   }
 
+  // a line-art emblem for topic cards (inherits the text colour), or the Om glyph
+  function topicIcon(kind) {
+    if (kind === "om") return '<span class="kl-topic__om" aria-hidden="true">ॐ</span>';
+    return '<svg class="kl-topic__svg" viewBox="0 0 64 64" aria-hidden="true">' + (EMB[kind] || EMB.lotus) + "</svg>";
+  }
+  // square album art for the player, built from the same pieces as a cover
+  function albumArtHtml(track) {
+    var a = track.art && track.art.c1 ? track.art : artFor({ name: track.title || track.name, deity: track.deity, category: track.category, slug: track.slug });
+    var label = TYPE_LABEL[track.category] || track.category || "Audio";
+    var title = track.title || track.name || "";
+    return '<span class="kl-cover kl-cover--sq' + (title.length > 26 ? " is-long" : "") + '" style="--c1:' + a.c1 + ";--c2:" + a.c2 + '"><span class="kl-cover__body"><span class="kl-cover__grain"></span><span class="kl-cover__light"></span>' +
+      '<span class="kl-cover__foil"><small class="kl-cover__type">' + esc(label) + "</small>" + emblem(a.emb || "om") + '<b class="kl-cover__title">' + esc(title) + '</b><i class="kl-cover__sub">' + esc(track.singer || track.deity || "") + "</i></span>" +
+      '<span class="kl-cover__sheen"></span></span></span>';
+  }
+
   // ---- pdf.js (loaded on demand, shared by the library covers and the reader) ---------------------------------------------------
   var PDFJS_BASE = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
   var pdfjsPromise = null;
@@ -287,5 +302,5 @@
     return Math.round(p.pct) + "% read";
   }
   if (document.body) scanCovers(document.body);
-  window.KL = { store: store, artFor: artFor, coverHtml: coverHtml, esc: esc, readMinutes: readMinutes, relTime: relTime, TYPE_LABEL: TYPE_LABEL, loadPdfJs: loadPdfJs, captureCover: captureCover, progressLabel: progressLabel, scanCovers: scanCovers };
+  window.KL = { store: store, artFor: artFor, coverHtml: coverHtml, albumArtHtml: albumArtHtml, topicIcon: topicIcon, esc: esc, readMinutes: readMinutes, relTime: relTime, TYPE_LABEL: TYPE_LABEL, loadPdfJs: loadPdfJs, captureCover: captureCover, progressLabel: progressLabel, scanCovers: scanCovers };
 })();

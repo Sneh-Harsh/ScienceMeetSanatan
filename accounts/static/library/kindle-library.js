@@ -39,7 +39,7 @@
   // one topic per collection actually found (the folders in Drive, plus the built-in groups), so new folders show up on their own
   var TOPICS = CATEGORIES.map(function (c) {
     var list = items.filter(function (it) { return it.category === c; });
-    return { slug: slugify(c), label: c, note: list.length + (list.length === 1 ? " title" : " titles"), art: KL.artFor({ name: c, deity: (list[0] && list[0].deity) || c }).key };
+    return { slug: slugify(c), label: c, note: list.length + (list.length === 1 ? " title" : " titles"), emb: KL.artFor({ name: c, deity: (list[0] && list[0].deity) || c }).emb };
   });
   var QUOTES = [
     ["You have a right to action alone, never to its fruits.", "Bhagavad Gita 2.47"],
@@ -79,10 +79,10 @@
     clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove("is-on"); }, 2200);
   }
   function readHref(it) { return "/library/" + encodeURIComponent(it.slug) + "/" + (collectionSlug ? "?from_collection=" + encodeURIComponent(collectionSlug) : ""); }
-  function playItem(slug, pool, expand) {
+  function playItem(slug, pool, expand, from) {
     var it = bySlug[slug]; if (!it || !it.audio_url) return;
     var queue = (pool || items.filter(function (x) { return x.audio_url; })).map(buildAudioTrackFromItem).filter(Boolean);
-    libraryAudioPlayer.openTrack(buildAudioTrackFromItem(it), queue, { expand: !!expand, autoPlay: true });
+    libraryAudioPlayer.openTrack(buildAudioTrackFromItem(it), queue, { expand: !!expand, autoPlay: true, from: from || null });
   }
   function statusText(it) { return KL.progressLabel(it); }
   function minutesLabel(it) { var m = KL.readMinutes(it); return m ? m + " min read" : "PDF scripture"; }
@@ -259,8 +259,7 @@
     pane.innerHTML = '<div class="kl-subhead"><h2>Your collections</h2><button type="button" class="kl-btn kl-btn--primary" data-coll-new>＋ New collection</button></div>' +
       '<div class="kl-colls">' + all.map(collectionCard).join("") + "</div>" +
       '<h2 class="kl-h2">Browse by topic</h2><div class="kl-topics">' + TOPICS.map(function (t) {
-        var a = (JSON.parse(document.getElementById("klArt").textContent) || {})[t.art] || "";
-        return '<a class="kl-topic" href="/library/collections/' + t.slug + '/" style="--art:url(\'' + a + '\')"><b>' + esc(t.label) + '</b><span>' + esc(t.note) + "</span></a>";
+        return '<a class="kl-topic" href="/library/collections/' + t.slug + '/"><span class="kl-topic__ico">' + KL.topicIcon(t.emb) + '</span><span class="kl-topic__txt"><b>' + esc(t.label) + "</b><span>" + esc(t.note) + '</span></span><i class="kl-topic__go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></i></a>';
       }).join("") + "</div>";
     wireRows(pane);
   }
@@ -419,14 +418,21 @@
     var t = e.target;
     var nav = t.closest(".kl-nav"); if (nav) { show(nav.dataset.view); return; }
     var open = t.closest("[data-open]"); if (open) { openSheet(open.dataset.open, open); return; }
-    var play = t.closest("[data-play]"); if (play) { var pool = ui.view === "listen" ? null : null; playItem(play.dataset.play, pool, false); toast("Playing " + (bySlug[play.dataset.play] || {}).name); return; }
-    if (t.closest("[data-play-all]")) { var first = items.filter(function (x) { return x.audio_url; })[0]; if (first) playItem(first.slug, null, true); return; }
+    var play = t.closest("[data-play]");
+    if (play) {
+      // on the Listen tab the full Now Playing sheet opens out of the cover that was tapped; elsewhere the mini player appears
+      var onListen = ui.view === "listen", row = play.closest(".kl-track"), from = row ? row.querySelector(".kl-cover") : null;
+      playItem(play.dataset.play, null, onListen, from);
+      if (!onListen) toast("Playing " + (bySlug[play.dataset.play] || {}).name);
+      return;
+    }
+    if (t.closest("[data-play-all]")) { var first = items.filter(function (x) { return x.audio_url; })[0]; if (first) playItem(first.slug, null, true, $(".kl-track .kl-cover")); return; }
     if (t.closest("[data-close]")) { closeSheet(); return; }
     var favBtn = t.closest("[data-fav]");
     if (favBtn) { var nowOn = store.toggleFav(favBtn.dataset.fav); favBtn.classList.toggle("is-on", nowOn); favBtn.setAttribute("aria-pressed", String(nowOn)); favBtn.setAttribute("aria-label", nowOn ? "Remove from favourites" : "Add to favourites"); toast(nowOn ? "Added to Favourites" : "Removed from Favourites"); if (ui.view === "collections" && ui.openColl === "fav") renderCollections(); return; }
     var see = t.closest("[data-see]"); if (see) { ui.cat = see.dataset.see; show("library"); return; }
     var chip = t.closest("[data-cat]"); if (chip) { ui.cat = chip.dataset.cat; renderLibrary(); return; }
-    if (t.closest("[data-clear]")) { ui.cat = collectionSlug ? "all" : "all"; ui.deity = ui.lang = ui.status = "all"; ui.q = ""; $("#klSearch").value = ""; $("#klSearchClear").hidden = true; ["klDeity", "klLang", "klStatus"].forEach(function (id) { $("#" + id).value = "all"; }); renderLibrary(); return; }
+    if (t.closest("[data-clear]")) { ui.cat = collectionSlug ? "all" : "all"; ui.deity = ui.lang = ui.status = "all"; ui.q = ""; $("#klSearch").value = ""; $("#klSearchClear").hidden = true; ["klDeity", "klLang", "klStatus"].forEach(function (id) { $("#" + id).value = "all"; }); refreshDropdowns(); renderLibrary(); return; }
     var lay = t.closest("#klLayout button"); if (lay) { ui.layout = lay.dataset.layout; store.setPref("layout", ui.layout); renderLibrary(); return; }
     // collections
     var coll = t.closest("[data-coll]"); if (coll) { ui.openColl = coll.dataset.coll; renderCollections(); window.scrollTo({ top: 0 }); return; }
@@ -516,6 +522,75 @@
   var err = app.dataset.error;
   if (err) { var eb = $("#klError"); eb.textContent = err; eb.hidden = false; }
   if (collectionSlug) { $("#klChips").parentNode.insertAdjacentHTML("afterbegin", '<a class="kl-crumb" href="/library/">‹ Whole library</a>'); }
+  // ---- dropdowns: the native <select> stays as the source of truth, a soft listbox is drawn in its place ------------------------------
+  var CHEV = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var openDd = null;
+  function closeDd(returnFocus) {
+    if (!openDd) return;
+    var d = openDd; openDd = null;
+    d.classList.remove("is-open"); d.querySelector(".kl-dd__btn").setAttribute("aria-expanded", "false");
+    var m = d.querySelector(".kl-dd__menu"); m.classList.add("is-closing");
+    setTimeout(function () { m.hidden = true; m.classList.remove("is-closing"); }, 140);
+    if (returnFocus) d.querySelector(".kl-dd__btn").focus();
+  }
+  function ddRefresh(d) {
+    var sel = d._sel, cur = sel.options[sel.selectedIndex];
+    d.querySelector(".kl-dd__val").textContent = cur ? cur.textContent : "";
+    d.classList.toggle("is-set", !!cur && cur.value !== "all" && sel.selectedIndex > 0 || (sel.id === "klSort" && sel.value !== "featured"));
+    Array.prototype.forEach.call(d.querySelectorAll("[role=option]"), function (li, i) { li.setAttribute("aria-selected", String(i === sel.selectedIndex)); });
+  }
+  function enhanceSelect(sel) {
+    if (sel._dd) return sel._dd;
+    var d = document.createElement("div"); d.className = "kl-dd"; d._sel = sel; sel._dd = d;
+    d.innerHTML = '<button type="button" class="kl-dd__btn" aria-haspopup="listbox" aria-expanded="false"><span class="kl-dd__val"></span>' + CHEV + '</button><ul class="kl-dd__menu" role="listbox" tabindex="-1" hidden></ul>';
+    sel.parentNode.insertBefore(d, sel.nextSibling); sel.classList.add("kl-dd__native"); sel.tabIndex = -1; sel.setAttribute("aria-hidden", "true");
+    var btn = d.querySelector(".kl-dd__btn"), menu = d.querySelector(".kl-dd__menu");
+    var label = sel.closest("label"); if (label) { var lt = label.querySelector("span"); if (lt) { lt.id = lt.id || "ddl-" + sel.id; btn.setAttribute("aria-labelledby", lt.id + " "); } }
+    function build() {
+      menu.innerHTML = Array.prototype.map.call(sel.options, function (o, i) { return '<li role="option" data-i="' + i + '" id="' + sel.id + '-o' + i + '" aria-selected="' + (i === sel.selectedIndex) + '"><span>' + esc(o.textContent) + "</span>" + TICK + "</li>"; }).join("");
+    }
+    function open() {
+      if (openDd && openDd !== d) closeDd();
+      build(); menu.hidden = false; d.classList.add("is-open"); btn.setAttribute("aria-expanded", "true"); openDd = d;
+      var cur = menu.children[sel.selectedIndex]; if (cur) { menu.setAttribute("aria-activedescendant", cur.id); cur.classList.add("is-hot"); cur.scrollIntoView({ block: "nearest" }); }
+      // open upward when there is no room below
+      var r = btn.getBoundingClientRect(); d.classList.toggle("is-up", window.innerHeight - r.bottom < 300 && r.top > 300);
+    }
+    function choose(i) { sel.selectedIndex = i; ddRefresh(d); sel.dispatchEvent(new Event("change", { bubbles: true })); closeDd(true); }
+    function move(dir) {
+      var items = Array.prototype.slice.call(menu.children), hot = items.findIndex(function (x) { return x.classList.contains("is-hot"); });
+      var n = clamp2(hot + dir, 0, items.length - 1);
+      items.forEach(function (x) { x.classList.remove("is-hot"); }); items[n].classList.add("is-hot"); menu.setAttribute("aria-activedescendant", items[n].id); items[n].scrollIntoView({ block: "nearest" });
+    }
+    btn.addEventListener("click", function () { d.classList.contains("is-open") ? closeDd() : open(); });
+    btn.addEventListener("keydown", function (e) {
+      var isOpen = d.classList.contains("is-open");
+      if (!isOpen && (e.key === "ArrowDown" || e.key === "ArrowUp")) { e.preventDefault(); open(); return; }
+      if (!isOpen) return;
+      if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
+      else if (e.key === "Home") { e.preventDefault(); move(-99); }
+      else if (e.key === "End") { e.preventDefault(); move(99); }
+      else if (e.key === "Enter" || e.key === " ") { e.preventDefault(); var hot = menu.querySelector(".is-hot"); if (hot) choose(+hot.dataset.i); }
+      else if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); closeDd(true); }
+      else if (e.key === "Tab") closeDd();
+      else if (e.key.length === 1) { // type to jump
+        var ch = e.key.toLowerCase(), items = Array.prototype.slice.call(menu.children), at = items.findIndex(function (x) { return x.textContent.trim().toLowerCase().indexOf(ch) === 0; });
+        if (at >= 0) { items.forEach(function (x) { x.classList.remove("is-hot"); }); items[at].classList.add("is-hot"); items[at].scrollIntoView({ block: "nearest" }); }
+      }
+    });
+    menu.addEventListener("mousemove", function (e) { var li = e.target.closest("[role=option]"); if (!li) return; Array.prototype.forEach.call(menu.children, function (x) { x.classList.remove("is-hot"); }); li.classList.add("is-hot"); });
+    menu.addEventListener("click", function (e) { var li = e.target.closest("[role=option]"); if (li) choose(+li.dataset.i); });
+    ddRefresh(d);
+    return d;
+  }
+  function clamp2(n, a, b) { return Math.max(a, Math.min(b, n)); }
+  function refreshDropdowns() { Array.prototype.forEach.call(document.querySelectorAll(".kl-dd"), ddRefresh); }
+  document.addEventListener("click", function (e) { if (openDd && !e.target.closest(".kl-dd")) closeDd(); });
+  window.addEventListener("scroll", function () { if (openDd) closeDd(); }, { passive: true });
+  Array.prototype.forEach.call(document.querySelectorAll(".kl-select select"), enhanceSelect);
+
   libraryAudioPlayer.syncSession(true);
   show(ui.view);
   }
