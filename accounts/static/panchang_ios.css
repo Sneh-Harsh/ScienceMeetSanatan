@@ -1,0 +1,369 @@
+/* Panchang page, iOS Weather look: a live sky behind frosted-glass cards, plus a modern month calendar. Loaded after panchang.css. */
+
+.wx-body{
+  --wx-font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Inter",system-ui,sans-serif;
+  --glass-bg:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.04)),rgba(10,22,46,.46);
+  --glass-line:rgba(255,255,255,.2);
+  --glass-hi:rgba(255,255,255,.42);
+  --wx-text:#fff;
+  --wx-dim:rgba(255,255,255,.86);
+  --wx-faint:rgba(255,255,255,.7);
+  background:#0c1a36;
+  font-family:var(--wx-font);
+  -webkit-font-smoothing:antialiased;
+}
+/* poster colours until the shader paints its first frame (and when WebGL is unavailable) */
+.wx-body[data-sky-kind="clear"][data-sky-day="1"]{background:linear-gradient(180deg,#2a74c8 0%,#6fb1ec 55%,#a9d3f4 100%)}
+.wx-body[data-sky-kind="clear"][data-sky-day="0"]{background:linear-gradient(180deg,#050b1f 0%,#0f1d44 60%,#1b2e5c 100%)}
+.wx-body[data-sky-kind="cloud"][data-sky-day="1"]{background:linear-gradient(180deg,#5d7794 0%,#8da1b8 60%,#b4c0cf 100%)}
+.wx-body[data-sky-kind="cloud"][data-sky-day="0"]{background:linear-gradient(180deg,#0c1424 0%,#1c273d 100%)}
+.wx-body[data-sky-kind="rain"][data-sky-day="1"]{background:linear-gradient(180deg,#39465a 0%,#5b6c82 60%,#7b8a9d 100%)}
+.wx-body[data-sky-kind="rain"][data-sky-day="0"]{background:linear-gradient(180deg,#070c18 0%,#141d2e 100%)}
+
+.wx-sky{position:fixed;inset:0;width:100%;height:100%;z-index:-2;display:block;opacity:0;transition:opacity 1.4s ease}
+.wx-sky.is-live{opacity:1}
+.wx-veil{position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,0) 62%,rgba(4,8,18,.34) 100%)}
+
+.wx-body .panchang-page{max-width:1120px;padding:5.6rem 1rem 3rem;background:none}
+
+/* ===== frosted glass, shared by every card on the page ===== */
+.wx-body .glass-panel{
+  position:relative;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgba(255,255,255,.06),0 14px 40px rgba(2,8,24,.22);
+  -webkit-backdrop-filter:blur(26px) saturate(1.7) brightness(1.04);
+  backdrop-filter:blur(26px) saturate(1.7) brightness(1.04);
+  color:var(--wx-text);
+}
+.wx-body .glass-panel{border-radius:24px}
+.wx-body .glass-panel::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 70% at 20% -10%,rgba(255,255,255,.22),transparent 55%);opacity:.7}
+.wx-body .day-overlay__panel.glass-panel,.wx-body .loc-prompt__panel.glass-panel{background:linear-gradient(180deg,rgba(26,40,70,.9),rgba(14,22,42,.94))}
+
+/* ===== hero: the original Panchang layout, restyled as frosted glass ===== */
+.wx-body .hero-toggle{display:inline-flex;align-items:center;gap:.45rem;cursor:pointer;font-size:.8rem;font-weight:600;color:#fff}
+.wx-body .hero-toggle .toggle__track{position:relative;width:42px;height:26px;border-radius:99px;background:rgba(255,255,255,.28);transition:background .2s;flex:none}
+.wx-body .hero-toggle .toggle__track::after{content:"";position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transition:transform .22s cubic-bezier(.3,.9,.3,1)}
+.wx-body .hero-toggle input{position:absolute;opacity:0;pointer-events:none}
+.wx-body .hero-toggle input:checked+.toggle__track{background:#34c759}
+.wx-body .hero-toggle input:checked+.toggle__track::after{transform:translateX(16px)}
+.wx-body .hero-toggle input:focus-visible+.toggle__track{outline:2px solid #fff;outline-offset:2px}
+
+/* ===== Panchang quick cards ===== */
+.wx-body .panchang-grid{margin-top:1.2rem}
+.wx-body .p-card{border-radius:22px;background:var(--glass-bg);border:1px solid var(--glass-line);box-shadow:inset 0 1px 0 var(--glass-hi),0 12px 32px rgba(2,8,24,.2);-webkit-backdrop-filter:blur(24px) saturate(1.6);backdrop-filter:blur(24px) saturate(1.6)}
+.wx-body .p-title{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--wx-dim);font-weight:600}
+.wx-body .p-value{font-weight:500;letter-spacing:-.01em}
+.wx-body .p-sub{color:rgba(255,255,255,.76)}
+.wx-body .state-card{border-radius:22px}
+
+/* ===== calendar ===== */
+.wx-body .panchang-calendar{margin-top:1.4rem}
+.wx-body .calendar-head{border-radius:26px 26px 0 0;border-bottom:0;padding:1.15rem 1.25rem .9rem;align-items:center;gap:1rem;flex-wrap:wrap}
+.wx-body .calendar-kicker{font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#ffd58a}
+.wx-body .calendar-title{font-size:clamp(1.4rem,3.4vw,2rem);font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-top:.2rem}
+.wx-body .calendar-title b{font-weight:300;color:rgba(255,255,255,.7);margin-left:.3rem}
+.wx-body .calendar-sub{color:var(--wx-dim);font-size:.9rem;margin-top:.3rem;max-width:46ch}
+.wx-body .calendar-controls{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.wx-body .cal-btn,.wx-body .cal-select{font:600 .85rem var(--wx-font);color:#fff;border-radius:999px;min-height:40px;padding:0 1rem;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.3);cursor:pointer;transition:background .2s,transform .15s}
+.wx-body .cal-btn:hover,.wx-body .cal-select:hover{background:rgba(255,255,255,.24)}
+.wx-body .cal-btn:active{transform:scale(.96)}
+.wx-body .cal-btn[aria-label$="month"]{width:40px;padding:0;font-size:1.2rem}
+.wx-body .cal-select{appearance:none;-webkit-appearance:none;padding-right:1.1rem;text-align:center}
+.wx-body .cal-select option{color:#101828}
+.wx-body .cal-btn--today{background:linear-gradient(135deg,#ffb457,#ff7a45);border-color:transparent;color:#2b1200;box-shadow:0 6px 18px rgba(255,140,70,.35)}
+.wx-body .cal-btn--core{color:#ffe2a6;border-color:rgba(255,212,122,.4)}
+
+.wx-body .calendar-shell{border-radius:0 0 26px 26px;padding:.4rem .9rem 1rem;border-top:1px solid rgba(255,255,255,.12)}
+.wx-body .calendar-shell::before{display:none}
+.wx-body .calendar-dow{gap:.5rem;margin:.4rem 0 .5rem;font:600 .68rem var(--wx-font);letter-spacing:.14em;color:var(--wx-faint)}
+.wx-body .calendar-dow div{text-align:center}
+.wx-body .calendar-dow div:nth-child(n+6){color:#ffc28a}
+.wx-body .calendar-grid{gap:.5rem}
+
+.wx-body .panchang-calendar .cal-cell{
+  position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;
+  min-height:96px;padding:.55rem .6rem .5rem;border-radius:18px;overflow:hidden;color:#fff;font-family:var(--wx-font);
+  background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.12);box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
+  transition:transform .22s cubic-bezier(.3,.9,.3,1),background .2s,box-shadow .2s,border-color .2s;
+}
+.wx-body .panchang-calendar .cal-cell[disabled],.wx-body .panchang-calendar .cal-cell[aria-hidden="true"]{background:none;border-color:transparent;box-shadow:none}
+.wx-body .panchang-calendar .cal-cell[aria-hidden="true"] .cal-date{color:rgba(255,255,255,.3);background:none;border:0}
+.wx-body .panchang-calendar .cal-cell:not([disabled]):hover{transform:translateY(-3px) scale(1.025);background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,.1));border-color:rgba(255,255,255,.34);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 14px 30px rgba(2,8,24,.3);z-index:2}
+.wx-body .panchang-calendar .cal-cell:not([disabled]):active{transform:scale(.98)}
+.wx-body .panchang-calendar .cal-cell:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.wx-body .panchang-calendar .cal-cell::after{display:none}
+.wx-body .panchang-calendar .cal-date{
+  display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 .25rem;margin:0;border-radius:50%;
+  font-size:1.05rem;font-weight:600;letter-spacing:-.01em;background:none;border:0;box-shadow:none;color:#fff;font-feature-settings:"tnum";z-index:1;
+}
+.wx-body .panchang-calendar .cal-time{display:none}
+.wx-body .panchang-calendar .cal-tithi{
+  margin:0;font-size:.72rem;font-weight:600;line-height:1.2;color:rgba(255,255,255,.78);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+  display:flex;align-items:center;gap:.32rem;z-index:1;
+}
+.wx-body .panchang-calendar .cal-stickers{position:absolute;right:.4rem;top:.4rem;display:flex;gap:.1rem;z-index:1}
+.wx-body .panchang-calendar .sticker,.wx-body .panchang-calendar .sticker[class*="sticker--"]{animation:none;width:auto;height:auto;border:0;background:none;box-shadow:none;border-radius:0;font-size:1.05rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+
+/* today: filled sun-coloured date */
+.wx-body .panchang-calendar .cal-cell.is-today{border-color:rgba(255,200,120,.7);background:linear-gradient(180deg,rgba(255,190,110,.3),rgba(255,140,80,.1));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 0 0 1px rgba(255,190,110,.5),0 12px 30px rgba(255,140,70,.22)}
+.wx-body .panchang-calendar .cal-cell.is-today .cal-date{background:linear-gradient(135deg,#ffc15e,#ff7a45);color:#2b1200;box-shadow:0 4px 12px rgba(255,130,60,.45)}
+/* the lunar days that matter */
+.wx-body .panchang-calendar .is-ekadashi .cal-tithi::before,
+.wx-body .panchang-calendar .is-purnima .cal-tithi::before,
+.wx-body .panchang-calendar .is-amavasya .cal-tithi::before{content:"";flex:none;width:8px;height:8px;border-radius:50%}
+.wx-body .panchang-calendar .is-ekadashi .cal-tithi::before{background:#6fe0ff;box-shadow:0 0 8px #6fe0ff}
+.wx-body .panchang-calendar .is-purnima .cal-tithi::before{background:#fff8dc;box-shadow:0 0 10px 2px rgba(255,248,220,.7)}
+.wx-body .panchang-calendar .is-amavasya .cal-tithi::before{background:#0a1224;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.55)}
+.wx-body .panchang-calendar .is-purnima{background:linear-gradient(180deg,rgba(255,248,220,.2),rgba(255,248,220,.05))}
+.wx-body .panchang-calendar .is-amavasya{background:linear-gradient(180deg,rgba(10,18,36,.38),rgba(10,18,36,.16))}
+.wx-body .panchang-calendar .is-ekadashi{background:linear-gradient(180deg,rgba(111,224,255,.18),rgba(111,224,255,.04))}
+/* festivals: a warm wash and a gold edge */
+.wx-body .panchang-calendar .cal-cell.has-core{border-color:rgba(255,210,130,.45);background:linear-gradient(160deg,rgba(255,196,110,.3),rgba(255,120,70,.1) 70%)}
+.wx-body .panchang-calendar .cal-cell.has-core .cal-tithi{color:#ffe9c2}
+.wx-body .panchang-calendar .cal-festival-fill{position:absolute;inset:0;padding:0;opacity:.9;pointer-events:none;background:none;border:0}
+.wx-body .panchang-calendar .cal-festival-fill__motif,
+.wx-body .panchang-calendar .cal-festival-fill__icon{display:none}
+.wx-body .panchang-calendar .cal-cell.has-core::before{
+  display:block;content:attr(data-core-name);position:absolute;left:.6rem;right:.5rem;bottom:1.5rem;inset-inline:.6rem .5rem;top:auto;background:none;opacity:1;
+  font-size:.62rem;font-weight:700;line-height:1.15;letter-spacing:.01em;color:#ffd990;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:1;
+}
+
+.cal-legend{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-top:.9rem;padding-top:.8rem;border-top:1px solid rgba(255,255,255,.13);font-size:.74rem;font-weight:600;color:var(--wx-dim)}
+.cal-legend span{display:inline-flex;align-items:center;gap:.4rem}
+.cal-legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.cal-legend .lg-today{background:linear-gradient(135deg,#ffc15e,#ff7a45)}
+.cal-legend .lg-ek{background:#6fe0ff;box-shadow:0 0 6px #6fe0ff}
+.cal-legend .lg-pu{background:#fff8dc;box-shadow:0 0 8px rgba(255,248,220,.8)}
+.cal-legend .lg-am{background:#0a1224;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.6)}
+.cal-legend .lg-fe{background:#ffc46e;border-radius:3px}
+
+/* the sections below the calendar share the glass look */
+.wx-body .observatory-insights__title{font-weight:600;letter-spacing:-.01em}
+.wx-body .calendar-sub,.wx-body .observatory-insights__meta{color:var(--wx-dim)}
+.wx-body .panchang-footer{color:var(--wx-dim)}
+
+/* ===== responsive: one column like the phone app ===== */
+@media (max-width:980px){
+}
+@media (max-width:640px){
+  .wx-body .glass-panel,.wx-body .p-card{-webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5)}
+  .wx-body .timeline-bar{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .wx-body .timeline-segment{min-height:78px!important;padding:.6rem!important}
+  .wx-body .panchang-page{padding:5.1rem .7rem 2.5rem}
+  .wx-body .calendar-head{padding:1rem .95rem .7rem}
+  .wx-body .calendar-controls{width:100%;display:grid;grid-template-columns:40px 1fr 1fr 40px;gap:.4rem}
+  .wx-body .calendar-controls .cal-btn--today,.wx-body .calendar-controls .cal-btn--core{grid-column:span 2}
+  .wx-body .calendar-shell{padding:.3rem .5rem .8rem}
+  .wx-body .calendar-grid,.wx-body .calendar-dow{gap:.25rem}
+  .wx-body .panchang-calendar .cal-cell{min-height:64px;padding:.35rem .3rem .3rem;border-radius:13px}
+  .wx-body .panchang-calendar .cal-date{min-width:24px;height:24px;font-size:.86rem}
+  .wx-body .panchang-calendar .cal-tithi{font-size:.54rem;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;white-space:normal}
+  .wx-body .panchang-calendar .is-ekadashi .cal-tithi::before,.wx-body .panchang-calendar .is-purnima .cal-tithi::before,.wx-body .panchang-calendar .is-amavasya .cal-tithi::before{display:none}
+  .wx-body .panchang-calendar .cal-stickers{right:.2rem;top:.2rem}
+  .wx-body .panchang-calendar .sticker{font-size:.8rem}
+  .wx-body .panchang-calendar .cal-cell.has-core::before{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .wx-sky{transition:none}
+  .wx-body .panchang-calendar .cal-cell,
+}
+@media (prefers-reduced-transparency:reduce){
+  .wx-body .glass-panel,.wx-body .p-card{background:rgba(24,38,66,.88);-webkit-backdrop-filter:none;backdrop-filter:none}
+}
+
+/* one typeface across the page, and no repeats of what the tiles above already show */
+.wx-body .p-card *,.wx-body .calendar-head *,.wx-body .observatory-insights *,.wx-body .auspicious-planner *{font-family:var(--wx-font)}
+.wx-body .p-ico{font-family:"Apple Color Emoji","Segoe UI Emoji",var(--wx-font)}
+.wx-body .p-card .p-value{font-size:1.7rem}
+.wx-body .observatory-insights [class*="__sub"],.wx-body .observatory-insights [class*="__copy"],.wx-body .observatory-insights [class*="__meta"],
+.wx-body .auspicious-planner [class*="__sub"],.wx-body .auspicious-planner [class*="__note"],.wx-body .auspicious-planner [class*="__meta"],.wx-body .auspicious-planner [class*="__label"]{color:rgba(255,255,255,.8)!important}
+
+/* ===== hero: compact three-column glass layout, original content ===== */
+.wx-body .panchang-hero{background:none;border:0;box-shadow:none;border-radius:0;min-height:0;overflow:visible}
+.wx-body .hero-parallax{min-height:0;padding:0}
+.wx-body .hero-shell{min-height:0;display:grid;gap:1.1rem;padding:1.25rem 1.4rem 1.4rem;border-radius:30px;overflow:hidden;transform:none;
+  background:var(--glass-bg);border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 0 rgba(255,255,255,.06),0 24px 70px rgba(2,8,24,.32);
+  -webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6)}
+.wx-body .hero-shell,.wx-body .hero-shell *{font-family:var(--wx-font)}
+.wx-body .hero-shell__top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin:0;padding:0 0 .95rem;border-bottom:1px solid rgba(255,255,255,.18)}
+.wx-body .hero-kicker{font-size:.74rem;font-weight:700;letter-spacing:.12em;color:#ffd58a;margin:0 0 .25rem}
+.wx-body .hero-greeting{font-size:clamp(1.7rem,3.4vw,2.5rem);font-weight:650;letter-spacing:-.02em;line-height:1.1;margin:0;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.3)}
+.wx-body .hero-support{margin:.45rem 0 0;max-width:62ch;font-size:.98rem;line-height:1.5;color:rgba(255,255,255,.9)}
+.wx-body .hero-command__button,.wx-body .hero-location-trigger,.wx-body .feature-card__action{
+  font-size:.82rem;font-weight:650;letter-spacing:.02em;text-transform:none;color:#fff;border-radius:999px;padding:.62rem 1rem;cursor:pointer;
+  background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.08)),rgba(10,22,46,.4);border:1px solid rgba(255,255,255,.3);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38);transition:background .2s,transform .15s}
+.wx-body .hero-command__button:hover,.wx-body .hero-location-trigger:hover,.wx-body .feature-card__action:hover{background:rgba(255,255,255,.28)}
+.wx-body .hero-command__button:active,.wx-body .hero-location-trigger:active{transform:scale(.97)}
+.wx-body .hero-command__button:focus-visible,.wx-body .hero-location-trigger:focus-visible,.wx-body .feature-card__action:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.wx-body .hero-observatory{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,250px) minmax(0,1fr);gap:1.1rem;align-items:stretch;margin:0}
+.wx-body .hero-pane--left,.wx-body .hero-pane--right{
+  min-width:0;padding:1.05rem 1.1rem 1.1rem;border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03)),rgba(10,22,46,.34);
+  border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.wx-body .hero-pane--center{display:grid;place-items:center;min-width:0}
+.wx-body .hero-pane__label{font-size:.74rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);margin:0 0 .7rem}
+.wx-body .hero-data-row{display:flex;justify-content:space-between;align-items:center;gap:.8rem;padding:0 0 .7rem;margin:0 0 .7rem;border-bottom:1px solid rgba(255,255,255,.16)}
+.wx-body .hero-data-row__key{font-size:.82rem;font-weight:600;color:rgba(255,255,255,.8)}
+.wx-body .hero-data-row__value{font-size:.9rem;font-weight:600;color:#fff;text-align:right;min-width:0}
+.wx-body .hero-data-row__value--location{display:flex;flex-direction:column;align-items:flex-end;gap:.15rem}
+.wx-body .hero-data-row__value--location strong{font-size:1.08rem;font-weight:700;color:#fff;overflow-wrap:anywhere}
+.wx-body .hero-data-row__value--location em{font-style:normal;font-size:.78rem;font-weight:500;color:rgba(255,255,255,.8)}
+.wx-body .hero-data-row__value--accent{font-size:1.3rem;font-weight:700;color:#ffd77a;font-feature-settings:"tnum"}
+.wx-body .hero-location-trigger{margin:0 0 .85rem}
+.wx-body .sun-telemetry{margin:.2rem 0 0;padding:.95rem 1rem 1rem;border-radius:20px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.04)),rgba(10,22,46,.3);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.wx-body .sun-telemetry__head{display:flex;align-items:center;gap:.5rem;margin:0 0 .7rem}
+.wx-body .sun-telemetry__icon{font-size:1.1rem;color:#ffd58a}
+.wx-body .sun-telemetry__head h2{font-size:1rem;font-weight:700;margin:0;color:#fff}
+.wx-body .sun-telemetry__body{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;align-items:end}
+.wx-body .sun-telemetry__label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.78);margin:0 0 .2rem}
+.wx-body .sun-telemetry__stat strong{font-size:1.05rem;font-weight:650;color:#fff;overflow-wrap:anywhere}
+.wx-body .sun-telemetry__stat--temp strong{font-size:2rem;font-weight:300;color:#fff;letter-spacing:-.02em}
+.wx-body .hero-toggle{margin:.85rem 0 0;display:inline-flex}
+.wx-body .hero-toggle .toggle__label{font-size:.8rem;font-weight:650;letter-spacing:.01em;text-transform:none;color:#fff}
+.wx-body .hero-toggle.is-on .toggle__label{color:#fff}
+
+.wx-body .nakshatra-sphere{width:min(250px,100%)}
+.wx-body .nakshatra-sphere__label,.wx-body .nakshatra-sphere__sub{font-size:.62rem;font-weight:700;letter-spacing:.14em;color:rgba(255,255,255,.85)}
+.wx-body .nakshatra-sphere__name{font-size:1.5rem;font-weight:650;letter-spacing:-.01em;color:#fff;margin-top:.4rem;text-align:center;line-height:1.1}
+.wx-body .nakshatra-sphere__phase{font-size:.9rem;font-weight:700;color:#ffd77a}
+.wx-body .nakshatra-sphere__moon{width:84px;height:84px}
+.wx-body .nakshatra-sphere__moon svg{width:100%;height:100%;display:block}
+
+.wx-body .hero-pane--right{display:flex;flex-direction:column;justify-content:center}
+.wx-body .hero-title-block{margin:0}
+.wx-body .hero-date--observatory{font-size:.82rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#ffd58a;margin:0 0 .6rem}
+.wx-body .hero-lines--stacked{display:grid;gap:.5rem;margin:0}
+.wx-body .hero-lines--stacked .hero-pill{display:block;width:auto;max-width:100%;padding:0;border:0;background:none;font-size:clamp(1.2rem,1.75vw,1.6rem);font-weight:650;line-height:1.2;letter-spacing:-.01em;color:#fff;white-space:normal;overflow-wrap:anywhere}
+.wx-body .hero-lines--stacked .hero-pill--accent{color:#ffd77a}
+.wx-body .hero-description{margin:.75rem 0 0;max-width:none;font-size:.95rem;line-height:1.6;color:rgba(255,255,255,.9)}
+
+.wx-body .hero-shell__bottom{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr) minmax(0,1fr);gap:1.1rem;margin:0;align-items:stretch}
+.wx-body .feature-card,.wx-body .hero-reminders-panel{min-width:0;margin:0;padding:1rem 1.05rem 1.05rem;border-radius:24px;overflow:hidden;min-height:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.1),rgba(255,255,255,.03)),rgba(10,22,46,.34);border:1px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.wx-body .feature-card__head{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;margin:0 0 .6rem}
+.wx-body .feature-card__eyebrow,.wx-body .hero-reminders-panel__eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#ffd58a}
+.wx-body .hero-reminders-panel__status{font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:none;color:rgba(255,255,255,.8)}
+.wx-body .feature-card__head h2{font-size:1.1rem;font-weight:650;margin:.15rem 0 0;color:#fff;letter-spacing:-.01em}
+.wx-body .ai-insight__text{margin:0;font-size:.96rem;line-height:1.6;color:rgba(255,255,255,.94)}
+.wx-body .ai-insight__status{margin-top:.6rem;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.wx-body .timeline-bar{margin-top:.2rem}
+.wx-body .timeline-segment{border-radius:14px;color:#fff;text-align:center;
+  background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.05)),rgba(10,22,46,.3);border:1px solid rgba(255,255,255,.22)}
+.wx-body .timeline-segment *{font-family:var(--wx-font)!important}
+.wx-body .timeline-detail{margin-top:.7rem;color:rgba(255,255,255,.9);font-size:.9rem;line-height:1.5}
+.wx-body .hero-reminders-panel__head{display:flex;justify-content:space-between;align-items:center;gap:.6rem;margin:0 0 .7rem}
+.wx-body .reminder-list{display:grid;gap:.55rem}
+.wx-body .reminder-item{border-radius:16px;padding:.7rem .8rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)}
+.wx-body .reminder-item__title{font-size:.92rem;font-weight:650;color:#fff}
+.wx-body .reminder-item__sub{font-size:.84rem;line-height:1.45;color:rgba(255,255,255,.88)}
+
+/* ===== cards under the hero: readable labels ===== */
+.wx-body .p-card .p-title{font-size:.78rem;font-weight:700;letter-spacing:.09em;color:rgba(255,255,255,.88)}
+.wx-body .p-card .p-value{font-size:1.65rem;font-weight:600;color:#fff}
+.wx-body .p-card .p-sub{font-size:.9rem;color:rgba(255,255,255,.88)}
+.wx-body .p-card .p-ico{background:rgba(255,255,255,.14)}
+.wx-body .cards{gap:.9rem}
+
+/* ===== calendar: festival days carry a full illustration ===== */
+.wx-body .panchang-calendar .cal-cell{min-height:104px}
+.wx-body .panchang-calendar .cal-cell[data-art]{background-size:cover;background-position:center;border-color:rgba(255,255,255,.5);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 8px 20px rgba(2,8,24,.3)}
+.wx-body .panchang-calendar .cal-cell[data-art] .cal-date{text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.wx-body .panchang-calendar .cal-cell[data-art] .cal-tithi{color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.85)}
+.wx-body .panchang-calendar .cal-cell[data-art] .cal-stickers{display:none}
+.wx-body .panchang-calendar .cal-cell.has-core[data-art]::before{color:#fff;font-size:.68rem;font-weight:750;text-shadow:0 1px 6px rgba(0,0,0,.9);white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;bottom:1.55rem}
+.wx-body .panchang-calendar .cal-cell.has-core[data-art]:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.4),0 16px 34px rgba(2,8,24,.45)}
+.wx-body .panchang-calendar .cal-cell.is-today[data-art]{box-shadow:0 0 0 2px #ffb457,0 10px 26px rgba(255,140,70,.35)}
+.wx-body .panchang-calendar .cal-cell[data-art="chhath"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/chhath.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="diya"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/diya.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="durga"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/durga.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="dussehra"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/dussehra.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="ganesha"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/ganesha.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="ganga"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/ganga.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="glow"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/glow.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="gold"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/gold.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="grain"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/grain.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="hanuman"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/hanuman.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="holi"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/holi.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="holika"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/holika.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="kalash"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/kalash.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="karwa"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/karwa.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="krishna"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/krishna.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="moon"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/moon.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="nag"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/nag.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="pitru"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/pitru.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="rakhi"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/rakhi.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="rama"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/rama.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="rath"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/rath.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="saraswati"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/saraswati.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="shiva"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/shiva.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="sunrise"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/sunrise.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="thali"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/thali.svg")}
+.wx-body .panchang-calendar .cal-cell[data-art="vishnu"]{background-image:linear-gradient(180deg,rgba(4,8,20,.05) 28%,rgba(4,8,20,.78) 100%),url("images/festivals/vishnu.svg")}
+
+/* ===== responsive ===== */
+@media (max-width:1100px){
+  .wx-body .hero-observatory{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wx-body .hero-pane--center{grid-column:1/-1;order:-1}
+  .wx-body .hero-shell__bottom{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .wx-body .hero-reminders-panel{grid-column:1/-1}
+  .wx-body .hero-reminders-panel .reminder-list{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .wx-body .hero-shell{padding:1rem .9rem 1.1rem;border-radius:26px}
+  .wx-body .hero-shell__top{flex-direction:column;align-items:flex-start}
+  .wx-body .hero-observatory,.wx-body .hero-shell__bottom{grid-template-columns:minmax(0,1fr)}
+  .wx-body .hero-pane--left,.wx-body .hero-pane--right,.wx-body .feature-card,.wx-body .hero-reminders-panel{padding:.95rem .9rem 1rem;border-radius:22px}
+  .wx-body .hero-reminders-panel .reminder-list{grid-template-columns:minmax(0,1fr)}
+  .wx-body .nakshatra-sphere{width:min(230px,78vw)}
+  .wx-body .panchang-calendar .cal-cell{min-height:70px}
+  .wx-body .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+  .wx-body .p-card .p-value{font-size:1.25rem}
+}
+@media (max-width:420px){
+  .wx-body .sun-telemetry__body{grid-template-columns:minmax(0,1fr)}
+  .wx-body .p-card{padding:.8rem}
+  .wx-body .p-card .p-value{font-size:1.1rem;overflow-wrap:anywhere}
+  .wx-body .p-card .p-sub{font-size:.8rem}
+}
+.wx-body .nakshatra-sphere__moon svg{width:100%;height:100%;display:block}
+.wx-body .panchang-calendar .cal-cell[aria-hidden="true"]{background:rgba(255,255,255,.035);border:1px dashed rgba(255,255,255,.14);min-height:0}
+.wx-body .panchang-calendar .cal-cell[aria-hidden="true"] .cal-date{color:rgba(255,255,255,.4)}
+
+/* ===== legibility pass: nothing important below ~80% white ===== */
+.wx-body .energy-bar-info,.wx-body .energy-bar-info *{color:rgba(255,255,255,.92)!important;font-family:var(--wx-font)!important;font-size:.74rem;letter-spacing:.03em;text-transform:none}
+.wx-body .energy-bar-info strong,.wx-body .energy-bar-info b{font-size:.82rem;font-weight:700;color:#fff!important}
+.wx-body .sage-note__quote{font-size:1.15rem;line-height:1.55;color:#fff}
+.wx-body .sage-note__author,.wx-body .sage-note__eyebrow{color:rgba(255,255,255,.88);font-size:.8rem;font-weight:600;letter-spacing:.04em}
+.wx-body .recommendation-item__copy,.wx-body .recommendation-item__meta,.wx-body .activity-panel__copy,.wx-body .kharmas-item__meta,.wx-body .kharmas-item__status,.wx-body .kharmas-panel__note,.wx-body .kharmas-panel__meta,
+.wx-body .marriage-metric__sub,.wx-body .marriage-metric__label,.wx-body .marriage-rankings__sub,.wx-body .marriage-panel__count-label,.wx-body .marriage-note,
+.wx-body .marriage-rank-card__meta,.wx-body .marriage-timeline-item__meta,.wx-body .marriage-timeline-item__window,.wx-body .kharmas-panel__status,.wx-body .observatory-insights__meta,.wx-body .auspicious-planner__label{
+  color:rgba(255,255,255,.9)!important;opacity:1!important}
+.wx-body .recommendation-item__tag,.wx-body .recommendation-item__link{color:#ffd58a!important}
+.wx-body .kharmas-item__badge,.wx-body .marriage-timeline-item__window{color:#ffd58a!important}
+.wx-body .kharmas-item,.wx-body .marriage-rank-card,.wx-body .marriage-note,.wx-body .marriage-metric,.wx-body .recommendation-item{background:rgba(255,255,255,.1)!important;border:1px solid rgba(255,255,255,.2)!important}
+.wx-body .kharmas-item.is-active{background:linear-gradient(135deg,rgba(255,176,86,.32),rgba(255,120,70,.2))!important;border-color:rgba(255,190,110,.6)!important}
+.wx-body .marriage-wheel__viewport{background:rgba(8,16,36,.55)!important}
+.wx-body .marriage-timeline-item__date{color:#fff!important}
+.wx-body .calendar-dow{color:rgba(255,255,255,.82)}
+.wx-body .loc-prompt__sub,.wx-body .loc-prompt__hint{color:rgba(255,255,255,.88)}
+.wx-body .recommendation-item,.wx-body .marriage-rank-card,.wx-body .marriage-note,.wx-body .marriage-metric,.wx-body .kharmas-item{border-radius:16px}
+.wx-body .timeline-segment{padding:.6rem .35rem!important;min-width:0}
+.wx-body .timeline-segment__label{font-size:.86rem!important;line-height:1.15;overflow-wrap:anywhere;hyphens:auto}
+.wx-body .timeline-segment__time{font-size:.62rem!important;letter-spacing:.03em!important;overflow-wrap:anywhere}
+@media (max-width:760px){.wx-body .timeline-segment__label{font-size:.95rem!important}}
+
+/* the big hero frame is no longer a glass slab, so the sun and moon show through it; the information cards stay glass */
+.wx-body .hero-shell{background:none;border:0;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;overflow:visible;padding:.4rem 0 0}
+.wx-body .hero-shell::before{display:none}
+.wx-body .hero-shell__top{border-bottom:0;padding-bottom:.3rem}
+.wx-body .hero-support{text-shadow:0 1px 10px rgba(0,0,0,.45)}
+.wx-body .hero-kicker{text-shadow:0 1px 8px rgba(0,0,0,.5)}
+@media (max-width:760px){.wx-body .hero-shell{padding:.2rem 0 0}}

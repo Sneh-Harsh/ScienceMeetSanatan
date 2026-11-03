@@ -8,7 +8,7 @@ from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
-from .auspicious import kharmas_for_year, marriage_windows_for_year
+from .auspicious import kharmas_for_year, marriage_windows_for_year, refresh_kharmas_state, refresh_marriage_state
 from .calculations import build_panchang, build_panchang_for_date
 from .festival_rules import rules_version as festival_rules_version
 
@@ -294,6 +294,7 @@ def kharmas_api(request):
     except Exception as exc:
         return JsonResponse({"error": str(exc)}, status=500)
 
+    data = refresh_kharmas_state(data, tz)
     return JsonResponse(data)
 
 
@@ -322,4 +323,5 @@ def marriage_dates_api(request):
     except Exception as exc:
         return JsonResponse({"error": str(exc)}, status=500)
 
+    data = refresh_marriage_state(data, tz)
     return JsonResponse(data)

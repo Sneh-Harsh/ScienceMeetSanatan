@@ -342,7 +342,7 @@ void main() {
     surface: null, beamPosition: 0.6, surfaceLevel: 1, color: "#3847ff", intensity: 1.8, beamWidth: 1.5, flare: 1.5,
     spread: 1.5, spill: 1, fog: 0.2, dust: 1.6, streaks: 1.5, dots: 1, pulse: 1.5, speed: 1.5, seed: 3,
     canvasClass: "", mouseInteraction: true, revealImage: "", revealRadius: 220, revealOpacity: 0.6, intro: true, theme: "dark",
-    paused: false, dpr: 0
+    paused: false, dpr: 0, maxFps: 60
   };
 
   function clamp(value, min, max) { return Math.min(max, Math.max(min, value)); }
@@ -391,17 +391,17 @@ void main() {
     return null;
   }
 
+  // The browser compiles the shader in the background (KHR_parallel_shader_compile where available); attach() only checks the
+  // result, and starts drawing, once it says it is finished, so compiling never freezes the page.
   function link(gl, vs, fs) {
-    var v = compile(gl, gl.VERTEX_SHADER, vs), f = compile(gl, gl.FRAGMENT_SHADER, fs), program = gl.createProgram();
+    var v = gl.createShader(gl.VERTEX_SHADER), f = gl.createShader(gl.FRAGMENT_SHADER), program = gl.createProgram();
     if (!v || !f || !program) return null;
+    gl.shaderSource(v, vs); gl.compileShader(v);
+    gl.shaderSource(f, fs); gl.compileShader(f);
     gl.attachShader(program, v);
     gl.attachShader(program, f);
     gl.linkProgram(program);
-    gl.deleteShader(v);
-    gl.deleteShader(f);
-    if (gl.getProgramParameter(program, gl.LINK_STATUS)) return program;
-    gl.deleteProgram(program);
-    return null;
+    return program;
   }
 
   function attach(container, options) {
@@ -418,11 +418,19 @@ void main() {
     if (!program) return null;
     container.insertBefore(canvas, container.firstChild);
 
-    var uniforms = {};
-    ["uResolution", "uDpr", "uScale", "uTime", "uBeamX", "uSurface", "uRadius", "uIntro", "uPour", "uRun", "uLens", "uReveal",
-      "uRevealMap", "uRevealInfo", "uAtmosphere", "uAmount", "uShape", "uExtra", "uTheme", "uTint"].forEach(function (n) {
-      uniforms[n] = gl.getUniformLocation(program, n);
-    });
+    var parallel = gl.getExtension("KHR_parallel_shader_compile");
+    var uniforms = {}, programReady = false;
+    function checkProgram() {
+      if (programReady) return true;
+      if (parallel && !gl.getProgramParameter(program, parallel.COMPLETION_STATUS_KHR)) return false;
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { alive = false; canvas.remove(); return false; }
+      ["uResolution", "uDpr", "uScale", "uTime", "uBeamX", "uSurface", "uRadius", "uIntro", "uPour", "uRun", "uLens", "uReveal",
+        "uRevealMap", "uRevealInfo", "uAtmosphere", "uAmount", "uShape", "uExtra", "uTheme", "uTint"].forEach(function (n) {
+        uniforms[n] = gl.getUniformLocation(program, n);
+      });
+      programReady = true;
+      return true;
+    }
 
     var vao = gl.createVertexArray();
     var buffer = gl.createBuffer();
@@ -550,6 +558,7 @@ void main() {
     }
 
     function render() {
+      if (!checkProgram()) return;
       resolveColor();
       var width = state.width, height = state.height;
       var scale = Math.max(0.2, Math.min(width / 585, height / 507));
@@ -629,6 +638,9 @@ void main() {
     function frame(now) {
       raf = 0;
       if (!alive || !visible || document.hidden) return;
+      if (!checkProgram()) { if (alive) raf = requestAnimationFrame(frame); return; }   // still compiling in the background
+      var minGap = s.maxFps && s.maxFps < 60 ? 1000 / s.maxFps - 2 : 0;   // phones draw this at 30 fps
+      if (last && now - last < minGap) { raf = requestAnimationFrame(frame); return; }
       var dt = last ? Math.min(0.05, (now - last) / 1000) : 1 / 60;
       last = now;
       var moving = !s.paused && !reduce;

@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -9,7 +10,7 @@ from django.templatetags.static import static
 from django.utils.text import slugify
 
 
-LIBRARY_CACHE_KEY = "library::items::local::v7"
+LIBRARY_CACHE_KEY = "library::items::local::v8"
 LIBRARY_DATA_DIR = Path(settings.BASE_DIR) / "accounts" / "data" / "library"
 LIBRARY_SEED_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_seed.json"
 LIBRARY_AUDIO_LINKS_PATH = Path(settings.BASE_DIR) / "accounts" / "data" / "library_audio_links.json"
@@ -259,6 +260,19 @@ def _load_pdf_items() -> List[Dict]:
     return items
 
 
+def _load_drive_items(force_refresh: bool = False) -> List[Dict]:
+    """Books found in the Google Drive / local library folder. Never raises: the library still works without them."""
+    try:
+        from . import drive_library
+
+        if not drive_library.is_configured():
+            return []
+        return drive_library.build_items(drive_library.get_tree(force=force_refresh))
+    except Exception:
+        logging.getLogger(__name__).exception("Library folder items could not be built")
+        return []
+
+
 def load_library_items(force_refresh: bool = False) -> List[Dict]:
     if not force_refresh:
         cached = cache.get(LIBRARY_CACHE_KEY)
@@ -266,6 +280,8 @@ def load_library_items(force_refresh: bool = False) -> List[Dict]:
             return cached
 
     items = _load_aarti_items() + _load_pdf_items()
+    known = {entry["slug"] for entry in items}
+    items += [entry for entry in _load_drive_items(force_refresh) if entry["slug"] not in known]
     items = sorted(
         items,
         key=lambda entry: (
@@ -275,7 +291,13 @@ def load_library_items(force_refresh: bool = False) -> List[Dict]:
             entry.get("name", ""),
         ),
     )
-    cache.set(LIBRARY_CACHE_KEY, items, timeout=900)
+    try:
+        from . import drive_library
+
+        cache_for = min(900, drive_library.ttl())
+    except Exception:
+        cache_for = 900
+    cache.set(LIBRARY_CACHE_KEY, items, timeout=cache_for)
     return items
 
 
@@ -283,10 +305,28 @@ def get_library_item(slug: str) -> Optional[Dict]:
     target = (slug or "").strip().lower()
     if not target:
         return None
-    for item in load_library_items():
+    items = load_library_items()
+    for item in items:
         if item["slug"].lower() == target:
             return item
+    # a book renamed in Drive keeps its file id, which ends its address: old links and saved progress still find it
+    tail = target.rsplit("-", 1)[-1]
+    if len(tail) == 6:
+        for item in items:
+            if item.get("source") in ("drive", "local") and item["slug"].lower().endswith("-" + tail):
+                return item
     return None
+
+
+def _collections_summary(items: List[Dict]) -> List[Dict]:
+    seen: Dict[str, Dict] = {}
+    for it in items:
+        cat = it.get("category")
+        if cat and cat not in seen:
+            seen[cat] = {"label": cat, "slug": slugify(cat), "count": 0}
+        if cat:
+            seen[cat]["count"] += 1
+    return list(seen.values())
 
 
 def build_library_payload() -> Dict:
@@ -307,6 +347,7 @@ def build_library_payload() -> Dict:
         "categories": categories,
         "deities": deities,
         "total": len(items),
+        "collections": _collections_summary(items),
         "source": "local-assets",
         "debug": {
             "library_seed_exists": LIBRARY_SEED_PATH.exists(),

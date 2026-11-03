@@ -46,3 +46,21 @@ def record_social_login(backend, user=None, details=None, *args, **kwargs):
         provider=provider,
         success=True,
     )
+
+
+from social_core.exceptions import AuthCanceled, AuthForbidden
+from social_django.middleware import SocialAuthExceptionMiddleware
+
+
+class FriendlySocialAuthMiddleware(SocialAuthExceptionMiddleware):
+    """Send failed Google/Apple sign-ins back to the login page with a clear message instead of an error page."""
+
+    def get_message(self, request, exception):
+        if isinstance(exception, AuthCanceled):
+            return 'Google sign-in was cancelled or denied. If you did not cancel, the Google app may still be in testing mode and your account has not been added as a test user.'
+        if isinstance(exception, AuthForbidden):
+            return 'This Google account is not allowed to sign in.'
+        return 'Google sign-in failed. Please try again or use your username and password.'
+
+    def raise_exception(self, request, exception):
+        return False

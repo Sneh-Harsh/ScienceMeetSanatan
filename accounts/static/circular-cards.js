@@ -34,6 +34,13 @@
     };
     var cards = [], raf = 0, last = 0, visible = true, alive = true, snapTimer = 0;
     var view = { w: 1, h: 1 };
+    var metrics = { cw: 300, ch: 400 };   // measured by a ResizeObserver, never inside the frame
+    function measureNow() {
+      view.w = Math.max(1, stage.clientWidth);
+      view.h = Math.max(1, stage.clientHeight);
+      if (cards[0]) { metrics.cw = cards[0].offsetWidth || metrics.cw; metrics.ch = cards[0].offsetHeight || metrics.ch; }
+      if (s.responsive) Object.assign(s, s.responsive(view.w));   // e.g. a tighter, more curved wheel on phones
+    }
 
     stage.classList.add("is-circular");
     stage.setAttribute("role", "region");
@@ -74,10 +81,7 @@
     function layout() {
       var n = cards.length;
       if (!n) return;
-      view.w = Math.max(1, stage.clientWidth);
-      view.h = Math.max(1, stage.clientHeight);
-      if (s.responsive) Object.assign(s, s.responsive(view.w));   // e.g. a tighter, more curved wheel on phones
-      var cw = cards[0].offsetWidth || 300, ch = cards[0].offsetHeight || 400;
+      var cw = metrics.cw, ch = metrics.ch;
       var before = state.spacing;
       state.spacing = cw * (1 + s.gap);
       if (before > 1 && Math.abs(state.spacing - before) > 0.5) {
@@ -117,13 +121,14 @@
         var y = mix(arc.y, 0, focus) + (1 - shown) * ch * 0.18;
         var angle = arc.angle * (1 - focus);
         var skew = reduce ? 0 : Math.sin(state.waveTime + i * 0.9) * speed * s.wave * 6;
-        card.style.transform = "translate3d(" + mix(x, 0, focus).toFixed(2) + "px," + y.toFixed(2) + "px,0) rotate(" + angle.toFixed(4) + "rad) skewY(" + skew.toFixed(2) + "deg)";
-        card.style.opacity = alpha.toFixed(3);
-        card.style.zIndex = String(isActive && state.open > 0.02 ? 2000 : 1000 - Math.round(Math.abs(x) / 4));
-        card.style.scale = String(1 + (s.openScale - 1) * focus);
-        card.style.pointerEvents = alpha < 0.08 ? "none" : "";
-        card.tabIndex = isActive ? 0 : -1;
-        card.classList.toggle("is-active", isActive);
+        var tf = "translate3d(" + mix(x, 0, focus).toFixed(1) + "px," + y.toFixed(1) + "px,0) rotate(" + angle.toFixed(3) + "rad)" +
+          (skew ? " skewY(" + skew.toFixed(1) + "deg)" : "") + (focus > 0.001 ? " scale(" + (1 + (s.openScale - 1) * focus).toFixed(3) + ")" : "");
+        if (card._tf !== tf) { card.style.transform = tf; card._tf = tf; }
+        var op = alpha.toFixed(2);
+        if (card._op !== op) { card.style.opacity = op; card._op = op; card.style.pointerEvents = alpha < 0.08 ? "none" : ""; }
+        var z = isActive && state.open > 0.02 ? 2000 : 1000 - Math.round(Math.abs(x) / 8);
+        if (card._z !== z) { card.style.zIndex = z; card._z = z; }
+        if (card._act !== isActive) { card._act = isActive; card.tabIndex = isActive ? 0 : -1; card.classList.toggle("is-active", isActive); }
       });
       state.activeIndex = activeIndex;
     }
@@ -133,7 +138,8 @@
       if (!alive || !visible || document.hidden) return;
       var dt = last ? clamp((now - last) / 1000, 0.0005, 0.05) : 1 / 60;
       last = now;
-      var follow = reduce ? 1 : 1 - Math.pow(1 - s.scrollEase, dt * 60);
+      // glued to the finger while dragging, a short glide after letting go
+      var follow = reduce ? 1 : 1 - Math.pow(1 - (state.drag && state.drag.moved ? 0.55 : s.scrollEase), dt * 60);
       var before = state.scroll;
       state.scroll += (state.target - state.scroll) * follow;
       if (Math.abs(state.target - state.scroll) < 0.05) state.scroll = state.target;
@@ -214,7 +220,7 @@
       e.preventDefault();
       state.target += delta * unit * (s.scrollSpeed / 2);
       clearTimeout(snapTimer);
-      snapTimer = setTimeout(snapNow, 140);
+      snapTimer = setTimeout(snapNow, 90);
       wake();
     }
     function onKeyDown(e) {
@@ -231,7 +237,8 @@
     }
     function onVisibility() { last = 0; wake(); }
 
-    var ro = new ResizeObserver(function () { wake(); layout(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measureNow(); wake(); });
+    var ro = new ResizeObserver(function () { measureNow(); wake(); layout(); });
     ro.observe(stage);
     var io = new IntersectionObserver(function (es) { visible = es.some(function (x) { return x.isIntersecting; }); if (visible) { last = 0; wake(); } });
     io.observe(stage);
@@ -243,13 +250,14 @@
     stage.addEventListener("keydown", onKeyDown);
     document.addEventListener("visibilitychange", onVisibility);
     collect();
+    measureNow();
     layout();
     wake();
 
     return {
       next: function (step) { setSlot(nearest() + (step || 1)); },
       close: close,
-      refresh: function () { collect(); layout(); wake(); },
+      refresh: function () { collect(); measureNow(); layout(); wake(); },
       destroy: function () {
         alive = false;
         cancelAnimationFrame(raf);

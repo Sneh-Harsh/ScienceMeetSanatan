@@ -132,7 +132,7 @@
   // MIT + Commons Clause, David Haz). One shader context is shared by every border on the page: each border is drawn into the
   // shared canvas and copied onto its own element's canvas, so twelve cards do not need twelve WebGL contexts.
   // ======================================================================================================================
-  var ARCS = 4, PULSES = 3, MARGIN = 64, PIXEL_BUDGET = 3e6, SURGE_SPEED = 560, HALF_PI = Math.PI / 2;
+  var ARCS = 4, PULSES = 3, MARGIN = 52, PIXEL_BUDGET = 1.1e6, SURGE_SPEED = 560, HALF_PI = Math.PI / 2;   // a modest pixel budget: the borders are thin lines, they do not need retina detail
 
   var GL_VERTEX = `#version 300 es
 const vec2 corners[3] = vec2[3](vec2(-1.0, -1.0), vec2(3.0, -1.0), vec2(-1.0, 3.0));
@@ -452,38 +452,50 @@ void main() {
 
   // ---- the one shared GL context -----------------------------------------------------------------------------------------
   var shared = null, sharedFailed = false;
+  // The shader is compiled by the browser in the background (KHR_parallel_shader_compile where it exists), and nothing is drawn
+  // until it reports ready, so compiling never freezes the page in the middle of a scroll or a drag.
   function getShared() {
     if (shared && !shared.gl.isContextLost()) return shared;
     if (sharedFailed) return null;
     var canvas = document.createElement("canvas");
     var gl = canvas.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, powerPreference: "default" });
     if (!gl) { sharedFailed = true; return null; }
+    var par = gl.getExtension("KHR_parallel_shader_compile");
     function compile(type, source) {
       var sh = gl.createShader(type);
       gl.shaderSource(sh, source);
       gl.compileShader(sh);
-      if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(sh)); return null; }
       return sh;
     }
     var vs = compile(gl.VERTEX_SHADER, GL_VERTEX), fs = compile(gl.FRAGMENT_SHADER, GL_FRAGMENT);
-    var program = vs && fs ? gl.createProgram() : null;
-    if (!program) { sharedFailed = true; return null; }
+    var program = gl.createProgram();
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
     gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) { console.error(gl.getProgramInfoLog(program)); sharedFailed = true; return null; }
-    var uniforms = {}, count = gl.getProgramParameter(program, gl.ACTIVE_UNIFORMS);
-    for (var i = 0; i < count; i++) {
-      var info = gl.getActiveUniform(program, i);
-      if (info) uniforms[info.name.replace(/\[0\]$/, "")] = gl.getUniformLocation(program, info.name);
-    }
     canvas.addEventListener("webglcontextlost", function (e) { e.preventDefault(); shared = null; });
-    shared = { canvas: canvas, gl: gl, program: program, u: uniforms, vao: gl.createVertexArray() };
+    shared = { canvas: canvas, gl: gl, program: program, u: {}, vao: gl.createVertexArray(), par: par, ready: false, vs: vs, fs: fs };
     return shared;
+  }
+  function sharedReady(sh) {
+    if (sh.ready) return true;
+    var gl = sh.gl;
+    if (sh.par && !gl.getProgramParameter(sh.program, sh.par.COMPLETION_STATUS_KHR)) return false;
+    if (!gl.getProgramParameter(sh.program, gl.LINK_STATUS)) {
+      console.error(gl.getShaderInfoLog(sh.fs) || gl.getProgramInfoLog(sh.program));
+      sharedFailed = true; shared = null;
+      return false;
+    }
+    var count = gl.getProgramParameter(sh.program, gl.ACTIVE_UNIFORMS);
+    for (var i = 0; i < count; i++) {
+      var info = gl.getActiveUniform(sh.program, i);
+      if (info) sh.u[info.name.replace(/\[0\]$/, "")] = gl.getUniformLocation(sh.program, info.name);
+    }
+    sh.ready = true;
+    return true;
   }
 
   var glInstances = new Set();
-  var glRaf = 0, glLast = 0;
+  var glRaf = 0, glLast = 0, glTick = 0;
   var reducedMotion = !!(global.matchMedia && global.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
   function glLoop(now) {
@@ -493,12 +505,19 @@ void main() {
     if (now - glLast < 18) { glRaf = requestAnimationFrame(glLoop); return; }   // about 50 fps is plenty
     glLast = now;
     var sh = getShared(), busy = false;
+    glTick++;
+    var movePointer = pointerDirty ? lastPointer : null;
+    pointerDirty = false;
     glInstances.forEach(function (inst) {
       if (!inst.el.isConnected) { inst.destroy(); return; }
       if (!inst.visible) return;
-      inst.update(now, dt);
-      if (sh) inst.render(sh);
       busy = true;
+      // the card in the middle of the carousel gets the full frame rate; the others only refresh now and then
+      inst.priority = inst.el.classList.contains("is-active") || !inst.el.closest(".is-circular");
+      if (!inst.priority && glTick % 4 !== 0) return;
+      if (movePointer && inst.priority) inst.onMove(movePointer);
+      inst.update(now, inst.priority ? dt : Math.min(0.05, dt * 4));
+      if (sh && sharedReady(sh)) inst.render(sh);
     });
     if (busy) glRaf = requestAnimationFrame(glLoop);
   }
@@ -508,8 +527,13 @@ void main() {
     glRaf = requestAnimationFrame(glLoop);
   }
   document.addEventListener("visibilitychange", glWake);
-  global.addEventListener("pointermove", function (e) { glInstances.forEach(function (i) { if (i.visible) i.onMove(e); }); }, { passive: true });
-  global.addEventListener("pointerdown", function (e) { glInstances.forEach(function (i) { if (i.visible) i.onDown(e); }); }, { passive: true });
+  var lastPointer = null, pointerDirty = false;
+  var finePointer = !(global.matchMedia && global.matchMedia("(pointer: coarse)").matches);
+  global.addEventListener("pointermove", function (e) {
+    if (!finePointer || e.pointerType === "touch") return;     // phones have no hover: skip the work entirely
+    lastPointer = e; pointerDirty = true; glWake();
+  }, { passive: true });
+  global.addEventListener("pointerdown", function (e) { glInstances.forEach(function (i) { if (i.visible && i.priority) i.onDown(e); }); }, { passive: true });
 
   function attachGL(el, options) {
     if (!getShared()) return attach2d(el, options);
@@ -541,7 +565,7 @@ void main() {
     function resize() {
       var width = Math.max(1, el.offsetWidth), height = Math.max(1, el.offsetHeight);
       var cw = width + MARGIN * 2, ch = height + MARGIN * 2;
-      var ratio = Math.min(global.devicePixelRatio || 1, 2, Math.sqrt(PIXEL_BUDGET / (cw * ch)));
+      var ratio = Math.min(global.devicePixelRatio || 1, 1.5, Math.sqrt(PIXEL_BUDGET / (cw * ch)));
       var pw = Math.max(1, Math.round(cw * ratio)), ph = Math.max(1, Math.round(ch * ratio));
       if (canvas.width !== pw || canvas.height !== ph) { canvas.width = pw; canvas.height = ph; }
       canvas.style.width = cw + "px";

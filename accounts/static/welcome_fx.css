@@ -242,6 +242,8 @@
     linear-gradient(160deg, #0d0b22 0%, #090a1a 55%, #070816 100%);
 }
 
+.hero-backdrop .aero-shards, .hero-backdrop .aero-shards-canvas { opacity: 0; transition: opacity 0.9s ease; }
+.hero-backdrop.shards-ready .aero-shards, .hero-backdrop.shards-ready .aero-shards-canvas { opacity: 1; }
 .aero-shards-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; pointer-events: none; }
 .hero-backdrop .aero-shards { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; z-index: 0; pointer-events: none; }
 
@@ -324,4 +326,189 @@
   .timeline-scroll { max-height: min(30rem, 66vh); }
   .timeline-track { padding-inline: 0.2rem 0.4rem; }
   .timeline-track::before { left: calc(0.2rem + 0.6rem + 13px); }
+}
+
+/* ---------- live solar system (orrery) ---------- */
+.planetarium-card { display: flex; flex-direction: column; }
+.planetarium-card__copy { margin-bottom: 0.8rem; }
+
+.orrery {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: clamp(460px, 44vw, 640px);
+  border-radius: 26px;
+  overflow: hidden;
+  isolation: isolate;
+  touch-action: pan-y;          /* a vertical swipe still scrolls the page; a sideways one turns the view */
+  cursor: grab;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 48%, rgba(255, 170, 70, 0.12), transparent 62%),
+    radial-gradient(ellipse 80% 70% at 18% 12%, rgba(90, 70, 190, 0.28), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 88% 92%, rgba(40, 90, 200, 0.22), transparent 62%),
+    linear-gradient(180deg, #060812, #04050d);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55), 0 24px 60px -30px rgba(0, 0, 0, 0.8);
+}
+.orrery.is-dragging { cursor: grabbing; }
+.orrery__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.orrery[data-ready="static"] .orrery__canvas, .orrery[data-ready="idle"] .orrery__canvas { visibility: hidden; }
+
+.orrery__labels { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+
+.orrery__chip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.22rem 0.55rem 0.22rem 0.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(8, 11, 24, 0.55);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #eef2ff;
+  font: 700 0.72rem/1 "Manrope", sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  pointer-events: auto;
+  will-change: transform;
+  transition: background 0.2s, border-color 0.2s, opacity 0.25s;
+  -webkit-tap-highlight-color: transparent;
+}
+.orrery__chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); flex: none; }
+.orrery__chip.is-compact span { display: none; }
+.orrery__chip.is-compact { padding: 0.28rem; }
+.orrery__chip.is-selected { background: rgba(30, 40, 90, 0.8); border-color: var(--c); box-shadow: 0 0 14px -2px var(--c); }
+.orrery__chip:focus-visible { outline: 2px solid #ffd27a; outline-offset: 2px; }
+
+.orrery__sign {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: rgba(170, 195, 255, 0.9);
+  text-shadow: 0 0 10px rgba(110, 150, 255, 0.5);
+  will-change: transform;
+  pointer-events: none;
+}
+.orrery__sign.is-sun { color: #ffd27a; text-shadow: 0 0 14px rgba(255, 190, 80, 0.9); font-size: 1.6rem; }
+
+.orrery__info {
+  position: absolute;
+  z-index: 3;
+  left: 0.8rem;
+  top: 0.8rem;
+  max-width: min(17rem, calc(100% - 1.6rem));
+  padding: 0.7rem 0.85rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(10, 14, 30, 0.68));
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.16) inset, 0 14px 30px -14px rgba(0, 0, 0, 0.8);
+  color: #eef2ff;
+  pointer-events: none;
+}
+.orrery__info-title { display: flex; align-items: center; gap: 0.45rem; font: 800 0.98rem/1.1 "Manrope", sans-serif; }
+.orrery__info-title i { width: 10px; height: 10px; border-radius: 50%; flex: none; box-shadow: 0 0 10px currentColor; }
+.orrery__info-title small { font-weight: 600; opacity: 0.7; font-size: 0.8rem; }
+.orrery__info p { margin: 0.35rem 0 0; font: 500 0.8rem/1.5 "Manrope", sans-serif; color: rgba(225, 232, 255, 0.86); }
+.orrery__info b { color: #ffd987; font-weight: 800; }
+
+.orrery__hud {
+  position: absolute;
+  z-index: 3;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.orrery__date {
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 11, 24, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font: 700 0.8rem/1 "Manrope", sans-serif;
+  color: #eef2ff;
+  letter-spacing: 0.02em;
+}
+.orrery__live { color: #7dffa8; font-weight: 800; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.1em; margin-right: 0.3rem; }
+.orrery__live::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #7dffa8; margin-right: 0.3rem; box-shadow: 0 0 8px #7dffa8; vertical-align: 1px; }
+
+.orrery__speeds {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.22rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 11, 24, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+}
+.orrery__speeds button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.42rem 0.7rem;
+  background: transparent;
+  color: rgba(225, 232, 255, 0.8);
+  font: 700 0.72rem/1 "Manrope", sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, color 0.2s;
+}
+.orrery__speeds button:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+.orrery__speeds button.is-on { background: linear-gradient(120deg, #ffd27a, #ff9a3c); color: #1b1004; }
+.orrery__speeds button:focus-visible { outline: 2px solid #ffd27a; outline-offset: 1px; }
+.orrery__reset { font-size: 1rem !important; padding: 0.3rem 0.6rem !important; }
+
+@media (max-width: 820px) {
+  .orrery { min-height: 480px; border-radius: 22px; }
+  .orrery__info { left: 0.55rem; top: 0.55rem; max-width: calc(100% - 1.1rem); padding: 0.55rem 0.7rem; }
+  .orrery__hud { left: 0.5rem; right: 0.5rem; bottom: 0.5rem; justify-content: center; }
+  .orrery__speeds button { padding: 0.4rem 0.5rem; font-size: 0.68rem; }
+  .orrery__date { font-size: 0.74rem; }
+}
+@media (max-width: 400px) { .orrery__speeds button { padding: 0.38rem 0.4rem; } }
+
+/* ---------- responsiveness: skip drawing what is far below the screen ---------- */
+.festival-orbit, .city-cta, .testimonials-panel, .site-footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 720px;
+}
+@media (max-width: 820px) { .festival-orbit, .city-cta, .testimonials-panel, .site-footer { contain-intrinsic-size: auto 900px; } }
+
+/* orrery controls: short labels on narrow screens so the whole control strip fits a 320px phone */
+.orrery__speeds .sm { display: none; }
+@media (max-width: 480px) {
+  .orrery__speeds .lg { display: none; }
+  .orrery__speeds .sm { display: inline; }
+  .orrery__speeds { max-width: 100%; }
+  .orrery__speeds button { padding: 0.45rem 0.55rem; min-width: 2.15rem; }
+}
+
+/* comfortable tap targets on touch screens */
+@media (max-width: 820px) {
+  .site-footer__links a { display: inline-flex; align-items: center; min-height: 40px; }
+  .orbit-link { min-height: 44px; }
+  .orrery__chip { padding-block: 0.3rem; }
+}
+
+.orrery__chip.is-compact.is-selected span { display: inline; }
+.orrery__chip.is-compact.is-selected { padding: 0.28rem 0.55rem 0.28rem 0.4rem; z-index: 2; }
+
+@media (max-width: 400px) {
+  .orrery__speeds { flex-wrap: wrap; justify-content: center; border-radius: 20px; }
+  .orrery__speeds [data-zoom] { display: none; }      /* pinch to zoom on a phone */
 }

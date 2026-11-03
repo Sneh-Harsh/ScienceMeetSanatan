@@ -269,11 +269,23 @@ if SOCIAL_AUTH_ENABLED:
         "accounts.pipeline.record_social_login",
     )
 
+    MIDDLEWARE.append("accounts.pipeline.FriendlySocialAuthMiddleware")
     SOCIAL_AUTH_REDIRECT_IS_HTTPS = not DEBUG
     SOCIAL_AUTH_URL_NAMESPACE = "social"
     SOCIAL_AUTH_LOGIN_ERROR_URL = "/login/?mode=login"
     SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/welcome/"
     SOCIAL_AUTH_NEW_USER_REDIRECT_URL = "/welcome/"
+
+# Library books come from a Google Drive folder (or a local folder with the same layout). See accounts/drive_library.py.
+LIBRARY_DRIVE_FOLDER_ID = env("LIBRARY_DRIVE_FOLDER_ID", default="")
+LIBRARY_LOCAL_DIR = env("LIBRARY_LOCAL_DIR", default="")
+LIBRARY_DRIVE_TTL = env.int("LIBRARY_DRIVE_TTL", default=600)
+LIBRARY_PDF_VIEWER = env("LIBRARY_PDF_VIEWER", default="proxy")
+LIBRARY_CACHE_DIR = env("LIBRARY_CACHE_DIR", default="")
+LIBRARY_CACHE_MAX_MB = env.int("LIBRARY_CACHE_MAX_MB", default=1500)
+GOOGLE_DRIVE_API_KEY = env("GOOGLE_DRIVE_API_KEY", default="").strip()
+GOOGLE_SERVICE_ACCOUNT_JSON = env("GOOGLE_SERVICE_ACCOUNT_JSON", default="")
+GOOGLE_SERVICE_ACCOUNT_FILE = env("GOOGLE_SERVICE_ACCOUNT_FILE", default="")
 
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/welcome/"

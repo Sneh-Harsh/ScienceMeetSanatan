@@ -28,7 +28,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone as dj_timezone
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+from django.views.decorators.http import require_GET, require_http_methods, require_POST
 
 from .models import LoginAttempt
 from .baby_names_data import load_baby_names_json
@@ -1153,8 +1154,24 @@ def library_page(request):
     )
 
 
+def _find_collection(collection_slug: str):
+    """A collection page for the fixed topics, or for any folder found in the library's Google Drive folder."""
+    key = (collection_slug or "").strip().lower()
+    if not key:
+        return None
+    if key in LIBRARY_COLLECTIONS:
+        return LIBRARY_COLLECTIONS[key]
+    try:
+        for entry in build_library_payload().get("collections", []):
+            if entry["slug"] == key:
+                return {"label": entry["label"], "api_category": entry["label"].lower(), "nav_icon": "📚"}
+    except Exception:
+        logger.exception("Library collections could not be loaded")
+    return None
+
+
 def library_collection_page(request, collection_slug: str):
-    collection = LIBRARY_COLLECTIONS.get((collection_slug or "").strip().lower())
+    collection = _find_collection(collection_slug)
     if not collection:
         return redirect("/library/")
 
@@ -1206,7 +1223,7 @@ def library_detail_page(request, slug: str):
 
     from_collection = str(request.GET.get("from_collection") or "").strip().lower()
     back_to_library_href = "/library/"
-    if from_collection and from_collection in LIBRARY_COLLECTIONS:
+    if from_collection and _find_collection(from_collection):
         back_to_library_href = f"/library/collections/{from_collection}/"
 
     return render(
@@ -1742,3 +1759,19 @@ class AvatarUploadView(APIView):
         account.avatar = ''
         account.save(update_fields=['avatar', 'updated_at'])
         return Response({'avatar': ''})
+
+
+@xframe_options_sameorigin
+@require_http_methods(["GET", "HEAD"])
+def library_file(request, file_id: str):
+    """Streams a library PDF (from Google Drive or the local library folder). Only files that are in the folder can be requested."""
+    from . import drive_library
+
+    return drive_library.stream_file(request, file_id)
+
+
+@require_GET
+def library_cover(request, file_id: str):
+    from . import drive_library
+
+    return drive_library.stream_cover(request, file_id)

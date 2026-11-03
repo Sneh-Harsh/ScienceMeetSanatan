@@ -1,0 +1,116 @@
+  <section class="audio-player-shell" id="audioPlayerShell" hidden aria-live="polite">
+    <div class="audio-mini-player" id="audioMiniPlayer">
+      <button type="button" class="audio-mini-cover" id="audioMiniExpandBtn" aria-label="Open audio player">
+        <img id="audioMiniCoverImage" alt="" />
+      </button>
+      <div class="audio-mini-meta">
+        <div class="audio-mini-title" id="audioMiniTitle">Audio sanctuary</div>
+        <div class="audio-mini-subtitle" id="audioMiniSubtitle">Select a sacred track to begin.</div>
+        <div class="audio-mini-state" id="audioMiniState">Ready to stream</div>
+      </div>
+      <div class="audio-mini-progress">
+        <span class="audio-mini-progress__buffer" id="audioMiniBufferedFill"></span>
+        <span id="audioMiniProgressFill"></span>
+        <input id="audioMiniProgressRange" class="audio-mini-progress__range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek audio from mini player" />
+      </div>
+      <div class="audio-mini-actions">
+        <button type="button" class="audio-mini-btn" id="audioMiniPrevBtn" aria-label="Previous track">⏮</button>
+        <button type="button" class="audio-mini-btn audio-mini-btn--primary" id="audioMiniPlayBtn" aria-label="Play or pause">▶</button>
+        <button type="button" class="audio-mini-btn" id="audioMiniNextBtn" aria-label="Next track">⏭</button>
+        <button type="button" class="audio-mini-btn audio-mini-btn--close" id="audioMiniCloseBtn" aria-label="Stop audio">✕</button>
+      </div>
+    </div>
+
+    <div class="audio-fullscreen" id="audioFullscreen" hidden>
+      <button type="button" class="audio-fullscreen__backdrop" id="audioCloseBackdrop" aria-label="Close audio player"></button>
+      <div class="audio-fullscreen__panel" id="audioFullscreenPanel">
+        <div class="audio-fullscreen__ambient" id="audioAmbient"></div>
+        <div class="audio-fullscreen__topbar">
+          <div>
+            <p class="audio-kicker">Spiritual Library Audio</p>
+            <h2>Listening Sanctuary</h2>
+          </div>
+          <div class="audio-topbar-actions">
+            <button type="button" class="detail-action-btn" id="audioBookmarkTimeBtn">Bookmark time</button>
+            <button type="button" class="detail-action-btn" id="audioFavoriteBtn">Favorite</button>
+            <button type="button" class="detail-action-btn" id="audioMinimizeBtn">Minimize</button>
+            <button type="button" class="detail-action-btn detail-action-btn--danger" id="audioStopBtn">Stop</button>
+          </div>
+        </div>
+
+        <div class="audio-fullscreen__body">
+          <div class="audio-art-stage">
+            <div class="audio-art-glow"></div>
+            <div class="audio-art-frame">
+              <img id="audioCoverImage" alt="" />
+            </div>
+            <div class="audio-visualizer" id="audioVisualizer" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="audio-main-console">
+            <div class="audio-track-meta">
+              <p class="audio-kicker" id="audioTrackKicker">Sacred audio stream</p>
+              <h3 id="audioTrackTitle">Choose a sacred audio stream</h3>
+              <p id="audioTrackSubtitle">Aarti, book narration, or devotional audio can live here.</p>
+              <div class="audio-track-meta__row">
+                <span class="audio-track-counter" id="audioTrackCounter">Track 0 of 0</span>
+                <span class="audio-track-state" id="audioTrackState">Idle</span>
+              </div>
+              <div class="audio-error-banner" id="audioErrorBanner" hidden>
+                <strong></strong>
+                <span id="audioErrorMessage"></span>
+              </div>
+            </div>
+
+            <div class="audio-progress-card">
+              <div class="audio-progress-time">
+                <span id="audioCurrentTime">0:00</span>
+                <span id="audioDuration">0:00</span>
+              </div>
+              <div class="audio-progress-shell">
+                <span class="audio-progress-buffer" id="audioBufferedFill"></span>
+                <span class="audio-progress-played" id="audioPlayedFill"></span>
+                <input id="audioProgressRange" class="audio-progress-range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Seek audio" />
+              </div>
+              <div class="audio-progress-labels">
+                <span id="audioProgressLabel">Ready to stream</span>
+                <span id="audioSpeedLabel">1×</span>
+              </div>
+            </div>
+
+            <div class="audio-controls">
+              <button type="button" class="audio-control-btn" id="audioPrevBtn" aria-label="Previous track">⏮</button>
+              <button type="button" class="audio-control-btn" id="audioBack10Btn" aria-label="Seek back 10 seconds">↺10</button>
+              <button type="button" class="audio-control-btn audio-control-btn--hero" id="audioPlayBtn" aria-label="Play or pause">▶</button>
+              <button type="button" class="audio-control-btn" id="audioForward10Btn" aria-label="Seek forward 10 seconds">10↻</button>
+              <button type="button" class="audio-control-btn" id="audioNextBtn" aria-label="Next track">⏭</button>
+            </div>
+
+            <div class="audio-secondary-controls">
+              <button type="button" class="audio-pill-btn" id="audioRepeatBtn">Repeat Off</button>
+              <button type="button" class="audio-pill-btn" id="audioSpeedBtn">Speed 1×</button>
+              <button type="button" class="audio-pill-btn" id="audioMuteBtn">Mute</button>
+              <label class="audio-volume-shell" for="audioVolumeRange">
+                <span>Volume</span>
+                <input id="audioVolumeRange" class="audio-volume-range" type="range" min="0" max="1" value="1" step="0.01" aria-label="Volume" />
+              </label>
+            </div>
+
+          </div>
+
+          <aside class="audio-queue-panel">
+            <div class="audio-queue-head">
+              <div>
+                <p class="audio-kicker">Queue</p>
+                <h4>Now flowing</h4>
+              </div>
+              <div class="audio-queue-meta" id="audioQueueMeta">1 track</div>
+            </div>
+            <div class="audio-queue-list" id="audioQueueList"></div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>

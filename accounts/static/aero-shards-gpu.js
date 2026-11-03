@@ -820,6 +820,21 @@ fn fs_main(@location(0) uv: vec2f, @builtin(position) pixel: vec4f) -> @location
 }
 `;
 
+// The Om is drawn from a Devanagari font. A one-character subset of Noto Sans Devanagari is requested here (not as a stylesheet in the
+// page head, where it would delay the first paint) and given a moment to arrive; if it does not, the system's own font is used.
+const ensureOmFont = () => {
+  if (!document.fonts || !document.fonts.load) return Promise.resolve();
+  if (!document.getElementById('aero-om-font')) {
+    const link = document.createElement('link');
+    link.id = 'aero-om-font';
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@700&display=swap&text=%E0%A5%90';
+    document.head.appendChild(link);
+  }
+  const loaded = document.fonts.load('700 100px "Noto Sans Devanagari"', '\u0950').catch(() => {});
+  return Promise.race([loaded, new Promise(resolve => setTimeout(resolve, 1200))]);
+};
+
 const GLYPH_N = 96;
 const GLYPH_FONT = '"Noto Sans Devanagari", "Kohinoor Devanagari", "Devanagari Sangam MN", "Nirmala UI", Mangal, "Lohit Devanagari", sans-serif';
 
@@ -1197,6 +1212,8 @@ function AeroShards({
         blend: 'premultiplied',
         label: 'aero-shards-markers'
       });
+      await ensureOmFont();
+      if (disposed) return;
       const glyphData = buildGlyphs();
       const glyphBuffer = storage(instance, glyphData.byteLength, 'read');
       glyphBuffer.write(glyphData);

@@ -190,10 +190,52 @@ def _load_bundled_payload(kind: str, year: int):
     return data if isinstance(data, dict) and data else None
 
 
+def refresh_kharmas_state(payload: Dict, tz_name: str) -> Dict:
+    """Recompute which Kharmas window is active/upcoming from the clock. Bundled yearly files store these flags as they were
+    when the file was generated, so they must never be trusted as-is."""
+    try:
+        tz = ZoneInfo(tz_name)
+    except Exception:
+        tz = ZoneInfo("Asia/Kolkata")
+    now_local = datetime.now(tz)
+    intervals: List[Dict] = []
+    for raw in payload.get("intervals", []):
+        item = dict(raw)
+        start_dt = datetime.fromisoformat(item["start"])
+        end_dt = datetime.fromisoformat(item["end"])
+        item["is_active"] = start_dt <= now_local <= end_dt
+        item["is_upcoming"] = now_local < start_dt
+        if item["is_active"]:
+            item["remaining_label"] = f"Ends in {max(0, (end_dt - now_local).days)} days"
+        elif item["is_upcoming"]:
+            item["remaining_label"] = f"Begins in {(start_dt - now_local).days} days"
+        else:
+            item["remaining_label"] = "Completed"
+        intervals.append(item)
+    active = next((item for item in intervals if item["is_active"]), None)
+    return {**payload, "intervals": intervals, "active": active}
+
+
+def refresh_marriage_state(payload: Dict, tz_name: str) -> Dict:
+    """Pick the next wedding date from today's date instead of the date the bundled file was generated."""
+    try:
+        tz = ZoneInfo(tz_name)
+    except Exception:
+        tz = ZoneInfo("Asia/Kolkata")
+    today_local = datetime.now(tz).date()
+    year = int(payload.get("year") or today_local.year)
+    rows = sorted(payload.get("timeline") or [], key=lambda item: str(item.get("date")))
+    if year < today_local.year:
+        nxt = None
+    else:
+        nxt = next((item for item in rows if Date.fromisoformat(str(item["date"])) >= today_local), rows[0] if year > today_local.year and rows else None)
+    return {**payload, "next_best": nxt, "next_upcoming": nxt}
+
+
 def kharmas_for_year(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> Dict:
     bundled = _load_bundled_payload("kharmas", year)
     if bundled:
-        return bundled
+        return refresh_kharmas_state(bundled, tz_name)
 
     tz = ZoneInfo(tz_name)
     start_local = datetime(year - 1, 11, 1, 0, 0, tzinfo=tz)
@@ -300,7 +342,7 @@ def _marriage_reason_parts(payload: Dict, yoga_name: str, karana_name: str, week
 def marriage_windows_for_year(*, year: int, lat_r: float, lon_r: float, tz_name: str) -> Dict:
     bundled = _load_bundled_payload("marriage", year)
     if bundled:
-        return bundled
+        return refresh_marriage_state(bundled, tz_name)
 
     tz = ZoneInfo(tz_name)
     start = Date(year, 1, 1)

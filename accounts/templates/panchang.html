@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panchang | Science Meets Sanatan</title>
+  <title>Panchang | SanatanSeva</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="{% static 'header.css' %}?v=13">
   <link rel="stylesheet" href="{% static 'panchang.css' %}?v=11">
+  <link rel="stylesheet" href="{% static 'panchang_ios.css' %}?v=12">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2">
@@ -19,7 +20,9 @@
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3">
 </head>
 
-<body>
+<body class="wx-body" data-sky-kind="clear" data-sky-day="1">
+<canvas id="wxSky" class="wx-sky" aria-hidden="true"></canvas>
+<div class="wx-veil" aria-hidden="true"></div>
 {% include 'components/header.html' %}
 
   <main
@@ -51,20 +54,6 @@
     </div>
 
     <section class="panchang-hero" id="heroScene">
-      <div id="sky" class="sky" aria-hidden="true">
-        <div class="sky__gradient"></div>
-        <div class="sky__orb sky__orb--one"></div>
-        <div class="sky__orb sky__orb--two"></div>
-        <div class="sky__grid"></div>
-        <div class="sky__glyphs" id="glyphField" aria-hidden="true"></div>
-        <div class="sky__stars" id="stars"></div>
-        <div class="sky__clouds" id="clouds"></div>
-        <div class="sky__rain" id="rain"></div>
-        <div class="sky__sun" id="sun"></div>
-        <div class="sky__moon" id="moonDisc"></div>
-        <div class="sky__birds" id="birds" aria-hidden="true"></div>
-      </div>
-
       <div class="hero-parallax">
         <section class="hero-shell glass-panel">
           <div class="hero-shell__top">
@@ -116,13 +105,6 @@
                   <span class="toggle__label">Smart reminders</span>
                 </label>
               </article>
-              <article class="hero-reminders-panel glass-panel" aria-label="Smart reminders panel">
-                <div class="hero-reminders-panel__head">
-                  <span class="hero-reminders-panel__eyebrow">Smart reminders</span>
-                  <span class="hero-reminders-panel__status">Live Panchang cues</span>
-                </div>
-                <div class="reminder-list" id="reminderList"></div>
-              </article>
             </section>
 
             <section class="hero-pane hero-pane--center">
@@ -154,29 +136,6 @@
                   The current lunar alignment supports clarity, steadiness, and intentional movement through the day.
                 </p>
               </div>
-
-              <div class="hero-metrics">
-                <article class="hero-metric">
-                  <span class="hero-metric__label">Tithi</span>
-                  <strong class="hero-metric__value" id="heroMetricTithi">—</strong>
-                  <span class="hero-metric__sub">Current lunar day</span>
-                </article>
-                <article class="hero-metric">
-                  <span class="hero-metric__label">Nakshatra</span>
-                  <strong class="hero-metric__value" id="heroMetricNak">—</strong>
-                  <span class="hero-metric__sub">Current star field</span>
-                </article>
-                <article class="hero-metric">
-                  <span class="hero-metric__label">Rahu Kaal</span>
-                  <strong class="hero-metric__value" id="heroMetricRahu">—</strong>
-                  <span class="hero-metric__sub">Avoid for launches</span>
-                </article>
-                <article class="hero-metric">
-                  <span class="hero-metric__label">Moon phase</span>
-                  <strong class="hero-metric__value" id="heroMetricMoon">—</strong>
-                  <span class="hero-metric__sub">Illumination</span>
-                </article>
-              </div>
             </section>
           </div>
 
@@ -204,6 +163,14 @@
               </div>
               <div class="timeline-bar" id="timelineBar" aria-label="Auspicious activity timeline"></div>
               <div class="timeline-detail" id="timelineDetail">Hover or tap a segment to see details.</div>
+            </article>
+
+            <article class="hero-reminders-panel glass-panel" aria-label="Smart reminders panel">
+              <div class="hero-reminders-panel__head">
+                <span class="hero-reminders-panel__eyebrow">Smart reminders</span>
+                <span class="hero-reminders-panel__status">Live Panchang cues</span>
+              </div>
+              <div class="reminder-list" id="reminderList"></div>
             </article>
           </div>
         </section>
@@ -285,9 +252,9 @@
     <section class="panchang-calendar" aria-label="Panchang calendar">
       <div class="calendar-head glass-panel">
         <div>
-          <div class="calendar-kicker">Interactive Calendar Upgrade</div>
-          <div class="calendar-title">Navigate the month with full Panchang context.</div>
-          <div class="calendar-sub">Smooth month transitions, tap for details, and open the full modal for complete day intelligence.</div>
+          <div class="calendar-kicker">Panchang calendar</div>
+          <div class="calendar-title"><span id="calMonthLabel">Month</span></div>
+          <div class="calendar-sub">Tithi for every day, festivals and fasts at a glance. Tap a day for its full Panchang.</div>
         </div>
         <div class="calendar-controls" aria-label="Calendar controls">
           <button id="calPrevBtn" class="cal-btn" type="button" aria-label="Previous month">‹</button>
@@ -304,6 +271,10 @@
           <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
         </div>
         <div class="calendar-grid" id="calGrid" role="grid" aria-label="Month grid"></div>
+        <div class="cal-legend" aria-label="Calendar legend">
+          <span><i class="lg-today"></i>Today</span><span><i class="lg-fe"></i>Festival</span>
+          <span><i class="lg-ek"></i>Ekadashi</span><span><i class="lg-pu"></i>Purnima</span><span><i class="lg-am"></i>Amavasya</span>
+        </div>
       </div>
     </section>
 
@@ -500,6 +471,8 @@
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
-  <script src="{% static 'panchang.js' %}?v=12"></script>
+  <script src="{% static 'weather-sky.js' %}?v=3"></script>
+  <script src="{% static 'weather-ui.js' %}?v=5"></script>
+  <script src="{% static 'panchang.js' %}?v=16"></script>
 </body>
 </html>

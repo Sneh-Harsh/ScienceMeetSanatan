@@ -3,11 +3,43 @@
 (function () {
   var zone = document.getElementById("laserZone");
 
-  function boot() {
+  // Heavy effects are separate files that are fetched and started only when their section is about to be seen, so the first
+  // screen is not competing with effects that are still far down the page. File URLs come from the page (fx-assets).
+  var ASSETS = {};
+  try { ASSETS = JSON.parse(document.getElementById("fx-assets").textContent); } catch (e) { /* the page still works without them */ }
+  var loading = {};
+  function loadScript(key) {
+    if (!ASSETS[key]) return Promise.reject(new Error("missing asset " + key));
+    if (!loading[key]) {
+      loading[key] = new Promise(function (resolve, reject) {
+        var tag = document.createElement("script");
+        tag.src = ASSETS[key];
+        tag.async = true;
+        tag.onload = resolve;
+        tag.onerror = reject;
+        document.head.appendChild(tag);
+      });
+    }
+    return loading[key];
+  }
+  function whenNear(el, margin, fn) {
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) { fn(); return; }
+    var io = new IntersectionObserver(function (entries) {
+      if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); fn(); }
+    }, { rootMargin: margin });
+    io.observe(el);
+  }
+  var coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  var conn = navigator.connection || {};
+  var saveData = !!conn.saveData;
+  var weakDevice = saveData || (navigator.deviceMemory && navigator.deviceMemory <= 4) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+
+  function startLaser() {
     var grid = zone && zone.querySelector(".app-grid");
     var lead = grid && grid.querySelector(".app-tile--hero");
     if (lead && window.LaserFlow) {
-      var coarse = window.matchMedia("(pointer: coarse)").matches;
+      var coarse = coarsePointer;
       // where across the section the beam falls: the empty right end of the Book a Pandit card on desktop, the middle on phones
       var aim = function () {
         var z = zone.getBoundingClientRect(), c = lead.getBoundingClientRect();
@@ -33,7 +65,7 @@
         },
         beamPosition: aim(), color: "#3847ff", intensity: 1.5, flare: 1.3, spread: 3.4, spill: 0.8, fog: 0.2, dust: 1.6,
         beamWidth: 1.5, streaks: 1.5, dots: 1, pulse: 1.5, speed: 1.5, seed: 3, mouseInteraction: !coarse, intro: true,
-        dpr: coarse ? 0.75 : 1
+        dpr: coarse ? 0.6 : weakDevice ? 0.8 : 1, maxFps: coarse || weakDevice ? 30 : 60
       });
       if ("ResizeObserver" in window) {
         new ResizeObserver(function () {
@@ -43,28 +75,42 @@
         }).observe(zone);
       }
     }
-    startRashiCircle();
-    startHeroShards();
+  }
+
+  function boot() {
+    // laser beam: only once the feature section is within a screen or so of the viewport
+    if (zone && !(saveData && coarsePointer)) whenNear(zone, "900px 0px", function () { loadScript("laser").then(startLaser).catch(function () {}); });
+    // rashifal carousel + its electric borders
+    whenNear(document.getElementById("raashiStage"), "700px 0px", function () {
+      Promise.all([loadScript("electric"), loadScript("circular")]).then(startRashiCircle).catch(function () {});
+    });
   }
 
   // ---- hero background: AeroShards (replaces the old looping video) ---------------------------------------------------------
   // The real React Bits component (WebGPU, run through a small hooks shim) is used where the browser supports WebGPU; the WebGL2
   // look-alike in aero-shards.js takes over everywhere else, and if the GPU version reports an error.
+  var small = window.innerWidth < 700;
   var SHARD_PROPS = {
-    shardColor: "#896ABD", accentColor: "#A855F7", placement: "full", material: "glass", markers: "sacred", count: 1300,
-    depthOfField: 0.75, vignette: 0.3, mouseInteraction: true, pulseOnClick: true, holdToGather: true, lightMode: false,
+    shardColor: "#896ABD", accentColor: "#A855F7", placement: "full", material: "glass", markers: "sacred",
+    count: weakDevice ? 380 : small ? 560 : 1000,
+    depthOfField: 0.75, vignette: 0.3, mouseInteraction: !coarsePointer, pulseOnClick: true, holdToGather: true, lightMode: false,
     shardSize: 1, spread: 1, twist: 1, billow: 1, speed: 1, scale: 1, glow: 0.35, grain: 0.06, intro: true, mouseStrength: 0.6,
-    parallax: 0.5, paused: false
+    parallax: coarsePointer ? 0 : 0.5, paused: false,
+    dpr: small || weakDevice ? 1.25 : 1.5
   };
 
   function startHeroShards() {
     var art = document.getElementById("heroArt");
     var hero = art && art.closest(".hero-observatory");
-    if (!art) return;
+    if (!art || saveData) return;       // data-saver: the still picture behind the hero is enough
+    // the page already shows a poster of this scene, so the live version simply fades in over it once it has drawn
+    var reveal = function () { setTimeout(function () { art.classList.add("shards-ready"); }, 900); };
     var fallback = function () {
-      if (!window.AeroShards || art.classList.contains("has-fallback")) return;
-      var f = window.AeroShards.attach(art, Object.assign({ eventTarget: hero || art }, SHARD_PROPS));
-      if (f) art.classList.add("has-shards", "has-fallback");
+      if (art.classList.contains("has-fallback")) return;
+      loadScript("shardsFallback").then(function () {
+        var f = window.AeroShards && window.AeroShards.attach(art, Object.assign({ eventTarget: hero || art }, SHARD_PROPS));
+        if (f) { art.classList.add("has-shards", "has-fallback"); reveal(); }
+      }).catch(function () {});
     };
     var tryGpu = function () {
       if (!window.AeroShardsGPU || !("gpu" in navigator)) { fallback(); return; }
@@ -73,15 +119,19 @@
         onError: function (err) {
           if (window.console) console.warn("AeroShards (WebGPU) failed, using the WebGL version:", err && err.message);
           if (mounted) { mounted.destroy(); mounted = null; }
-          art.classList.remove("has-shards");
+          art.classList.remove("has-shards", "shards-ready");
           fallback();
         }
       }));
       art.classList.add("has-shards");
+      reveal();
     };
-    if (window.AeroShardsGPU || !document.querySelector('script[type="module"][src*="aero-shards-gpu"]')) tryGpu();
-    else window.addEventListener("aeroshards-ready", tryGpu, { once: true });
-    setTimeout(function () { if (!window.AeroShardsGPU && !art.classList.contains("has-shards")) fallback(); }, 4000);
+    if (window.AeroShardsGPU) tryGpu();
+    else if (!("gpu" in navigator) || !ASSETS.gpuModule) fallback();
+    else {
+      // loaded with import() so that it never holds up the page's own start-up; the file was already fetched by modulepreload
+      import(ASSETS.gpuModule).then(tryGpu).catch(fallback);
+    }
   }
 
   // ---- Today's Rashifal: the real cards on a circular scroll, each with a live electric border ------------------------------
@@ -105,7 +155,7 @@
       if (circle) { circle.refresh(); return; }
       circle = window.CircularCards.attach(track, {
         selector: ":scope > .raashi-card", label: "Today’s rashifal for the twelve rashis",
-        bend: 3, scrollEase: 0.05, gap: 0.26, wave: 1, fadeEdges: 0.12, scrollSpeed: 2, snap: true, openOnClick: true, intro: true,
+        bend: 3, scrollEase: 0.13, gap: 0.26, wave: 1, fadeEdges: 0.12, scrollSpeed: 2, snap: true, openOnClick: true, intro: true,
         // on a phone the cards are narrower and curve more, so a slice of the neighbour on each side shows and it reads as a wheel, without the cards overlapping
         responsive: function (w) {
           return w < 700 ? { bend: 5, gap: 0.12, fadeEdges: 0.04, openScale: 1.4 } : { bend: 3, gap: 0.26, fadeEdges: 0.12, openScale: 1.3 };
@@ -122,5 +172,6 @@
     setup();
   }
 
+  startHeroShards();     // right away: the poster is already on screen, so there is no reason to wait for the load event
   if (document.readyState === "complete") boot(); else window.addEventListener("load", boot);
 })();

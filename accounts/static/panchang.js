@@ -940,85 +940,17 @@ function startGlyphField(){
 }
 
 function setWeather(kind){
-  if(!els.clouds || !els.rain || !els.sky) return;
-  els.clouds.innerHTML = "";
-  els.rain.innerHTML = "";
-  if(els.birds) els.birds.innerHTML = "";
-
-  els.sky.classList.toggle("is-rain", kind === "rain");
-  els.sky.classList.toggle("is-cloudy", kind === "cloudy");
-  els.sky.classList.toggle("is-sunny", kind === "clear");
-
-  if(els.root){
-    els.root.dataset.weather = kind;
-  }
-
-  if(els.weatherPill){
-    const label = kind === "rain" ? "Rain" : kind === "cloudy" ? "Cloudy" : "Sunny";
-    els.weatherPill.textContent = `Weather: ${label}`;
-  }
-
-  if(kind === "cloudy" || kind === "rain"){
-    const defsLR = [
-      { top: "-2%", left: "-65%", opacity: 0.88, dur: 34, scale: 1.12 },
-      { top: "8%", left: "-75%", opacity: 0.74, dur: 44, scale: 1.28 },
-      { top: "18%", left: "-70%", opacity: 0.56, dur: 56, scale: 1.08 },
-      { top: "2%", left: "-55%", opacity: 0.44, dur: 62, scale: 1.02 },
-    ];
-    const defsRL = [
-      { top: "1%", left: "95%", opacity: 0.82, dur: 38, scale: 1.20 },
-      { top: "12%", left: "105%", opacity: 0.66, dur: 52, scale: 1.34 },
-      { top: "20%", left: "110%", opacity: 0.52, dur: 64, scale: 1.10 },
-      { top: "6%", left: "100%", opacity: 0.42, dur: 70, scale: 1.02 },
-    ];
-
-    function addCloud(def, i, reverse){
-      const c = document.createElement("div");
-      c.className = reverse ? "cloud cloud--rl" : "cloud";
-      c.style.top = def.top;
-      c.style.left = def.left;
-      c.style.opacity = String(def.opacity);
-      c.style.animationDuration = `${def.dur}s`;
-      c.style.setProperty("--c-scale", String(def.scale));
-      c.style.setProperty("--c-drift-y", `${(i % 2 === 0 ? 10 : -10)}px`);
-      c.style.animationDelay = `${-i * 8}s`;
-      els.clouds.appendChild(c);
-    }
-
-    defsLR.forEach((d, i)=> addCloud(d, i, false));
-    defsRL.forEach((d, i)=> addCloud(d, i, true));
-  }
-
-  if(kind === "rain"){
-    const far = document.createElement("div");
-    far.className = "rain-layer rain--far";
-    const mid = document.createElement("div");
-    mid.className = "rain-layer rain--mid";
-    const near = document.createElement("div");
-    near.className = "rain-layer rain--near";
-    const mist = document.createElement("div");
-    mist.className = "rain-mist";
-    els.rain.appendChild(far);
-    els.rain.appendChild(mid);
-    els.rain.appendChild(near);
-    els.rain.appendChild(mist);
-  }
-
-  if(kind === "clear" && els.birds){
-    for(let i=0;i<6;i++){
-      const b = document.createElement("div");
-      b.className = "bird";
-      b.style.top = `${12 + Math.random() * 26}%`;
-      b.style.left = `${-10 - Math.random() * 30}%`;
-      b.style.opacity = String(0.55 + Math.random() * 0.4);
-      b.style.animationDuration = `${12 + Math.random() * 12}s`;
-      b.style.animationDelay = `${Math.random() * 6}s`;
-      els.birds.appendChild(b);
-    }
-  }
+  // The sky itself (clouds, rain, sun, moon) is drawn by weather-sky.js from the full forecast; this keeps the page flag in step.
+  if(els.root) els.root.dataset.weather = kind;
 }
 
 async function fetchWeather(lat, lon){
+  if(window.SmsWeather){
+    try{
+      const live = await window.SmsWeather.load(lat, lon);
+      if(live && live.tzName) return live;
+    }catch{ /* fall through to the plain lookup below */ }
+  }
   try{
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,cloud_cover&timezone=auto`;
     const res = await fetch(url);
@@ -1064,31 +996,42 @@ function setDayNight(now, sunrise, sunset){
 }
 
 function moonSvgMarkup({illumination, waxing, size=92, prefix="moon"}){
-  const frac = clamp01(Number(illumination || 0));
+  // Lit part = the lit limb (a half circle) joined to the terminator (half an ellipse that narrows toward the half moon).
+  const f = clamp01(Number(illumination || 0));
   const r = 50;
-  const k = 1 - 2 * frac;
-  const offset = (waxing ? 1 : -1) * k * r;
-  const glowId = `glow_${prefix}`;
-  const maskId = `phaseMask_${prefix}`;
+  const rx = Math.abs(1 - 2 * f) * r;
+  const sweep = f < 0.5 ? 0 : 1;
+  const lit = `M60 10 A${r} ${r} 0 0 1 60 110 A${rx.toFixed(2)} ${r} 0 0 ${sweep} 60 10 Z`;
+  const flip = waxing ? "" : ` transform="translate(120 0) scale(-1 1)"`;
+  const base = `base_${prefix}`;
+  const glow = `glow_${prefix}`;
+  const halo = `halo_${prefix}`;
   return `
   <svg width="${size}" height="${size}" viewBox="0 0 120 120" aria-label="Moon phase" role="img">
     <defs>
-      <radialGradient id="${glowId}" cx="50%" cy="40%" r="60%">
-        <stop offset="0%" stop-color="rgba(255,255,255,.95)"></stop>
-        <stop offset="60%" stop-color="rgba(220,230,255,.70)"></stop>
-        <stop offset="100%" stop-color="rgba(170,190,255,.25)"></stop>
+      <radialGradient id="${base}" cx="50%" cy="45%" r="60%">
+        <stop offset="0%" stop-color="#2a3556"></stop>
+        <stop offset="100%" stop-color="#0f1730"></stop>
       </radialGradient>
-      <mask id="${maskId}">
-        <rect x="0" y="0" width="120" height="120" fill="black"></rect>
-        <circle cx="60" cy="60" r="${r}" fill="white"></circle>
-        <circle cx="${60 + offset}" cy="60" r="${r}" fill="black"></circle>
-      </mask>
+      <radialGradient id="${glow}" cx="38%" cy="36%" r="75%">
+        <stop offset="0%" stop-color="#ffffff"></stop>
+        <stop offset="65%" stop-color="#e9edf7"></stop>
+        <stop offset="100%" stop-color="#b9c4de"></stop>
+      </radialGradient>
+      <radialGradient id="${halo}" cx="50%" cy="50%" r="50%">
+        <stop offset="70%" stop-color="rgba(190,205,255,.28)"></stop>
+        <stop offset="100%" stop-color="rgba(190,205,255,0)"></stop>
+      </radialGradient>
+      <clipPath id="clip_${prefix}"><path d="${lit}"${flip}></path></clipPath>
     </defs>
-    <circle cx="60" cy="60" r="${r}" fill="rgba(15,23,42,.85)"></circle>
-    <g mask="url(#${maskId})">
-      <circle cx="60" cy="60" r="${r}" fill="url(#${glowId})"></circle>
+    <circle cx="60" cy="60" r="58" fill="url(#${halo})"></circle>
+    <circle cx="60" cy="60" r="${r}" fill="url(#${base})"></circle>
+    <path d="${lit}"${flip} fill="url(#${glow})"></path>
+    <g clip-path="url(#clip_${prefix})" fill="rgba(120,135,170,.28)">
+      <circle cx="46" cy="44" r="7"></circle><circle cx="72" cy="62" r="9"></circle>
+      <circle cx="55" cy="80" r="5"></circle><circle cx="80" cy="38" r="4"></circle>
     </g>
-    <circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(200,220,255,.10)" stroke-width="2"></circle>
+    <circle cx="60" cy="60" r="${r}" fill="none" stroke="rgba(200,220,255,.18)" stroke-width="1.5"></circle>
   </svg>
   `;
 }
@@ -1158,6 +1101,9 @@ function hydrateUI(p){
   if(els.heroMetricTithi) els.heroMetricTithi.textContent = p.tithi || "—";
   if(els.heroMetricNak) els.heroMetricNak.textContent = p.nakshatra || "—";
   if(els.heroMetricRahu) els.heroMetricRahu.textContent = formatRangeShort(p.rahu_start, p.rahu_end, tzName);
+  const tileSub = (id, text)=>{ const n = document.getElementById(id); if(n) n.textContent = text; };
+  tileSub("heroTithiSub", `Ends ${formatDateTime12(p.tithi_end, tzName)}`);
+  tileSub("heroNakSub", `Ends ${formatDateTime12(p.nak_end, tzName)}`);
 
   if(els.sunriseVal) els.sunriseVal.textContent = formatTime(p.sunrise, tzName);
   if(els.sunsetVal) els.sunsetVal.textContent = formatTime(p.sunset, tzName);
@@ -1181,6 +1127,8 @@ function hydrateUI(p){
   }
 
   if(els.rahuVal) els.rahuVal.textContent = `${formatTime(p.rahu_start, tzName)}–${formatTime(p.rahu_end, tzName)}`;
+  window.__panchangMoon = { frac: clamp01(p.moon_phase), waxing: !!p.moon_waxing };
+  if(window.SmsWeather) window.SmsWeather.refreshSky();
   hydrateReminders(p);
   hydrateTimeline(p);
   hydrateEnergyFlux(p);
@@ -1373,6 +1321,41 @@ const FESTIVAL_VISUALS = [
   { match: /karwa|amavasya/i, theme: "dark", motif: "रात्रि" },
   { match: /purnima|raksha|guru purnima/i, theme: "moon", motif: "चंद्र" },
 ];
+
+// Which full-bleed illustration (static/images/festivals/<key>.svg) represents a festival on its calendar card. First match wins.
+const FESTIVAL_ART = [
+  [/dhanteras|diwali|deepavali|narak chaturdashi|lakshmi/i, "diya"],
+  [/holika/i, "holika"],
+  [/holi/i, "holi"],
+  [/ganga dussehra/i, "ganga"],
+  [/dussehra|vijayadashami/i, "dussehra"],
+  [/ram navami/i, "rama"],
+  [/durga ashtami|maha navami|ashtami/i, "durga"],
+  [/navratri|ghatasthapana/i, "kalash"],
+  [/shivratri|shivaratri/i, "shiva"],
+  [/janmashtami|govardhan|krishna/i, "krishna"],
+  [/ganesh/i, "ganesha"],
+  [/makar sankranti|pongal|uttarayan|lohri/i, "grain"],
+  [/karwa/i, "karwa"],
+  [/purnima/i, "moon"],
+  [/raksha bandhan/i, "rakhi"],
+  [/bhai dooj/i, "thali"],
+  [/hanuman/i, "hanuman"],
+  [/pitru|amavasya/i, "pitru"],
+  [/ratha saptami/i, "sunrise"],
+  [/chhath/i, "chhath"],
+  [/ekadashi|anant chaturdashi|vishnu/i, "vishnu"],
+  [/akshaya/i, "gold"],
+  [/vasant panchami|saraswati/i, "saraswati"],
+  [/nag panchami/i, "nag"],
+  [/rath yatra|jagannath/i, "rath"],
+];
+
+function festivalArtKey(name){
+  const n = String(name || "");
+  const hit = FESTIVAL_ART.find(([re])=> re.test(n));
+  return hit ? hit[1] : "glow";
+}
 
 function getFestivalVisual(item){
   const name = String(item?.name || "");
@@ -1589,24 +1572,32 @@ async function fetchMarriageYear(year){
 function renderKharmas(data){
   if(!els.kharmasTimeline) return;
   const intervals = Array.isArray(data?.intervals) ? data.intervals : [];
-  const active = data?.active || intervals.find((item)=> item?.is_active) || null;
-  if(els.kharmasStatus) els.kharmasStatus.textContent = active ? "Active now" : "Year map";
-  if(els.kharmasTitle) els.kharmasTitle.textContent = active?.name || `Kharmas windows • ${getAuspiciousYear()}`;
+  // Trust the clock, not a stored flag: a window is active only while now falls inside it.
+  const now = Date.now();
+  const inside = (item)=> Date.parse(item?.start) <= now && now <= Date.parse(item?.end);
+  const active = intervals.find(inside) || null;
+  const upcoming = active ? null : (intervals.filter((item)=> Date.parse(item?.start) > now).sort((a, b)=> Date.parse(a.start) - Date.parse(b.start))[0] || null);
+  const focus = active || upcoming;
+  if(els.kharmasStatus) els.kharmasStatus.textContent = active ? "Active now" : (upcoming ? "Not active" : "Year map");
+  if(els.kharmasTitle) els.kharmasTitle.textContent = active ? active.name : (upcoming ? `Next: ${upcoming.name}` : `Kharmas windows • ${getAuspiciousYear()}`);
   if(els.kharmasMeta){
-    els.kharmasMeta.textContent = active
-      ? `${active.start_label} → ${active.end_label}`
+    els.kharmasMeta.textContent = focus
+      ? `${focus.start_label} → ${focus.end_label}`
       : (intervals[0] ? `${intervals.length} solar restraint windows mapped` : "No kharmas interval found.");
   }
   if(els.kharmasNote){
     els.kharmasNote.textContent = active
       ? `${active.name} is active while Surya transits ${active.sun_sign}. This phase traditionally pauses marriages and major saṃskāras until ${active.end_label}.`
-      : "Kharmas begins when Surya enters Dhanu or Meena and ends with Makara or Mesha Sankranti.";
+      : (upcoming
+        ? `Kharmas is not in effect today. ${upcoming.name} begins when Surya enters ${upcoming.sun_sign} and ends with ${upcoming.end_sign} Sankranti. Marriages and major saṃskāras are usually avoided during it.`
+        : "Kharmas begins when Surya enters Dhanu or Meena and ends with Makara or Mesha Sankranti.");
   }
+  const stateOf = (item)=> inside(item) ? "Active now" : (Date.parse(item.start) > now ? (item.remaining_label || "Upcoming") : "Completed");
   els.kharmasTimeline.innerHTML = intervals.map((item)=> `
-    <article class="kharmas-item${item.is_active ? " is-active" : ""}">
+    <article class="kharmas-item${inside(item) ? " is-active" : ""}">
       <div class="kharmas-item__head">
         <span class="kharmas-item__badge">${escapeHtml(item.name)}</span>
-        <span class="kharmas-item__status">${escapeHtml(item.remaining_label || "")}</span>
+        <span class="kharmas-item__status">${escapeHtml(stateOf(item))}</span>
       </div>
       <div class="kharmas-item__dates">${escapeHtml(item.start_label)} → ${escapeHtml(item.end_label)}</div>
       <div class="kharmas-item__meta">Surya ${escapeHtml(item.sun_sign)} → ${escapeHtml(item.end_sign)} • ${escapeHtml(String(item.duration_days || "—"))} days</div>
@@ -1824,6 +1815,11 @@ function renderCalendar(year, monthIndex){
   calendarState.monthIndex = monthIndex;
   els.calMonth.value = String(monthIndex);
   els.calYear.value = String(year);
+  const monthLabel = document.querySelector("#calMonthLabel");
+  if(monthLabel){
+    monthLabel.textContent = new Date(year, monthIndex, 1).toLocaleDateString("en-US", { month: "long" });
+    monthLabel.insertAdjacentHTML("beforeend", `<b>${year}</b>`);
+  }
 
   const token = ++calendarState.activeMonthToken;
   els.calGrid.innerHTML = "";
@@ -1953,6 +1949,8 @@ function hydrateCalendarCell(dateStr, p){
       const anim = String(coreItems[0]?.anim || "glow");
       cell.dataset.coreAnim = anim;
       cell.dataset.coreName = String(coreItems[0]?.name || "");
+      cell.dataset.art = festivalArtKey(coreItems[0]?.name);
+      cell.title = coreItems.map((f)=> String(f?.name || "")).filter(Boolean).join(" • ");
       const visual = getFestivalVisual(coreItems[0]);
       cell.classList.add(`festival-theme--${visual.theme}`);
       const fill = document.createElement("div");
@@ -1966,6 +1964,8 @@ function hydrateCalendarCell(dateStr, p){
     }else{
       delete cell.dataset.coreAnim;
       delete cell.dataset.coreName;
+      delete cell.dataset.art;
+      cell.removeAttribute("title");
     }
 
     coreItems.slice(0, 3).forEach((f)=>{
