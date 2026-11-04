@@ -6,7 +6,7 @@ from panchang.urls import urlpatterns as panchang_urls
 from kundali.urls import urlpatterns as kundali_urls
 from pandit.urls import urlpatterns as pandit_urls
 from astrology_consultation.urls import urlpatterns as astrology_consultation_urls
-from gita_site.views import healthz
+from gita_site.views import healthz, robots_txt, sitemap_xml
 
 from accounts.views import (
     api_leaderboard,
@@ -43,6 +43,8 @@ from accounts.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('healthz/', healthz, name='healthz'),
+    path('sitemap.xml', sitemap_xml, name='sitemap'),
+    path('robots.txt', robots_txt, name='robots'),
     path('api/', include('accounts.urls')),
     path('api/', include('personalization.urls')),
     path('api/', include('library.urls')),
