@@ -1,4 +1,11 @@
 (function () {
+/* Browsers can throw on storage access (blocked cookies, some in-app webviews): never let that stop the page. */
+const smsLS = {
+  get(k){ try{ return localStorage.getItem(k); }catch{ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch{} },
+  remove(k){ try{ localStorage.removeItem(k); }catch{} },
+};
+
   const init = () => {
     const root = document.getElementById("digitalDaanpatra");
     if (!root) return;
@@ -102,10 +109,10 @@
     };
 
     const getVariant = () => {
-      let variant = localStorage.getItem(STORAGE.variant);
+      let variant = smsLS.get(STORAGE.variant);
       if (!variant) {
         variant = Math.random() > 0.5 ? "offer" : "support";
-        localStorage.setItem(STORAGE.variant, variant);
+        smsLS.set(STORAGE.variant, variant);
       }
       return variant;
     };
@@ -144,7 +151,7 @@
     }
 
     function getStoredAmount() {
-      const value = localStorage.getItem(STORAGE.selectedAmount);
+      const value = smsLS.get(STORAGE.selectedAmount);
       const amount = Number(value || 0);
       return Number.isFinite(amount) && amount > 0 ? amount : 0;
     }
@@ -222,11 +229,11 @@
       if (selectedAmount > 0) {
         amountPreview.textContent = `${formatAmount(selectedAmount)} selected`;
         selectionNote.textContent = activeMeaning;
-        localStorage.setItem(STORAGE.selectedAmount, String(selectedAmount));
+        smsLS.set(STORAGE.selectedAmount, String(selectedAmount));
       } else {
         amountPreview.textContent = "No amount selected";
         selectionNote.textContent = "Select an amount to prefill your UPI donation link.";
-        localStorage.removeItem(STORAGE.selectedAmount);
+        smsLS.remove(STORAGE.selectedAmount);
       }
 
       customAmountInput.value = selectedAmount > 0 ? String(selectedAmount) : "";
@@ -283,13 +290,15 @@
         return false;
       }
 
-      const existing = JSON.parse(localStorage.getItem(STORAGE.donorNotes) || "[]");
+      let existing = [];
+      try { existing = JSON.parse(smsLS.get(STORAGE.donorNotes) || "[]"); } catch (e) { existing = []; }
+      if (!Array.isArray(existing)) existing = [];
       existing.unshift({
         note,
         amount: selectedAmount || null,
         savedAt: new Date().toISOString(),
       });
-      localStorage.setItem(STORAGE.donorNotes, JSON.stringify(existing.slice(0, 10)));
+      smsLS.set(STORAGE.donorNotes, JSON.stringify(existing.slice(0, 10)));
       window.dispatchEvent(new CustomEvent("sms:daan-note-saved", { detail: { note, amount: selectedAmount || null } }));
       sendAnalytics("daan_note_saved", { hasNote: true });
       if (!silent) showToast("Note saved for the donor wall hook.");
@@ -319,7 +328,7 @@
 
     const shouldAutoOpen = () => {
       if (otherDialogOpen()) return false;
-      const dismissedAt = Number(localStorage.getItem(STORAGE.dismissAt) || 0);
+      const dismissedAt = Number(smsLS.get(STORAGE.dismissAt) || 0);
       const sessionCount = Number(sessionStorage.getItem(STORAGE.autoCount) || 0);
       const elapsed = Date.now() - dismissedAt;
       return sessionCount < SESSION_LIMIT && (!dismissedAt || elapsed >= AUTO_REOPEN_COOLDOWN_MS);
@@ -331,7 +340,7 @@
     };
 
     const markDismissed = () => {
-      localStorage.setItem(STORAGE.dismissAt, String(Date.now()));
+      smsLS.set(STORAGE.dismissAt, String(Date.now()));
     };
 
     const open = ({ auto = false, source = "manual" } = {}) => {

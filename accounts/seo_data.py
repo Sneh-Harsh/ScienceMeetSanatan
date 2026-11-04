@@ -173,3 +173,27 @@ GITA = [
      "विषयों का चिन्तन करने वाले पुरुष की उनमें आसक्ति हो जाती है, आसक्ति से कामना और कामना से क्रोध उत्पन्न होता है।",
      "Dwelling on sense objects, a person develops attachment to them; from attachment springs desire, and from desire anger arises."),
 ]
+
+
+# festival name (lower case, substring) -> puja slug on the pandit booking pages
+FESTIVAL_PUJA = [
+    ("diwali", "lakshmi"), ("dhanteras", "lakshmi"), ("sharad purnima", "lakshmi"),
+    ("ganesh chaturthi", "ganesh"), ("sankashti", "ganesh"),
+    ("shivratri", "rudrabhishek"), ("shravan", "rudrabhishek"),
+    ("purnima", "satyanarayan"), ("satyanarayan", "satyanarayan"),
+    ("navratri", "navagraha"), ("griha", "griha-pravesh"),
+]
+
+
+def puja_for_festival(name: str):
+    low = (name or "").lower()
+    for needle, slug in FESTIVAL_PUJA:
+        if needle in low:
+            return slug, PUJA_LABELS.get(slug, slug.replace("-", " ").title())
+    return None
+
+
+PUJA_LABELS = {
+    "lakshmi": "Lakshmi Puja", "ganesh": "Ganesh Puja", "rudrabhishek": "Rudrabhishek",
+    "satyanarayan": "Satyanarayan Puja", "navagraha": "Navagraha Shanti", "griha-pravesh": "Griha Pravesh Puja",
+}

@@ -11,6 +11,7 @@
 </table></div>
 {% if f.description %}<p>{{ f.description }}</p>{% endif %}
 <p class="small">Dates are for Patna, Bihar (IST) from Drik Panchang. Timings differ by city; confirm the exact muhurat with your pandit.</p>
-<p><a class="cta" href="/pandits/">Book a pandit for the puja</a> <a class="cta alt" href="/panchang/">Today's Panchang</a></p>
+<p>{% if puja %}<a class="cta" href="/pandit-for-{{ puja.0 }}-in-patna/">Book a pandit for {{ puja.1 }}</a>{% else %}<a class="cta" href="/pandits/">Book a pandit for the puja</a>{% endif %}
+<a class="cta alt" href="/festivals/{{ f.slug }}.ics">Add to calendar</a> <a class="cta alt" href="/panchang/">Today's Panchang</a></p>
 {% if related %}<h2>More festivals in {{ f.year }}</h2><ul>{% for r in related %}<li><a href="/festivals/{{ r.slug }}/">{{ r.name }}</a>: {{ r.date }}</li>{% endfor %}</ul>{% endif %}
 {% endblock %}

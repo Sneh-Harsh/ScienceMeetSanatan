@@ -126,7 +126,7 @@
   }
   function renderFlow() {
     var it = S.item, label = KL.TYPE_LABEL[it.category] || it.category || "";
-    var h = '<header class="kr-title"><small>' + esc(label) + "</small><h1>" + esc(it.name) + "</h1>" + (it.deity ? "<i>" + esc(it.deity) + "</i>" : "") + (it.singer ? "<em>Sung by " + esc(it.singer) + "</em>" : "") + '<span class="kr-orn" aria-hidden="true">❖</span>' + titleActs() + "</header>";
+    var h = '<header class="kr-title"><small>' + esc(label) + "</small><h2 class=\"kr-h1\">" + esc(it.name) + "</h2>" + (it.deity ? "<i>" + esc(it.deity) + "</i>" : "") + (it.singer ? "<em>Sung by " + esc(it.singer) + "</em>" : "") + '<span class="kr-orn" aria-hidden="true">❖</span>' + titleActs() + "</header>";
     var cur = -1;
     S.stanzas.forEach(function (st, n) {
       if (st.sec !== cur) {

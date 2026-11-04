@@ -8,7 +8,7 @@
   const SESSION_SHOWS_KEY = `${STORAGE_PREFIX}.sessionShows`;
   const SESSION_CONTENT_COUNT_KEY = `${STORAGE_PREFIX}.contentClicks`;
   const INITIAL_SHOW_DELAY_MS = 1200;
-  const DEFAULT_DELAY_MS = 20 * 1000;
+  const DEFAULT_DELAY_MS = 45 * 1000;
   const DISMISS_FOR_MS = 10 * 60 * 1000;
   const DEEP_INTERACTION_DELAY_MS = 25 * 60 * 1000;
   const MAX_SHOWS_PER_SESSION = 2;
@@ -352,11 +352,7 @@
     // so skip the immediate trigger, wait longer, and require deeper scroll.
     const compact = window.matchMedia("(max-width: 760px)").matches;
 
-    if (!compact) {
-      timerId = window.setTimeout(function () {
-        tryShow("page_load");
-      }, INITIAL_SHOW_DELAY_MS);
-    }
+    // Never greet a visitor with a dialog: let them see the page first (deep scroll or a long visit triggers it).
 
     fallbackTimerId = window.setTimeout(function () {
       tryShow("timer_20s");
@@ -366,7 +362,7 @@
       const doc = document.documentElement;
       const total = Math.max(doc.scrollHeight - window.innerHeight, 1);
       const progress = (window.scrollY / total) * 100;
-      if (progress >= (compact ? 60 : 40)) {
+      if (progress >= (compact ? 70 : 60)) {
         tryShow("scroll_40");
         window.removeEventListener("scroll", onScroll);
       }

@@ -65,7 +65,7 @@
 .kr-sec__t{margin:.3em 0 .9em;font-size:1.2em;font-weight:650;text-align:center;line-height:1.25;break-after:avoid}
 .kr-title{break-after:column;display:flex;flex-direction:column;align-items:center;text-align:center;padding:16% 4% 0;gap:.5em}
 .kr-title small{font:700 .52em "Inter",sans-serif;letter-spacing:.26em;text-transform:uppercase;color:var(--accent)}
-.kr-title h1{margin:.2em 0 0;font-size:1.9em;line-height:1.12;font-weight:600;overflow-wrap:break-word}
+.kr-title h1,.kr-title .kr-h1{margin:.2em 0 0;font-size:1.9em;line-height:1.12;font-weight:600;overflow-wrap:break-word}
 .kr-title i{font-style:normal;font-size:.95em;color:var(--muted)}
 .kr-title em{font-style:normal;font:500 .62em "Inter",sans-serif;color:var(--muted)}
 .kr-orn{margin-top:1.2em;font-size:1.1em;color:var(--accent);opacity:.8}

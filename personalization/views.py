@@ -62,6 +62,10 @@ class InteractionCreateView(generics.CreateAPIView):
     serializer_class = ContentInteractionSerializer
     permission_classes = [permissions.AllowAny]
 
+    @rate_limited('interaction_create', 300, 3600)
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
     def perform_create(self, serializer):
         actor = resolve_actor(self.request)
         track_interaction(actor, **serializer.validated_data)
@@ -72,7 +76,10 @@ class RecommendationView(APIView):
 
     def get(self, request, recommendation_type: str):
         actor = resolve_actor(request)
-        return Response(RecommendationService.build_recommendations_for_actor(actor, recommendation_type))
+        try:
+            return Response(RecommendationService.build_recommendations_for_actor(actor, recommendation_type))
+        except KeyError:
+            return Response({'detail': 'Unknown recommendation type.'}, status=404)
 
 
 class ReviewCreateView(generics.CreateAPIView):

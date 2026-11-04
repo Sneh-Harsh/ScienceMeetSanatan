@@ -2,15 +2,57 @@ from datetime import date as Date, timedelta
 from functools import lru_cache
 from pathlib import Path
 import json
+import logging
+import math
+import time
+import re
+from zoneinfo import available_timezones
 
 from django.conf import settings
 from django.core.cache import cache
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
+from core.ratelimit import rate_limited
+
 from .auspicious import kharmas_for_year, marriage_windows_for_year, refresh_kharmas_state, refresh_marriage_state
 from .calculations import build_panchang, build_panchang_for_date
 from .festival_rules import rules_version as festival_rules_version
+
+
+logger = logging.getLogger(__name__)
+_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+@lru_cache(maxsize=1)
+def _timezones():
+    return frozenset(available_timezones())
+
+
+def _geo(request, *, places: int = 2):
+    """Validated (lat, lon, tz) from the query string, or None when any of them is unusable.
+
+    Coordinates are rounded to ~1 km so a caller cannot force a fresh calculation (and a new cache row) for
+    every tiny variation, and the timezone must be a real IANA name."""
+    tz = (request.GET.get("tz") or "Asia/Kolkata").strip()
+    if tz not in _timezones():
+        return None
+    try:
+        lat = float(request.GET.get("lat") or 28.6139)
+        lon = float(request.GET.get("lon") or 77.2090)
+    except (TypeError, ValueError):
+        return None
+    if not (math.isfinite(lat) and math.isfinite(lon)) or not (-90 <= lat <= 90) or not (-180 <= lon <= 180):
+        return None
+    return round(lat, places), round(lon, places), tz
+
+
+def _year(request) -> int:
+    try:
+        year = int(request.GET.get("year") or "")
+    except (TypeError, ValueError):
+        year = Date.today().year
+    return max(2000, min(2100, year))
 
 
 DAY_CACHE_TIMEOUT = 60 * 60 * 24 * 14
@@ -79,6 +121,44 @@ def _cached_panchang_for_date(*, date: str, lat_r: float, lon_r: float, tz_name:
 
 
 @require_GET
+@rate_limited('panchang_month', 120, 3600)
+def panchang_month_api(request):
+    """GET /api/panchang/month/?year=YYYY&month=M&lat=..&lon=..&tz=..
+
+    The whole month in one request (the calendar used to make one request per day). Each day goes through the same
+    cache as /api/panchang, so the payloads are identical."""
+    try:
+        year, month = int(request.GET.get("year")), int(request.GET.get("month"))
+        first = Date(year, month, 1)
+    except (TypeError, ValueError):
+        return JsonResponse({"error": "Invalid year or month."}, status=400)
+    if not 2000 <= year <= 2100:
+        return JsonResponse({"error": "Invalid year or month."}, status=400)
+    geo = _geo(request, places=3)
+    if geo is None:
+        return JsonResponse({"error": "Invalid lat/lon or timezone."}, status=400)
+    lat, lon, tz = geo
+    days, d = {}, first
+    started = time.monotonic()
+    try:
+        # serverless functions are killed after ~10 s: stop at a 5 s budget and let the browser fetch the remaining days
+        while d.month == month and time.monotonic() - started < 5.0:
+            days[str(d)] = _cached_panchang_for_date(
+                date=str(d), lat_r=lat, lon_r=lon, tz_name=tz, rules_version=festival_rules_version()
+            )
+            d += timedelta(days=1)
+    except Exception:
+        logger.exception("panchang_month_api failed")
+        return JsonResponse({"error": "Could not calculate this month right now."}, status=500)
+    complete = d.month != month
+    response = JsonResponse({"days": days, "complete": complete})
+    if complete:
+        response["Cache-Control"] = "public, max-age=3600, s-maxage=86400"
+    return response
+
+
+@require_GET
+@rate_limited('panchang_api', 1500, 3600)
 def panchang_api(request):
     """
     GET /api/panchang?date=YYYY-MM-DD&lat=..&lon=..&tz=Asia/Kolkata&at=ISO_DATETIME
@@ -86,29 +166,35 @@ def panchang_api(request):
     """
     date = request.GET.get("date")
     at = request.GET.get("at")
-    tz = request.GET.get("tz") or "Asia/Kolkata"
-    try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
-        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+    if date and not _DATE_RE.match(date):
+        return JsonResponse({"error": "Invalid date."}, status=400)
+    geo = _geo(request, places=3)
+    if geo is None:
+        return JsonResponse({"error": "Invalid lat/lon or timezone."}, status=400)
+    lat, lon, tz = geo
 
     try:
         if date and not at:
-            # Use a slightly finer rounding for sunrise/sunset accuracy while still caching efficiently.
             payload = _cached_panchang_for_date(
                 date=date,
-                lat_r=round(lat, 3),
-                lon_r=round(lon, 3),
+                lat_r=lat,
+                lon_r=lon,
                 tz_name=tz,
                 rules_version=festival_rules_version(),
             )
         else:
             payload = build_panchang(date=date, lat=lat, lon=lon, tz_name=tz, at=at)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except ValueError:
+        return JsonResponse({"error": "Invalid date or time."}, status=400)
+    except Exception:
+        logger.exception("panchang_api failed")
+        return JsonResponse({"error": "Could not calculate the Panchang right now."}, status=500)
 
-    return JsonResponse(payload)
+    response = JsonResponse(payload)
+    if date and not at:
+        # a calendar day's Panchang never changes, so browsers and the CDN may reuse it
+        response["Cache-Control"] = "public, max-age=3600, s-maxage=86400"
+    return response
 
 
 def _load_core_festival_rules():
@@ -199,31 +285,24 @@ def _core_festival_dates_for_year(*, year: int, lat_r: float, lon_r: float, tz_n
 
 
 @require_GET
+@rate_limited('panchang_year', 40, 3600)
 def core_festival_dates_api(request):
     """
     GET /api/core-festivals-dates/?year=YYYY&lat=..&lon=..&tz=...
     Returns resolved core festival dates for the selected Gregorian year.
     """
-    year_raw = request.GET.get("year") or ""
-    try:
-        year = int(year_raw)
-    except Exception:
-        year = Date.today().year
-    year = max(1600, min(2600, year))
-
-    tz = request.GET.get("tz") or "Asia/Kolkata"
-    try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
-        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
+    year = _year(request)
+    geo = _geo(request)
+    if geo is None:
+        return JsonResponse({"error": "Invalid lat/lon or timezone."}, status=400)
+    lat, lon, tz = geo
 
     rules_ver = festival_rules_version()
     try:
         cache_key = _year_cache_key(
             year=year,
-            lat_r=round(lat, 3),
-            lon_r=round(lon, 3),
+            lat_r=lat,
+            lon_r=lon,
             tz_name=tz,
             rules_version=rules_ver,
         )
@@ -236,8 +315,8 @@ def core_festival_dates_api(request):
         if not isinstance(data, list) or not data:
             cache_path = _core_festival_cache_path(
                 year=year,
-                lat_r=round(lat, 3),
-                lon_r=round(lon, 3),
+                lat_r=lat,
+                lon_r=lon,
                 tz_name=tz,
                 rules_version=rules_ver,
             )
@@ -249,8 +328,8 @@ def core_festival_dates_api(request):
             if not isinstance(data, list) or not data:
                 data = _core_festival_dates_for_year(
                     year=year,
-                    lat_r=round(lat, 3),
-                    lon_r=round(lon, 3),
+                    lat_r=lat,
+                    lon_r=lon,
                     tz_name=tz,
                     rules_version=rules_ver,
                 )
@@ -261,67 +340,58 @@ def core_festival_dates_api(request):
                     pass
             else:
                 cache.set(cache_key, data, timeout=YEAR_CACHE_TIMEOUT)
-    except Exception as exc:
+    except Exception:
+        logger.exception("core_festival_dates_api failed")
         data = []
-        if request.GET.get("debug") == "1":
-            return JsonResponse({"error": str(exc)}, status=500)
 
     return JsonResponse(data, safe=False)
 
 
 @require_GET
+@rate_limited('panchang_year', 40, 3600)
 def kharmas_api(request):
-    year_raw = request.GET.get("year") or ""
-    try:
-        year = int(year_raw)
-    except Exception:
-        year = Date.today().year
-    year = max(1600, min(2600, year))
+    year = _year(request)
+    geo = _geo(request)
+    if geo is None:
+        return JsonResponse({"error": "Invalid lat/lon or timezone."}, status=400)
+    lat, lon, tz = geo
 
-    tz = request.GET.get("tz") or "Asia/Kolkata"
-    try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
-        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
-
-    cache_key = _kharmas_cache_key(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+    cache_key = _kharmas_cache_key(year=year, lat_r=lat, lon_r=lon, tz_name=tz)
     try:
         data = cache.get(cache_key)
         if not isinstance(data, dict) or not data:
-            data = kharmas_for_year(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+            data = kharmas_for_year(year=year, lat_r=lat, lon_r=lon, tz_name=tz)
             cache.set(cache_key, data, timeout=YEAR_CACHE_TIMEOUT)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("panchang year endpoint failed")
+        return JsonResponse({"error": "Could not calculate this right now."}, status=500)
 
     data = refresh_kharmas_state(data, tz)
-    return JsonResponse(data)
+    response = JsonResponse(data)
+    response["Cache-Control"] = "public, max-age=900, s-maxage=3600"
+    return response
 
 
 @require_GET
+@rate_limited('panchang_year', 40, 3600)
 def marriage_dates_api(request):
-    year_raw = request.GET.get("year") or ""
-    try:
-        year = int(year_raw)
-    except Exception:
-        year = Date.today().year
-    year = max(1600, min(2600, year))
+    year = _year(request)
+    geo = _geo(request)
+    if geo is None:
+        return JsonResponse({"error": "Invalid lat/lon or timezone."}, status=400)
+    lat, lon, tz = geo
 
-    tz = request.GET.get("tz") or "Asia/Kolkata"
-    try:
-        lat = float(request.GET.get("lat") or 28.6139)
-        lon = float(request.GET.get("lon") or 77.2090)
-    except Exception:
-        return JsonResponse({"error": "Invalid lat/lon."}, status=400)
-
-    cache_key = _marriage_cache_key(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+    cache_key = _marriage_cache_key(year=year, lat_r=lat, lon_r=lon, tz_name=tz)
     try:
         data = cache.get(cache_key)
         if not isinstance(data, dict) or not data:
-            data = marriage_windows_for_year(year=year, lat_r=round(lat, 3), lon_r=round(lon, 3), tz_name=tz)
+            data = marriage_windows_for_year(year=year, lat_r=lat, lon_r=lon, tz_name=tz)
             cache.set(cache_key, data, timeout=YEAR_CACHE_TIMEOUT)
-    except Exception as exc:
-        return JsonResponse({"error": str(exc)}, status=500)
+    except Exception:
+        logger.exception("panchang year endpoint failed")
+        return JsonResponse({"error": "Could not calculate this right now."}, status=500)
 
     data = refresh_marriage_state(data, tz)
-    return JsonResponse(data)
+    response = JsonResponse(data)
+    response["Cache-Control"] = "public, max-age=900, s-maxage=3600"
+    return response

@@ -44,7 +44,34 @@ def festival_detail(request, slug: str):
     if not f or f["year"] not in FESTIVAL_YEARS:
         raise Http404("Unknown festival")
     related = [x for x in sd.festivals() if x["year"] == f["year"] and x["slug"] != slug and x["date"] > f["date"]][:6]
-    return render(request, "seo/festival_detail.html", {"f": f, "related": related})
+    puja = sd.puja_for_festival(f["name"])
+    return render(request, "seo/festival_detail.html", {"f": f, "related": related, "puja": puja})
+
+
+@require_GET
+def festival_ics(request, slug: str):
+    """Add-to-calendar file for one festival (all-day event)."""
+    from datetime import date, timedelta
+
+    from django.http import HttpResponse
+
+    f = sd.festival(slug)
+    if not f or f["year"] not in FESTIVAL_YEARS:
+        raise Http404("Unknown festival")
+    start = date.fromisoformat(f["date"])
+    end = date.fromisoformat(f["endDate"]) if f.get("endDate") else start
+    desc = f"{f['paksha']} {f['tithi']}, {f['month']} month. Dates are for Patna; confirm the muhurat with your pandit."
+    body = "\r\n".join([
+        "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//SanatanSeva//Festivals//EN", "CALSCALE:GREGORIAN",
+        "BEGIN:VEVENT", f"UID:{slug}@sanatanseva", f"DTSTAMP:{date.today():%Y%m%d}T000000Z",
+        f"DTSTART;VALUE=DATE:{start:%Y%m%d}", f"DTEND;VALUE=DATE:{end + timedelta(days=1):%Y%m%d}",
+        f"SUMMARY:{f['name']} {f['year']}", f"DESCRIPTION:{desc}",
+        "BEGIN:VALARM", "TRIGGER:-P1D", "ACTION:DISPLAY", f"DESCRIPTION:{f['name']} is tomorrow", "END:VALARM",
+        "END:VEVENT", "END:VCALENDAR", "",
+    ])
+    response = HttpResponse(body, content_type="text/calendar; charset=utf-8")
+    response["Content-Disposition"] = f'attachment; filename="{slug}.ics"'
+    return response
 
 
 @require_GET

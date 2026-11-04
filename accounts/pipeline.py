@@ -1,4 +1,8 @@
+import secrets
+
 from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
+from social_core.pipeline.social_auth import associate_by_email as _associate_by_email
 
 from .models import LoginAttempt
 from .services import ensure_user_account
@@ -10,8 +14,8 @@ def set_social_username_and_fields(backend, details, *args, **kwargs):
     if not email or '@' not in email:
         return
 
-    local_part = email.split('@', 1)[0]
-    base_username = (local_part[:6] or 'userxx').lower()
+    # Usernames are public (leaderboard, reviews): never derive them from the email address.
+    base_username = 'seeker' + secrets.token_hex(2)
 
     username = base_username
     suffix = 1
@@ -64,3 +68,24 @@ class FriendlySocialAuthMiddleware(SocialAuthExceptionMiddleware):
 
     def raise_exception(self, request, exception):
         return False
+
+
+def associate_by_email_safely(backend, details, user=None, *args, **kwargs):
+    """Link a Google/Apple login to an existing account with the same email, without enabling pre-hijacking.
+
+    Password sign-up does not verify the email, so an attacker could register victim@example.com with a password they
+    know and wait for the real owner to sign in with Google. When the provider vouches for the email and it matches an
+    existing account, that account's password is therefore switched off (the owner can set a new one through "forgot
+    password") and its other sessions are ended."""
+    result = _associate_by_email(backend, details, user, *args, **kwargs)
+    linked = (result or {}).get('user')
+    if linked is not None and user is None and linked.has_usable_password():
+        linked.set_unusable_password()
+        linked.save(update_fields=['password'])
+        for session in Session.objects.all().iterator():
+            try:
+                if str(session.get_decoded().get('_auth_user_id')) == str(linked.pk):
+                    session.delete()
+            except Exception:
+                continue
+    return result

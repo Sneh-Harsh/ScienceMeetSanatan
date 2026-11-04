@@ -75,8 +75,30 @@ def build_kundali_snapshot(*, user, person_profile: PersonProfile | None, share_
     return snapshot, ai_summary
 
 
+def session_limit_reached(session: ChatSession) -> bool:
+    """True once a live session has used its free minutes plus everything the wallet can pay for.
+
+    Billing only happens when a session ends, so without this a user could keep chatting and simply never end it."""
+    if session.status != SessionStatus.ACTIVE:
+        return False
+    started_at = session.started_at or session.created_at
+    elapsed = (timezone.now() - started_at).total_seconds()
+    rate = Decimal(session.rate_per_minute or 0)
+    balance = get_or_create_wallet(session.user).balance
+    paid_seconds = float(balance / rate * 60) if rate > 0 else float('inf')
+    return elapsed > session.free_minutes * 60 + paid_seconds
+
+
+def enforce_session_limit(session: ChatSession) -> ChatSession:
+    if session_limit_reached(session):
+        return end_chat_session(session=session, ended_by='system (balance used up)')
+    return session
+
+
 def can_start_session(user, astrologer: AstrologerProfile):
     wallet = get_or_create_wallet(user)
+    for live in user.astrology_chat_sessions.filter(status=SessionStatus.ACTIVE):
+        enforce_session_limit(live)
     if not astrologer.is_active:
         return False, 'This astrologer is not available for consultation right now.'
     if user.astrology_chat_sessions.filter(status__in=[SessionStatus.REQUESTED, SessionStatus.ACTIVE]).exists():

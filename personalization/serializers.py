@@ -23,6 +23,18 @@ class ContentInteractionSerializer(serializers.ModelSerializer):
         fields = ['id', 'content_type', 'object_id', 'interaction_type', 'metadata', 'occurred_at']
         read_only_fields = ['id', 'occurred_at']
 
+    def validate_metadata(self, value):
+        import json
+
+        if len(json.dumps(value or {})) > 2000:
+            raise serializers.ValidationError('Metadata is too large.')
+        return value
+
+    def validate_object_id(self, value):
+        if len(str(value)) > 120:
+            raise serializers.ValidationError('Object id is too long.')
+        return value
+
 
 class BookmarkSerializer(serializers.ModelSerializer):
     class Meta:

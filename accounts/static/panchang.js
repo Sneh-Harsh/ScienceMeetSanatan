@@ -1,3 +1,10 @@
+/* Browsers can throw on storage access (blocked cookies, some in-app webviews): never let that stop the page. */
+const smsLS = {
+  get(k){ try{ return localStorage.getItem(k); }catch{ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch{} },
+  remove(k){ try{ localStorage.removeItem(k); }catch{} },
+};
+
 const API_URL = "/api/panchang";
 
 const els = {
@@ -126,7 +133,9 @@ const els = {
 function pad2(n){ return String(n).padStart(2,"0"); }
 
 function getBrowserTz(){
-  return Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata";
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata";
+  // browsers still report the legacy alias for India; use one name so cached days are always reused
+  return tz === "Asia/Calcutta" ? "Asia/Kolkata" : tz;
 }
 
 function formatClock(d){
@@ -507,7 +516,8 @@ async function refreshAIInsight(p, { force = false } = {}){
   let finalText = fallback;
 
   try{
-    const endpoint = window.PANCHANG_AI_ENDPOINT || "/api/ai-daily-insight/";
+    const endpoint = window.PANCHANG_AI_ENDPOINT;
+    if(!endpoint) throw new Error("no ai endpoint configured");
     const controller = new AbortController();
     const timeout = window.setTimeout(()=> controller.abort(), 2800);
     const res = await fetch(endpoint, {
@@ -572,7 +582,7 @@ function buildReminders(p){
 
 function hydrateReminders(p){
   if(!els.reminderList) return;
-  const enabled = localStorage.getItem("sms_panchang_reminders") !== "0";
+  const enabled = smsLS.get("sms_panchang_reminders") !== "0";
   const reminders = buildReminders(p);
   if(!enabled){
     els.reminderList.classList.remove("is-active", "is-disabled");
@@ -614,7 +624,7 @@ function evaluateReminderMoment(p){
 }
 
 async function maybeNotifyReminder(p){
-  if(localStorage.getItem("sms_panchang_reminders") === "0") return;
+  if(smsLS.get("sms_panchang_reminders") === "0") return;
   if(!("Notification" in window)) return;
   const moment = evaluateReminderMoment(p);
   if(!moment || reminderRuntime.lastKey === moment.key) return;
@@ -705,14 +715,14 @@ function hydrateTimeline(p){
 
 function initFocusMode(){
   if(!els.focusModeBtn) return;
-  const stored = localStorage.getItem("sms_panchang_focus_mode") === "1";
+  const stored = smsLS.get("sms_panchang_focus_mode") === "1";
   document.body.classList.toggle("focus-mode", stored);
   els.focusModeBtn.setAttribute("aria-pressed", stored ? "true" : "false");
   els.focusModeBtn.textContent = stored ? "Exit focus mode" : "Focus mode";
   els.focusModeBtn.addEventListener("click", ()=>{
     const next = !document.body.classList.contains("focus-mode");
     document.body.classList.toggle("focus-mode", next);
-    localStorage.setItem("sms_panchang_focus_mode", next ? "1" : "0");
+    smsLS.set("sms_panchang_focus_mode", next ? "1" : "0");
     els.focusModeBtn.setAttribute("aria-pressed", next ? "true" : "false");
     els.focusModeBtn.textContent = next ? "Exit focus mode" : "Focus mode";
   });
@@ -720,12 +730,12 @@ function initFocusMode(){
 
 function initReminderToggle(){
   if(!els.reminderToggle) return;
-  const enabled = localStorage.getItem("sms_panchang_reminders") !== "0";
+  const enabled = smsLS.get("sms_panchang_reminders") !== "0";
   els.reminderToggle.checked = enabled;
   els.reminderToggle.closest(".hero-toggle")?.classList.toggle("is-on", enabled);
   els.reminderList?.classList.toggle("is-active", enabled);
   els.reminderToggle.addEventListener("change", ()=>{
-    localStorage.setItem("sms_panchang_reminders", els.reminderToggle.checked ? "1" : "0");
+    smsLS.set("sms_panchang_reminders", els.reminderToggle.checked ? "1" : "0");
     els.reminderToggle.closest(".hero-toggle")?.classList.toggle("is-on", els.reminderToggle.checked);
     els.reminderList?.classList.toggle("is-active", els.reminderToggle.checked);
     if(lastLivePanchang) hydrateReminders(lastLivePanchang);
@@ -1208,7 +1218,7 @@ function startSkyLoop(p){
 
 function getSavedLocation(){
   try{
-    const raw = localStorage.getItem("sms_panchang_location");
+    const raw = smsLS.get("sms_panchang_location");
     if(raw){
       const j = JSON.parse(raw);
       const lat = Number(j.lat);
@@ -1225,7 +1235,7 @@ function saveLocation(lat, lon, tz, name){
   const payload = { lat, lon };
   if(tz) payload.tz = tz;
   if(name) payload.name = name;
-  localStorage.setItem("sms_panchang_location", JSON.stringify(payload));
+  smsLS.set("sms_panchang_location", JSON.stringify(payload));
 }
 
 async function reverseLookupPlace(lat, lon){
@@ -1377,7 +1387,7 @@ const COREFEST_STORAGE_PREFIX = "sms:panchang:corefest:v2:";
 
 function safeStorageGet(key){
   try{
-    const raw = window.localStorage.getItem(key);
+    const raw = smsLS.get(key);
     return raw ? JSON.parse(raw) : null;
   }catch{
     return null;
@@ -1386,7 +1396,7 @@ function safeStorageGet(key){
 
 function safeStorageSet(key, value){
   try{
-    window.localStorage.setItem(key, JSON.stringify(value));
+    smsLS.set(key, JSON.stringify(value));
   }catch{}
 }
 
@@ -1869,7 +1879,30 @@ function renderCalendar(year, monthIndex){
   syncTodayCalendarCell();
 }
 
+async function prefetchMonth(dateStrs){
+  // one request for the whole month instead of one per day; fills the same caches fetchPanchangForDate reads
+  if(!dateStrs.length) return;
+  const { lat, lon, tz } = getSavedLocation();
+  const tzName = tz || getBrowserTz();
+  const keyFor = (d)=> `${d}|${Number(lat).toFixed(4)}|${Number(lon).toFixed(4)}|${tzName}`;
+  if(dateStrs.every((d)=> panchangCache.has(keyFor(d)) || safeStorageGet(PANCHANG_STORAGE_PREFIX + keyFor(d)))) return;
+  const [y, m] = dateStrs[0].split("-");
+  const qs = new URLSearchParams({ year: y, month: String(Number(m)), lat: String(lat), lon: String(lon), tz: tzName });
+  try{
+    const res = await fetch(`${API_URL}/month/?${qs.toString()}`, { headers: { Accept:"application/json" } });
+    if(!res.ok) return;
+    const j = await res.json();
+    Object.entries(j.days || {}).forEach(([d, payload])=>{
+      const k = keyFor(d);
+      panchangCache.set(k, payload);
+      safeStorageSet(PANCHANG_STORAGE_PREFIX + k, payload);
+    });
+  }catch{ /* fall back to per-day requests below */ }
+}
+
 async function loadCalendarMonthData(dateStrs, token){
+  await prefetchMonth(dateStrs);
+  if(token !== calendarState.activeMonthToken) return;
   const controller = new AbortController();
   const limit = 6;
   let idx = 0;
@@ -2198,6 +2231,28 @@ function initCalendar(){
   renderCalendar(now.getFullYear(), now.getMonth());
 }
 
+function showLocationToast(){
+  // First visit: show Panchang straight away (Delhi by default) and offer a better location without blocking the page.
+  if(document.getElementById("locToast")) return;
+  const t = document.createElement("div");
+  t.id = "locToast";
+  t.setAttribute("role", "status");
+  t.style.cssText = "position:fixed;left:12px;right:12px;bottom:84px;z-index:250;max-width:560px;margin:0 auto;padding:12px 14px;border-radius:16px;background:rgba(18,22,38,.92);color:#fff;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(14px);display:flex;gap:10px;align-items:center;flex-wrap:wrap;font:600 14px/1.4 system-ui,sans-serif;box-shadow:0 12px 40px rgba(0,0,0,.4)";
+  t.innerHTML = '<span style="flex:1 1 180px">Showing Panchang for New Delhi.</span>'
+    + '<button type="button" data-a="gps" style="min-height:40px;padding:0 14px;border-radius:999px;border:0;background:#f2c75c;color:#2a1d0c;font-weight:700">Use my location</button>'
+    + '<button type="button" data-a="change" style="min-height:40px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-weight:600">Change</button>'
+    + '<button type="button" data-a="x" aria-label="Dismiss" style="min-height:40px;min-width:40px;border-radius:999px;border:0;background:transparent;color:#fff;font-size:20px">&times;</button>';
+  document.body.appendChild(t);
+  const done = ()=> t.remove();
+  t.addEventListener("click", (e)=>{
+    const a = e.target?.dataset?.a;
+    if(a === "gps"){ done(); els.locAllowBtn?.click(); }
+    else if(a === "change"){ done(); openLocationPrompt(); }
+    else if(a === "x"){ done(); }
+  });
+  window.setTimeout(done, 15000);
+}
+
 function openLocationPrompt(){
   if(!els.locPrompt) return;
   syncLocationPromptCtas();
@@ -2230,7 +2285,7 @@ async function syncLocationPromptCtas(){
   }
 
   if(!state){
-    state = localStorage.getItem("sms_panchang_geo_granted") === "1" ? "granted" : null;
+    state = smsLS.get("sms_panchang_geo_granted") === "1" ? "granted" : null;
   }
 
   if(state === "granted"){
@@ -2274,16 +2329,22 @@ async function init(){
   const saved = getSavedLocation();
   if(els.placeSearchInput && saved.name) els.placeSearchInput.value = saved.name;
 
-  const hasSaved = localStorage.getItem("sms_panchang_location") !== null;
-  const onboarded = localStorage.getItem("sms_panchang_loc_onboarded") === "1";
+  const hasSaved = smsLS.get("sms_panchang_location") !== null;
+  const onboarded = smsLS.get("sms_panchang_loc_onboarded") === "1";
   if(!hasSaved && !onboarded){
-    localStorage.setItem("sms_panchang_loc_onboarded", "1");
-    openLocationPrompt();
+    smsLS.set("sms_panchang_loc_onboarded", "1");
+    showLocationToast();
   }
 
   if(els.changeLocBtn){
     els.changeLocBtn.addEventListener("click", openLocationPrompt);
   }
+  // the prompt must never trap a first-time visitor: close button, backdrop tap and Escape all dismiss it
+  document.querySelector("#locCloseBtn")?.addEventListener("click", closeLocationPrompt);
+  els.locPrompt?.querySelector(".loc-prompt__backdrop")?.addEventListener("click", closeLocationPrompt);
+  document.addEventListener("keydown", (e)=>{
+    if(e.key === "Escape" && els.locPrompt?.getAttribute("aria-hidden") === "false") closeLocationPrompt();
+  });
 
   if(els.auspiciousYear){
     els.auspiciousYear.value = els.calYear?.value || String(new Date().getFullYear());
@@ -2357,7 +2418,7 @@ async function init(){
       }
       navigator.geolocation.getCurrentPosition(
         async (pos)=>{
-          localStorage.setItem("sms_panchang_geo_granted", "1");
+          smsLS.set("sms_panchang_geo_granted", "1");
           const placeName = await reverseLookupPlace(pos.coords.latitude, pos.coords.longitude);
           saveLocation(pos.coords.latitude, pos.coords.longitude, null, placeName);
           if(els.placeSearchInput && placeName) els.placeSearchInput.value = placeName;

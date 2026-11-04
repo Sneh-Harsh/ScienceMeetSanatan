@@ -171,6 +171,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "gita_site.middleware.SecurityHeadersMiddleware",
+    "gita_site.middleware.AdminLoginThrottleMiddleware",
 ]
 
 ROOT_URLCONF = "gita_site.urls"
@@ -263,7 +265,7 @@ if SOCIAL_AUTH_ENABLED:
         "social_core.pipeline.social_auth.social_uid",
         "social_core.pipeline.social_auth.auth_allowed",
         "social_core.pipeline.social_auth.social_user",
-        "social_core.pipeline.social_auth.associate_by_email",
+        "accounts.pipeline.associate_by_email_safely",
         "social_core.pipeline.user.get_username",
         "social_core.pipeline.user.create_user",
         "social_core.pipeline.social_auth.associate_user",

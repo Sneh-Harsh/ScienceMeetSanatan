@@ -1,3 +1,10 @@
+/* Browsers can throw on storage access (blocked cookies, some in-app webviews): never let that stop the page. */
+const smsLS = {
+  get(k){ try{ return localStorage.getItem(k); }catch{ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch{} },
+  remove(k){ try{ localStorage.removeItem(k); }catch{} },
+};
+
 const QUIZ_BANK = {};
 
 const CATEGORY_META = {
@@ -174,10 +181,10 @@ async function fetchQuizSession(category){
 
 function highScoreKey(category){ return `smsQuizHighestScore:${category}`; }
 function bestStreakKey(category){ return `smsQuizBestStreak:${category}`; }
-function getHighScore(category){ return Number(localStorage.getItem(highScoreKey(category)) || "0") || 0; }
-function setHighScore(category, value){ localStorage.setItem(highScoreKey(category), String(value)); }
-function getBestStreak(category){ return Number(localStorage.getItem(bestStreakKey(category)) || "0") || 0; }
-function setBestStreak(category, value){ localStorage.setItem(bestStreakKey(category), String(value)); }
+function getHighScore(category){ return Number(smsLS.get(highScoreKey(category)) || "0") || 0; }
+function setHighScore(category, value){ smsLS.set(highScoreKey(category), String(value)); }
+function getBestStreak(category){ return Number(smsLS.get(bestStreakKey(category)) || "0") || 0; }
+function setBestStreak(category, value){ smsLS.set(bestStreakKey(category), String(value)); }
 
 function refreshSectionProgress(){
   Object.entries(CATEGORY_META).forEach(([key, meta]) => {
@@ -435,6 +442,12 @@ function setPodium(refs, place, row){
   if(scoreEl) scoreEl.textContent = String(row?.score ?? place);
 }
 
+function lbEsc(value){
+  return String(value == null ? "" : value).replace(/[&<>"']/g, (ch) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+  ));
+}
+
 function renderRows(refs, rows){
   if(!refs?.rows) return;
   refs.rows.innerHTML = "";
@@ -442,10 +455,10 @@ function renderRows(refs, rows){
     const div = document.createElement("div");
     div.className = "lb-entry";
     div.innerHTML = `
-      <div class="lb-rank">${row.rank || (index + 4)}</div>
-      <div class="lb-avatar" style="background:rgba(167,139,250,0.15);color:var(--violet)">${avatarLetter(row.username)}</div>
-      <div class="lb-info"><div class="lb-name">${row.username}</div><div class="lb-title">${row.league || "Wisdom Seeker"}</div></div>
-      <div class="lb-score"><div class="lb-score-val">${row.score}</div><div class="lb-score-lab">${row.attempts || 0} runs</div></div>
+      <div class="lb-rank">${lbEsc(row.rank || (index + 4))}</div>
+      <div class="lb-avatar" style="background:rgba(167,139,250,0.15);color:var(--violet)">${lbEsc(avatarLetter(row.username))}</div>
+      <div class="lb-info"><div class="lb-name">${lbEsc(row.username)}</div><div class="lb-title">${lbEsc(row.league || "Wisdom Seeker")}</div></div>
+      <div class="lb-score"><div class="lb-score-val">${lbEsc(row.score)}</div><div class="lb-score-lab">${lbEsc(row.attempts || 0)} runs</div></div>
     `;
     refs.rows.appendChild(div);
   });
@@ -537,7 +550,7 @@ function loadQuestion(){
       const btn = document.createElement("button");
       btn.className = "answer-btn";
       btn.type = "button";
-      btn.innerHTML = `<div class="answer-key">${keys[i]}</div><div class="answer-text">${opt}</div><div class="answer-result-icon"></div>`;
+      btn.innerHTML = `<div class="answer-key">${keys[i]}</div><div class="answer-text">${lbEsc(opt)}</div><div class="answer-result-icon"></div>`;
       btn.addEventListener("click", () => selectAnswer(i, btn, false));
       answersGrid.appendChild(btn);
     });

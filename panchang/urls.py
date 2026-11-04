@@ -1,9 +1,10 @@
 from django.urls import path
 
-from .views import core_festival_dates_api, core_festivals_api, kharmas_api, marriage_dates_api, panchang_api
+from .views import core_festival_dates_api, core_festivals_api, kharmas_api, marriage_dates_api, panchang_api, panchang_month_api
 
 
 urlpatterns = [
+    path("api/panchang/month/", panchang_month_api, name="panchang_month_api"),
     path("api/panchang", panchang_api, name="panchang_api"),
     path("api/panchang/", panchang_api, name="panchang_api_slash"),
     path("api/core-festivals/", core_festivals_api, name="core_festivals_api"),

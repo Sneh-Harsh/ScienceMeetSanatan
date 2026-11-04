@@ -397,31 +397,31 @@
         return;
       }
       cardsGrid.innerHTML = items.map((card) => `
-        <article class="pandit-card" data-slug="${card.slug}">
+        <article class="pandit-card" data-slug="${escapeHtml(card.slug)}">
           <div class="pandit-card__visual">
-            ${card.photo ? `<img src="${card.photo}" alt="${card.name}" loading="lazy" />` : `<div class="pandit-card__avatar">${(card.name || "?").slice(0, 1)}</div>`}
-            <div class="pandit-card__badges">${(card.badges || []).map((badge) => `<span>${badge}</span>`).join("")}</div>
+            ${card.photo ? `<img src="${escapeHtml(card.photo)}" alt="${escapeHtml(card.name)}" loading="lazy" />` : `<div class="pandit-card__avatar">${escapeHtml((card.name || "?").slice(0, 1))}</div>`}
+            <div class="pandit-card__badges">${(card.badges || []).map((badge) => `<span>${escapeHtml(badge)}</span>`).join("")}</div>
           </div>
           <div class="pandit-card__body">
             <div class="pandit-card__topline">
               <div>
-                <h3>${card.name}</h3>
-                <p>${card.city}${card.area ? ` • ${card.area}` : ""}</p>
+                <h3>${escapeHtml(card.name)}</h3>
+                <p>${escapeHtml(card.city)}${card.area ? ` • ${escapeHtml(card.area)}` : ""}</p>
               </div>
-              <div class="pandit-rating">★ ${card.rating || "4.8"}</div>
+              <div class="pandit-rating">★ ${escapeHtml(card.rating || "4.8")}</div>
             </div>
-            <p class="pandit-card__specialization">${card.specialization || ""}</p>
+            <p class="pandit-card__specialization">${escapeHtml(card.specialization || "")}</p>
             <div class="pandit-card__meta">
-              <span>${card.experience || 0}+ years</span>
-              <span>${card.total_bookings || 0} bookings</span>
-              <span>${card.languages_display || (card.languages || []).join(", ")}</span>
+              <span>${escapeHtml(card.experience || 0)}+ years</span>
+              <span>${escapeHtml(card.total_bookings || 0)} bookings</span>
+              <span>${escapeHtml(card.languages_display || (card.languages || []).join(", "))}</span>
             </div>
             <div class="pandit-card__footer">
               <div>
                 <small>Starting from</small>
-                <strong>₹${card.starting_price || 0}</strong>
+                <strong>₹${escapeHtml(card.starting_price || 0)}</strong>
               </div>
-              <a href="/pandits/${card.slug}/" class="pandit-cta pandit-cta--small">View Profile</a>
+              <a href="/pandits/${encodeURIComponent(card.slug)}/" class="pandit-cta pandit-cta--small">View Profile</a>
             </div>
           </div>
         </article>

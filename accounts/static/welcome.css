@@ -1245,3 +1245,11 @@ body {
     padding: 0.85rem;
   }
 }
+
+/* Legibility: the animated backdrop is busy, so give the hero copy a soft dark halo behind it. */
+.hero-copy--center { position: relative; isolation: isolate; }
+.hero-copy--center::before {
+  content: ""; position: absolute; inset: -4% -6%; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(8, 6, 14, .62) 0%, rgba(8, 6, 14, .38) 55%, transparent 78%);
+}
+.hero-copy h1, .hero-copy p { text-shadow: 0 2px 18px rgba(0, 0, 0, .55); }

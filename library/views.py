@@ -67,11 +67,15 @@ class LibraryItemProgressView(APIView):
         item = generics.get_object_or_404(LibraryItem, pk=pk)
         actor = resolve_actor(request)
         payload = request.data
+        try:
+            progress_percent = min(max(float(payload.get('progress_percent', 0)), 0.0), 100.0)
+        except (TypeError, ValueError):
+            return Response({'detail': 'progress_percent must be a number.'}, status=400)
         progress = update_reading_progress(
             actor,
             content_type=ProgressContentType.AUDIO if item.item_type == 'audio' else ProgressContentType.BOOK,
             object_id=str(item.id),
-            progress_percent=float(payload.get('progress_percent', 0)),
+            progress_percent=progress_percent,
             progress_seconds=payload.get('progress_seconds'),
             last_position_reference=payload.get('last_position_reference', ''),
         )

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 
 from panchang.urls import urlpatterns as panchang_urls
 from kundali.urls import urlpatterns as kundali_urls
@@ -72,6 +72,7 @@ urlpatterns = [
     path('panchang/<slug:city>/', seo_views.panchang_city, name='panchang_city'),
     path('hi/panchang/<slug:city>/', seo_views.panchang_city_hi, name='panchang_city_hi'),
     path('festivals/', seo_views.festival_index, name='festival_index'),
+    re_path(r'^festivals/(?P<slug>[a-z0-9-]+)\.ics$', seo_views.festival_ics, name='festival_ics'),
     path('festivals/<slug:slug>/', seo_views.festival_detail, name='festival_detail'),
     path('katha/', seo_views.katha_index, name='katha_index'),
     path('katha/<slug:katha_id>/', seo_views.katha_detail, name='katha_detail'),

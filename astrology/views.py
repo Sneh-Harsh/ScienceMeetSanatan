@@ -7,6 +7,7 @@ from accounts.services import resolve_actor
 from personalization.services import RecommendationService
 
 from .models import SavedKundali, SavedPanchaangPreference
+from core.ratelimit import rate_limited
 from .serializers import SavedKundaliSerializer, SavedPanchaangPreferenceSerializer
 from .selectors import get_saved_kundalis, get_today_panchaang
 from .services import generate_kundali, save_kundali_for_user
@@ -15,6 +16,7 @@ from .services import generate_kundali, save_kundali_for_user
 class KundaliGenerateView(APIView):
     permission_classes = [permissions.AllowAny]
 
+    @rate_limited('kundali_generate', 60, 3600)
     def post(self, request):
         return Response(generate_kundali(request.data))
 
@@ -24,7 +26,8 @@ class KundaliSaveView(APIView):
 
     def post(self, request):
         person = generics.get_object_or_404(PersonProfile, pk=request.data.get('person_profile_id'), user=request.user)
-        generated_payload = request.data.get('generated_payload') or generate_kundali(request.data)
+        # always recomputed here: a client-supplied chart would be shown to astrologers as if we had calculated it
+        generated_payload = generate_kundali(request.data)
         kundali = save_kundali_for_user(
             user=request.user,
             person_profile=person,

@@ -277,20 +277,26 @@ function startHeroParticles() {
   window.addEventListener("beforeunload", () => window.cancelAnimationFrame(rafId), { once: true });
 }
 
+function escapeText(value) {
+  return String(value == null ? "" : value).replace(/[&<>"']/g, (ch) => (
+    { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+  ));
+}
+
 function renderPlaceResults(items, message = "") {
   if (!els.placeResults) return;
   if (!items.length) {
     els.placeResults.hidden = !message;
-    els.placeResults.innerHTML = message ? `<div class="place-empty">${message}</div>` : "";
+    els.placeResults.innerHTML = message ? `<div class="place-empty">${escapeText(message)}</div>` : "";
     return;
   }
   els.placeResults.hidden = false;
   els.placeResults.innerHTML = items
     .map(
       (item) => `
-        <button class="place-result" type="button" data-place="${(item.display_name || "").replaceAll('"', "&quot;")}" data-lat="${item.lat}" data-lon="${item.lon}">
-          <strong>${(item.display_name || "").split(",").slice(0, 2).join(", ")}</strong>
-          <span>${item.display_name || ""}</span>
+        <button class="place-result" type="button" data-place="${escapeText(item.display_name)}" data-lat="${escapeText(item.lat)}" data-lon="${escapeText(item.lon)}">
+          <strong>${escapeText((item.display_name || "").split(",").slice(0, 2).join(", "))}</strong>
+          <span>${escapeText(item.display_name)}</span>
         </button>
       `,
     )

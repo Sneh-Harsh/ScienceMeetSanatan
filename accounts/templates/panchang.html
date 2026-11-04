@@ -33,10 +33,11 @@
     class="panchang-page"
     data-user-name="{% firstof request.user.first_name request.user.username 'Sneh' %}"
   >
-    <div id="locPrompt" class="loc-prompt" aria-hidden="true">
+    <div id="locPrompt" class="loc-prompt" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="locPromptTitle">
       <div class="loc-prompt__backdrop"></div>
       <div class="loc-prompt__panel glass-panel">
-        <div class="loc-prompt__title">Use your location for accurate Panchang</div>
+        <button id="locCloseBtn" class="loc-btn" type="button" aria-label="Close" style="float:right;min-width:40px;min-height:40px;padding:0 12px">&times;</button>
+        <div class="loc-prompt__title" id="locPromptTitle">Use your location for accurate Panchang</div>
         <div class="loc-prompt__sub">
           We use your latitude and longitude to compute sunrise, tithi and nakshatra timings, weather mood, and location-aware observances.
         </div>
@@ -469,14 +470,14 @@
       pageType: "general"
     });
   </script>
-  <script defer src="{% static 'js/login_popup.js' %}?v=3"></script>
-  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=4"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=6"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
   <script src="{% static 'weather-sky.js' %}?v=3"></script>
   <script src="{% static 'weather-ui.js' %}?v=5"></script>
-  <script src="{% static 'panchang.js' %}?v=16"></script>
+  <script src="{% static 'panchang.js' %}?v=19"></script>
 {% include "components/seo_faq.html" %}
 </body>
 </html>

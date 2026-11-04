@@ -476,7 +476,10 @@ def file_meta(file_id: str) -> Optional[Dict]:
     for f in get_tree().get("files", []):
         if f["id"] == file_id:
             return f
-    tree = get_tree(force=True) if _cget(FAIL_KEY) is None else None  # a brand-new upload may not be in the cache yet
+    # a brand-new upload may not be in the cache yet; refresh at most once a minute so random ids cannot make
+    # every request re-crawl the Drive folder
+    refresh_ok = _cget(FAIL_KEY) is None and re.fullmatch(r"[A-Za-z0-9_-]{10,80}", file_id or "") and cache.add("library:forced-refresh", 1, 60)
+    tree = get_tree(force=True) if refresh_ok else None
     if tree:
         for f in tree.get("files", []):
             if f["id"] == file_id:

@@ -8,64 +8,16 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>{{ seo.title }}</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&icon_names=auto_awesome,auto_stories,calendar_today,child_care,favorite,hub,music_note,my_location,palette,person_pin,psychology,refresh&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static 'about-tailwind.css' %}?v=1" />
   <link rel="stylesheet" href="{% static 'header.css' %}?v=13" />
   <link rel="stylesheet" href="{% static 'about.css' %}?v=1"/>
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3" />
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5" />
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
-  <script>
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "on-background": "#e1e2e7",
-            "background": "#111417",
-            "surface-dim": "#111417",
-            "on-surface-variant": "#d0c5af",
-            "surface-container-low": "#191c1f",
-            "surface-variant": "#323539",
-            "surface": "#111417",
-            "surface-bright": "#37393d",
-            "primary": "#f2ca50",
-            "primary-container": "#d4af37",
-            "secondary": "#ffb779",
-            "secondary-container": "#955200",
-            "on-secondary-container": "#ffd9bc",
-            "on-surface": "#e1e2e7",
-            "surface-container-lowest": "#0c0e12",
-            "surface-container-high": "#282a2e",
-            "surface-container-highest": "#323539",
-            "surface-container": "#1d2023",
-            "surface-tint": "#e9c349",
-            "outline": "#99907c",
-            "outline-variant": "#4d4635",
-            "on-primary": "#3c2f00",
-            "inverse-surface": "#e1e2e7",
-          },
-          fontFamily: {
-            "headline": ["Newsreader"],
-            "body": ["Manrope"],
-            "label": ["Space Grotesk"],
-          },
-          animation: {
-            "pulse-soft": "pulse-soft 4s ease-in-out infinite",
-          },
-          keyframes: {
-            "pulse-soft": {
-              "0%, 100%": { opacity: "0.3" },
-              "50%": { opacity: "0.7" },
-            },
-          }
-        },
-      },
-    }
-  </script>
 </head>
 
 <body class="bg-background text-on-background font-body antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary">
@@ -634,8 +586,8 @@
       pageType: "general"
     });
   </script>
-  <script defer src="{% static 'js/login_popup.js' %}?v=3"></script>
-  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=5"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=4"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=6"></script>
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
   <script defer src="{% static 'about.js' %}?v=1"></script>

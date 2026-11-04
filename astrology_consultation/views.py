@@ -43,7 +43,7 @@ from astrology_consultation.serializers import (
     WalletTransactionSerializer,
 )
 from astrology_consultation.services import build_astrologer_queryset, get_live_consultation_pulse, get_marketplace_filters, get_personalized_match
-from astrology_consultation.services.chat_sessions import SUGGESTED_QUESTIONS, add_dev_recharge, append_message, end_chat_session, start_chat_session
+from astrology_consultation.services.chat_sessions import SUGGESTED_QUESTIONS, add_dev_recharge, append_message, end_chat_session, enforce_session_limit, start_chat_session
 from astrology_consultation.services.wallet import get_or_create_wallet
 
 
@@ -213,7 +213,7 @@ class ChatMessagesApiView(APIView):
         return get_object_or_404(ChatSession.objects.select_related('astrologer'), public_id=session_id, user=request.user)
 
     def get(self, request, session_id):
-        session = self.get_object(request, session_id)
+        session = enforce_session_limit(self.get_object(request, session_id))
         return Response(
             {
                 'session': ChatSessionSerializer(session).data,
@@ -224,7 +224,7 @@ class ChatMessagesApiView(APIView):
 
     @rate_limited('chat_message', 60, 60)
     def post(self, request, session_id):
-        session = self.get_object(request, session_id)
+        session = enforce_session_limit(self.get_object(request, session_id))
         if session.status != SessionStatus.ACTIVE:
             return Response({'detail': 'This consultation is no longer active.'}, status=400)
         serializer = SendMessageSerializer(data=request.data)

@@ -1,3 +1,4 @@
+import re
 import json
 import logging
 from datetime import timedelta
@@ -171,6 +172,9 @@ LIBRARY_COLLECTIONS = {
         "panel_subtitle": "Stotras, hymns, and praise-texts in a premium reading sanctuary",
     },
 }
+
+
+USERNAME_RE = re.compile(r"^[\w.@+-]{3,40}$")
 
 
 def _house_from_sign(target_idx, base_idx):
@@ -789,6 +793,9 @@ def login_page(request):
             elif len(full_name) > 150 or len(username) > 150 or len(email) > 254:
                 messages.error(request, 'One of the fields is too long.')
                 mode = 'signup'
+            elif not USERNAME_RE.match(username):
+                messages.error(request, 'Usernames can use letters, numbers and . _ @ + - only (3 to 40 characters).')
+                mode = 'signup'
             elif password_error:
                 messages.error(request, password_error)
                 mode = 'signup'
@@ -877,7 +884,10 @@ def login_page(request):
 def _send_password_reset_email(request, user):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     token = default_token_generator.make_token(user)
-    link = request.build_absolute_uri(reverse('password_reset_confirm', args=[uid, token]))
+    path = reverse('password_reset_confirm', args=[uid, token])
+    # Build the link from the configured site address so a forged Host / X-Forwarded-Host header cannot redirect it.
+    site_root = str(getattr(settings, 'SITE_URL', '') or '').rstrip('/')
+    link = f'{site_root}{path}' if site_root else request.build_absolute_uri(path)
     send_mail(
         'Reset your Science Meets Sanatan password',
         f'Hello {user.first_name or user.username},\n\nUse this link to choose a new password (valid for a limited time):\n{link}\n\n'
@@ -1081,7 +1091,11 @@ def profile_page(request):
 
             if not full_name or not username or not email:
                 messages.error(request, "Please fill all profile fields.")
-            elif User.objects.exclude(pk=request.user.pk).filter(username=username).exists():
+            elif len(full_name) > 150 or len(email) > 254:
+                messages.error(request, "One of the fields is too long.")
+            elif username != request.user.username and not USERNAME_RE.match(username):
+                messages.error(request, "Usernames can use letters, numbers and . _ @ + - only (3 to 40 characters).")
+            elif User.objects.exclude(pk=request.user.pk).filter(username__iexact=username).exists():
                 messages.error(request, "That username is already taken.")
             elif User.objects.exclude(pk=request.user.pk).filter(email__iexact=email).exists():
                 messages.error(request, "That email is already used by another account.")
@@ -1544,11 +1558,6 @@ def api_submit_score(request):
         attempt_best_streak = 0
     attempt_best_streak = min(max(attempt_best_streak, 0), 50)
 
-    category, _ = Category.objects.get_or_create(
-        slug=category_slug,
-        defaults={"name": _category_display_name(category_slug)},
-    )
-
     session_id = str(payload.get("session_id") or "").strip()
     if not session_id:
         return JsonResponse({"error": "A quiz session is required to submit a score."}, status=400)
@@ -1566,6 +1575,12 @@ def api_submit_score(request):
     if not questions:
         return JsonResponse({"error": "Quiz session is empty."}, status=400)
     recorded = session_payload.get("recorded", {})
+
+    # only after a real, single-use quiz session was consumed: unknown slugs cannot create categories
+    category, _ = Category.objects.get_or_create(
+        slug=category_slug,
+        defaults={"name": _category_display_name(category_slug)},
+    )
 
     normalized_answers = []
     score = 0
@@ -1788,6 +1803,10 @@ def api_library_status(request):
     """Is the library folder connected? Handy for checking a deployment: /api/library/status/"""
     from . import drive_library
 
-    response = JsonResponse(drive_library.public_status())
+    status = drive_library.public_status()
+    if not (request.user.is_authenticated and request.user.is_staff):
+        # the raw upstream error can name folders or permissions: staff only
+        status = {k: status[k] for k in ("configured", "mode", "books")} | {"ok": not status.get("error")}
+    response = JsonResponse(status)
     response["Cache-Control"] = "no-store"
     return response

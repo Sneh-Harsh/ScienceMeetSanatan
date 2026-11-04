@@ -15,9 +15,14 @@
   }
 
   async function fetchJson(url, options) {
-    const response = await fetch(url, options);
-    const data = await response.json().catch(() => ({}));
-    return { response, data };
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json().catch(() => ({}));
+      return { response, data };
+    } catch (error) {
+      // offline or blocked: behave like a failed response so callers show their error state
+      return { response: { ok: false, status: 0 }, data: { detail: "Network problem. Please check your connection and try again." } };
+    }
   }
 
   async function postJson(url, payload) {
@@ -42,14 +47,20 @@
     });
   }
 
+  function escapeHtml(value) {
+    return String(value == null ? "" : value).replace(/[&<>"']/g, (ch) => (
+      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]
+    ));
+  }
+
   function renderCard(card) {
     const expertise = (card.expertise_preview || [])
-      .map((item) => `<span>${item}</span>`)
+      .map((item) => `<span>${escapeHtml(item)}</span>`)
       .join("");
-    const languages = (card.languages || []).join(", ");
+    const languages = escapeHtml((card.languages || []).join(", "));
     const image = card.photo
-      ? `<img src="${card.photo}" alt="${card.display_name}" loading="lazy" />`
-      : `<div class="consult-card__avatar">${(card.display_name || "?").slice(0, 1)}</div>`;
+      ? `<img src="${escapeHtml(card.photo)}" alt="${escapeHtml(card.display_name)}" loading="lazy" />`
+      : `<div class="consult-card__avatar">${escapeHtml((card.display_name || "?").slice(0, 1))}</div>`;
 
     return `
       <article class="consult-card">
@@ -57,32 +68,32 @@
           ${image}
           <div class="consult-card__badges">
             ${card.is_verified ? "<span>Verified</span>" : ""}
-            ${card.free_chat_badge ? `<span>${card.free_chat_badge}</span>` : ""}
+            ${card.free_chat_badge ? `<span>${escapeHtml(card.free_chat_badge)}</span>` : ""}
           </div>
-          <span class="consult-live-pill ${card.is_online ? "is-live" : ""}">${card.online_status}</span>
+          <span class="consult-live-pill ${card.is_online ? "is-live" : ""}">${escapeHtml(card.online_status)}</span>
         </div>
         <div class="consult-card__body">
           <div class="consult-card__topline">
             <div>
-              <h3>${card.display_name}</h3>
-              <p>${card.city || "Remote"}</p>
+              <h3>${escapeHtml(card.display_name)}</h3>
+              <p>${escapeHtml(card.city || "Remote")}</p>
             </div>
-            <div class="consult-rating">★ ${card.rating}</div>
+            <div class="consult-rating">★ ${escapeHtml(card.rating)}</div>
           </div>
           <div class="consult-chip-row">${expertise}</div>
           <div class="consult-card__meta">
-            <span>${card.experience_years}+ yrs</span>
+            <span>${escapeHtml(card.experience_years)}+ yrs</span>
             <span>${languages}</span>
-            <span>${card.total_consultations} consults</span>
+            <span>${escapeHtml(card.total_consultations)} consults</span>
           </div>
           <div class="consult-card__footer">
             <div>
               <small>Starts at</small>
-              <strong>₹${card.price_per_minute}/min</strong>
+              <strong>₹${escapeHtml(card.price_per_minute)}/min</strong>
             </div>
             <div class="consult-card__actions">
-              <a class="consult-ghost consult-ghost--small" href="/astrologers/${card.slug}/">View Profile</a>
-              <button class="consult-cta consult-cta--small" type="button" data-start-chat="${card.id}">Chat Now</button>
+              <a class="consult-ghost consult-ghost--small" href="/astrologers/${encodeURIComponent(card.slug)}/">View Profile</a>
+              <button class="consult-cta consult-cta--small" type="button" data-start-chat="${escapeHtml(card.id)}">Chat Now</button>
             </div>
           </div>
         </div>
@@ -259,6 +270,8 @@
       return;
     }
 
+    // keep the reader's place: only follow new messages when already at the bottom
+    const stick = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 80 || !feed.children.length;
     feed.innerHTML = (messages || [])
       .map((item) => {
         const variant =
@@ -270,15 +283,17 @@
         return `
           <article class="consult-bubble consult-bubble--${variant}">
             <div class="consult-bubble__meta">
-              <span>${item.sender}</span>
+              <span>${escapeHtml(item.sender)}</span>
               <span>${new Date(item.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
             </div>
-            <div>${item.message}</div>
+            <div>${escapeHtml(item.message)}</div>
           </article>
         `;
       })
       .join("");
-    feed.scrollTop = feed.scrollHeight;
+    if (stick) {
+      feed.scrollTop = feed.scrollHeight;
+    }
   }
 
   function bindChatPage(root) {
@@ -339,7 +354,7 @@
       renderMessages(feed, data.messages || []);
 
       if (stateNode) {
-        stateNode.textContent = `Wallet ₹${data.wallet.balance} • Charged at ₹${sessionData.rate_per_minute}/min after ${sessionData.free_minutes} free minute(s).`;
+        stateNode.textContent = `Wallet ₹${(data.wallet && data.wallet.balance) != null ? data.wallet.balance : 0} • Charged at ₹${sessionData.rate_per_minute}/min after ${sessionData.free_minutes} free minute(s).`;
       }
 
       if (typingNode) {

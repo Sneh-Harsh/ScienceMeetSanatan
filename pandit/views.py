@@ -345,6 +345,8 @@ class PanditDashboardServicesApiView(APIView):
         pandit = self.get_object(request)
         serializer = PanditServiceSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        if "service" not in serializer.validated_data or "price" not in serializer.validated_data:
+            return Response({"detail": "service and price are required."}, status=status.HTTP_400_BAD_REQUEST)
         pandit_service, _created = PanditService.objects.update_or_create(
             pandit=pandit,
             service=serializer.validated_data["service"],
