@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{% include "components/analytics.html" %}
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>{% if library_collection %}{{ library_collection.label }} | Library | SanatanSeva{% else %}Library | SanatanSeva{% endif %}</title>
