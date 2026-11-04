@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#17243B" />
-  <title>Book a Pandit in Patna, Gurugram and Bengaluru | Science Meet Sanatan</title>
-  <meta name="description" content="Tell us about your puja and we will coordinate with a suitable pandit in Patna, Gurugram or Bengaluru, check availability and share the complete charges on WhatsApp before you confirm." />
+  <title>{{ seo.title }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet" />
@@ -58,8 +58,9 @@
         <div class="psb-wrap psb-hero__grid">
           <div class="psb-hero__copy">
             <p class="psb-eyebrow">Patna &middot; Gurugram &middot; Bengaluru</p>
-            <h1 id="psbTitle">Book a Pandit, with Confidence.</h1>
-            <p class="psb-lede">Tell us about your puja. We&rsquo;ll help coordinate a suitable pandit, check availability, and clarify the complete charges before you confirm.</p>
+            {% if landing %}<h1 id="psbTitle">{{ landing.h1 }}</h1>
+            <p class="psb-lede">{{ landing.intro }}</p>{% else %}<h1 id="psbTitle">Book a Pandit, with Confidence.</h1>
+            <p class="psb-lede">Tell us about your puja. We&rsquo;ll help coordinate a suitable pandit, check availability, and clarify the complete charges before you confirm.</p>{% endif %}
             <div class="psb-cta-row">
               <a class="psb-cta psb-cta--primary" href="#book" id="psbHeroBook" data-specular="primary">Book a Pandit</a>
               <a class="psb-cta psb-cta--secondary" href="#pooja" id="psbHeroExplore" data-specular="secondary">Explore Pooja Vidhi</a>
@@ -427,6 +428,15 @@
       </section>
     </div>
 
+    {% if landing %}
+    <section class="psb-section psb-seo" aria-labelledby="psbSeoTitle">
+      <div class="psb-wrap" style="max-width:820px">
+        <h2 id="psbSeoTitle">{% if landing.display %}{{ landing.display }} in {{ landing.city }}: common questions{% else %}Pandit booking in {{ landing.city }}: common questions{% endif %}</h2>
+        {% for q, a in landing.faqs %}<h3>{{ q }}</h3><p>{{ a }}</p>{% endfor %}
+        <p>{% for key, c in pandit_cities %}<a href="/pandit-in-{{ key }}/">Pandit in {{ c.name }}</a>{% if not forloop.last %} &middot; {% endif %}{% endfor %}</p>
+      </div>
+    </section>
+    {% endif %}
     <div class="psb-sticky" id="psbSticky" hidden>
       <a class="psb-btn psb-btn--gold" href="#book">Book a Pandit</a>
       <a class="psb-sticky__call" href="tel:+919353206153" data-call aria-label="Call us"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#psb-i-phone"/></svg></a>
@@ -437,6 +447,7 @@
   {% include 'components/login_popup.html' %}
   {% include 'components/digital_daanpatra.html' %}
   {% include 'components/review_modal.html' %}
+  {% if landing %}<script>window.PSB_PRESET = {puja: "{{ landing.puja|escapejs }}", city: "{{ landing.city|escapejs }}"};</script>{% endif %}
   <script>
     window.APP_CONTEXT = Object.assign({}, window.APP_CONTEXT || {}, {
       isAuthenticated: {{ request.user.is_authenticated|yesno:"true,false" }},
@@ -451,9 +462,10 @@
   <script defer src="{% static 'pandit/vendor/glass-surface.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/silk.js' %}?v=1"></script>
-  <script defer src="{% static 'pandit/booking.js' %}?v=8"></script>
+  <script defer src="{% static 'pandit/booking.js' %}?v=9"></script>
   <script defer src="{% static 'pandit/pooja.js' %}?v=12"></script>
   <script defer src="{% static 'pandit/festivals.js' %}?v=3"></script>
   <script defer src="{% static 'pandit/immersive.js' %}?v=1"></script>
+{% include "components/seo_faq.html" %}
 </body>
 </html>

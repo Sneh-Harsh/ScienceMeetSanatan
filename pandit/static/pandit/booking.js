@@ -572,6 +572,9 @@
   try {
     var qc = new URLSearchParams(location.search).get("city");
     if (qc) { for (var oi = 0; oi < citySelect.options.length; oi++) if (citySelect.options[oi].value === qc) citySelect.value = qc; }
+    var preset = window.PSB_PRESET;
+    if (preset && preset.city) { for (var pi = 0; pi < citySelect.options.length; pi++) if (citySelect.options[pi].value === preset.city) citySelect.value = preset.city; }
+    if (preset && preset.puja) { for (var pj = 0; pj < pujaSelect.options.length; pj++) if (pujaSelect.options[pj].value === preset.puja) { pujaSelect.value = preset.puja; syncPuja(); } }
   } catch (e) { /* ignore */ }
   syncCity();
   syncDateMode();

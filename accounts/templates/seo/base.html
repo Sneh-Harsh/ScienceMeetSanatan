@@ -1,0 +1,42 @@
+{% load static %}<!doctype html>
+<html lang="{% block htmllang %}en{% endblock %}">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+{% include "components/analytics.html" %}
+{% include "components/seo.html" %}
+<title>{{ seo.title }}</title>
+<link rel="icon" type="image/png" href="{% static 'images/sanatanseva-mark.png' %}" />
+<style>
+:root{--bg:#fbf6ec;--card:#fff;--ink:#2a1d0c;--mute:#6f5b3f;--gold:#b8791f;--line:#eadfc9}
+@media (prefers-color-scheme:dark){:root{--bg:#120d06;--card:#1d150a;--ink:#f4e9d3;--mute:#b9a584;--gold:#e7b44f;--line:#33270f}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif}
+a{color:var(--gold)}.w{max-width:880px;margin:0 auto;padding:0 18px}
+.top{border-bottom:1px solid var(--line);background:var(--card)}.top .w{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:12px 18px}
+.brand{font-weight:700;font-size:1.15rem;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:8px}.brand img{width:28px;height:28px}.brand b{color:var(--gold)}
+.nav{display:flex;gap:14px;flex-wrap:wrap;font-size:.95rem}.nav a{text-decoration:none;color:var(--mute)}.nav a:hover{color:var(--gold)}
+.crumbs{font-size:.85rem;color:var(--mute);padding:14px 0 0}.crumbs a{color:var(--mute)}
+h1{font-size:clamp(1.6rem,4vw,2.25rem);line-height:1.25;margin:.5em 0 .3em}h2{font-size:1.3rem;margin:1.8em 0 .5em}h3{font-size:1.05rem;margin:1.2em 0 .2em}
+.lede{color:var(--mute);margin:0 0 1em}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:14px 0}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mute);font-weight:600;width:42%}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;list-style:none;padding:0}.grid a{display:block;padding:9px 12px;border:1px solid var(--line);border-radius:10px;text-decoration:none;background:var(--card)}
+.cta{display:inline-block;background:var(--gold);color:#fff;padding:11px 20px;border-radius:999px;text-decoration:none;font-weight:600;margin:6px 8px 6px 0}.cta.alt{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.sans{white-space:pre-line;font-size:1.15rem;line-height:1.9}.small{font-size:.85rem;color:var(--mute)}
+footer{border-top:1px solid var(--line);margin-top:48px;padding:24px 0 40px;color:var(--mute);font-size:.9rem}footer a{color:var(--mute)}
+</style>
+{% block head %}{% endblock %}
+</head>
+<body>
+<header class="top"><div class="w">
+  <a class="brand" href="/"><img src="{% static 'images/sanatanseva-mark.png' %}" alt="" width="28" height="28" /><span>Sanatan<b>Seva</b></span></a>
+  <nav class="nav" aria-label="Main"><a href="/panchang/">Panchang</a><a href="/festivals/">Festivals</a><a href="/library/">Library</a><a href="/katha/">Vrat Katha</a><a href="/gita-shlok/">Gita Shlok</a><a href="/pandits/">Book Pandit</a><a href="/kundali/">Kundali</a></nav>
+</div></header>
+<main class="w">
+{% if seo.breadcrumbs %}<nav class="crumbs" aria-label="Breadcrumb">{% for label, url in seo.breadcrumbs %}{% if not forloop.last %}<a href="{{ url }}">{{ label }}</a> &rsaquo; {% else %}{{ label }}{% endif %}{% endfor %}</nav>{% endif %}
+{% block content %}{% endblock %}
+</main>
+<footer><div class="w">
+{% include "components/seo_links.html" %}
+<p>&copy; SanatanSeva &middot; Science Meets Sanatan</p>
+</div></footer>
+</body></html>

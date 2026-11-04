@@ -1234,6 +1234,12 @@ def library_detail_page(request, slug: str):
             "item_name": item["name"],
             "back_to_library_href": back_to_library_href,
             "from_collection": from_collection,
+            "item_lyrics": {
+                k: str((item.get("languages") or {}).get(k) or "").strip() for k in ("hindi", "sanskrit", "english")
+            },
+            "item_category": item.get("category") or "",
+            "item_deity": item.get("deity") or "",
+            "item_singer": item.get("singer") or "",
         },
     )
 

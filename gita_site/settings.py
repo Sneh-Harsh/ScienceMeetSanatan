@@ -106,6 +106,8 @@ ALLOWED_HOSTS = csv_env(
     "ALLOWED_HOSTS",
     "localhost,127.0.0.1,[::1],0.0.0.0,testserver",
 )
+SITE_URL = env("SITE_URL", default="").strip().rstrip("/")
+
 CSRF_TRUSTED_ORIGINS = csv_env(
     "CSRF_TRUSTED_ORIGINS",
     "http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080,http://127.0.0.1:8080",
@@ -178,6 +180,7 @@ context_processors = [
     "django.contrib.auth.context_processors.auth",
     "django.contrib.messages.context_processors.messages",
     "core.context_processors.donation_context",
+    "core.context_processors.seo",
 ]
 
 if SOCIAL_AUTH_ENABLED:

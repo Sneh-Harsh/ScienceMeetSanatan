@@ -6,7 +6,8 @@ from panchang.urls import urlpatterns as panchang_urls
 from kundali.urls import urlpatterns as kundali_urls
 from pandit.urls import urlpatterns as pandit_urls
 from astrology_consultation.urls import urlpatterns as astrology_consultation_urls
-from gita_site.views import healthz, robots_txt, sitemap_xml
+from accounts import seo_views
+from gita_site.views import healthz, robots_txt, sitemap_section, sitemap_xml
 
 from accounts.views import (
     api_leaderboard,
@@ -44,6 +45,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('healthz/', healthz, name='healthz'),
     path('sitemap.xml', sitemap_xml, name='sitemap'),
+    path('sitemap-<slug:kind>.xml', sitemap_section, name='sitemap_section'),
     path('robots.txt', robots_txt, name='robots'),
     path('api/', include('accounts.urls')),
     path('api/', include('personalization.urls')),
@@ -67,6 +69,14 @@ urlpatterns = [
     path('library/<slug:slug>/', library_detail_page, name='library_detail'),
     path('aartis/<slug:slug>/', library_detail_page, name='aarti_detail'),
     path('panchang/', panchang_page, name='panchang'),
+    path('panchang/<slug:city>/', seo_views.panchang_city, name='panchang_city'),
+    path('hi/panchang/<slug:city>/', seo_views.panchang_city_hi, name='panchang_city_hi'),
+    path('festivals/', seo_views.festival_index, name='festival_index'),
+    path('festivals/<slug:slug>/', seo_views.festival_detail, name='festival_detail'),
+    path('katha/', seo_views.katha_index, name='katha_index'),
+    path('katha/<slug:katha_id>/', seo_views.katha_detail, name='katha_detail'),
+    path('gita-shlok/', seo_views.gita_index, name='gita_index'),
+    path('gita-shlok/<slug:ref>/', seo_views.gita_detail, name='gita_detail'),
     path('kundali/', kundali_page, name='kundali'),
     path('horoscope/', horoscope_page, name='horoscope'),
     path('api/library/', api_library_items, name='api_library_items'),

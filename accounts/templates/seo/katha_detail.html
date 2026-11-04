@@ -1,0 +1,10 @@
+{% extends "seo/base.html" %}
+{% block htmllang %}hi{% endblock %}
+{% block content %}
+<h1>{{ k.title.hi }} ({{ k.title.en }}) in Hindi</h1>
+<p class="lede">{{ k.summary.hi }}</p>
+<p><a class="cta" href="/pandits/">Book a pandit for {{ k.festivalName.en }}</a></p>
+<article class="card">{% for para in k.paragraphs %}<p>{{ para }}</p>{% endfor %}</article>
+<p class="small">Source: <a href="{{ k.sourceUrl }}" rel="noopener">{{ k.sourceName }}</a> &middot; Licence: {{ k.license }}. {{ k.licenseNote }} This text has not been reviewed by a pandit.</p>
+<h2>More vrat katha</h2><ul>{% for o in others %}<li><a href="/katha/{{ o.id }}/">{{ o.title.hi }} ({{ o.title.en }})</a></li>{% endfor %}</ul>
+{% endblock %}

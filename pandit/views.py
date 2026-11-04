@@ -53,6 +53,20 @@ def pandit_marketplace_page(request):
 
 
 @require_GET
+def pandit_landing_page(request, slug: str):
+    from . import seo_pages
+
+    parsed = seo_pages.parse(slug)
+    if parsed:
+        data = seo_pages.landing(*parsed)
+    elif slug.startswith("in-") and slug[3:] in seo_pages.CITIES:
+        data = seo_pages.city_landing(slug[3:])
+    else:
+        raise Http404("No such page")
+    return render(request, "pandit/index.html", {"landing": data, "pandit_cities": list(seo_pages.CITIES.items())})
+
+
+@require_GET
 def pandit_profile_page(request, slug: str):
     pandit = get_object_or_404(
         Pandit.objects.filter(is_active=True).prefetch_related(

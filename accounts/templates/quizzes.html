@@ -3,10 +3,11 @@
 <html lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>The Dharma Trials | Celestial Aether</title>
+  <title>{{ seo.title }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -341,5 +342,6 @@
   <script src="{% static 'header.js' %}?v=6"></script>
   <script src="{% static 'quiz-categories-data.js' %}?v=2"></script>
   <script src="{% static 'quizzes.js' %}?v=5"></script>
+{% include "components/seo_faq.html" %}
 </body>
 </html>

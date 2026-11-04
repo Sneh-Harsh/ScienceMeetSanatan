@@ -1,0 +1,6 @@
+{% extends "seo/base.html" %}
+{% block content %}
+<h1>Vrat Katha in Hindi: Satyanarayan, Ekadashi &amp; More</h1>
+<p class="lede">Read vrat katha online in Sanskrit with Hindi translation, free.</p>
+<ul>{% for k in kathas %}<li><a href="/katha/{{ k.id }}/">{{ k.title.hi }} &middot; {{ k.title.en }}</a><br><span class="small">{{ k.summary.en }}</span></li>{% endfor %}</ul>
+{% endblock %}

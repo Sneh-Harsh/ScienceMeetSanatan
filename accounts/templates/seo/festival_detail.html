@@ -1,0 +1,16 @@
+{% extends "seo/base.html" %}
+{% block head %}<script type="application/ld+json">{{ seo.event_jsonld|safe }}</script>{% endblock %}
+{% block content %}
+<h1>{{ f.name }} {{ f.year }}: Date, Tithi &amp; Puja Details</h1>
+<p class="lede">{{ f.name }} {{ f.year }} falls on <strong>{{ f.date }}</strong>.</p>
+<div class="card"><table>
+<tr><th>Festival</th><td>{{ f.name }}</td></tr>
+<tr><th>Date</th><td>{{ f.date }}{% if f.endDate %} to {{ f.endDate }}{% endif %}</td></tr>
+<tr><th>Tithi</th><td>{{ f.paksha }} {{ f.tithi }}</td></tr>
+<tr><th>Hindu month</th><td>{{ f.month }}</td></tr>
+</table></div>
+{% if f.description %}<p>{{ f.description }}</p>{% endif %}
+<p class="small">Dates are for Patna, Bihar (IST) from Drik Panchang. Timings differ by city; confirm the exact muhurat with your pandit.</p>
+<p><a class="cta" href="/pandits/">Book a pandit for the puja</a> <a class="cta alt" href="/panchang/">Today's Panchang</a></p>
+{% if related %}<h2>More festivals in {{ f.year }}</h2><ul>{% for r in related %}<li><a href="/festivals/{{ r.slug }}/">{{ r.name }}</a>: {{ r.date }}</li>{% endfor %}</ul>{% endif %}
+{% endblock %}

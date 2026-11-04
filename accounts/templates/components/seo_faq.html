@@ -1,0 +1,13 @@
+<section class="seo-copy" aria-label="More on SanatanSeva">
+  <style>
+    .seo-copy{max-width:860px;margin:48px auto 0;padding:32px 20px 56px;color:inherit;font:15px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif;border-top:1px solid rgba(128,128,128,.25)}
+    .seo-copy h2{font-size:1.25rem;margin:0 0 14px}
+    .seo-copy h3{font-size:1rem;margin:18px 0 4px}
+    .seo-copy p{margin:0;opacity:.85}
+    .seo-copy a{color:inherit;opacity:.9}
+  </style>
+  {% if seo.faq %}<h2>Frequently asked questions</h2>
+  {% for q, a in seo.faq %}<h3>{{ q }}</h3><p>{{ a }}</p>
+  {% endfor %}{% endif %}
+  <div style="margin-top:28px">{% include "components/seo_links.html" %}</div>
+</section>

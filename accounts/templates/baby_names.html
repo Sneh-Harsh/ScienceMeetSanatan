@@ -3,12 +3,13 @@
 <html lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Baby Names | Science Meets Sanatan</title>
+<title>{{ seo.title }}</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,5 +79,6 @@ Boy Names
 <script src="{% static 'header.js' %}?v=6"></script>
 <script src="{% static 'baby_names.js' %}?v=2"></script>
 
+{% include "components/seo_faq.html" %}
 </body>
 </html>

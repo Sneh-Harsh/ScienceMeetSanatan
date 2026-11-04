@@ -5,6 +5,7 @@ from .views import (
     BookingHistoryApiView,
     BookingStatusApiView,
     PanditDashboardAvailabilityApiView,
+    pandit_landing_page,
     PanditDashboardBookingStatusApiView,
     PanditDashboardMediaApiView,
     PanditDashboardPhotoApiView,
@@ -22,6 +23,8 @@ from .views import (
 
 urlpatterns = [
     path("pandits/", pandit_marketplace_page, name="pandit_marketplace"),
+    path("pandit-for-<slug:slug>/", pandit_landing_page, name="pandit_landing"),
+    path("pandit-<slug:slug>/", pandit_landing_page, name="pandit_city_landing"),
     path("pandits/dashboard/", pandit_dashboard_page, name="pandit_dashboard"),
     path("pandits/<slug:slug>/", pandit_profile_page, name="pandit_profile"),
     path("api/pandits/", PanditListApiView.as_view(), name="api_pandit_list"),

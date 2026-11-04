@@ -1,0 +1,22 @@
+{% load static %}<meta name="description" content="{{ seo.description }}" />
+<meta name="robots" content="{{ seo.robots }}" />
+<link rel="canonical" href="{{ seo.canonical }}" />
+<meta name="theme-color" content="#0e0a05" />
+<meta property="og:site_name" content="{{ seo.site_name }}" />
+<meta property="og:type" content="{{ seo.og_type }}" />
+<meta property="og:title" content="{{ seo.title }}" />
+<meta property="og:description" content="{{ seo.description }}" />
+<meta property="og:url" content="{{ seo.url }}" />
+<meta property="og:image" content="{{ seo.image }}" />
+<meta property="og:locale" content="en_IN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:title" content="{{ seo.title }}" />
+<meta name="twitter:description" content="{{ seo.description }}" />
+<meta name="twitter:image" content="{{ seo.image }}" />
+{% if seo.indexable %}{% if request.path == "/" or request.path == "/welcome/" %}<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"{{ seo.root }}/#org","name":"SanatanSeva","alternateName":"Science Meets Sanatan","url":"{{ seo.root }}/","logo":"{{ seo.root }}{% static "images/sanatanseva-mark.png" %}"},{"@type":"WebSite","@id":"{{ seo.root }}/#site","url":"{{ seo.root }}/","name":"SanatanSeva","publisher":{"@id":"{{ seo.root }}/#org"},"inLanguage":"en-IN"}]}</script>{% endif %}{% endif %}
+{% if seo.jsonld_extra %}<script type="application/ld+json">{{ seo.jsonld_extra|safe }}</script>{% endif %}
+{% if seo.faq_jsonld %}<script type="application/ld+json">{{ seo.faq_jsonld|safe }}</script>{% endif %}
+{% for lang, url in seo.alternates %}<link rel="alternate" hreflang="{{ lang }}" href="{{ url }}" />
+{% endfor %}{% if seo.breadcrumb_jsonld %}<script type="application/ld+json">{{ seo.breadcrumb_jsonld|safe }}</script>{% endif %}

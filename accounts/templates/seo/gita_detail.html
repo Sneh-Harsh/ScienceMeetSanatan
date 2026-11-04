@@ -1,0 +1,9 @@
+{% extends "seo/base.html" %}
+{% block content %}
+<h1>Bhagavad Gita {{ s.1 }}: Shlok in Hindi with Meaning</h1>
+<div class="card"><p class="sans">{{ s.2 }}</p></div>
+<h2>हिन्दी अर्थ</h2><p>{{ s.3 }}</p>
+<h2>Meaning in English</h2><p>{{ s.4 }}</p>
+<p><a class="cta" href="/library/collections/gita/">Read the full Bhagavad Gita</a> <a class="cta alt" href="/gita-shlok/">All shlokas</a></p>
+<h2>More Gita shlokas</h2><ul>{% for o in others %}<li><a href="/gita-shlok/{{ o.0 }}/">Bhagavad Gita {{ o.1 }}</a></li>{% endfor %}</ul>
+{% endblock %}

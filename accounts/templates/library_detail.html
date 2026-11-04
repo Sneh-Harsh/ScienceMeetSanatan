@@ -3,11 +3,12 @@
 <html lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#f4ecd8" />
-  <title>{{ item_name }} | Reader | SanatanSeva</title>
+  <title>{{ seo.title }}</title>
   <link rel="icon" type="image/png" href="{% static 'images/sanatanseva-mark.png' %}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,6 +20,13 @@
 <body class="kr-body">
   <div class="kr" id="kr" data-slug="{{ item_slug|escape }}" data-back="{{ back_to_library_href }}" data-from-collection="{{ from_collection|default:'' }}" data-theme="sepia" data-chrome="on">
 
+    <article id="seoText" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap" aria-hidden="false">
+      <h2>{{ item_name }}{% if item_deity %} - {{ item_deity }}{% endif %}</h2>
+      {% if item_lyrics.hindi %}<h3>{{ item_name }} lyrics in Hindi</h3><p style="white-space:pre-line">{{ item_lyrics.hindi }}</p>{% endif %}
+      {% if item_lyrics.sanskrit %}<h3>Sanskrit</h3><p style="white-space:pre-line">{{ item_lyrics.sanskrit }}</p>{% endif %}
+      {% if item_lyrics.english %}<h3>{{ item_name }} meaning in English</h3><p style="white-space:pre-line">{{ item_lyrics.english }}</p>{% endif %}
+    </article>
+    <h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">{{ item_name }}</h1>
     <header class="kr-top" id="krTop">
       <a class="kr-back" id="krBack" href="{{ back_to_library_href }}" aria-label="Back to library">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>

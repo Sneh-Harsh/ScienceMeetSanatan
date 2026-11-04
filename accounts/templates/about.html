@@ -3,12 +3,14 @@
 <html class="dark" lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>About | ScienceMeetsSanatan</title>
+  <title>{{ seo.title }}</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&icon_names=auto_awesome,auto_stories,calendar_today,child_care,favorite,hub,music_note,my_location,palette,person_pin,psychology,refresh&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Manrope:wght@200..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="{% static 'header.css' %}?v=13" />
   <link rel="stylesheet" href="{% static 'about.css' %}?v=1"/>
@@ -637,5 +639,6 @@
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
   <script defer src="{% static 'about.js' %}?v=1"></script>
+{% include "components/seo_faq.html" %}
 </body>
 </html>

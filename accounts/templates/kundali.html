@@ -3,12 +3,13 @@
 <html lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#050914">
   <meta name="color-scheme" content="dark">
-  <title>Kundali | Science Meets Sanatan</title>
+  <title>{{ seo.title }}</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -258,5 +259,6 @@
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
   <script src="{% static 'kundali.js' %}?v=19"></script>
+{% include "components/seo_faq.html" %}
 </body>
 </html>

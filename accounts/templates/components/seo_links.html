@@ -1,0 +1,6 @@
+<nav aria-label="Explore SanatanSeva" class="seo-links" style="margin:0 0 14px;font-size:.9rem;line-height:2">
+  <strong>Panchang by city:</strong>
+  {% for slug, name, name_hi in seo_cities %}<a href="/panchang/{{ slug }}/">{{ name }}</a>{% if not forloop.last %} &middot; {% endif %}{% endfor %}
+  <br><strong>Explore:</strong> <a href="/panchang/">Aaj ka Panchang</a> &middot; <a href="/festivals/">Festival dates 2026</a> &middot; <a href="/katha/">Vrat Katha</a> &middot; <a href="/gita-shlok/">Gita Shlok with meaning</a> &middot; <a href="/library/collections/aartis/">Aarti lyrics</a> &middot; <a href="/library/collections/chalisas/">Chalisa</a> &middot; <a href="/kundali/">Free Kundali</a> &middot; <a href="/horoscope/">Rashifal</a> &middot; <a href="/baby-names/">Hindu baby names</a>
+  <br><strong>Book a pandit:</strong> <a href="/pandit-in-patna/">Patna</a> &middot; <a href="/pandit-in-gurugram/">Gurugram</a> &middot; <a href="/pandit-in-bengaluru/">Bengaluru</a> &middot; <a href="/pandit-for-griha-pravesh-in-patna/">Griha Pravesh</a> &middot; <a href="/pandit-for-satyanarayan-in-patna/">Satyanarayan Puja</a> &middot; <a href="/pandit-for-rudrabhishek-in-patna/">Rudrabhishek</a>
+</nav>

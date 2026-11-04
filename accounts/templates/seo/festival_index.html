@@ -1,0 +1,8 @@
+{% extends "seo/base.html" %}
+{% block content %}
+<h1>Hindu Festival Dates 2026 &amp; 2027: Vrat and Puja Calendar</h1>
+<p class="lede">Dates of major Hindu festivals and vrats with tithi, paksha and Hindu month. Dates are for Patna, Bihar from Drik Panchang; please re-check with your local panchang.</p>
+{% regroup festivals by year as by_year %}
+{% for g in by_year %}<h2>{{ g.grouper }}</h2>
+<ul>{% for f in g.list %}<li><a href="/festivals/{{ f.slug }}/">{{ f.name }} {{ f.year }}</a>: {{ f.date }} &middot; {{ f.tithi }}, {{ f.paksha }}</li>{% endfor %}</ul>{% endfor %}
+{% endblock %}

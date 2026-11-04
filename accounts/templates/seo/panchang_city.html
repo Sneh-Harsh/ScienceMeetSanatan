@@ -1,0 +1,42 @@
+{% extends "seo/base.html" %}
+{% block htmllang %}{% if lang == "hi" %}hi{% else %}en{% endif %}{% endblock %}
+{% block content %}
+{% if lang == "hi" %}
+<h1>आज का पंचांग {{ p.city_hi }}: {{ p.weekday_hi }}, {{ p.date_long }}</h1>
+<p class="lede">{{ p.city_hi }} ({{ p.state }}) के लिए आज की तिथि, नक्षत्र, राहु काल और अभिजीत मुहूर्त। समय {{ p.city_hi }} के सूर्योदय के अनुसार गणना किए गए हैं।</p>
+<div class="card"><table>
+<tr><th>तिथि</th><td>{{ paksha_hi }} {{ tithi_hi }} (समाप्ति {{ p.t.tithi_end }})</td></tr>
+<tr><th>नक्षत्र</th><td>{{ nak_hi }} (समाप्ति {{ p.t.nak_end }})</td></tr>
+<tr><th>हिन्दू मास</th><td>{{ month_hi }} · विक्रम संवत {{ p.samvat }}</td></tr>
+<tr><th>सूर्योदय / सूर्यास्त</th><td>{{ p.t.sunrise }} / {{ p.t.sunset }}</td></tr>
+<tr><th>राहु काल</th><td>{{ p.t.rahu }}</td></tr>
+<tr><th>अभिजीत मुहूर्त</th><td>{{ p.t.abhijit }}</td></tr>
+</table></div>
+<h2>पंचांग क्या है?</h2>
+<p>पंचांग हिन्दू कैलेंडर है जिसमें तिथि, वार, नक्षत्र, योग और करण — ये पाँच अंग होते हैं। शुभ कार्य शुरू करने से पहले लोग राहु काल से बचते हैं और अभिजीत मुहूर्त जैसे शुभ समय देखते हैं।</p>
+<p><a class="cta" href="/panchang/">पूरा पंचांग, त्योहार और विवाह मुहूर्त</a> <a class="cta alt" href="/panchang/{{ city_key }}/">View in English</a></p>
+<h2>अन्य शहरों का पंचांग</h2>
+<ul class="grid">{% for slug, name, name_hi in cities %}<li><a href="/hi/panchang/{{ slug }}/">{{ name_hi }}</a></li>{% endfor %}</ul>
+{% else %}
+<h1>Aaj Ka Panchang {{ p.city }}: {{ p.weekday }}, {{ p.date_long }}</h1>
+<p class="lede">Today's tithi, nakshatra, Rahu Kaal and Abhijit Muhurat for {{ p.city }}, {{ p.state }}. Timings are calculated for {{ p.city }}'s sunrise and sunset.</p>
+<div class="card"><table>
+<tr><th>Tithi</th><td>{{ p.paksha }} {{ p.tithi }} (till {{ p.t.tithi_end }})</td></tr>
+<tr><th>Nakshatra</th><td>{{ p.nakshatra }} (till {{ p.t.nak_end }})</td></tr>
+<tr><th>Hindu month</th><td>{{ p.month }} &middot; Vikram Samvat {{ p.samvat }}</td></tr>
+<tr><th>Sunrise / Sunset</th><td>{{ p.t.sunrise }} / {{ p.t.sunset }}</td></tr>
+<tr><th>Rahu Kaal</th><td>{{ p.t.rahu }}</td></tr>
+<tr><th>Abhijit Muhurat</th><td>{{ p.t.abhijit }}</td></tr>
+</table></div>
+<p class="small">Tithi is the one running at sunrise. Please confirm the exact muhurat with your pandit before an important ritual.</p>
+<p><a class="cta" href="/panchang/">Full Panchang, festivals &amp; vivah muhurat</a> <a class="cta alt" href="/hi/panchang/{{ city_key }}/">हिन्दी में देखें</a> <a class="cta alt" href="/pandit-in-{{ city_key }}/">Book a pandit</a></p>
+<h2>Panchang for {{ p.city }}: common questions</h2>
+<h3>What is today's tithi in {{ p.city }}?</h3><p>Today, {{ p.date_long }}, the tithi at sunrise in {{ p.city }} is {{ p.paksha }} {{ p.tithi }}, and the nakshatra is {{ p.nakshatra }}.</p>
+<h3>What is Rahu Kaal today in {{ p.city }}?</h3><p>Rahu Kaal in {{ p.city }} today is {{ p.t.rahu }}. It moves with sunrise, so it is different in every city and on every weekday.</p>
+<h3>What is Abhijit Muhurat today in {{ p.city }}?</h3><p>Abhijit Muhurat in {{ p.city }} today is {{ p.t.abhijit }}.</p>
+<h3>Why does Panchang differ between cities?</h3><p>Sunrise, sunset and the exact end time of a tithi depend on latitude and longitude, so {{ p.city }} can differ by minutes from other cities.</p>
+{% if upcoming %}<h2>Upcoming festivals</h2><ul>{% for f in upcoming %}<li><a href="/festivals/{{ f.slug }}/">{{ f.name }}</a>: {{ f.date }}</li>{% endfor %}</ul>{% endif %}
+<h2>Panchang for other cities</h2>
+<ul class="grid">{% for slug, name, name_hi in cities %}<li><a href="/panchang/{{ slug }}/">{{ name }}</a></li>{% endfor %}</ul>
+{% endif %}
+{% endblock %}

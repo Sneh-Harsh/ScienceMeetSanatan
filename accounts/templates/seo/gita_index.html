@@ -1,0 +1,8 @@
+{% extends "seo/base.html" %}
+{% block content %}
+<h1>Gita Shlok in Hindi with Meaning: Famous Bhagavad Gita Verses</h1>
+<p class="lede">Famous Bhagavad Gita shlokas in Sanskrit with Hindi and English meaning.</p>
+{% for s in shlokas %}<section class="card" id="v{{ s.0 }}"><h2 style="margin-top:0"><a href="/gita-shlok/{{ s.0 }}/">Bhagavad Gita {{ s.1 }}</a></h2>
+<p class="sans">{{ s.2 }}</p><p><strong>हिन्दी अर्थ:</strong> {{ s.3 }}</p><p><strong>Meaning:</strong> {{ s.4 }}</p></section>{% endfor %}
+<p><a class="cta" href="/library/collections/gita/">Read the full Bhagavad Gita</a></p>
+{% endblock %}

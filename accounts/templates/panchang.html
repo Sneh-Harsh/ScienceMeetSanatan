@@ -3,10 +3,11 @@
 <html lang="en">
 <head>
 {% include "components/analytics.html" %}
+{% include "components/seo.html" %}
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panchang | SanatanSeva</title>
+  <title>{{ seo.title }}</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -476,5 +477,6 @@
   <script src="{% static 'weather-sky.js' %}?v=3"></script>
   <script src="{% static 'weather-ui.js' %}?v=5"></script>
   <script src="{% static 'panchang.js' %}?v=16"></script>
+{% include "components/seo_faq.html" %}
 </body>
 </html>
