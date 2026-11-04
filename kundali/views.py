@@ -13,6 +13,7 @@ from core.ratelimit import rate_limited
 
 from .calculations import build_kundali
 from .dasha_engine import build_dasha_experience
+from .plain_language import build_reading
 from .dosha_engine import analyze_doshas
 from .experience_engine import build_kundali_experience
 from .horoscope_engine import build_horoscope
@@ -94,6 +95,12 @@ def kundali_api(request):
     except Exception:
         logger.exception("Kundali/oracle request failed")
         return JsonResponse({"error": SERVER_ERROR}, status=500)
+
+    # additive: easy-language reading + full dasha/antardasha tables, built only from the chart above
+    try:
+        payload["reading"] = build_reading(payload)
+    except Exception:
+        logger.exception("Plain-language reading failed")
 
     return JsonResponse(payload)
 

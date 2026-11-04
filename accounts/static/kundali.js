@@ -45,7 +45,8 @@ function isMobileView(){ return window.matchMedia && window.matchMedia("(max-wid
 function pad2(n){ return String(n).padStart(2, "0"); }
 
 function getBrowserTz(){
-  return Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata";
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Kolkata";
+  return tz === "Asia/Calcutta" ? "Asia/Kolkata" : tz; // browsers still report the legacy alias for India
 }
 
 function isoToday(){
@@ -214,11 +215,11 @@ const I18N = {
       planets: "Planets",
       noPlanets: "No planets in this house.",
       selectHouse: "Tap a house to view details.",
-      overview: "Overview",
+      overview: "Your reading",
       planetsTab: "Planets",
-      dosha: "Dosha",
+      dosha: "Doshas",
       dasha: "Dasha",
-      predictions: "Predictions",
+      predictions: "Life areas",
       remedies: "Remedies",
       houseDetails: "House Details",
       vimDasha: "Vimshottari Dasha",
@@ -240,7 +241,7 @@ const I18N = {
       planetsTab: "ग्रह",
       dosha: "दोष",
       dasha: "दशा",
-      predictions: "फलादेश",
+      predictions: "जीवन क्षेत्र",
       remedies: "उपाय",
       houseDetails: "भाव विवरण",
       vimDasha: "विम्शोत्तरी दशा",
@@ -1055,7 +1056,7 @@ function renderHousePanel(){
     <div class="detail-console">
       <div class="detail-console__top">
         <div>
-          <div class="detail-console__eyebrow">${escapeHtml(t("house"))} ${escapeHtml(String(houseNum))}</div>
+          <div class="detail-console__eyebrow">${escapeHtml(t("house"))} ${escapeHtml(String(houseNum))}${window.KundaliChart3D && kundaliState.lang !== "hi" ? ` · ${escapeHtml(window.KundaliChart3D.areaName(houseNum))}` : ""}</div>
           <div class="k-househead">${escapeHtml(trRashi(detail.sign || "—"))}</div>
         </div>
         <div class="detail-console__ruler">
@@ -1311,6 +1312,7 @@ function hydrateAll(){
   renderPlanetTable();
   renderDasha();
   renderExtraPanes();
+  if(window.KundaliReading) window.KundaliReading.render(kundaliState); // easy-language tabs from data.reading
   setState({loading:false, error:null, ready:true});
 }
 

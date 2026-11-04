@@ -7,7 +7,7 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050914">
+  <meta name="theme-color" content="#1a0f07">
   <meta name="color-scheme" content="dark">
   <title>{{ seo.title }}</title>
 
@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="{% static 'header.css' %}?v=13">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
   <link rel="stylesheet" href="{% static 'kundali.css' %}?v=26">
+  <link rel="stylesheet" href="{% static 'kundali-skeu.css' %}?v=9">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2">
@@ -28,72 +29,32 @@
 <body>
 {% include 'components/header.html' %}
 
-  <main class="kundali-page" id="kundaliRoot">
-    <section class="k-hero glass-panel">
-      <div class="k-hero__video-shell" aria-hidden="true">
-        <video
-          id="heroVideo"
-          class="k-hero__video"
-          muted
-          loop
-          playsinline
-          webkit-playsinline="true"
-          disablepictureinpicture
-          disableremoteplayback
-          crossorigin="anonymous"
-          preload="none"
-          poster="https://res.cloudinary.com/dmnm8z8dc/video/upload/so_0,w_900,q_auto,f_jpg/v1776004063/videoplayback_3_vvctpq.jpg"
-          data-src-desktop="https://res.cloudinary.com/dmnm8z8dc/video/upload/v1776004063/videoplayback_3_vvctpq.mp4"
-          data-src-mobile="https://res.cloudinary.com/dmnm8z8dc/video/upload/q_auto:low,w_640,vc_h264,br_700k/v1776004063/videoplayback_3_vvctpq.mp4"
-        ></video>
+  <div class="kx-bg" aria-hidden="true"></div>
+
+  <main class="kundali-page kx" id="kundaliRoot">
+    <section class="kx-stage">
+      <div class="kx-copy">
+        <span class="kx-pill"><b aria-hidden="true">✦</b> Vedic astrology · free</span>
+        <h1 class="kx-title">Your Janma Kundali,<br><em>beautifully decoded.</em></h1>
+        <p class="kx-lede">Enter your birth details and see your birth chart, planets, dasha timeline and doshas in seconds. Clear, interactive and in English or हिंदी.</p>
+        <ul class="kx-feats" aria-label="What you get">
+          <li><i>◐</i><span><strong>North &amp; South chart</strong>D1 Rashi + D9 Navamsa</span></li>
+          <li><i>☾</i><span><strong>Nakshatra &amp; Dasha</strong>Vimshottari timeline</span></li>
+          <li><i>✺</i><span><strong>Doshas &amp; remedies</strong>Plain-language guidance</span></li>
+        </ul>
+        <ol class="kx-steps" aria-label="How it works">
+          <li><b>1</b> Birth details</li><li><b>2</b> Your chart</li><li><b>3</b> Dasha &amp; doshas</li>
+        </ol>
+        <p class="kx-note">Lahiri ayanamsha · whole-sign houses · computed with Swiss Ephemeris</p>
       </div>
-      <div class="k-hero__bg" aria-hidden="true"></div>
-      <div class="k-hero__top">
-        <div class="k-hero__copy">
-          <div class="k-kicker">Vedic Astrology</div>
-          <div class="k-title-row">
-            <div class="k-badge k-badge--hero" aria-hidden="true">
-              <div class="k-badge__halo"></div>
-              <div class="k-badge__pulse"></div>
-              <div class="k-badge__ring"></div>
-              <div class="k-badge__glyph">ॐ</div>
-            </div>
-            <h1 class="k-title">Janma Kundali Generator</h1>
-          </div>
-          <div class="k-sub">Sidereal (Lahiri) • Whole Sign Houses • D1 + D9 • Nakshatra + Vimshottari</div>
-          <div class="k-hero__cta-row">
-            <div class="k-hero__stat">
-              <span>Chart mode</span>
-              <strong>Luxury cosmic console</strong>
-            </div>
-            <div class="k-hero__stat">
-              <span>Reading flow</span>
-              <strong>Chart → Timing → Dosha → Remedies</strong>
-            </div>
+
+      <div class="k-input glass-panel kx-card">
+        <div class="k-input__head">
+          <div>
+            <div class="k-input__title">Birth details</div>
+            <div class="k-input__hint">The exact time matters: the ascendant changes about every two hours.</div>
           </div>
         </div>
-        <aside class="k-guide glass-panel" id="kGuidePanel">
-          <h2>Read your chart like a living console.</h2>
-          <div class="k-guide__list">
-            <div class="k-guide__item"><strong>1</strong><span>Chart stage with premium North / South Indian rendering</span></div>
-            <div class="k-guide__item"><strong>2</strong><span>Life timeline for Mahadasha and Antardasha flow</span></div>
-            <div class="k-guide__item"><strong>3</strong><span>Deterministic dosha, remedies, and house activation layers</span></div>
-          </div>
-          <div class="k-guide__footer">The engine stays the same. The presentation becomes clearer, richer, and more actionable.</div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="k-shell">
-      <div class="k-input-grid">
-        <div class="k-input glass-panel">
-          <div class="k-input__head">
-            <div>
-              <div class="k-input__title">Birth Portal</div>
-              <div class="k-input__hint">Enter the exact arrival moment. The page keeps your existing kundali logic untouched and upgrades only the experience around it.</div>
-            </div>
-            <div class="k-mini-chip">Precision first</div>
-          </div>
 
           <div class="k-form" aria-label="Kundali inputs">
             <label class="k-field">
@@ -141,7 +102,7 @@
               <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
             </div>
             <div class="k-actions__primary">
-              <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate Kundali</button>
+              <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate my Kundali</button>
             </div>
           </div>
 
@@ -153,8 +114,11 @@
             <div class="k-state__error" id="kError" hidden></div>
           </div>
         </div>
+    </section>
 
-        <div class="k-summary glass-panel k-summary--portal">
+    <section class="k-shell">
+      <div class="k-output" id="kOutput" hidden>
+        <div class="k-summary glass-panel k-summary--portal kx-summary">
           <div class="k-summary__left">
             <div class="k-summary__title">Chart Summary</div>
             <div class="k-chips" id="summaryChips"></div>
@@ -174,9 +138,7 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="k-output" id="kOutput" hidden>
         <div class="k-main-grid">
           <div class="k-chart-zone">
             <div class="k-chart glass-panel">
@@ -215,12 +177,12 @@
 
         <div class="k-tabs glass-panel" aria-label="Kundali details">
           <div class="k-tabs__head" role="tablist" aria-label="Kundali sections">
-            <button class="k-tab__btn is-active" type="button" data-tab="overview">Overview</button>
-            <button class="k-tab__btn" type="button" data-tab="planets">Planets</button>
-            <button class="k-tab__btn" type="button" data-tab="dosha">Dosha</button>
+            <button class="k-tab__btn is-active" type="button" data-tab="overview">Your reading</button>
+            <button class="k-tab__btn" type="button" data-tab="predictions">Life areas</button>
             <button class="k-tab__btn" type="button" data-tab="dasha">Dasha</button>
-            <button class="k-tab__btn" type="button" data-tab="predictions">Predictions</button>
+            <button class="k-tab__btn" type="button" data-tab="dosha">Doshas</button>
             <button class="k-tab__btn" type="button" data-tab="remedies">Remedies</button>
+            <button class="k-tab__btn" type="button" data-tab="planets">Planets</button>
           </div>
 
           <div class="k-tabs__body">
@@ -258,7 +220,10 @@
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
-  <script src="{% static 'kundali.js' %}?v=19"></script>
+  <script src="{% static 'kundali-reading.js' %}?v=2"></script>
+  <script src="{% static 'kundali.js' %}?v=24"></script>
+  <script src="{% static 'kundali-chart3d.js' %}?v=4"></script>
+  <script defer src="{% static 'kundali-fx.js' %}?v=6"></script>
 {% include "components/seo_faq.html" %}
 </body>
 </html>
