@@ -65,9 +65,9 @@
   /* ---------- orb layout ---------- */
   function orbSvg(id, p, cx, cy, r, idx) {
     var name = String(p.planet || "");
-    var short = ABBR[name] || name.slice(0, 2);
+    var short = KI.planetAbbr(name);
     var d = deg(p);
-    var tip = name + " in " + (SIGN_EN[p.sign] || p.sign || "") + (d ? ", " + d : "") + (p.dignity ? " (" + p.dignity + ")" : "");
+    var tip = KI.planet(name) + " · " + KI.signName(p.sign) + (d ? ", " + d : "") + (p.dignity ? " (" + KI.dignity(p.dignity) + ")" : "");
     return '<g class="nk-orb" style="--d:' + (idx * 0.37).toFixed(2) + 's"><title>' + esc(tip) + "</title>" +
       '<circle cx="' + f(cx) + '" cy="' + f(cy) + '" r="' + f(r) + '" fill="url(#' + id + "-o-" + (ORB[name] ? name : "Sun") + ')" stroke="rgba(0,0,0,.55)" stroke-width=".25" filter="url(#' + id + '-orb)"/>' +
       '<text x="' + f(cx) + '" y="' + f(cy + r * 0.36) + '" text-anchor="middle" font-size="' + f(r * 0.95) + '" font-weight="800" fill="#fff" stroke="rgba(0,0,0,.5)" stroke-width=".18" paint-order="stroke" class="nk-orb__t">' + esc(short) + "</text>" +
@@ -138,7 +138,7 @@
 
   function tileText(id, sign, anchor, big) {
     var no = SIGN_NO[sign] || "";
-    return '<text x="' + f(anchor[0]) + '" y="' + f(anchor[1]) + '" text-anchor="middle" class="nk-sign"><tspan class="nk-sign__n" font-size="' + (big ? 4.6 : 4.2) + '">' + no + '</tspan><tspan class="nk-sign__a" dx=".8" font-size="2.35">' + esc(SIGN_ABBR[sign] || "") + "</tspan></text>";
+    return '<text x="' + f(anchor[0]) + '" y="' + f(anchor[1]) + '" text-anchor="middle" class="nk-sign"><tspan class="nk-sign__n" font-size="' + (big ? 4.6 : 4.2) + '">' + no + '</tspan><tspan class="nk-sign__a" dx=".8" font-size="2.35">' + esc(KI.signAbbr(sign)) + "</tspan></text>";
   }
 
   /* ---------- North Indian ---------- */
@@ -160,16 +160,16 @@
       var lag = n === 1;
       var poly = shape.points.map(function (p) { return f(p[0]) + "," + f(p[1]); }).join(" ");
       var fill = selected ? id + "-gold" : (lag ? id + "-ruby" : id + "-ivory");
-      var names = planets.map(function (p) { return p.planet; }).join(", ");
-      var label = ord(n) + " house, " + (SIGN_EN[sign] || sign) + ", " + AREA[n] + (names ? ". Planets: " + names : ". No planets");
+      var names = planets.map(function (p) { return KI.planet(p.planet); }).join(", ");
+      var label = KI.ord(n) + " " + KI.t("house_word") + ", " + KI.signName(sign) + ", " + KI.area(n) + (names ? ". " + KI.t("planets_word") + ": " + names : ". " + KI.t("no_planets"));
       var orbs = rowsInTile(shape, planets).map(function (o, i) { return orbSvg(id, o.p, o.x, o.y, o.r, i + n); }).join("");
       var ink = lag && !selected ? "nk-ink--light" : "";
       body += '<g class="nk-house' + (selected ? " is-selected" : "") + (lag ? " is-lagna" : "") + '" data-house="' + n + '" tabindex="0" role="button" aria-label="' + esc(label) + '"><title>' + esc(label) + "</title>" +
         '<polygon points="' + poly + '" fill="url(#' + fill + ')" stroke="url(#' + id + '-brass)" stroke-width="1" stroke-linejoin="round" filter="url(#' + id + (selected ? "-lift" : "-tile") + ')"/>' +
         '<polygon points="' + poly + '" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width=".25" transform="translate(0 -.3)" class="nk-hi"/>' +
-        '<g class="' + ink + '">' + tileText(id, sign, shape.label, shape.kind === "rh") + (lag ? '<text x="' + f(shape.label[0]) + '" y="' + f(shape.label[1] + 2.9) + '" text-anchor="middle" font-size="1.9" font-weight="800" letter-spacing=".25" class="nk-asc__t2">LAGNA</text>' : "") + "</g>" + orbs + "</g>";
+        '<g class="' + ink + '">' + tileText(id, sign, shape.label, shape.kind === "rh") + (lag ? '<text x="' + f(shape.label[0]) + '" y="' + f(shape.label[1] + 2.9) + '" text-anchor="middle" font-size="1.9" font-weight="800" letter-spacing=".25" class="nk-asc__t2">' + esc(KI.t("lagna_tag")) + '</text>' : "") + "</g>" + orbs + "</g>";
     });
-    host.innerHTML = '<svg class="nk-svg" viewBox="0 0 100 100" xmlns="' + NS + '" role="group" aria-label="North Indian birth chart">' + defs(id) + plate(id) + body + "</svg>";
+    host.innerHTML = '<svg class="nk-svg" viewBox="0 0 100 100" xmlns="' + NS + '" role="group" aria-label="' + esc(KI.t("chart_aria_n")) + '">' + defs(id) + plate(id) + body + "</svg>";
     wire(host);
     renderKey(active, houses, lagna);
   }
@@ -196,8 +196,8 @@
         var lag = Number(signIdx) === Number(lagIdx);
         var selected = n === Number(kundaliState.selectedHouse);
         var fill = selected ? id + "-gold" : (lag ? id + "-ruby" : id + "-ivory");
-        var names = planets.map(function (p) { return p.planet; }).join(", ");
-        var label = (SIGN_EN[sign] || sign) + ", " + ord(n) + " house, " + AREA[n] + (names ? ". Planets: " + names : ". No planets");
+        var names = planets.map(function (p) { return KI.planet(p.planet); }).join(", ");
+        var label = KI.signName(sign) + ", " + KI.ord(n) + " " + KI.t("house_word") + ", " + KI.area(n) + (names ? ". " + KI.t("planets_word") + ": " + names : ". " + KI.t("no_planets"));
         var shape = {
           firstRow: 8.2,
           widthAt: function () { return C - 3; },
@@ -207,15 +207,15 @@
         body += '<g class="nk-house' + (selected ? " is-selected" : "") + (lag ? " is-lagna" : "") + '" data-house="' + n + '" tabindex="0" role="button" aria-label="' + esc(label) + '"><title>' + esc(label) + "</title>" +
           '<rect x="' + f(x + .35) + '" y="' + f(y + .35) + '" width="' + f(C - .7) + '" height="' + f(C - .7) + '" rx=".9" fill="url(#' + fill + ')" stroke="url(#' + id + '-brass)" stroke-width=".8" filter="url(#' + id + (selected ? "-lift" : "-tile") + ')"/>' +
           '<g class="' + (lag && !selected ? "nk-ink--light" : "") + '"><text x="' + f(x + 1.9) + '" y="' + f(y + 4.6) + '" class="nk-sign"><tspan class="nk-sign__n" font-size="3.6">' + (SIGN_NO[sign] || "") + '</tspan><tspan class="nk-sign__a" dx=".6" font-size="2.2">' + esc(SIGN_ABBR[sign] || "") + '</tspan></text>' +
-          '<text x="' + f(x + C - 1.7) + '" y="' + f(y + 4.4) + '" text-anchor="end" class="nk-hno" font-size="2.2">' + (lag ? "Asc" : "H" + n) + "</text></g>" + orbs + "</g>";
+          '<text x="' + f(x + C - 1.7) + '" y="' + f(y + 4.4) + '" text-anchor="end" class="nk-hno" font-size="2.2">' + (lag ? KI.t("asc") : (KI.lang() === "hi" ? "भाव " : "H") + n) + "</text></g>" + orbs + "</g>";
       });
     });
     var mid = X0 + C * 2;
     body += '<g pointer-events="none"><rect x="' + f(X0 + C + .35) + '" y="' + f(X0 + C + .35) + '" width="' + f(C * 2 - .7) + '" height="' + f(C * 2 - .7) + '" rx="1" fill="url(#' + id + '-inlay)" stroke="url(#' + id + '-brass)" stroke-width=".8"/>' +
       '<circle cx="' + mid + '" cy="' + mid + '" r="9.5" fill="none" stroke="url(#' + id + '-brass)" stroke-width=".7"/><circle cx="' + mid + '" cy="' + mid + '" r="7.4" fill="none" stroke="#f1cf78" stroke-opacity=".5" stroke-width=".25" stroke-dasharray=".6 1"/>' +
       '<text x="' + mid + '" y="' + f(mid - 0.6) + '" text-anchor="middle" font-size="7.6" fill="url(#' + id + '-gold)" class="nk-om">ॐ</text>' +
-      '<text x="' + mid + '" y="' + f(mid + 13) + '" text-anchor="middle" font-size="2.4" font-weight="800" fill="#f1cf78" letter-spacing=".15">' + esc(String(kundaliState.chart || "d1").toUpperCase() + " · " + (SIGN_EN[lagna] || lagna)) + " RISING</text></g>";
-    host.innerHTML = '<svg class="nk-svg" viewBox="0 0 100 100" xmlns="' + NS + '" role="group" aria-label="South Indian birth chart">' + defs(id) + plate(id) + body + "</svg>";
+      '<text x="' + mid + '" y="' + f(mid + 13) + '" text-anchor="middle" font-size="2.4" font-weight="800" fill="#f1cf78" letter-spacing=".15">' + esc(String(kundaliState.chart || "d1").toUpperCase() + " · " + KI.signName(lagna) + " " + KI.t("rising_word")) + "</text></g>";
+    host.innerHTML = '<svg class="nk-svg" viewBox="0 0 100 100" xmlns="' + NS + '" role="group" aria-label="' + esc(KI.t("chart_aria_s")) + '">' + defs(id) + plate(id) + body + "</svg>";
     wire(host);
     renderKey(active, houses, lagna);
   }
@@ -256,13 +256,13 @@
       var name = String(p.planet);
       var dp = kundaliState.chart === "d1" ? detail[name] : null;
       var sign = String(p.rashi || p.sign || "");
-      var bits = [(SIGN_EN[sign] || sign), ord(Number(p.house)) + " house"];
-      if (dp && dp.dignity && dp.dignity !== "Neutral") bits.push(dp.dignity);
-      return '<li class="nk-key__item"><svg viewBox="0 0 10 10" width="30" height="30" aria-hidden="true"><circle cx="5" cy="5" r="4.4" fill="url(#kk-o-' + esc(ORB[name] ? name : "Sun") + ')" stroke="rgba(0,0,0,.5)" stroke-width=".3"/><text x="5" y="6.3" text-anchor="middle" font-size="3.6" font-weight="800" fill="#fff" stroke="rgba(0,0,0,.45)" stroke-width=".25" paint-order="stroke">' + esc(ABBR[name] || "") + "</text></svg>" +
-        '<span><strong>' + esc(name) + "</strong><small>" + esc(bits.join(" · ")) + "</small></span><em>" + esc(deg(p) || "") + "</em></li>";
+      var bits = [KI.signName(sign), KI.ord(Number(p.house)) + " " + KI.t("house_word")];
+      if (dp && dp.dignity && dp.dignity !== "Neutral") bits.push(KI.dignity(dp.dignity));
+      return '<li class="nk-key__item"><svg viewBox="0 0 10 10" width="30" height="30" aria-hidden="true"><circle cx="5" cy="5" r="4.4" fill="url(#kk-o-' + esc(ORB[name] ? name : "Sun") + ')" stroke="rgba(0,0,0,.5)" stroke-width=".3"/><text x="5" y="6.3" text-anchor="middle" font-size="3.6" font-weight="800" fill="#fff" stroke="rgba(0,0,0,.45)" stroke-width=".25" paint-order="stroke">' + esc(KI.planetAbbr(name)) + "</text></svg>" +
+        '<span><strong>' + esc(KI.planet(name)) + "</strong><small>" + esc(bits.join(" · ")) + "</small></span><em>" + esc(deg(p) || "") + "</em></li>";
     }).join("");
     var lagSign = String(lagna || "");
-    key.innerHTML = '<div class="nk-key__head"><strong>' + esc(kundaliState.chart === "d9" ? "Navamsa (D9)" : "Rashi (D1)") + ' key</strong><span>Rising sign: ' + esc((SIGN_EN[lagSign] || lagSign) + (SIGN_EN[lagSign] ? " (" + lagSign + ")" : "")) + '. Numbers in the chart are zodiac signs (1 = Aries … 12 = Pisces).</span></div>' +
+    key.innerHTML = '<div class="nk-key__head"><strong>' + esc(KI.t(kundaliState.chart === "d9" ? "key_title_d9" : "key_title_d1")) + '</strong><span>' + esc(KI.t("key_rising")) + ": " + esc(KI.signName(lagSign)) + ". " + esc(KI.t("key_numbers")) + '</span></div>' +
       '<ul class="nk-key__list">' + cells + "</ul>";
     // the key has its own gradient definitions: the chart svg may be hidden (display:none svgs do not render gradients)
     if (!document.getElementById("kkDefs")) {

@@ -114,6 +114,15 @@ _FAQS = {
     ],
 }
 
+_FAQS_HI = {
+    "/kundali/": [
+        ("जन्म तिथि से मुफ़्त कुंडली ऑनलाइन कैसे बनाएँ?", "अपना नाम, तारीख, सही समय और जन्म स्थान भरें। जनरेटर ग्रहों की स्थिति निकालकर तुरंत आपकी जन्म कुंडली बना देता है।"),
+        ("जन्म का सही समय क्यों ज़रूरी है?", "लग्न लगभग हर दो घंटे में बदलता है और बारहों भाव उसी पर निर्भर हैं। कुछ मिनट की चूक भी कुंडली बदल सकती है।"),
+        ("लग्न, राशि और नक्षत्र क्या हैं?", "लग्न जन्म के समय उदय होती राशि है, राशि वह राशि है जिसमें आपका चंद्रमा था, और नक्षत्र चंद्रमा का नक्षत्र। मिलकर ये वैदिक कुंडली का आधार बनते हैं।"),
+        ("क्या कुंडली जनरेटर मुफ़्त है?", "हाँ। बिना भुगतान किए आप अपनी कुंडली बना सकते हैं।"),
+    ],
+}
+
 _CATEGORY_SEO = {
     "aartis": ("Aarti Lyrics in Hindi & English: Ganesh, Shiv, Hanuman, Durga", "Read aarti lyrics in Hindi and English or listen with audio. Ganesh aarti, Shiv aarti, Hanuman aarti, Durga aarti and more."),
     "bhajans": ("Bhajan Lyrics in Hindi: Krishna, Ram & Hari Bhajans", "Read bhajan lyrics in Hindi and listen online: Krishna, Rama and Vishnu bhajans."),
@@ -312,6 +321,7 @@ def seo(request):
         "alternates": [(lang, root + url) for lang, url in alternates],
         "event_jsonld": event_jsonld,
         "faq": faq if faq_visible else [],
+        "faq_hi": _FAQS_HI.get(path, []) if faq_visible else [],
         "faq_jsonld": json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq
         ]}, ensure_ascii=False).replace("<", "\\u003c") if faq else "",

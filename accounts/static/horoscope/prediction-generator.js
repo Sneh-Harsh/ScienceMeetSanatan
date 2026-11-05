@@ -24,6 +24,7 @@ export function averageEnergy(scores) {
 }
 
 export function confidenceFromScope(scope) {
+  if (Number.isFinite(Number(scope?.confidence))) return Math.round(Number(scope.confidence));
   const base = averageEnergy(scope?.scores || {});
   return Math.max(42, Math.min(93, Math.round(base * 0.88)));
 }
@@ -43,24 +44,35 @@ export function buildHeroSignals(payload, activeScope) {
   const lucky = scope?.lucky || {};
   return [
     { label: "Moon Sign", value: payload?.natal?.moon_sign || "—" },
-    { label: "Dominant Planet", value: scope?.dominant_planet || "—" },
+    { label: "Key Planet", value: scope?.dominant_planet || "—" },
     { label: "Mahadasha", value: scope?.mahadasha || "—" },
-    { label: "Lucky Time", value: lucky?.time || "—" },
-    { label: "Love", value: `${scope?.scores?.love ?? "--"} / 100` },
-    { label: "Career", value: `${scope?.scores?.career ?? "--"} / 100` },
+    { label: "Lucky Time", value: lucky?.timeShort || lucky?.time || "—" },
+    { label: "Love", value: `${scope?.scores?.love ?? "--"}/100` },
+    { label: "Career", value: `${scope?.scores?.career ?? "--"}/100` },
   ];
 }
 
+const AREA_WORDS = {
+  emotional: "my emotional state",
+  career: "my career",
+  relationships: "my relationships",
+  finance: "my money",
+  health: "my health",
+  spiritual: "my inner life",
+};
+
 export function buildPromptSuggestions(payload, activeScope) {
   const scope = payload?.[activeScope] || payload?.daily || {};
+  const when = { daily: "today", weekly: "this week", monthly: "this month" }[activeScope] || "this year";
+  const best = AREA_WORDS[scope.bestArea] || "my career";
+  const worst = AREA_WORDS[scope.worstArea] || "my health";
   const prompts = [
-    "What should I focus on this month?",
-    "Why am I feeling emotionally heavy lately?",
+    `What should I focus on ${when}?`,
+    `Why does ${worst} feel under pressure ${when}?`,
+    `How can I use the strength in ${best} ${when}?`,
   ];
-  if ((scope?.scores?.career || 0) < 55) prompts.push("Why is career feeling delayed?");
-  else prompts.push("How can I use this career momentum wisely?");
-  if ((scope?.scores?.love || 0) < 55) prompts.push("Is this a good time for marriage?");
-  else prompts.push("How can I deepen relationships now?");
+  if (scope.antardasha) prompts.push(`What does my ${scope.antardasha} Antardasha mean for me?`);
+  prompts.push("When is a good time to start something important?");
   return prompts.slice(0, 5);
 }
 
@@ -81,8 +93,8 @@ export function buildFocusPreview(payload) {
   const yearScope = payload?.specific_year || payload?.yearly || {};
   return {
     title: "Current focus window",
-    summary: daily?.summary || "",
-    note: yearScope?.summary || "",
+    summary: daily?.focus || "",
+    note: yearScope?.headline || "",
   };
 }
 

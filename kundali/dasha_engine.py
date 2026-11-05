@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from typing import Dict, List
 
+from .dasha_levels import antardashas as _levels_antardashas
 from .calculations import VIMSHOTTARI_ORDER, VIMSHOTTARI_YEARS, _parse_birth_datetime
 from .experience_engine import HOUSE_THEMES, PLANET_TONES, current_dasha_context, house_lords, planet_lookup
 
@@ -21,33 +22,8 @@ def _ruled_houses(planet_name: str, lords: Dict[int, str]) -> List[int]:
 
 
 def _antardashas(maha: Dict) -> List[Dict]:
-    maha_name = str(maha.get("planet") or "")
-    if maha_name not in VIMSHOTTARI_ORDER:
-        return []
-    start = datetime.fromisoformat(str(maha.get("start")))
-    end = datetime.fromisoformat(str(maha.get("end")))
-    total_seconds = max((end - start).total_seconds(), 1.0)
-    order_start = VIMSHOTTARI_ORDER.index(maha_name)
-    order = VIMSHOTTARI_ORDER[order_start:] + VIMSHOTTARI_ORDER[:order_start]
-    out: List[Dict] = []
-    cursor = start
-    for planet in order:
-        fraction = (VIMSHOTTARI_YEARS[planet] / 120.0)
-        duration = total_seconds * fraction
-        next_cursor = cursor + timedelta(seconds=duration)
-        out.append(
-            {
-                "planet": planet,
-                "start": cursor.isoformat(timespec="seconds"),
-                "end": next_cursor.isoformat(timespec="seconds"),
-                "years": round((next_cursor - cursor).days / 365.2425, 2),
-            }
-        )
-        cursor = next_cursor
-    if out:
-        out[-1]["end"] = end.isoformat(timespec="seconds")
-        out[-1]["years"] = round((end - datetime.fromisoformat(str(out[-1]["start"]))).days / 365.2425, 2)
-    return out
+    # sub-periods are cut from the nominal Mahadasha length (see dasha_levels)
+    return [{k: v for k, v in row.items() if k not in ("nominal_start", "nominal_days")} for row in _levels_antardashas(maha)]
 
 
 def _summary_for_period(planet_name: str, sub_name: str, kundali: Dict) -> Dict:

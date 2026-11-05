@@ -7,7 +7,7 @@ import {
   saveBirthProfile,
   searchPlaces,
   useCurrentLocation,
-} from "./astro-engine.js";
+} from "./astro-engine.js?v=5";
 import {
   averageEnergy,
   buildFocusPreview,
@@ -16,7 +16,7 @@ import {
   confidenceFromScope,
   formatPlaceSummary,
   normalizeScopes,
-} from "./prediction-generator.js";
+} from "./prediction-generator.js?v=5";
 import {
   renderAdvice,
   renderCosmicMessage,
@@ -33,9 +33,9 @@ import {
   renderTabs,
   renderTimeline,
   renderPeriodSummary,
-} from "./ui-components.js";
-import { renderWealthAlignment } from "./wealth-alignment.js";
-import { getOracleHistory, saveOracleHistory, streamOracleAnswer } from "./oracle-client.js";
+} from "./ui-components.js?v=5";
+import { renderWealthAlignment } from "./wealth-alignment.js?v=5";
+import { getOracleHistory, saveOracleHistory, streamOracleAnswer } from "./oracle-client.js?v=5";
 
 const els = {
   page: document.querySelector("#horoscopePage"),
@@ -132,11 +132,11 @@ function getDisplayName() {
 function updateOracleProfileState() {
   const hasBirthCore = Boolean(state.profile?.date && state.profile?.time);
   if (els.oracleProfileStatus) {
-    els.oracleProfileStatus.textContent = hasBirthCore && state.profileOrigin !== "default" ? "Birth profile ready" : "Enter birth details first";
+    els.oracleProfileStatus.textContent = hasBirthCore && state.profileOrigin !== "default" ? "Chart ready" : "Add birth details first";
   }
   if (els.oracleProfileMeta) {
     if (!hasBirthCore || state.profileOrigin === "default") {
-      els.oracleProfileMeta.textContent = "Set date, time, and place before asking the Oracle.";
+      els.oracleProfileMeta.textContent = "Add your date, time and place of birth before asking a question.";
       return;
     }
     const parts = [
@@ -380,16 +380,16 @@ async function loadAiSummary(scopeKey = state.activeScope) {
 function updateHero(payload, scope) {
   if (!payload || !scope) return;
   const energy = averageEnergy(scope.scores);
-  const mood = energy >= 74 ? "Radiant" : energy >= 60 ? "Clear" : energy >= 48 ? "Shifting" : "Dense";
+  const mood = energy >= 70 ? "Excellent" : energy >= 58 ? "Good" : energy >= 46 ? "Average" : "Low";
   if (els.energyMeterValue) els.energyMeterValue.textContent = `${energy}%`;
   if (els.heroWeather) els.heroWeather.textContent = mood;
-  if (els.heroLocation) els.heroLocation.textContent = formatPlaceSummary(state.profile);
+  if (els.heroLocation) els.heroLocation.textContent = (state.profile?.place || "").split(",").slice(0, 2).join(",").trim() || "Your birth place";
   renderHeroSignals(els.heroSignalTiles, buildHeroSignals(payload, state.activeScope));
   renderHeroChips(els.heroChipRow, [
     { label: "Lagna", value: payload.natal.lagna },
     { label: "Moon", value: payload.natal.moon_sign },
     { label: "Nakshatra", value: `${payload.natal.nakshatra} • Pada ${payload.natal.nakshatra_pada}` },
-    { label: "Best Time", value: scope.lucky.time },
+    { label: "Lucky time", value: scope.lucky.time },
   ]);
 }
 
@@ -455,11 +455,10 @@ function renderActiveScope() {
   const scopes = normalizeScopes(state.payload);
   const scope = currentScope();
   if (!scope) return;
-  const aiSummary = state.aiSummaries[state.activeScope] || null;
 
   renderTabs(els.tabs, scopes, state.activeScope);
   renderNatalSummary(els.natalSummary, state.payload.natal, scope);
-  renderCosmicMessage(els.cosmicMessageCard, scope, aiSummary);
+  renderCosmicMessage(els.cosmicMessageCard, scope);
   renderPeriodSummary(els.scopeSummary, scope);
   renderScores(els.scoreCard, scope);
   renderDetails(els.detailsCard, scope);
@@ -469,22 +468,21 @@ function renderActiveScope() {
   renderTimeline(els.timingMiniCard, scope);
   if (els.periodMeta) {
     const rangeLabel = scope?.dateRange?.label ? ` • ${scope.dateRange.label}` : "";
-    els.periodMeta.textContent = `${scope.scope}${rangeLabel} • Confidence ${confidenceFromScope(scope)}%`;
+    els.periodMeta.textContent = `${scope.scope}${rangeLabel} • Signal strength ${confidenceFromScope(scope)}%`;
   }
   updateHero(state.payload, scope);
   renderPromptChips(els.oraclePromptChips, buildPromptSuggestions(state.payload, state.activeScope));
   renderOracleConversation(els.oracleConversation, state.oracleConversation, {
-    title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Ask anything grounded in your birth chart." : "Enter your moment of arrival above.",
+    title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Ask any question about your life, career, love or money." : "Enter your birth details above first.",
     body: state.profile?.date && state.profile?.time
-      ? "The Oracle interprets your active kundali, dasha, and transits. It does not invent new astrology."
-      : "Set your birth details first. The Oracle only answers after it has your actual birth profile and live horoscope context.",
+      ? "Your answer uses your Kundali, Dasha and today's planets. Nothing is guessed."
+      : "Add your birth details first. The Oracle can only answer from your own chart.",
   });
   scrollOracleToBottom();
   bindTabEvents();
   bindOraclePromptEvents();
   bindOracleConversationEvents();
   updateOracleProfileState();
-  loadAiSummary(state.activeScope);
 }
 
 bindTabEvents();
@@ -527,7 +525,7 @@ function resetOracleOutput() {
     title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Start a conversation." : "Birth details required.",
     body: state.profile?.date && state.profile?.time
       ? ""
-      : "Enter date, time, and place of birth above, then generate the horoscope.",
+      : "Enter your birth details above and press Generate Horoscope.",
   });
   bindOracleConversationEvents();
 }
@@ -551,7 +549,7 @@ async function handleOracleSubmit(event) {
   const history = state.oracleHistory.slice(0, 4);
   if (els.oracleTypingDot) els.oracleTypingDot.hidden = false;
   if (els.oracleSubmitBtn) els.oracleSubmitBtn.disabled = true;
-  if (els.oracleProfileStatus) els.oracleProfileStatus.textContent = "Consulting active chart";
+  if (els.oracleProfileStatus) els.oracleProfileStatus.textContent = "Reading your chart";
   const pendingEntry = {
     question,
     answer: {
@@ -695,7 +693,7 @@ function bindEvents() {
     if (els.oracleQuestion) els.oracleQuestion.value = "";
     renderOracleConversation(els.oracleConversation, state.oracleConversation, {
       title: state.profile?.date && state.profile?.time && state.profileOrigin !== "default" ? "Start a new conversation." : "Birth details required.",
-      body: state.profile?.date && state.profile?.time ? "Ask a fresh question grounded in the same birth profile." : "Enter date and time of birth above, then generate the horoscope.",
+      body: state.profile?.date && state.profile?.time ? "Ask a new question. The answer will use the same birth chart." : "Enter your birth details above and press Generate Horoscope.",
     });
     scrollOracleToBottom();
     autoResizeOracleInput();

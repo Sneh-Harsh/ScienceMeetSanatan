@@ -12,6 +12,8 @@ from django.views.decorators.http import require_GET, require_POST
 from core.ratelimit import rate_limited
 
 from .calculations import build_kundali
+from datetime import datetime
+
 from .dasha_engine import build_dasha_experience
 from .plain_language import build_reading
 from .dosha_engine import analyze_doshas
@@ -98,7 +100,12 @@ def kundali_api(request):
 
     # additive: easy-language reading + full dasha/antardasha tables, built only from the chart above
     try:
-        payload["reading"] = build_reading(payload)
+        now = datetime.now().astimezone()
+        want = (request.GET.get("lang") or "en").strip().lower()
+        want = want if want in ("en", "hi") else "en"
+        payload["reading"] = build_reading(payload, now, want)
+        if request.GET.get("reading_only") == "1":
+            return JsonResponse({"reading": payload["reading"], "lang": want})
     except Exception:
         logger.exception("Plain-language reading failed")
 

@@ -7,6 +7,8 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+const HOUSE_AREA = { 1: "Self", 2: "Savings", 3: "Courage", 4: "Home", 5: "Learning", 6: "Work & health", 7: "Partnerships", 8: "Sudden change", 9: "Luck", 10: "Career", 11: "Gains", 12: "Rest & expenses" };
+
 function riskIndex(label) {
   if (label === "Conservative") return 1;
   if (label === "Balanced") return 2;
@@ -27,9 +29,9 @@ export function renderWealthAlignment(target, wealth) {
   if (!target) return;
   if (!wealth) {
     target.innerHTML = `
-      <div class="card-title"><strong>Wealth Alignment</strong></div>
+      <div class="card-title"><strong>Money & Wealth</strong></div>
       <div class="wealth-empty-state">
-        <p>Generate the horoscope to unlock your kundali-based sector alignment lens.</p>
+        <p>Generate your horoscope to see which business sectors suit your chart.</p>
       </div>
     `;
     return;
@@ -49,7 +51,7 @@ export function renderWealthAlignment(target, wealth) {
 
   target.innerHTML = `
     <div class="card-title">
-      <strong>Wealth Alignment</strong>
+      <strong>Money & Wealth</strong>
       <span class="period-meta">${escapeHtml(wealth.timingQuality || "Selective window")}</span>
     </div>
 
@@ -57,9 +59,9 @@ export function renderWealthAlignment(target, wealth) {
       <article class="wealth-hero-panel">
         <div class="wealth-hero-top">
           <div>
-            <div class="wealth-kicker">Astro Investment Lens</div>
+            <div class="wealth-kicker">Your money style</div>
             <h3>${escapeHtml(wealth.archetype || "Analytical Investor")}</h3>
-            <p class="wealth-copy">${escapeHtml(wealth.riskStyleRationale || "Your chart currently favors measured sector alignment over blind speculation.")}</p>
+            <p class="wealth-copy">${escapeHtml(wealth.riskStyleRationale || "Your chart supports careful, planned investing.")}</p>
           </div>
           <div class="wealth-confidence">
             <div class="wealth-confidence-ring" style="--wealth-score:${confidenceScore};">
@@ -82,13 +84,13 @@ export function renderWealthAlignment(target, wealth) {
             <div class="pill-label">Risk style</div>
             <strong>${escapeHtml(wealth.riskStyle || "Balanced")}</strong>
             <div class="wealth-meter-track"><span style="width:${riskMeter}%"></span></div>
-            <p class="wealth-meter-note">Shows how much your current chart supports steady preservation versus higher-volatility investing.</p>
+            <p class="wealth-meter-note">How safe or bold your chart suggests you invest.</p>
           </div>
           <div class="wealth-meter-card">
             <div class="pill-label">Timing quality</div>
             <strong>${escapeHtml(wealth.timingQuality || "Selective window")}</strong>
             <div class="wealth-meter-track wealth-meter-track--timing"><span style="width:${timingMeter}%"></span></div>
-            <p class="wealth-meter-note">Shows how supportive the present dasha and transit cycle is for entering or reviewing sectors now.</p>
+            <p class="wealth-meter-note">How good this period is to start or review investments.</p>
           </div>
         </div>
 
@@ -99,32 +101,24 @@ export function renderWealthAlignment(target, wealth) {
             { label: "Patience", score: 61, tone: "copper" },
             { label: "Volatility", score: 42, tone: "soft" },
           ])
-            .map(
-              (item) => `
-                <div class="wealth-pulse-card wealth-pulse-card--${escapeHtml(item.tone || "gold")}">
-                  <div class="pill-label">${escapeHtml(item.label)}</div>
-                  <strong>${escapeHtml(Math.round(Number(item.score || 0)))}%</strong>
-                  <p class="wealth-pulse-note">${escapeHtml(
-                    item.label === "Conviction"
-                      ? "How strongly your chart currently supports acting with clarity."
-                      : item.label === "Timing"
-                        ? "How favorable the current cycle is for sector decisions."
-                        : item.label === "Patience"
-                          ? "How much your chart supports accumulation and waiting power."
-                          : "How much instability or sudden movement is active right now.",
-                  )}</p>
-                  <div class="wealth-pulse-bar"><span style="height:${Math.max(14, Number(item.score || 0))}%"></span></div>
-                </div>
-              `,
-            )
+            .map((item) => {
+              const value = Math.round(Number(item.score || 0));
+              const note = { Conviction: "How sure your chart is about acting now", Timing: "How good this period is for decisions", Patience: "How well you can wait for results", Volatility: "How much sudden change is around" }[item.label] || "";
+              return `
+                <div class="pulse-row pulse-row--${escapeHtml(item.tone || "gold")}">
+                  <div class="pulse-row__top"><span class="pulse-row__label">${escapeHtml(item.label)}</span><strong class="pulse-row__value">${escapeHtml(value)}%</strong></div>
+                  <div class="pulse-row__track" role="img" aria-label="${escapeHtml(item.label)} ${value} percent"><span style="width:${Math.max(4, Math.min(100, value))}%"></span></div>
+                  <p class="pulse-row__note">${escapeHtml(note)}</p>
+                </div>`;
+            })
             .join("")}
         </div>
       </article>
 
       <article class="wealth-list-panel">
         <div class="wealth-panel-head">
-          <div class="pill-label">Recommended industries</div>
-          <span class="period-meta">Ranked by chart support</span>
+          <div class="pill-label">Best sectors for you</div>
+          <span class="period-meta">Strongest first</span>
         </div>
         <div class="wealth-rank-list">
           ${recommended
@@ -147,10 +141,10 @@ export function renderWealthAlignment(target, wealth) {
         </div>
       </article>
 
-      <article class="wealth-side-panel wealth-side-panel--execution">
+      <article class="wealth-side-panel wealth-side-panel--execution wealth-area-caution">
         <div class="wealth-panel-head">
-          <div class="pill-label">Caution industries</div>
-          <span class="period-meta">Lower alignment in current cycle</span>
+          <div class="pill-label">Go slow in these sectors</div>
+          <span class="period-meta">Weaker support now</span>
         </div>
         <div class="wealth-caution-list">
           ${caution
@@ -167,49 +161,56 @@ export function renderWealthAlignment(target, wealth) {
         </div>
       </article>
 
-      <article class="wealth-side-panel">
+      <article class="wealth-side-panel wealth-area-exec">
         <div class="wealth-panel-head">
-          <div class="pill-label">Execution lens</div>
-          <span class="period-meta">How to use this section</span>
+          <div class="pill-label">Why and how</div>
+          <span class="period-meta">Your chart facts</span>
         </div>
         <div class="wealth-basis-grid">
           <div class="wealth-basis-block">
-            <div class="pill-label">Strongest planets</div>
+            <div class="pill-label">Your strongest planets</div>
             <div class="wealth-chip-row">
               ${strongestPlanets.map((row) => `<span class="wealth-chip">${escapeHtml(row.planet)} · ${escapeHtml(row.score)}</span>`).join("")}
             </div>
           </div>
           <div class="wealth-basis-block">
-            <div class="pill-label">Supportive houses</div>
+            <div class="pill-label">Helpful life areas</div>
             <div class="wealth-chip-row">
-              ${supportiveHouses.map((house) => `<span class="wealth-chip">House ${escapeHtml(house)}</span>`).join("")}
+              ${supportiveHouses.map((house) => `<span class="wealth-chip">${escapeHtml(HOUSE_AREA[house] || "Area " + house)}</span>`).join("")}
             </div>
           </div>
           <div class="wealth-basis-block">
-            <div class="pill-label">Dasha support</div>
+            <div class="pill-label">Your Dasha</div>
             <p>${escapeHtml(wealth.astroBasis?.dashaImpact || "")}</p>
           </div>
           <div class="wealth-basis-block">
-            <div class="pill-label">Transit support</div>
+            <div class="pill-label">Planets today</div>
             <p>${escapeHtml(wealth.astroBasis?.transitImpact || "")}</p>
           </div>
           <div class="wealth-basis-block wealth-basis-block--wide">
-            <div class="pill-label">Action guide</div>
+            <div class="pill-label">What to do</div>
             <div class="wealth-action-list">
           ${listOrFallback(actionPoints, [
-            "Use this lens to shortlist aligned sectors before doing financial research.",
-            "Pair strong sectors with staggered entries instead of one-time allocation.",
-            "Reduce exposure when caution signals cluster around wealth houses.",
+            "Krishna says: use this list to pick sectors to research first.",
+            "Krishna says: invest in small steps instead of all at once.",
+            "Krishna says: invest less when many warning signs appear together.",
           ])
             .map((item) => `<div class="wealth-action-item">${escapeHtml(item)}</div>`)
             .join("")}
             </div>
           </div>
+          ${Array.isArray(wealth.wealthFacts) && wealth.wealthFacts.length ? `
           <div class="wealth-basis-block wealth-basis-block--wide">
-            <div class="pill-label">Caution signals</div>
+            <div class="pill-label">What supports your money</div>
             <ul class="wealth-signal-list">
-              ${(cautionSignals.length ? cautionSignals : ["No major caution signals are dominating the present cycle."])
-                .map((item) => `<li>${escapeHtml(item)}</li>`)
+              ${wealth.wealthFacts.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </div>` : ""}
+          <div class="wealth-basis-block wealth-basis-block--wide">
+            <div class="pill-label">Be careful about</div>
+            <ul class="wealth-signal-list">
+              ${(cautionSignals.length ? cautionSignals : ["Nothing major to worry about right now."])
+                .map((item) => `<li>${escapeHtml(String(item).startsWith("Krishna says") ? item : `Krishna says: ${item}`)}</li>`)
                 .join("")}
             </ul>
           </div>
@@ -217,6 +218,7 @@ export function renderWealthAlignment(target, wealth) {
       </article>
     </div>
 
-    <p class="wealth-disclaimer">${escapeHtml(wealth.disclaimer || "This feature offers a kundali-based sector alignment view for reflection and research, not guaranteed financial advice.")}</p>
+    <p class="wealth-disclaimer">${escapeHtml(wealth.disclaimer || "Krishna says: this is a kundali-based sector view for reflection and research, not guaranteed financial advice.")}</p>
   `;
+
 }

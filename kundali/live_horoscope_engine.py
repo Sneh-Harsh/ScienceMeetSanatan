@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Sequence, Tuple
 from zoneinfo import ZoneInfo
 
 from .calculations import NAKSHATRA, RASHI, VIMSHOTTARI_ORDER, build_kundali
+from .dasha_levels import antardashas
 from .interpretation_engine import build_lucky_elements, build_scope_narrative, rank_houses, weighted_area_scores
 from .period_engine import PeriodRange, get_period_range, get_period_sample_points, split_year_windows
 from .transit_engine import (
@@ -20,6 +21,7 @@ from .transit_engine import (
     transit_snapshot,
     weekday_ruler,
 )
+from .krishna_says import build_krishna_scope, build_natal_note
 from .variation_engine import signature_key
 
 
@@ -118,28 +120,11 @@ def _find_mahadasha(dasha: Sequence[Dict], target_local: datetime) -> Optional[D
 
 def _current_antardasha(mahadasha: Dict, target_local: datetime) -> DashaState:
     maha_name = str(mahadasha.get("planet") or "Moon")
-    start = datetime.fromisoformat(str(mahadasha["start"]))
-    end = datetime.fromisoformat(str(mahadasha["end"]))
-    total_seconds = max((end - start).total_seconds(), 1.0)
-    elapsed_seconds = max((target_local - start).total_seconds(), 0.0)
-    fraction = min(max(elapsed_seconds / total_seconds, 0.0), 0.999999)
-
-    order_start = VIMSHOTTARI_ORDER.index(maha_name)
-    antardasha_order = VIMSHOTTARI_ORDER[order_start:] + VIMSHOTTARI_ORDER[:order_start]
-    sub_lengths: List[Tuple[str, float]] = []
-    from .calculations import VIMSHOTTARI_YEARS
-
-    for planet in antardasha_order:
-        sub_years = VIMSHOTTARI_YEARS[maha_name] * VIMSHOTTARI_YEARS[planet] / 120.0
-        sub_lengths.append((planet, sub_years))
-
-    total_units = sum(years for _, years in sub_lengths) or 1.0
-    running = 0.0
-    selected = antardasha_order[-1]
-    for planet, years in sub_lengths:
-        running += years / total_units
-        if fraction <= running:
-            selected = planet
+    subs = antardashas(mahadasha)
+    selected = subs[-1]["planet"] if subs else maha_name
+    for sub in subs:
+        if datetime.fromisoformat(sub["start"]) <= target_local < datetime.fromisoformat(sub["end"]):
+            selected = sub["planet"]
             break
     return DashaState(mahadasha=maha_name, antardasha=selected)
 
@@ -396,8 +381,27 @@ def build_horoscope_scope(*, period_type: str, kundali: Dict, reference_dt: date
             "keyTransits": transit_snapshot(anchor_transits),
         },
     }
-    if quarter_notes:
-        payload["quarterNotes"] = quarter_notes
+    # Personalised "Krishna says" layer: replaces the generic wording and scores with chart-derived ones
+    inp = kundali.get("input") or {}
+    kr = build_krishna_scope(
+        kundali=kundali, period_type=period_type, reference_dt=reference_dt, selected_year=selected_year,
+        lat=float(inp.get("lat") or 28.6139), lon=float(inp.get("lon") or 77.2090),
+    )
+    payload.update({
+        "headline": kr["headline"], "cosmic_message": kr["cosmic_message"], "summary": kr["summary"], "focus": kr["focus"],
+        "details": kr["details"], "advice": kr["advice"], "adviceParts": kr["adviceParts"], "lucky": kr["lucky"],
+        "scores": kr["scores"], "extraScores": kr["extraScores"], "why": kr["why"], "whyPlain": kr["whyPlain"],
+        "emotionalTone": kr["details"]["emotional"], "career": kr["details"]["career"], "relationships": kr["details"]["relationships"],
+        "finance": kr["details"]["finance"], "health": kr["details"]["health"], "spiritualNote": kr["spiritualNote"],
+        "opportunities": kr["opportunities"], "cautions": kr["cautions"], "events": kr["events"], "timing": kr["timing"],
+        "dominant_planet": kr["dominant_planet"], "mahadasha": kr["mahadasha"], "antardasha": kr["antardasha"], "pratyantar": kr["pratyantar"],
+        "confidence": kr["confidence"], "bestArea": kr["bestArea"], "worstArea": kr["worstArea"], "signals": kr["signals"], "areaRemedy": kr["areaRemedy"],
+        "transit_house": kr["keyTransits"].get(kr["dominant_planet"], {}).get("houseFromLagna", payload.get("transit_house")),
+    })
+    payload["astroBasis"]["keyTransits"] = kr["keyTransits"]
+    payload["astroBasis"]["dasha"] = kr["mahadasha"]
+    payload["astroBasis"]["antardasha"] = kr["antardasha"]
+    payload["quarterNotes"] = [f"{e['when']}: {e['text']}" for e in kr["events"][:6]]
     if debug:
         payload["debug"] = {
             "variationKey": variation_key,
@@ -443,6 +447,7 @@ def build_personalized_horoscope(
         "specific_year": build_horoscope_scope(period_type="specific_year", kundali=kundali, reference_dt=specific_anchor, selected_year=specific_year, debug=debug),
         "specific_year_label": specific_year,
     }
+    payload["natal"].update(build_natal_note(kundali, now_local))
     if debug:
         payload["debug"] = {
             "chartAnchors": {

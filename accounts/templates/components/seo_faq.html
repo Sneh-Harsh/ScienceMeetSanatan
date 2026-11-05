@@ -6,8 +6,11 @@
     .seo-copy p{margin:0;opacity:.85}
     .seo-copy a{color:inherit;opacity:.9}
   </style>
-  {% if seo.faq %}<h2>Frequently asked questions</h2>
+  {% if seo.faq %}<div{% if seo.faq_hi %} data-kx-only="en"{% endif %}><h2>Frequently asked questions</h2>
   {% for q, a in seo.faq %}<h3>{{ q }}</h3><p>{{ a }}</p>
-  {% endfor %}{% endif %}
+  {% endfor %}</div>{% endif %}
+  {% if seo.faq_hi %}<div data-kx-only="hi" hidden lang="hi"><h2>अक्सर पूछे जाने वाले प्रश्न</h2>
+  {% for q, a in seo.faq_hi %}<h3>{{ q }}</h3><p>{{ a }}</p>
+  {% endfor %}</div>{% endif %}
   <div style="margin-top:28px">{% include "components/seo_links.html" %}</div>
 </section>

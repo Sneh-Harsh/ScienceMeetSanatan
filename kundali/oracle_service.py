@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import logging
+
 import json
 import os
 from datetime import datetime
@@ -43,6 +45,8 @@ ORACLE_SCHEMA = {
     "additionalProperties": False,
 }
 
+logger = logging.getLogger(__name__)
+
 ORACLE_SYSTEM_PROMPT = """
 You are Ask the Oracle inside a luxury Vedic astrology product.
 
@@ -58,6 +62,9 @@ Rules:
 - Write complete, informative text in every required field.
 - Keep each field concise but substantive. Avoid one-line fragments.
 - Ground every point in the provided lagna, moon sign, dasha, transits, scores, and active scope summaries.
+- Start every text field with "Krishna says:" and speak in that voice, as a wise, kind Vedic astrologer would.
+- Use the supplied "why" facts (house lordship, dignity, Gochar from the Moon, dasha) as your evidence, and quote houses and planets exactly as given. Never invent dates; use only the supplied "events".
+- Never repeat the same sentence across fields. Each field must add something new.
 - Return only valid JSON matching the schema.
 """.strip()
 
@@ -155,7 +162,17 @@ def _scope_payload(scope: Dict) -> Dict:
         "scores": scope.get("scores") or {},
         "details": scope.get("details") or {},
         "advice": _safe_text(scope.get("advice")),
+        "adviceParts": scope.get("adviceParts") or {},
         "lucky": scope.get("lucky") or {},
+        "focus": _safe_text(scope.get("focus")),
+        "extraScores": scope.get("extraScores") or {},
+        "why": scope.get("why") or {},
+        "whyPlain": scope.get("whyPlain") or {},
+        "events": [{"when": e.get("when"), "text": e.get("text")} for e in list(scope.get("events") or [])[:8]],
+        "opportunities": list(scope.get("opportunities") or []),
+        "cautions": list(scope.get("cautions") or []),
+        "pratyantar": _safe_text(scope.get("pratyantar")),
+        "signals": scope.get("signals") or {},
     }
 
 
@@ -302,6 +319,7 @@ def build_astro_context(*, date_str: str, time_str: str, lat: float, lon: float,
             for name, row in yearly_transits.items()
         },
         "summarySignals": summary_signals,
+        "kundali": kundali,
         "scores": horoscope["daily"]["scores"],
         "remedies": remedies,
         "cautionFlags": caution_flags,
@@ -347,69 +365,120 @@ def _confidence_from_context(astro_context: Dict) -> float:
     return round(max(0.45, min(0.92, 0.5 + (avg - 50.0) / 120.0)), 2)
 
 
+AREA_KEYWORDS = (
+    ("relationships", ("marri", "marry", "relationship", "love", "partner", "spouse", "wife", "husband", "romance", "boyfriend", "girlfriend", "breakup")),
+    ("career", ("career", "job", "work", "business", "promotion", "salary", "office", "boss", "profession", "startup")),
+    ("finance", ("money", "finance", "wealth", "income", "invest", "debt", "loan", "savings", "property", "stock")),
+    ("health", ("health", "energy", "body", "sleep", "illness", "disease", "fitness", "tired", "weight")),
+    ("emotional", ("mind", "emotion", "anxiety", "anxious", "sad", "mood", "peace", "stress", "feel", "lonely", "overthink")),
+    ("spiritual", ("spiritual", "meditat", "mantra", "purpose", "dharma", "karma", "faith", "god", "puja")),
+)
+LONG_RANGE = ("marri", "marry", "move", "relocate", "abroad", "settle", "invest", "buy", "change job", "switch", "business", "startup", "when will", "future")
+
+
 def _focus_domain(question: str) -> str:
     lowered = question.lower()
-    if any(token in lowered for token in ("career", "job", "work", "business", "promotion")):
-        return "career"
-    if any(token in lowered for token in ("marriage", "relationship", "love", "partner")):
-        return "love"
-    if any(token in lowered for token in ("health", "energy", "stress", "body")):
-        return "health"
-    if any(token in lowered for token in ("money", "finance", "wealth", "income")):
-        return "finance"
+    for area, words in AREA_KEYWORDS:
+        if any(word in lowered for word in words):
+            return area
     return "general"
 
 
-def _fallback_oracle_answer(question: str, astro_context: Dict) -> Dict:
+def _pick_scope(question: str, astro_context: Dict) -> tuple:
+    lowered = question.lower()
     horoscope = astro_context["horoscope"]
-    focus = _focus_domain(question)
-    period = horoscope["daily"]
-    if "year" in question.lower() or str(astro_context["profile"]["specificYear"]) in question:
-        period = horoscope["specific_year"]
-    elif any(token in question.lower() for token in ("month", "monthly")):
-        period = horoscope["monthly"]
-    elif any(token in question.lower() for token in ("week", "weekly")):
-        period = horoscope["weekly"]
+    year = str(astro_context["profile"]["specificYear"])
+    if "today" in lowered or "tonight" in lowered or "tomorrow" in lowered:
+        return "daily", horoscope["daily"]
+    if "week" in lowered:
+        return "weekly", horoscope["weekly"]
+    if "month" in lowered:
+        return "monthly", horoscope["monthly"]
+    if "year" in lowered or year in lowered:
+        return "specific_year", horoscope["specific_year"]
+    if any(word in lowered for word in LONG_RANGE):
+        return "yearly", horoscope["yearly"]
+    return "monthly", horoscope["monthly"]
 
-    score_map = period["scores"]
-    focus_score = int(score_map.get(focus, 0) or 0) if focus in score_map else int(sum(score_map.values()) / max(len(score_map), 1))
-    tone = "supportive" if focus_score >= 68 else "mixed" if focus_score >= 48 else "cautious"
-    confidence = _confidence_from_context(astro_context)
-    direct = (
-        f"Krishna says, this is a {tone} phase for your question. "
-        f"The chart is not pointing toward randomness; it is showing a pattern shaped by {period['dominant_planet']} "
-        f"and your {period['mahadasha']} / {period['antardasha']} timing."
-    )
-    chart_basis = (
-        f"Your Lagna is {astro_context['lagna']}, your Moon sign is {astro_context['moonSign']}, and the active timing is "
-        f"{period['mahadasha']} Mahadasha with {period['antardasha']} Antardasha. "
-        f"The current transit pressure is running through house {period['transit_house']} from the Moon, which is why this theme feels personal."
-    )
-    opportunities = (
-        f"The stronger opening here is in {period['dominant_planet']} matters: {period['summary']} "
-        f"Your {focus} score for this period is {focus_score}/100, so progress comes through steady, aligned choices rather than force."
-    )
-    cautions = (
-        f"What needs watching is overreach. {period['advice']} "
-        f"{' '.join(astro_context.get('cautionFlags', [])[:2])}".strip()
-    )
-    best_timing = (
-        f"Use the more favorable rhythm around {period['lucky']['time']} and when your mind feels settled, "
-        f"rather than acting inside emotional peaks. For the broader year lens, {horoscope['specific_year']['summary']}"
-    )
-    remedy = (
-        f"A gentle remedy is to work with {period['lucky']['color']} energy, keep your schedule clear around one key decision point, "
-        f"and follow this guidance: {period['advice']}"
-    )
-    astro_basis_used = [
-        f"Lagna • {astro_context['lagna']}",
-        f"Moon Sign • {astro_context['moonSign']}",
-        f"Nakshatra • {astro_context['nakshatra']}",
-        f"Mahadasha • {period['mahadasha']}",
-        f"Antardasha • {period['antardasha']}",
-        f"Transit House • {period['transit_house']}",
-        f"Dominant Planet • {period['dominant_planet']}",
-    ]
+
+def _cap(text: str) -> str:
+    text = _safe_text(text)
+    return text[:1].upper() + text[1:]
+
+
+def _krishna(text: str) -> str:
+    text = _safe_text(text)
+    if not text:
+        return ""
+    return text if text.lower().startswith("krishna says") else f"Krishna says: {_cap(text)}"
+
+
+def _strip_voice(text: str) -> str:
+    text = _safe_text(text)
+    low = text.lower()
+    if low.startswith("krishna says:"):
+        return text[len("krishna says:"):].strip()
+    return text
+
+
+DOMAIN_WINDOW = {"relationships": (7, ("Venus", "Jupiter")), "career": (10, ("Saturn", "Sun")), "finance": (2, ("Jupiter",)), "health": (1, ()), "emotional": (4, ("Moon",)), "spiritual": (9, ("Jupiter", "Ketu"))}
+
+
+def _sentences(items) -> str:
+    return " ".join(_cap(i).rstrip(".") + "." for i in items if i)
+
+
+def _fallback_oracle_answer(question: str, astro_context: Dict) -> Dict:
+    domain = _focus_domain(question)
+    key, scope = _pick_scope(question, astro_context)
+    details = scope.get("details") or {}
+    why = scope.get("why") or {}
+    extra = scope.get("extraScores") or {}
+    scores = scope.get("scores") or {}
+    signals = (scope.get("signals") or {}).get(domain) or {}
+    area_scores = {"relationships": scores.get("love"), "career": scores.get("career"), "finance": scores.get("finance"), "health": scores.get("health"), "emotional": extra.get("emotional"), "spiritual": extra.get("spiritual")}
+    label = {"relationships": "relationships", "career": "career", "finance": "money", "health": "health", "emotional": "your emotional life", "spiritual": "your inner life", "general": "life in general"}[domain]
+    when = {"daily": "today", "weekly": "this week", "monthly": "this month", "yearly": "this year", "specific_year": f"in {astro_context['profile']['specificYear']}"}[key]
+
+    if domain == "general":
+        direct = _krishna(f"{_strip_voice(scope.get('focus') or '')} {_cap(_strip_voice(scope.get('headline') or scope.get('cosmic_message') or ''))}")
+        basis_lines = [_strip_voice(scope.get("summary") or "")]
+        score = int(sum(v for v in area_scores.values() if v) / max(len([v for v in area_scores.values() if v]), 1))
+    else:
+        text = details.get(domain) or (scope.get("spiritualNote") if domain == "spiritual" else "") or scope.get("summary") or ""
+        direct = _krishna(_strip_voice(text))
+        basis_lines = list((scope.get("whyPlain") or {}).get(domain) or why.get(domain) or [])[:3]
+        score = int(area_scores.get(domain) or 50)
+
+    chart_basis = _krishna(_sentences(basis_lines) or scope.get("summary") or "")
+    help_lines = signals.get("help") if domain != "general" else list(scope.get("opportunities") or [])[:2]
+    care_lines = signals.get("care") if domain != "general" else list(scope.get("cautions") or [])[:2]
+    said = " ".join(basis_lines + [direct]).lower()
+    help_lines = [x for x in (help_lines or []) if x.rstrip(".").lower() not in said]
+    care_lines = [x for x in (care_lines or []) if x.rstrip(".").lower() not in said]
+    opportunities = _krishna(_sentences(help_lines) or "No single opening dominates here; steady effort is rewarded.")
+    cautions = _krishna(_sentences(care_lines) or "No heavy caution stands out here; just avoid overreach.")
+    advice = scope.get("adviceParts") or {}
+    timing_text = _strip_voice(advice.get("timing") or "")
+    windows = []
+    if domain in DOMAIN_WINDOW and key in ("monthly", "yearly", "specific_year"):
+        from .krishna_says import timing_windows
+
+        house, karakas = DOMAIN_WINDOW[domain]
+        try:
+            kundali = astro_context["kundali"]
+            windows = timing_windows(kundali, house, karakas, datetime.now(ZoneInfo(astro_context["profile"]["timezone"])))
+        except Exception:
+            windows = []
+    best_timing = _krishna(" ".join(filter(None, [(" ".join(["Good periods for this:", _sentences(windows)]) if windows else ""), _cap(timing_text)])))
+    remedy = _krishna(_strip_voice((scope.get("areaRemedy") or {}).get(domain) or advice.get("posture") or advice.get("headline") or scope.get("advice") or ""))
+    basis_used = [f"Lagna • {astro_context['lagna']}", f"Moon Sign • {astro_context['moonSign']}", f"Nakshatra • {astro_context['nakshatra']}",
+                  f"Running period • {scope.get('mahadasha')} / {scope.get('antardasha')}" + (f" / {scope['pratyantar']}" if scope.get("pratyantar") else "")]
+    for t in ("Jupiter", "Saturn"):
+        row = (astro_context.get("currentTransits") or {}).get(t)
+        if row:
+            basis_used.append(f"{t} transit • {row['rashi']}, house {row['houseFromMoon']} from Moon")
+    confidence = round(max(0.45, min(0.9, 0.5 + (score - 50.0) / 100.0 + (int(scope.get("confidence") or 60) - 60) / 200.0)), 2)
     return {
         "directAnswer": direct,
         "chartBasis": chart_basis,
@@ -418,7 +487,7 @@ def _fallback_oracle_answer(question: str, astro_context: Dict) -> Dict:
         "bestTiming": best_timing,
         "remedy": remedy,
         "confidence": confidence,
-        "astroBasisUsed": astro_basis_used,
+        "astroBasisUsed": basis_used,
         "suggestedFollowUps": get_suggested_prompts(astro_context),
     }
 
@@ -509,11 +578,27 @@ def _call_openai(question: str, astro_context: Dict, history: Optional[List[Dict
     }
 
 
+VOICE_FIELDS = ("directAnswer", "chartBasis", "opportunities", "cautions", "bestTiming", "remedy")
+
+
+def _enforce_voice(answer: Dict) -> Dict:
+    for field_name in VOICE_FIELDS:
+        text = _safe_text(answer.get(field_name))
+        if text and not text.lower().startswith("krishna says"):
+            answer[field_name] = f"Krishna says: {text}"
+    return answer
+
+
 def ask_oracle(*, question: str, astro_context: Dict, history: Optional[List[Dict]] = None, user_identifier: str = "oracle-user") -> Dict:
     question = _safe_text(question)
     if not question:
         raise ValueError("Question is required.")
-    return _call_openai(question, astro_context, history, user_identifier)
+    if _openai_api_key():
+        try:
+            return _enforce_voice(_call_openai(question, astro_context, history, user_identifier))
+        except Exception:
+            logger.exception("Oracle model call failed; answering from the personalised reading instead")
+    return _fallback_oracle_answer(question, astro_context)
 
 
 def _fallback_summary(astro_context: Dict, scope_key: str) -> Dict:

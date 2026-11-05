@@ -1,5 +1,5 @@
-import { fetchOracleStream } from "./astro-engine.js";
-import { makeProfileKey } from "./prediction-generator.js";
+import { fetchOracleStream } from "./astro-engine.js?v=5";
+import { makeProfileKey } from "./prediction-generator.js?v=5";
 
 const ORACLE_HISTORY_PREFIX = "sms_oracle_history_v1_";
 

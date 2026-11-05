@@ -1,0 +1,620 @@
+/* ============================================================
+   Horoscope — Claymorphism theme
+   Soft, puffy, tactile "modelling clay" surfaces: every panel has a
+   light top-left highlight, a darker bottom-right inner shade and a
+   two-sided outer shadow. Loaded after horoscope.css, so it only
+   re-skins; markup and JS are untouched.
+   ============================================================ */
+body.horoscope-body{
+  --clay-bg:#efe4da;
+  --clay-bg2:#e8dbe9;
+  --clay:#f6ede5;
+  --clay-hi:#fffaf5;
+  --clay-lo:#d9c4b4;
+  --clay-ink:#3b2d4a;
+  --clay-ink2:rgba(59,45,74,.88);
+  --clay-ink3:rgba(59,45,74,.74);
+  --clay-saffron:#ff9a3c;
+  --clay-saffron-d:#b8470a;
+  --clay-rose:#f38bb0;
+  --clay-mint:#5fcfa4;
+  --clay-sky:#6fa3f5;
+  --clay-violet:#9a82e8;
+  --clay-gold:#e9b23a;
+
+  /* re-point the legacy variables so untouched rules inherit the new palette */
+  --text:var(--clay-ink);
+  --text-soft:var(--clay-ink2);
+  --text-faint:var(--clay-ink3);
+  --gold:var(--clay-saffron-d);
+  --copper:#d9772b;
+  --indigo:var(--clay-sky);
+  --mist:#5aa9c9;
+  --rose:var(--clay-rose);
+  --success:#2f9f78;
+  --danger:#d9534f;
+  --panel-border:rgba(255,255,255,.7);
+  --shadow:
+    18px 22px 44px rgba(160,125,100,.34),
+    -14px -14px 32px rgba(255,255,255,.95);
+
+  --clay-out:
+    16px 20px 40px rgba(160,125,100,.30),
+    -12px -12px 28px rgba(255,255,255,.95);
+  --clay-out-sm:
+    8px 10px 20px rgba(160,125,100,.28),
+    -7px -7px 16px rgba(255,255,255,.95);
+  --clay-in:
+    inset 7px 8px 14px rgba(255,255,255,.95),
+    inset -8px -10px 18px rgba(205,170,145,.38);
+  --clay-in-sm:
+    inset 4px 5px 9px rgba(255,255,255,.95),
+    inset -5px -6px 11px rgba(205,170,145,.34);
+  --clay-dent:
+    inset 6px 7px 13px rgba(185,148,122,.34),
+    inset -6px -7px 13px rgba(255,255,255,.95);
+
+  color:var(--clay-ink);
+  background:
+    radial-gradient(60% 45% at 8% 6%, rgba(255,196,160,.55), transparent 70%),
+    radial-gradient(50% 40% at 92% 10%, rgba(200,180,255,.5), transparent 70%),
+    radial-gradient(55% 45% at 85% 92%, rgba(160,220,235,.45), transparent 70%),
+    radial-gradient(45% 40% at 5% 85%, rgba(255,190,215,.4), transparent 70%),
+    linear-gradient(160deg, var(--clay-bg) 0%, var(--clay-bg2) 100%);
+  background-attachment:fixed;
+}
+
+/* ---------- background: soft clay orbs instead of the star grid ---------- */
+body.horoscope-body .ambient-grid{
+  background:none;
+  mask-image:none;
+  opacity:1;
+  overflow:hidden;
+}
+body.horoscope-body .ambient-grid::before,
+body.horoscope-body .ambient-grid::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  will-change:transform;
+}
+body.horoscope-body .ambient-grid::before{
+  width:340px;height:340px;left:-90px;top:30vh;
+  background:radial-gradient(circle at 32% 28%, #fff 0, #ffd9bd 18%, #ffb98a 55%, #f09a68 100%);
+  box-shadow:inset -22px -26px 44px rgba(190,100,50,.35), inset 18px 18px 34px rgba(255,255,255,.75), 24px 34px 60px rgba(160,110,80,.28);
+  animation:clayFloatA 16s ease-in-out infinite;
+  opacity:.9;
+}
+body.horoscope-body .ambient-grid::after{
+  width:260px;height:260px;right:-70px;top:62vh;
+  background:radial-gradient(circle at 32% 28%, #fff 0, #e0d4ff 20%, #bda9f5 58%, #9b85e6 100%);
+  box-shadow:inset -20px -24px 40px rgba(110,80,200,.32), inset 16px 16px 30px rgba(255,255,255,.75), 22px 30px 54px rgba(120,100,170,.28);
+  animation:clayFloatB 19s ease-in-out infinite;
+  opacity:.85;
+}
+@keyframes clayFloatA{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(24px,-30px,0)}}
+@keyframes clayFloatB{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(-26px,28px,0)}}
+body.horoscope-body .cursor-bloom{
+  background:radial-gradient(circle, rgba(255,255,255,.55), rgba(255,200,160,.18), transparent 68%);
+  filter:blur(22px);
+}
+body.horoscope-body .hero-particles,
+body.horoscope-body .hero-veil{display:none}
+
+/* ---------- the clay slab ---------- */
+body.horoscope-body .glass-panel,
+body.horoscope-body .glass-subpanel{
+  background:linear-gradient(150deg, rgba(255,250,245,.95) 0%, rgba(246,237,229,.93) 46%, rgba(239,224,211,.92) 100%);
+  border:1px solid rgba(255,255,255,.75);
+  border-radius:34px;
+  box-shadow:var(--clay-out), var(--clay-in);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  color:var(--clay-ink);
+}
+body.horoscope-body .glass-panel::before,
+body.horoscope-body .glass-subpanel::before{
+  inset:0;
+  background:
+    radial-gradient(120% 70% at 12% 0%, rgba(255,255,255,.85), transparent 55%);
+  opacity:.55;
+}
+body.horoscope-body .glass-panel:hover,
+body.horoscope-body .glass-subpanel:hover{
+  transform:translateY(-3px);
+  border-color:rgba(255,255,255,.9);
+  box-shadow:
+    20px 28px 52px rgba(160,125,100,.34),
+    -14px -14px 32px rgba(255,255,255,1),
+    var(--clay-in);
+}
+body.horoscope-body .glass-panel > *,
+body.horoscope-body .glass-subpanel > *{position:relative;z-index:1}
+
+/* nested blocks: pressed-in "wells" and raised "pebbles" */
+body.horoscope-body .content-panel,
+body.horoscope-body .snapshot-tile,
+body.horoscope-body .signal-tile,
+body.horoscope-body .timeline-item,
+body.horoscope-body .meter,
+body.horoscope-body .analysis-block,
+body.horoscope-body .feature-tile,
+body.horoscope-body .wealth-basis-block,
+body.horoscope-body .wealth-meter-card,
+body.horoscope-body .wealth-pulse-card,
+body.horoscope-body .wealth-rank-card,
+body.horoscope-body .wealth-caution-item,
+body.horoscope-body .wealth-action-item,
+body.horoscope-body .wealth-list-panel,
+body.horoscope-body .wealth-side-panel,
+body.horoscope-body .wealth-hero-panel,
+body.horoscope-body .oracle-sidebar,
+body.horoscope-body .oracle-identity,
+body.horoscope-body .oracle-chat-stage,
+body.horoscope-body .hero-chip,
+body.horoscope-body .history-chip,
+body.horoscope-body .prompt-chip,
+body.horoscope-body .oracle-followup-chip,
+body.horoscope-body .oracle-basis-pill,
+body.horoscope-body .oracle-basis-toggle,
+body.horoscope-body .lucky-pill,
+body.horoscope-body .signal-pill,
+body.horoscope-body .wealth-chip,
+body.horoscope-body .wealth-meta-pill,
+body.horoscope-body .profile-badge,
+body.horoscope-body .oracle-status{
+  background:linear-gradient(150deg, #fffaf6, #f3e7dc);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:var(--clay-out-sm), var(--clay-in-sm);
+  color:var(--clay-ink);
+}
+body.horoscope-body .content-panel,
+body.horoscope-body .wealth-hero-panel,
+body.horoscope-body .wealth-list-panel,
+body.horoscope-body .wealth-side-panel{border-radius:28px}
+body.horoscope-body .snapshot-tile,
+body.horoscope-body .signal-tile,
+body.horoscope-body .timeline-item,
+body.horoscope-body .analysis-block,
+body.horoscope-body .feature-tile,
+body.horoscope-body .wealth-basis-block,
+body.horoscope-body .wealth-meter-card,
+body.horoscope-body .wealth-pulse-card,
+body.horoscope-body .wealth-rank-card,
+body.horoscope-body .wealth-caution-item,
+body.horoscope-body .wealth-action-item{border-radius:22px}
+
+/* inputs & wells are pressed INTO the clay */
+body.horoscope-body .field input,
+body.horoscope-body .field textarea,
+body.horoscope-body .place-results,
+body.horoscope-body .oracle-input-wrap,
+body.horoscope-body .oracle-composer-shell,
+body.horoscope-body .oracle-conversation{
+  background:linear-gradient(160deg, #ecdccd, #f6ece3);
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:var(--clay-dent);
+  color:var(--clay-ink);
+}
+body.horoscope-body .oracle-input-wrap textarea{background:transparent;box-shadow:none;border:0;color:var(--clay-ink)}
+body.horoscope-body .field input,
+body.horoscope-body .field textarea{border-radius:20px}
+body.horoscope-body .field input::placeholder,
+body.horoscope-body .oracle-input-wrap textarea::placeholder{color:var(--clay-ink3)}
+body.horoscope-body .field input:focus,
+body.horoscope-body .field input:focus-visible,
+body.horoscope-body .field textarea:focus,
+body.horoscope-body .field textarea:focus-visible{
+  outline:none;
+  border-color:rgba(255,154,60,.7);
+  box-shadow:var(--clay-dent), 0 0 0 4px rgba(255,154,60,.22);
+}
+body.horoscope-body .field input[type="date"],
+body.horoscope-body .field input[type="time"]{color-scheme:light}
+body.horoscope-body .field span{color:var(--clay-ink2)}
+body.horoscope-body .place-result{color:var(--clay-ink)}
+body.horoscope-body .place-result:hover{background:rgba(255,154,60,.14)}
+body.horoscope-body .place-result span,
+body.horoscope-body .place-empty{color:var(--clay-ink3)}
+
+/* ---------- buttons: soft inflated pills ---------- */
+body.horoscope-body .primary-cta{
+  color:#2b1100;
+  font-weight:800;
+  text-shadow:0 1px 0 rgba(255,236,205,.7);
+  border:1px solid rgba(255,214,170,.9);
+  background:linear-gradient(160deg, #ffc27a 0%, #ff9a3c 48%, #f2711c 100%);
+  box-shadow:
+    10px 14px 26px rgba(232,110,30,.38),
+    -6px -6px 16px rgba(255,255,255,.9),
+    inset 4px 5px 9px rgba(255,236,205,.9),
+    inset -6px -8px 14px rgba(190,75,0,.38);
+  transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+body.horoscope-body .primary-cta::after{display:none}
+body.horoscope-body .primary-cta:hover{transform:translateY(-3px) scale(1.015);filter:saturate(1.08)}
+body.horoscope-body .primary-cta:active{
+  transform:translateY(1px) scale(.985);
+  box-shadow:
+    4px 6px 12px rgba(232,110,30,.3),
+    -3px -3px 8px rgba(255,255,255,.9),
+    inset 6px 7px 14px rgba(190,75,0,.42),
+    inset -4px -4px 9px rgba(255,236,205,.7);
+}
+body.horoscope-body .ghost-cta,
+body.horoscope-body .sound-ghost,
+body.horoscope-body .text-link{
+  color:var(--clay-ink);
+  background:linear-gradient(150deg, #fffaf6, #f1e3d7);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:var(--clay-out-sm), var(--clay-in-sm);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+body.horoscope-body .ghost-cta:hover,
+body.horoscope-body .sound-ghost:hover,
+body.horoscope-body .text-link:hover{
+  transform:translateY(-2px);
+  color:var(--clay-saffron-d);
+  background:linear-gradient(150deg, #fffaf6, #f1e3d7);
+}
+body.horoscope-body .ghost-cta:active,
+body.horoscope-body .text-link:active{transform:translateY(1px);box-shadow:var(--clay-dent)}
+body.horoscope-body .sound-ghost[aria-pressed="true"]{color:var(--clay-saffron-d);box-shadow:var(--clay-dent)}
+body.horoscope-body .text-link{border-radius:999px;padding:.6rem 1.1rem}
+
+/* ---------- hero ---------- */
+body.horoscope-body .hero-shell{
+  border-radius:48px;
+  background:
+    radial-gradient(60% 70% at 85% 20%, rgba(255,208,170,.55), transparent 65%),
+    radial-gradient(55% 60% at 10% 90%, rgba(205,190,255,.5), transparent 65%),
+    linear-gradient(150deg, #fffaf5, #f6e9de 60%, #efdfd3);
+}
+body.horoscope-body .hero-kicker,
+body.horoscope-body .section-kicker,
+body.horoscope-body .instrument-label,
+body.horoscope-body .snapshot-eyebrow,
+body.horoscope-body .tile-label,
+body.horoscope-body .pill-label,
+body.horoscope-body .meter-label,
+body.horoscope-body .wealth-kicker,
+body.horoscope-body .signal-label,
+body.horoscope-body .oracle-topline,
+body.horoscope-body .oracle-empty-kicker{
+  color:var(--clay-saffron-d);
+  font-weight:800;
+}
+body.horoscope-body .hero-copy h1,
+body.horoscope-body .section-head h2,
+body.horoscope-body .oracle-shell-head h2,
+body.horoscope-body .headline-message,
+body.horoscope-body .feature-headline h3,
+body.horoscope-body .card-title h3,
+body.horoscope-body .profile-title,
+body.horoscope-body .wealth-hero-panel h3,
+body.horoscope-body .loading-heading{
+  color:var(--clay-ink);
+  text-shadow:1px 2px 0 rgba(255,255,255,.9), 3px 5px 8px rgba(160,125,100,.22);
+}
+body.horoscope-body .oracle-shell-head h2 em,
+body.horoscope-body .hero-copy h1 em{color:var(--clay-saffron-d);font-style:italic}
+body.horoscope-body .hero-subtitle,
+body.horoscope-body .section-copy,
+body.horoscope-body .oracle-subcopy,
+body.horoscope-body .detail-paragraph,
+body.horoscope-body .message-body,
+body.horoscope-body .feature-headline p,
+body.horoscope-body .feature-foot p,
+body.horoscope-body .feature-tile p,
+body.horoscope-body .wealth-copy,
+body.horoscope-body .wealth-basis-block p,
+body.horoscope-body .wealth-rank-card p,
+body.horoscope-body .oracle-message-section p,
+body.horoscope-body .oracle-empty-state p,
+body.horoscope-body .meter-caption,
+body.horoscope-body .history-note,
+body.horoscope-body .muted,
+body.horoscope-body .instrument-location,
+body.horoscope-body .profile-meta,
+body.horoscope-body .profile-foot,
+body.horoscope-body .oracle-identity-meta,
+body.horoscope-body .period-meta{color:var(--clay-ink2)}
+body.horoscope-body .hero-chip{border-radius:999px}
+body.horoscope-body .hero-chip strong{color:var(--clay-ink)}
+
+/* live-observatory card: a raised glass-clay "device" */
+body.horoscope-body .hero-instrument{
+  background:linear-gradient(155deg, #fffdfa, #f4e6da 60%, #ecd9ca);
+  border-radius:38px;
+}
+body.horoscope-body .instrument-greeting{color:var(--clay-ink)}
+body.horoscope-body .instrument-clock{
+  color:var(--clay-ink);
+  background:linear-gradient(160deg, #ecdccd, #f6ece3);
+  box-shadow:var(--clay-dent);
+  border-radius:16px;
+  padding:.3rem .8rem;
+}
+body.horoscope-body .instrument-weather{color:var(--clay-ink)}
+body.horoscope-body .instrument-energy{
+  border-radius:50%;
+  background:radial-gradient(circle at 32% 26%, #fff 0, #ffe4cc 38%, #ffc49a 100%);
+  box-shadow:
+    12px 16px 30px rgba(190,110,60,.34),
+    -8px -8px 20px rgba(255,255,255,.95),
+    inset 8px 9px 16px rgba(255,255,255,.95),
+    inset -10px -12px 22px rgba(225,130,60,.35);
+}
+body.horoscope-body .energy-ring{border-color:rgba(232,89,12,.28)}
+body.horoscope-body .energy-value{color:var(--clay-saffron-d);text-shadow:1px 2px 0 rgba(255,255,255,.8)}
+body.horoscope-body .energy-caption{color:var(--clay-ink2)}
+body.horoscope-body .signal-value{color:var(--clay-ink)}
+
+/* ---------- tabs ---------- */
+body.horoscope-body .tab-row{gap:.7rem;padding:.35rem .2rem .8rem}
+body.horoscope-body .scope-tab{
+  color:var(--clay-ink2);
+  font-weight:700;
+  background:linear-gradient(150deg, #fffaf6, #f1e3d7);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:999px;
+  box-shadow:var(--clay-out-sm), var(--clay-in-sm);
+  transition:transform .18s ease, box-shadow .18s ease, color .18s ease;
+}
+body.horoscope-body .scope-tab::after{display:none}
+body.horoscope-body .scope-tab:hover{transform:translateY(-2px);color:var(--clay-saffron-d)}
+body.horoscope-body .scope-tab.is-active{
+  color:#2b1100;
+  text-shadow:0 1px 0 rgba(255,236,205,.7);
+  background:linear-gradient(160deg, #ffc27a, #ff9a3c 50%, #f2711c);
+  border-color:rgba(255,214,170,.9);
+  box-shadow:
+    8px 11px 20px rgba(232,110,30,.34),
+    -5px -5px 12px rgba(255,255,255,.9),
+    inset 3px 4px 8px rgba(255,236,205,.85),
+    inset -5px -6px 11px rgba(190,75,0,.36);
+}
+
+/* ---------- cards / content ---------- */
+body.horoscope-body .card-title strong,
+body.horoscope-body .snapshot-value,
+body.horoscope-body .timeline-item strong,
+body.horoscope-body .feature-tile strong,
+body.horoscope-body .feature-foot span,
+body.horoscope-body .analysis-block h4,
+body.horoscope-body .oracle-message-section h4,
+body.horoscope-body .wealth-rank-top h4,
+body.horoscope-body .wealth-rank-top strong,
+body.horoscope-body .wealth-meter-card strong,
+body.horoscope-body .wealth-pulse-card strong,
+body.horoscope-body .wealth-caution-item strong,
+body.horoscope-body .oracle-identity-title,
+body.horoscope-body .oracle-response-title{color:var(--clay-ink)}
+body.horoscope-body .meter-value{color:var(--clay-saffron-d)}
+body.horoscope-body .meter-score{color:var(--clay-ink)}
+body.horoscope-body .feature-headline h3,
+body.horoscope-body .headline-message{color:var(--clay-ink)}
+
+/* score donuts: a sculpted ring with a pressed centre */
+body.horoscope-body .meter-visual,
+body.horoscope-body .wealth-confidence-ring{
+  box-shadow:
+    8px 10px 18px rgba(160,125,100,.32),
+    -6px -6px 14px rgba(255,255,255,.95);
+}
+body.horoscope-body .meter-visual{
+  background:conic-gradient(var(--meter-color, var(--clay-saffron)) calc(var(--meter, 0) * 1%), #e4d3c4 0);
+}
+body.horoscope-body .meter-visual::before{
+  width:88px;height:88px;
+  background:linear-gradient(160deg, #f9efe6, #f2e3d6);
+  box-shadow:var(--clay-dent);
+}
+body.horoscope-body .wealth-confidence-ring{
+  background:conic-gradient(var(--clay-saffron) calc(var(--wealth-score) * 1%), #e4d3c4 0);
+}
+body.horoscope-body .wealth-confidence-ring::before{
+  background:linear-gradient(160deg, #f9efe6, #f2e3d6);
+  box-shadow:var(--clay-dent);
+}
+body.horoscope-body .wealth-confidence-core span{color:var(--clay-ink2)}
+
+/* bars: groove + glossy fill */
+body.horoscope-body .wealth-meter-track,
+body.horoscope-body .wealth-bar{
+  background:linear-gradient(160deg, #e7d6c7, #f4e9df);
+  box-shadow:var(--clay-dent);
+  border-radius:999px;
+}
+body.horoscope-body .wealth-meter-track span,
+body.horoscope-body .wealth-bar span,
+body.horoscope-body .wealth-pulse-bar span{
+  background:linear-gradient(180deg, #ffd197, #ff9a3c 55%, #ee6f1a);
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.7), inset 0 -3px 4px rgba(190,75,0,.3), 0 3px 8px rgba(232,110,30,.3);
+  border-radius:999px;
+}
+body.horoscope-body .wealth-pulse-card--blue .wealth-pulse-bar span{background:linear-gradient(180deg,#b6d2ff,#6fa3f5 55%,#4a80dc)}
+body.horoscope-body .wealth-pulse-card--soft .wealth-pulse-bar span{background:linear-gradient(180deg,#d9ccff,#9a82e8 55%,#7a62d0)}
+body.horoscope-body .wealth-pulse-card--copper .wealth-pulse-bar span{background:linear-gradient(180deg,#ffd2a8,#e58a3c 55%,#c76a1c)}
+body.horoscope-body .wealth-meter-track--timing span{background:linear-gradient(180deg,#b6d2ff,#6fa3f5 55%,#4a80dc)}
+body.horoscope-body .wealth-rank-index{
+  color:#2b1100;
+  background:linear-gradient(160deg,#ffc27a,#f2711c);
+  box-shadow:4px 5px 10px rgba(232,110,30,.32), inset 2px 2px 5px rgba(255,236,205,.8), inset -3px -3px 6px rgba(190,75,0,.35);
+}
+body.horoscope-body .wealth-meta-pill--timing.is-strong{color:#1d7a5a}
+body.horoscope-body .wealth-meta-pill--timing.is-selective{color:#b9690f}
+body.horoscope-body .wealth-meta-pill--timing.is-cautious{color:#b3433f}
+body.horoscope-body .wealth-disclaimer{color:var(--clay-ink3)}
+body.horoscope-body .wealth-shell::before{opacity:.35}
+body.horoscope-body .wealth-side-panel--execution{background:linear-gradient(150deg,#fffaf6,#f3e7dc)}
+body.horoscope-body .wealth-side-panel--execution .wealth-basis-block,
+body.horoscope-body .wealth-side-panel--execution .wealth-action-item{background:linear-gradient(150deg,#fff,#f6ebe1)}
+
+/* the natal wheel / mini wheel: a clay medallion */
+body.horoscope-body .mini-wheel,
+body.horoscope-body .snapshot-wheel{
+  border-radius:50%;
+  background:radial-gradient(circle at 32% 26%, #fff 0, #ffe9d6 40%, #f7cfae 100%);
+  box-shadow:
+    8px 10px 18px rgba(190,110,60,.3),
+    -6px -6px 14px rgba(255,255,255,.95),
+    inset 5px 6px 10px rgba(255,255,255,.95),
+    inset -6px -8px 14px rgba(225,130,60,.3);
+}
+body.horoscope-body .mini-wheel::before{opacity:.55}
+body.horoscope-body .mini-wheel-center{
+  background:linear-gradient(160deg,#f9efe6,#f1e2d5);
+  box-shadow:var(--clay-dent);
+  color:var(--clay-ink);
+}
+body.horoscope-body .wheel-copy{color:var(--clay-ink2)}
+
+/* ---------- Oracle ---------- */
+body.horoscope-body .oracle-avatar,
+body.horoscope-body .oracle-orb-mini,
+body.horoscope-body .oracle-query-avatar{
+  color:#2b1100;
+  background:radial-gradient(circle at 32% 26%, #ffd9a8, #ff9a3c 60%, #ee6f1a);
+  box-shadow:
+    6px 8px 16px rgba(232,110,30,.36),
+    -4px -4px 10px rgba(255,255,255,.9),
+    inset 3px 4px 7px rgba(255,236,205,.9),
+    inset -4px -5px 9px rgba(190,75,0,.36);
+}
+body.horoscope-body .oracle-topline span{background:var(--clay-saffron)}
+body.horoscope-body .oracle-bubble{
+  color:var(--clay-ink);
+  border-radius:26px;
+}
+body.horoscope-body .oracle-bubble--question{
+  background:linear-gradient(160deg,#ffd1a0,#ffa04a);
+  color:#2b1100;
+  border:1px solid rgba(255,214,170,.9);
+  box-shadow:6px 8px 16px rgba(232,110,30,.3), inset 3px 4px 8px rgba(255,236,205,.8), inset -4px -5px 9px rgba(190,75,0,.3);
+  text-shadow:0 1px 0 rgba(255,236,205,.6);
+}
+body.horoscope-body .oracle-bubble--answer,
+body.horoscope-body .oracle-bubble--pending{
+  background:linear-gradient(150deg,#fffaf6,#f4e8dd);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:var(--clay-out-sm), var(--clay-in-sm);
+}
+body.horoscope-body .oracle-query-text{color:inherit}
+body.horoscope-body .oracle-basis-body{color:var(--clay-ink2)}
+body.horoscope-body .oracle-confidence-dot{background:#e0cfc0;box-shadow:var(--clay-dent)}
+body.horoscope-body .oracle-confidence-dot.is-active{background:var(--clay-saffron);box-shadow:0 0 0 3px rgba(255,154,60,.25)}
+body.horoscope-body .oracle-confidence-label,
+body.horoscope-body .oracle-response-meta{color:var(--clay-ink3)}
+body.horoscope-body .oracle-inline-typing span,
+body.horoscope-body .typing-dot{background:var(--clay-saffron)}
+body.horoscope-body .oracle-composer-shell::before{display:none}
+body.horoscope-body .oracle-send-btn{border-radius:50%}
+body.horoscope-body .prompt-chip,
+body.horoscope-body .oracle-followup-chip{border-radius:20px;color:var(--clay-ink);transition:transform .18s ease}
+body.horoscope-body .prompt-chip:hover,
+body.horoscope-body .oracle-followup-chip:hover{transform:translateY(-2px);color:var(--clay-saffron-d);background:linear-gradient(150deg,#fffaf6,#f3e7dc)}
+
+/* ---------- loading / error ---------- */
+body.horoscope-body .shimmer-card{
+  background:linear-gradient(110deg,#efe0d3 30%,#fffaf5 50%,#efe0d3 70%);
+  background-size:200% 100%;
+  box-shadow:var(--clay-out-sm), var(--clay-in-sm);
+  border-radius:26px;
+  animation:clayShimmer 1.4s linear infinite;
+}
+@keyframes clayShimmer{to{background-position:-200% 0}}
+body.horoscope-body .error-shell{color:#b3433f}
+
+/* ---------- FAQ / footer text under the page ---------- */
+body.horoscope-body .seo-faq,
+body.horoscope-body .seo-faq *{color:var(--clay-ink2)}
+body.horoscope-body .seo-faq h2,
+body.horoscope-body .seo-faq h3{color:var(--clay-ink)}
+body.horoscope-body .seo-faq a{color:var(--clay-saffron-d)}
+
+/* scrollbars */
+body.horoscope-body *{scrollbar-color:#d9b9a0 transparent}
+
+/* ---------- phones: a little lighter so it stays fast and fits ---------- */
+@media (max-width:760px){
+  body.horoscope-body .glass-panel,
+  body.horoscope-body .glass-subpanel{border-radius:28px}
+  body.horoscope-body .hero-shell{border-radius:34px}
+  body.horoscope-body .ambient-grid::before{width:220px;height:220px;left:-80px}
+  body.horoscope-body .ambient-grid::after{width:170px;height:170px;right:-60px}
+  body.horoscope-body{--clay-out:10px 14px 28px rgba(160,125,100,.28), -8px -8px 20px rgba(255,255,255,.95)}
+}
+@media (prefers-reduced-motion:reduce){
+  body.horoscope-body .ambient-grid::before,
+  body.horoscope-body .ambient-grid::after{animation:none}
+}
+
+/* vertical pulse columns keep their own shape; just give them a clay look */
+body.horoscope-body .wealth-pulse-bar span{border-radius:18px 18px 10px 10px}
+body.horoscope-body .wealth-pulse-bar{
+  background:linear-gradient(160deg,#e7d6c7,#f4e9df);
+  box-shadow:var(--clay-dent);
+  border-radius:20px;
+  padding:6px;
+}
+
+/* energy dial centre: a pressed well, not a black disc */
+body.horoscope-body .energy-core{
+  background:linear-gradient(160deg,#f8ede3,#f1e1d3);
+  box-shadow:var(--clay-dent);
+}
+
+/* header: opaque dark-plum clay bar so it reads on the light page */
+body.horoscope-body .header{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,.04) 45%,rgba(0,0,0,.18) 100%),
+    #3f3050;
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+  border-color:rgba(255,255,255,.35);
+  box-shadow:
+    0 1.5px 0 rgba(255,255,255,.45) inset,
+    0 -10px 18px -8px rgba(0,0,0,.4) inset,
+    10px 18px 34px rgba(90,60,70,.38),
+    -6px -6px 18px rgba(255,255,255,.85);
+}
+
+/* Oracle composer: remove the dark dock, show a pressed clay input */
+body.horoscope-body .oracle-composer-shell{
+  background:transparent;
+  box-shadow:none;
+  border:0;
+  padding:.4rem 0 0;
+}
+body.horoscope-body .oracle-form{
+  background:linear-gradient(150deg,#fffaf6,#f3e7dc);
+  border:1px solid rgba(255,255,255,.85);
+  border-radius:34px;
+  box-shadow:var(--clay-out-sm), var(--clay-in-sm);
+}
+body.horoscope-body .oracle-input-wrap{
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+body.horoscope-body .oracle-input-wrap textarea{
+  background:linear-gradient(160deg,#ecdccd,#f6ece3);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:26px;
+  box-shadow:var(--clay-dent);
+  color:var(--clay-ink);
+}
+body.horoscope-body .oracle-input-wrap textarea:focus{outline:none;box-shadow:var(--clay-dent),0 0 0 4px rgba(255,154,60,.22)}
+body.horoscope-body .prompt-chip-column,
+body.horoscope-body .oracle-toolbar-group,
+body.horoscope-body .oracle-conversation{background-color:transparent}
+body.horoscope-body .oracle-conversation{
+  background:linear-gradient(160deg,#ecdccd,#f6ece3);
+  border-radius:30px;
+}
+body.horoscope-body .oracle-sidebar{border-radius:30px}
+body.horoscope-body .oracle-chat-stage{border-radius:30px;background:transparent;box-shadow:none;border:0}
+
+html:has(body.horoscope-body){background:#eadfe0}
+@media (max-width:760px){body.horoscope-body{background-attachment:scroll}}

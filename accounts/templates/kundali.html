@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="{% static 'header.css' %}?v=13">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}">
   <link rel="stylesheet" href="{% static 'kundali.css' %}?v=26">
-  <link rel="stylesheet" href="{% static 'kundali-skeu.css' %}?v=9">
+  <link rel="stylesheet" href="{% static 'kundali-skeu.css' %}?v=18">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2">
@@ -34,55 +34,56 @@
   <main class="kundali-page kx" id="kundaliRoot">
     <section class="kx-stage">
       <div class="kx-copy">
-        <span class="kx-pill"><b aria-hidden="true">✦</b> Vedic astrology · free</span>
-        <h1 class="kx-title">Your Janma Kundali,<br><em>beautifully decoded.</em></h1>
-        <p class="kx-lede">Enter your birth details and see your birth chart, planets, dasha timeline and doshas in seconds. Clear, interactive and in English or हिंदी.</p>
+        <span class="kx-pill"><b aria-hidden="true">✦</b> <span data-i18n="pill">Vedic astrology · free</span></span>
+        <h1 class="kx-title" data-i18n-html="title_html">Your Janma Kundali,<br><em>beautifully decoded.</em></h1>
+        <p class="kx-lede" data-i18n="lede">Enter your birth details and see your birth chart, planets, dasha timeline and doshas in seconds. Clear, interactive and in English or हिंदी.</p>
         <ul class="kx-feats" aria-label="What you get">
-          <li><i>◐</i><span><strong>North &amp; South chart</strong>D1 Rashi + D9 Navamsa</span></li>
-          <li><i>☾</i><span><strong>Nakshatra &amp; Dasha</strong>Vimshottari timeline</span></li>
-          <li><i>✺</i><span><strong>Doshas &amp; remedies</strong>Plain-language guidance</span></li>
+          <li><i>◐</i><span><strong data-i18n="feat1">North &amp; South chart</strong><span data-i18n="feat1s">D1 Rashi + D9 Navamsa</span></span></li>
+          <li><i>☾</i><span><strong data-i18n="feat2">Nakshatra &amp; Dasha</strong><span data-i18n="feat2s">Vimshottari timeline</span></span></li>
+          <li><i>✺</i><span><strong data-i18n="feat3">Doshas &amp; remedies</strong><span data-i18n="feat3s">Plain-language guidance</span></span></li>
         </ul>
         <ol class="kx-steps" aria-label="How it works">
-          <li><b>1</b> Birth details</li><li><b>2</b> Your chart</li><li><b>3</b> Dasha &amp; doshas</li>
+          <li><b>1</b> <span data-i18n="step1">Birth details</span></li><li><b>2</b> <span data-i18n="step2">Your chart</span></li><li><b>3</b> <span data-i18n="step3">Dasha &amp; doshas</span></li>
         </ol>
-        <p class="kx-note">Lahiri ayanamsha · whole-sign houses · computed with Swiss Ephemeris</p>
+        <p class="kx-note" data-i18n="note">Lahiri ayanamsha · whole-sign houses · computed with Swiss Ephemeris</p>
       </div>
 
       <div class="k-input glass-panel kx-card">
         <div class="k-input__head">
+          <div class="kx-langsw" role="group" aria-label="Language"><button type="button" data-kx-lang-btn="en" aria-pressed="true">English</button><button type="button" data-kx-lang-btn="hi" aria-pressed="false">हिंदी</button></div>
           <div>
-            <div class="k-input__title">Birth details</div>
-            <div class="k-input__hint">The exact time matters: the ascendant changes about every two hours.</div>
+            <div class="k-input__title" data-i18n="form_title">Birth details</div>
+            <div class="k-input__hint" data-i18n="form_hint">The exact time matters: the ascendant changes about every two hours.</div>
           </div>
         </div>
 
           <div class="k-form" aria-label="Kundali inputs">
             <label class="k-field">
-              <span>Date of birth</span>
+              <span data-i18n="dob">Date of birth</span>
               <input id="dobInput" type="date" class="k-control" />
             </label>
 
             <label class="k-field">
-              <span>Time of birth (24h)</span>
+              <span data-i18n="tob">Time of birth (24h)</span>
               <input id="tobInput" type="time" class="k-control" step="60" />
             </label>
 
             <div class="k-field k-field--wide k-place">
-              <label for="placeInput"><span>Place of birth</span></label>
+              <label for="placeInput"><span data-i18n="place">Place of birth</span></label>
               <div class="k-place__box">
                 <input id="placeInput" class="k-control" type="search" autocomplete="off" autocapitalize="words" spellcheck="false" enterkeyhint="search"
                        role="combobox" aria-expanded="false" aria-controls="placeList" aria-autocomplete="list"
-                       placeholder="Search city, town or village" />
+                       placeholder="Search city, town or village" data-i18n-ph="place_ph" />
                 <button id="placeClear" class="k-place__clear" type="button" aria-label="Clear place" hidden>&times;</button>
                 <ul id="placeList" class="k-place__list" role="listbox" aria-label="Matching places" hidden></ul>
               </div>
-              <small id="placeHint" class="k-place__hint" role="status" aria-live="polite">Type your birthplace and pick it from the list.</small>
+              <small id="placeHint" class="k-place__hint" role="status" aria-live="polite" data-i18n="place_hint">Type your birthplace and pick it from the list.</small>
               <input id="latInput" type="hidden" />
               <input id="lonInput" type="hidden" />
             </div>
 
             <label class="k-field k-field--wide">
-              <span>Timezone</span>
+              <span data-i18n="tz">Timezone</span>
               <input id="tzInput" class="k-control" list="tzList" placeholder="Asia/Kolkata" />
               <datalist id="tzList">
                 <option value="Asia/Kolkata"></option>
@@ -97,19 +98,19 @@
 
           <div class="k-actions">
             <div class="k-actions__secondary">
-              <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button">Use current location</button>
-              <button id="todayBtn" class="k-btn" type="button">Today</button>
-              <button id="seeHoroscopeBtn" class="k-btn" type="button">See Horoscope</button>
+              <button id="useCurrentBtn" class="k-btn k-btn--ghost" type="button" data-i18n="use_current">Use current location</button>
+              <button id="todayBtn" class="k-btn" type="button" data-i18n="today">Today</button>
+              <button id="seeHoroscopeBtn" class="k-btn" type="button" data-i18n="horoscope">See Horoscope</button>
             </div>
             <div class="k-actions__primary">
-              <button id="generateBtn" class="k-btn k-btn--primary" type="button">Generate my Kundali</button>
+              <button id="generateBtn" class="k-btn k-btn--primary" type="button" data-i18n="generate">Generate my Kundali</button>
             </div>
           </div>
 
           <div class="k-state" id="kState">
             <div class="k-state__loading" id="kLoading" hidden>
               <div class="spinner"></div>
-              <div>Calibrating your destiny map…</div>
+              <div data-i18n="loading">Calibrating your destiny map…</div>
             </div>
             <div class="k-state__error" id="kError" hidden></div>
           </div>
@@ -125,12 +126,12 @@
           </div>
           <div class="k-summary__right">
             <div class="k-toggle" role="tablist" aria-label="Chart type">
-              <button class="k-toggle__btn is-active" type="button" data-chart="d1">D1 (Rashi)</button>
-              <button class="k-toggle__btn" type="button" data-chart="d9">D9 (Navamsa)</button>
+              <button class="k-toggle__btn is-active" type="button" data-chart="d1" data-i18n="d1">D1 (Rashi)</button>
+              <button class="k-toggle__btn" type="button" data-chart="d9" data-i18n="d9">D9 (Navamsa)</button>
             </div>
             <div class="k-toggle" role="tablist" aria-label="Chart style">
-              <button class="k-toggle__btn is-active" type="button" data-style="north">North Indian</button>
-              <button class="k-toggle__btn" type="button" data-style="south">South Indian</button>
+              <button class="k-toggle__btn is-active" type="button" data-style="north" data-i18n="north">North Indian</button>
+              <button class="k-toggle__btn" type="button" data-style="south" data-i18n="south">South Indian</button>
             </div>
             <div class="k-toggle" role="tablist" aria-label="Language">
               <button class="k-toggle__btn is-active" type="button" data-lang="en">English</button>
@@ -203,7 +204,7 @@
       </div>
     </section>
 
-    <footer class="kundali-footer">Made with devotion 🪔</footer>
+    <footer class="kundali-footer"><span data-i18n="footer">Made with devotion</span> 🪔</footer>
   </main>
 
   {% include 'components/login_popup.html' %}
@@ -220,10 +221,11 @@
   <script defer src="{% static 'js/review.js' %}?v=1"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
-  <script src="{% static 'kundali-reading.js' %}?v=2"></script>
-  <script src="{% static 'kundali.js' %}?v=24"></script>
-  <script src="{% static 'kundali-chart3d.js' %}?v=4"></script>
-  <script defer src="{% static 'kundali-fx.js' %}?v=6"></script>
+  <script src="{% static 'kundali-i18n.js' %}?v=2"></script>
+  <script src="{% static 'kundali-reading.js' %}?v=5"></script>
+  <script src="{% static 'kundali.js' %}?v=28"></script>
+  <script src="{% static 'kundali-chart3d.js' %}?v=5"></script>
+  <script defer src="{% static 'kundali-fx.js' %}?v=10"></script>
 {% include "components/seo_faq.html" %}
 </body>
 </html>

@@ -90,87 +90,87 @@ INDUSTRY_MAP = {
     "Government Infrastructure": {
         "planets": ["Sun", "Saturn"],
         "houses": [9, 10, 11],
-        "rationale": "Public systems and state-aligned leadership thrive when authority, structure, and fortune houses cooperate.",
+        "rationale": "Government and public-sector work suits you when Sun and Saturn are strong.",
     },
     "Energy & Utilities": {
         "planets": ["Sun", "Saturn", "Mars"],
         "houses": [10, 11, 2],
-        "rationale": "Energy themes benefit from executive force, industrial discipline, and income houses.",
+        "rationale": "Power, oil and energy businesses suit you when Sun, Saturn and Mars are strong.",
     },
     "Consumer Staples & FMCG": {
         "planets": ["Moon", "Venus"],
         "houses": [2, 4, 11],
-        "rationale": "Stable consumer demand is favored by lunar familiarity, comfort, and gainful circulation.",
+        "rationale": "Everyday-need businesses (food, household goods) suit you when Moon and Venus are strong.",
     },
     "Hospitality & Travel": {
         "planets": ["Moon", "Venus"],
         "houses": [4, 7, 11, 12],
-        "rationale": "Pleasure, movement, and audience-driven sectors rise when Venus and Moon flow cleanly.",
+        "rationale": "Hotels, travel and tourism suit you when Venus and Moon are strong.",
     },
     "Defense & Industrials": {
         "planets": ["Mars", "Saturn", "Sun"],
         "houses": [6, 10, 11],
-        "rationale": "Execution-heavy sectors align with disciplined force, machinery, and visible output.",
+        "rationale": "Defence and heavy industry suit you when Mars, Saturn and Sun are strong.",
     },
     "Metals, Mining & Materials": {
         "planets": ["Mars", "Saturn"],
         "houses": [8, 10, 11],
-        "rationale": "Resource extraction and hard assets respond to deep-earth houses and structural planets.",
+        "rationale": "Metals, mining and raw materials suit you when Mars and Saturn are strong.",
     },
     "Financial Services & Brokerage": {
         "planets": ["Mercury", "Jupiter"],
         "houses": [2, 5, 11],
-        "rationale": "Wealth intermediation depends on intellect, judgement, and gain-oriented houses.",
+        "rationale": "Broking and financial services suit you when Mercury and Jupiter are strong.",
     },
     "Fintech & Software": {
         "planets": ["Mercury", "Rahu"],
         "houses": [3, 5, 10, 11],
-        "rationale": "Adaptive technology sectors reward sharp analysis, networks, and disruptive themes.",
+        "rationale": "Software and fintech suit you when Mercury and Rahu are strong.",
     },
     "Banking, Insurance & Asset Management": {
         "planets": ["Jupiter", "Mercury"],
         "houses": [2, 9, 11],
-        "rationale": "Trust, stewardship, and long-cycle compounding are Jupiter-led wealth signatures.",
+        "rationale": "Banks, insurance and asset management suit you when Jupiter and Mercury are strong.",
     },
     "Education & Knowledge Platforms": {
         "planets": ["Jupiter", "Mercury"],
         "houses": [5, 9, 10],
-        "rationale": "Teaching, research, and scaled knowledge align with 5th and 9th house intelligence.",
+        "rationale": "Education and online learning suit you when Jupiter and Mercury are strong.",
     },
     "Luxury, Beauty & Lifestyle": {
         "planets": ["Venus", "Moon"],
         "houses": [2, 5, 7, 11],
-        "rationale": "Taste-driven sectors rise when pleasure, desirability, and spending houses are supported.",
+        "rationale": "Beauty, fashion and lifestyle businesses suit you when Venus and Moon are strong.",
     },
     "Media & Entertainment": {
         "planets": ["Venus", "Mercury", "Rahu"],
         "houses": [3, 5, 7, 11],
-        "rationale": "Narrative, glamour, and audience platforms are strongest under Venus-Mercury-Rahu synergy.",
+        "rationale": "Media and entertainment suit you when Venus, Mercury and Rahu are strong.",
     },
     "Infrastructure, Logistics & Cement": {
         "planets": ["Saturn", "Mercury"],
         "houses": [3, 10, 11],
-        "rationale": "Movement, systems, and heavy execution reward Saturnian patience with Mercurial efficiency.",
+        "rationale": "Infrastructure and logistics need Saturn's patience and Mercury's planning.",
     },
     "AI, Internet & Emerging Tech": {
         "planets": ["Rahu", "Mercury", "Mars"],
         "houses": [5, 8, 10, 11],
-        "rationale": "Disruptive growth sectors answer to speculative intelligence and unconventional momentum.",
+        "rationale": "AI and new-age internet businesses suit you when Rahu, Mercury and Mars are strong.",
     },
     "EV & Advanced Mobility": {
         "planets": ["Rahu", "Mars", "Saturn"],
         "houses": [3, 8, 10, 11],
-        "rationale": "Mobility transformation needs engineering aggression plus long-cycle industrial support.",
+        "rationale": "Electric vehicles and new mobility need Mars's drive plus Saturn's patience.",
     },
     "Pharma Research & Diagnostics": {
         "planets": ["Ketu", "Sun", "Mercury"],
         "houses": [6, 8, 10],
-        "rationale": "Precision, healing systems, and specialized analysis align with clinical sectors.",
+        "rationale": "Pharma, research and diagnostics suit you when Ketu, Sun and Mercury are strong.",
     },
     "Cybersecurity & Deep Tech": {
         "planets": ["Ketu", "Rahu", "Mercury"],
         "houses": [8, 10, 11],
-        "rationale": "Hidden systems, protection, and niche intelligence are classic Ketu-Mercury signatures.",
+        "rationale": "Cyber-security and deep-tech suit you when Ketu, Rahu and Mercury are strong.",
     },
 }
 
@@ -351,16 +351,16 @@ def _leakage_penalty(kundali: Dict, dasha: Dict[str, str]) -> Tuple[float, List[
 
     if int(fifth_row.get("house") or 0) in LEAKAGE_HOUSES:
         penalty += 10.0
-        signals.append("5th lord is under pressure from volatility houses.")
+        signals.append("Speculation is under pressure, so avoid risky bets.")
     if int(eighth_row.get("house") or 0) in {8, 12}:
         penalty += 8.0
-        signals.append("8th house signatures are amplifying sudden swings.")
+        signals.append("Sudden ups and downs are likely.")
     if int(twelfth_row.get("house") or 0) == 12:
         penalty += 6.0
-        signals.append("12th house leakage patterns need stronger discipline.")
+        signals.append("Spending needs control.")
     if dasha.get("mahadasha") in {"Rahu", "Ketu", "Mars"} or dasha.get("antardasha") in {"Rahu", "Ketu", "Mars"}:
         penalty += 7.0
-        signals.append("Current dasha favors volatility over calm compounding.")
+        signals.append("Your running Dasha favours quick changes over slow, steady growth.")
     return penalty, signals
 
 
@@ -426,10 +426,10 @@ def _risk_style(recommended: List[Dict], planet_strengths: Dict[str, float], kun
     rahu = planet_strengths.get("Rahu", 50.0)
 
     if jupiter >= 68 and saturn >= 58 and current_scores.get("finance", 50) >= 55 and fifth_strength < 60:
-        return "Conservative", "Stable Jupiter-Saturn signatures favor preservation and steady compounding."
+        return "Conservative", "Jupiter and Saturn are steady in your chart, so slow and safe investing suits you."
     if mars >= 66 and rahu >= 64 and mercury >= 60 and eighth_strength >= 58 and current_scores.get("finance", 50) >= 55:
-        return "Aggressive", "Speculative signatures are active, but they require discipline and tighter risk controls."
-    return "Balanced", "Mercury and Jupiter are workable enough for selective growth without abandoning stability."
+        return "Aggressive", "Mars and Rahu are strong in your chart, so you can take more risk, but set strict limits."
+    return "Balanced", "Your chart supports a mix of safe and growth investments, so choose carefully."
 
 
 def _holding_style(risk_style: str, planet_strengths: Dict[str, float], kundali: Dict, dasha: Dict[str, str], caution_signals: List[str]) -> str:
@@ -461,13 +461,13 @@ def _archetype(risk_style: str, recommended: List[Dict], planet_strengths: Dict[
     if risk_style == "Conservative":
         return "Wealth Preserver"
     if risk_style == "Aggressive" and any("AI" in name or "EV" in name or "Fintech" in name for name in top_names):
-        return "Disruptive Growth Investor"
+        return "Growth-Tech Investor"
     if any("Luxury" in name or "Consumer" in name or "Hospitality" in name for name in top_names):
-        return "Luxury / Consumer Theme Investor"
+        return "Lifestyle & Consumer Investor"
     if planet_strengths.get("Mercury", 50.0) >= 66 and planet_strengths.get("Jupiter", 50.0) >= 62:
         return "Analytical Investor"
     if planet_strengths.get("Mars", 50.0) >= 64 or planet_strengths.get("Saturn", 50.0) >= 66:
-        return "Cyclical Aggressor"
+        return "Bold Risk-Taker"
     return "Value Builder"
 
 
@@ -516,19 +516,19 @@ def _wealth_pulse(current_scores: Dict[str, int], confidence_score: float, timin
 def _action_points(recommended: List[Dict], caution: List[Dict], holding_style: str, timing_quality: str) -> List[str]:
     points: List[str] = []
     if recommended:
-        points.append(f"Focus research on {recommended[0]['name']} first, then compare it with {recommended[1]['name'] if len(recommended) > 1 else 'a second aligned sector'}.")
+        points.append(f"Start your research with {recommended[0]['name']}, then compare it with {recommended[1]['name'] if len(recommended) > 1 else 'one more sector'}.")
     if holding_style == "Avoid direct speculation now":
-        points.append("Prefer SIP-style or staged allocation over rapid entries until speculative signatures improve.")
+        points.append("Invest in small steps (like a SIP) instead of one big entry until the signs improve.")
     elif holding_style == "Long-term accumulation":
-        points.append("Favor staggered accumulation and fundamental tracking over frequent switching.")
+        points.append("Build your holdings slowly and avoid switching often.")
     else:
-        points.append("Use disciplined entries and predefined exits; this cycle rewards selectivity more than impulse.")
+        points.append("Decide your entry and exit in advance; careful choices beat impulse in this period.")
     if caution:
-        points.append(f"Keep position sizing tighter in {caution[0]['name']} while current caution signatures stay active.")
+        points.append(f"Keep your exposure small in {caution[0]['name']} for now.")
     if timing_quality == "Strong window":
-        points.append("This is a better phase for building watchlists into action, but still avoid concentration risk.")
+        points.append("This is a better time to act on your watchlist, but do not put everything in one place.")
     elif timing_quality == "Cautious window":
-        points.append("Treat this as a review phase; preserve liquidity and delay high-beta themes unless the setup is exceptionally clear.")
+        points.append("Use this time to review. Keep some cash ready and avoid very risky themes.")
     return points[:4]
 
 
@@ -574,22 +574,57 @@ def build_wealth_alignment(*, date_str: str, time_str: str, lat: float, lon: flo
         reverse=True,
     )[:4]
 
+    # --- personalised wording, derived from this chart (the scoring above is unchanged)
+    from .astro_facts import FAVOURABLE, Chart, gochar_for, ordinal
+    from .krishna_says import DIG_SHORT
+    from .krishna_says import PREFIX
+
+    chart = Chart(kundali)
+    t_goch = gochar_for(transits, chart)
+    facts = []
+    for house, label in ((2, "Savings"), (11, "Income and gains"), (5, "Speculation and past merit"), (9, "Luck and fortune")):
+        lord = chart.lord_of_house[house]
+        facts.append(f"{label}: supported by {lord}, which is {DIG_SHORT[chart.dignity(lord)]} in your chart.")
+    lords = {h: chart.lord_of_house[h] for h in (2, 5, 9, 11)}
+    for a_h, b_h in ((2, 11), (5, 9), (9, 11), (2, 5), (2, 9), (5, 11)):
+        if lords[a_h] != lords[b_h] and chart.sign_idx(lords[a_h]) == chart.sign_idx(lords[b_h]):
+            facts.append(f"Dhana Yoga: {lords[a_h]} and {lords[b_h]}, two money planets, are together. This supports earning and saving.")
+            break
+    jup, sat = t_goch["Jupiter"], t_goch["Saturn"]
+    def _stand(g):
+        return {"favourable": "good", "blocked": "blocked", "unfavourable": "tough"}[g.status]
+    transit_line = (
+        f"{PREFIX} Jupiter, the planet of wealth, is {'helping you' if jup.status == 'favourable' else 'not helping much'} right now. "
+        f"Saturn {'supports steady effort' if sat.status == 'favourable' else 'asks you to be patient'}. Overall this is a {timing_quality.lower()}."
+    )
+    dasha_line = f"{PREFIX} You are running {dasha['mahadasha']} Mahadasha and {dasha['antardasha']} Antardasha. This phase puts the focus on {chart.focus_plain(dasha['antardasha'])}, which shapes how you handle money right now."
+    top2 = [row["name"] for row in recommended[:2]]
+    personal_rationale = f"{PREFIX} {risk_rationale} {' and '.join(top2) if top2 else 'A balanced mix'} {'look' if len(top2) > 1 else 'looks'} best for you right now."
+    for row in recommended + caution:
+        facts_short = []
+        for planet in row["planets"][:3]:
+            if planet in ("Rahu", "Ketu"):
+                facts_short.append(f"{planet} is active")
+            else:
+                facts_short.append(f"{planet} is {DIG_SHORT[chart.dignity(planet)]}")
+        row["personal"] = f"{PREFIX} {row['rationale']} In your chart: {', '.join(facts_short)}."
+
     return {
         "archetype": _archetype(risk_style, recommended, basis["planetStrengths"]),
         "riskStyle": risk_style,
-        "riskStyleRationale": risk_rationale,
+        "riskStyleRationale": personal_rationale,
         "holdingStyle": holding_style,
         "timingQuality": timing_quality,
         "confidence": confidence,
         "riskMeter": _style_meter(risk_style),
         "timingMeter": _timing_meter(timing_quality),
         "wealthPulse": pulse,
-        "actionPoints": action_points,
+        "actionPoints": [f"{PREFIX} {point}" for point in action_points],
         "recommendedIndustries": [
             {
                 "name": row["name"],
                 "score": row["score"],
-                "rationale": row["rationale"],
+                "rationale": row["personal"],
             }
             for row in recommended
         ],
@@ -597,7 +632,7 @@ def build_wealth_alignment(*, date_str: str, time_str: str, lat: float, lon: flo
             {
                 "name": row["name"],
                 "score": row["score"],
-                "rationale": row["rationale"],
+                "rationale": row["personal"],
             }
             for row in caution
         ],
@@ -608,8 +643,9 @@ def build_wealth_alignment(*, date_str: str, time_str: str, lat: float, lon: flo
             ],
             "supportiveHouses": basis["supportiveHouses"],
             "cautionSignals": basis["cautionSignals"],
-            "dashaImpact": f"{dasha['mahadasha']} Mahadasha with {dasha['antardasha']} Antardasha is shaping the present investment temperament.",
-            "transitImpact": f"Current transit emphasis is running through houses linked to gains, speculation, and leakage, setting a {timing_quality.lower()} for wealth themes.",
+            "dashaImpact": dasha_line,
+            "transitImpact": transit_line,
         },
-        "disclaimer": "This feature offers a kundali-based sector alignment view for reflection and research, not guaranteed financial advice.",
+        "disclaimer": f"{PREFIX} this is a guide based on your kundali, not financial advice. Please do your own research before investing.",
+        "wealthFacts": facts,
     }
