@@ -153,11 +153,11 @@ class PublicReviewListView(APIView):
         except (TypeError, ValueError):
             limit = 8
         try:
+            # every approved review the visitor agreed to share is shown; "featured" only moves it to the front
             queryset = ReviewFeedback.objects.filter(
                 moderation_status=ReviewModerationStatus.APPROVED,
                 is_public=True,
-                is_featured=True,
-            ).order_by('-created_at')[:limit]
+            ).order_by('-is_featured', '-created_at')[:limit]
             return Response(PublicReviewSerializer(queryset, many=True).data)
         except (OperationalError, ProgrammingError):
             return Response([])
