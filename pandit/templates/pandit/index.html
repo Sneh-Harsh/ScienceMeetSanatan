@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2" />
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3" />
   <link rel="stylesheet" href="{% static 'pandit/booking.css' %}?v=8" />
-  <link rel="stylesheet" href="{% static 'pandit/pooja.css' %}?v=11" />
+  <link rel="stylesheet" href="{% static 'pandit/pooja.css' %}?v=13" />
   <link rel="stylesheet" href="{% static 'pandit/immersive.css' %}?v=3" />
   <link rel="stylesheet" href="{% static 'pandit/festivals.css' %}?v=5" />
 </head>
@@ -379,7 +379,7 @@
       </section>
 
       <!-- POOJA VIDHI -->
-      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle" data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=2" data-images-url="{% static 'pandit/pooja/images.json' %}?v=3" data-festivals-url="{% static 'pandit/pooja/festivals.json' %}?v=2" data-kathas-url="{% static 'pandit/pooja/kathas.json' %}?v=2">
+      <section class="psb-section psb-section--ivory psb-pooja" id="pooja" aria-labelledby="poojaTitle"{% if open_guide %} data-open-guide="{{ open_guide }}"{% endif %} data-guides-url="{% static 'pandit/pooja/guides.json' %}?v=2" data-images-url="{% static 'pandit/pooja/images.json' %}?v=3" data-festivals-url="{% static 'pandit/pooja/festivals.json' %}?v=2" data-kathas-url="{% static 'pandit/pooja/kathas.json' %}?v=2">
         <div class="psb-wrap">
           <header class="psb-head">
             <p class="psb-eyebrow psb-eyebrow--dark">Pooja Vidhi</p>
@@ -455,15 +455,16 @@
     });
   </script>
   <script defer src="{% static 'header.js' %}?v=6"></script>
-  <script defer src="{% static 'js/login_popup.js' %}?v=4"></script>
-  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=6"></script>
-  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script defer src="{% static 'js/popup_gate.js' %}?v=2"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=5"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=7"></script>
+  <script defer src="{% static 'js/review.js' %}?v=2"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script defer src="{% static 'pandit/vendor/glass-surface.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/specular-button.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/vendor/silk.js' %}?v=1"></script>
   <script defer src="{% static 'pandit/booking.js' %}?v=9"></script>
-  <script defer src="{% static 'pandit/pooja.js' %}?v=12"></script>
+  <script defer src="{% static 'pandit/pooja.js' %}?v=15"></script>
   <script defer src="{% static 'pandit/festivals.js' %}?v=3"></script>
   <script defer src="{% static 'pandit/immersive.js' %}?v=1"></script>
 {% include "components/seo_faq.html" %}

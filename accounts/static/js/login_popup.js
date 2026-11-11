@@ -348,27 +348,14 @@
       return;
     }
 
-    // On phones a dialog over the first screen blocks the content the visitor came for,
-    // so skip the immediate trigger, wait longer, and require deeper scroll.
-    const compact = window.matchMedia("(max-width: 760px)").matches;
-
-    // Never greet a visitor with a dialog: let them see the page first (deep scroll or a long visit triggers it).
-
-    fallbackTimerId = window.setTimeout(function () {
-      tryShow("timer_20s");
-    }, compact ? DEFAULT_DELAY_MS * 2 : DEFAULT_DELAY_MS);
-
-    const onScroll = throttle(function () {
-      const doc = document.documentElement;
-      const total = Math.max(doc.scrollHeight - window.innerHeight, 1);
-      const progress = (window.scrollY / total) * 100;
-      if (progress >= (compact ? 70 : 60)) {
-        tryShow("scroll_40");
-        window.removeEventListener("scroll", onScroll);
-      }
-    }, 180);
-
-    window.addEventListener("scroll", onScroll, { passive: true });
+    // The popup never opens on its own timer or scroll position. The shared gate opens it only after the
+    // visitor has done something (or used the site for 5 minutes), and never while they are mid-action.
+    if (window.SMSPopupGate) {
+      window.SMSPopupGate.request("login", function () { tryShow("gate"); }, {
+        isEligible: eligibleToShow,
+        prio: { action: 3, time: 1 },
+      });
+    }
   }
 
   closeNodes.forEach(function (node) {
@@ -404,10 +391,6 @@
       deferPopup(reason || "manual_defer", delayMs);
     },
   };
-
-  window.addEventListener("sms:quiz-completed", function () {
-    tryShow("quiz_completed");
-  });
 
   window.addEventListener("sms:login-popup-open", function (event) {
     openPopup(event.detail && event.detail.trigger ? event.detail.trigger : "custom_event");

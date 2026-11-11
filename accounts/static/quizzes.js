@@ -439,7 +439,9 @@ function setPodium(refs, place, row){
   const username = row?.username || "—";
   if(avatarEl) avatarEl.textContent = avatarLetter(username);
   if(nameEl) nameEl.textContent = username;
-  if(scoreEl) scoreEl.textContent = String(row?.score ?? place);
+  if(scoreEl) scoreEl.textContent = row ? `${row.score} pts` : "—";
+  const item = refs?.podium?.querySelector(`.p${place}`);
+  if(item){ item.classList.toggle("is-empty", !row); item.classList.toggle("is-me", Boolean(row?.is_me || row?.isMe)); }
 }
 
 function lbEsc(value){
@@ -453,7 +455,8 @@ function renderRows(refs, rows){
   refs.rows.innerHTML = "";
   rows.forEach((row, index) => {
     const div = document.createElement("div");
-    div.className = "lb-entry";
+    div.className = "lb-entry" + (row.is_me || row.isMe ? " my-rank" : "");
+    div.style.setProperty("--i", index);
     div.innerHTML = `
       <div class="lb-rank">${lbEsc(row.rank || (index + 4))}</div>
       <div class="lb-avatar" style="background:rgba(167,139,250,0.15);color:var(--violet)">${lbEsc(avatarLetter(row.username))}</div>

@@ -1661,6 +1661,7 @@ async function generate({ scroll = false } = {}){
     setActiveToggle("lang", kundaliState.lang);
     setActiveTab("overview");
     hydrateAll();
+    if(scroll) window.dispatchEvent(new CustomEvent("sms:kundali-generated")); // the visitor asked for it (not the auto-load)
     if(scroll && isMobileView()){
       document.querySelector(".k-summary--portal")?.scrollIntoView({ behavior:"smooth", block:"start" });
     }

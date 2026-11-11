@@ -32,7 +32,7 @@
   var openId = null;      // guide currently open in the reader
   var view = "overview";  // overview | prep | step | done
   var navOpen = false;
-  var confirmingReset = false;
+    var confirmingReset = false;
   var specularHandles = [];
 
   /* ------------------------------ storage -------------------------------- */
@@ -78,7 +78,7 @@
       mantra: "मन्त्र", sanskrit: "संस्कृत (देवनागरी)", translit: "लिप्यन्तरण (रोमन, IAST)", meaning: "अर्थ", hiMeaning: "हिन्दी अर्थ", enMeaning: "English meaning", aartiLabel: "आरती", alsoIn: "English में भी देखें", lyricsHindi: "आरती के बोल (हिन्दी)", after: "इसके बाद", sources: "स्रोत और टिप्पणियाँ", restart: "गाइड फिर से शुरू करें",
       confirm: "हाँ, फिर से शुरू करें", cancel: "रहने दें", samagri: "सामग्री-सूची", conduct: "पूजा से पहले", essential: "आवश्यक", optional: "वैकल्पिक",
       begin: "चरण 1 शुरू करें", complete: "गाइड पूरी हुई", ready: "तैयार", textsize: "अक्षर का आकार", lang: "भाषा", pending: "अभी उपलब्ध नहीं",
-      safety: "सुरक्षा", variation: "परम्परा में भेद", optionalTag: "वैकल्पिक"
+      safety: "सुरक्षा", share: "शेयर करें", more: "और ऐप्स…", copylink: "लिंक कॉपी करें", copied: "लिंक कॉपी हो गया ✓", sharetext: "पूजा विधि", variation: "परम्परा में भेद", optionalTag: "वैकल्पिक"
     },
     en: {
       read: "Read Pooja Vidhi", book: "Book a Pandit for this Puja", prep: "Preparing this guide", inprep: "Guide in preparation",
@@ -87,7 +87,7 @@
       mantra: "Mantra", sanskrit: "Sanskrit (Devanagari)", translit: "Transliteration (IAST)", meaning: "Meaning", hiMeaning: "हिन्दी अर्थ", enMeaning: "English meaning", aartiLabel: "Aarti", alsoIn: "Also in हिन्दी", lyricsHindi: "Aarti lyrics (Hindi)", after: "After this", sources: "Sources and notes", restart: "Restart guide",
       confirm: "Yes, restart", cancel: "Keep my progress", samagri: "Samagri checklist", conduct: "Before you begin", essential: "Essential", optional: "Optional",
       begin: "Begin Step 1", complete: "Guide complete", ready: "ready", textsize: "Text size", lang: "Language", pending: "Not available yet",
-      safety: "Safety", variation: "Variation in practice", optionalTag: "Optional"
+      safety: "Safety", share: "Share", more: "More apps…", copylink: "Copy link", copied: "Link copied ✓", sharetext: "Pooja Vidhi", variation: "Variation in practice", optionalTag: "Optional"
     }
   };
   function t(key) { return UI[prefs.lang][key]; }
@@ -269,6 +269,7 @@
       : '<p class="pr-card__soon" role="note">' + esc(L.inprep) + "</p>";
     var sn = soonFor(g.id), ks = kathasFor(g.id);
     return '<li class="pr-card' + (documented ? " pr-card--doc" : "") + (sn ? " pr-card--soon" : "") + '">' +
+      (documented ? '<button type="button" class="pr-card__share" data-share="' + esc(g.id) + '" aria-label="Share ' + esc(g.name.en) + '">' + ICON.share + "</button>" : "") +
       (sn ? '<span class="pr-ribbon">★ ' + esc(sn.f.name.en) + " · " + esc(sn.when) + "</span>" : "") +
       imageHtml(g) +
       '<div class="pr-card__body">' +
@@ -514,7 +515,102 @@
       '<button type="button" class="pr-chip" data-size="-1" aria-label="Smaller text">A−</button>' +
       '<button type="button" class="pr-chip" data-size="1" aria-label="Larger text">A+</button>' +
       '<span class="pr-tools__scale" data-scale-label aria-live="polite"></span>' +
+      '<button type="button" class="pr-chip pr-share__btn" data-act="share" aria-haspopup="dialog">' + ICON.share + esc(t("share")) + "</button>" +
       "</div></div>";
+  }
+
+  /* ---- sharing: one clean link per guide (/pooja-vidhi/<id>/) that opens straight on that guide ---- */
+  function shareUrl(g) { return window.location.origin + "/pooja-vidhi/" + encodeURIComponent(g.id) + "/"; }
+  function shareText(g) { return g.name.en + " (" + g.name.hi + ") — " + t("sharetext") + ", SanatanSeva"; }
+  var ICON = {
+    share: '<svg class="pr-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3v12M7.5 7.5 12 3l4.5 4.5M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>',
+    whatsapp: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.5a9.5 9.5 0 0 0-8.2 14.3L2.5 21.5l4.8-1.3A9.5 9.5 0 1 0 12 2.5Zm0 17.3a7.8 7.8 0 0 1-4-1.1l-.3-.2-2.8.8.8-2.7-.2-.3a7.8 7.8 0 1 1 6.5 3.5Zm4.3-5.8c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.8.9-.3.2-.5.1a6.4 6.4 0 0 1-3.2-2.8c-.2-.4.2-.4.6-1.2.1-.1 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.900 11.900 0 0 0 4.600 4c1.700.7 2.400.8 3.200.7a2.700 2.700 0 0 0 1.800-1.300 2.200 2.200 0 0 0 .2-1.300c-.1-.1-.2-.2-.4-.3Z"/></svg>',
+    telegram: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.400 3.600 2.900 10.700c-1.300.5-1.200 1.200-.2 1.500l4.700 1.500 1.800 5.600c.2.600.4.800.9.800s.6-.2.900-.5l2.300-2.300 4.700 3.500c.9.500 1.500.2 1.700-.8l3.100-14.800c.3-1.300-.5-1.900-1.400-1.500ZM8.300 13.300l9.500-6c.4-.3.900-.1.500.2l-7.800 7.100-.3 3.200-1.900-4.500Z"/></svg>',
+    facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.500 21v-7.500h2.600l.4-3h-3V8.600c0-.9.3-1.500 1.500-1.500h1.600V4.400c-.3 0-1.200-.1-2.300-.1-2.300 0-3.900 1.400-3.900 4v2.200H8v3h2.400V21h3.100Z"/></svg>',
+    x: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.800 3h3l-6.600 7.600L22 21h-6.100l-4.800-6.200L5.600 21h-3l7.100-8.100L2.300 3h6.200l4.300 5.700L17.800 3Zm-1.100 16.200h1.700L7.400 4.700H5.600l11.100 14.500Z"/></svg>',
+    email: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm0 1.500 8 6 8-6"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" d="M9 9h10a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V10a1 1 0 0 1 1-1Zm-4 8H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v1"/></svg>',
+    more: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></svg>',
+    close: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.200" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>'
+  };
+
+  var sheetEl = null, sheetFrom = null;
+  function closeShare() {
+    if (!sheetEl) return;
+    var el = sheetEl; sheetEl = null;
+    el.classList.remove("is-in");
+    document.removeEventListener("keydown", sheetKey, true);
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 220);
+    document.body.classList.remove("pr-sheet-lock");
+    if (sheetFrom && sheetFrom.focus) sheetFrom.focus({ preventScroll: true });
+  }
+  function sheetKey(e) {
+    if (e.key === "Escape") { e.preventDefault(); closeShare(); return; }
+    if (e.key !== "Tab" || !sheetEl) return;
+    var f = $all("button, a[href]", sheetEl);
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+  function openShare(g, from) {
+    closeShare();
+    sheetFrom = from || document.activeElement;
+    var url = shareUrl(g), u = encodeURIComponent(url), x = encodeURIComponent(shareText(g));
+    var apps = [
+      ["whatsapp", "WhatsApp", "https://wa.me/?text=" + x + "%20" + u],
+      ["telegram", "Telegram", "https://t.me/share/url?url=" + u + "&text=" + x],
+      ["facebook", "Facebook", "https://www.facebook.com/sharer/sharer.php?u=" + u],
+      ["x", "X", "https://twitter.com/intent/tweet?url=" + u + "&text=" + x],
+      ["email", "Email", "mailto:?subject=" + x + "&body=" + x + "%0A" + u]
+    ];
+    var el = document.createElement("div");
+    el.className = "pr-sheet";
+    el.innerHTML =
+      '<div class="pr-sheet__backdrop" data-close></div>' +
+      '<div class="pr-sheet__panel" role="dialog" aria-modal="true" aria-label="' + esc(t("share")) + ": " + esc(g.name.en) + '">' +
+      '<span class="pr-sheet__grab" aria-hidden="true"></span>' +
+      '<div class="pr-sheet__head"><div><p class="pr-sheet__kicker">' + esc(t("share")) + '</p><h3>' + esc(g.name.en) + ' <span class="pr-hi" lang="hi">' + esc(g.name.hi) + '</span></h3></div>' +
+      '<button type="button" class="pr-sheet__x" data-close aria-label="Close">' + ICON.close + '</button></div>' +
+      '<div class="pr-sheet__apps">' +
+      apps.map(function (a) { return '<a class="pr-sico pr-sico--' + a[0] + '" href="' + a[2] + '" target="_blank" rel="noopener noreferrer"><span class="pr-sico__dot">' + ICON[a[0]] + '</span><span class="pr-sico__label">' + a[1] + "</span></a>"; }).join("") +
+      (navigator.share ? '<button type="button" class="pr-sico pr-sico--more" data-native><span class="pr-sico__dot">' + ICON.more + '</span><span class="pr-sico__label">' + esc(t("more")) + "</span></button>" : "") +
+      "</div>" +
+      '<div class="pr-sheet__link"><span class="pr-sheet__url" id="prSheetUrl">' + esc(url.replace(/^https?:\/\//, "")) + '</span>' +
+      '<button type="button" class="pr-sheet__copy" data-copy>' + ICON.copy + '<span>' + esc(t("copylink")) + "</span></button></div>" +
+      '<p class="pr-sheet__note" data-note role="status" aria-live="polite"></p></div>';
+    el.addEventListener("click", function (e) {
+      if (e.target.closest("[data-close]")) { closeShare(); return; }
+      if (e.target.closest("[data-native]")) {
+        navigator.share({ title: g.name.en, text: shareText(g), url: url }).then(closeShare, function () { /* cancelled */ });
+        return;
+      }
+      var c = e.target.closest("[data-copy]");
+      if (c) {
+        var note = el.querySelector("[data-note]");
+        copyText(url).then(function () {
+          note.textContent = t("copied"); c.classList.add("is-done");
+          setTimeout(function () { c.classList.remove("is-done"); }, 1800);
+        }, function () { note.textContent = url; });
+        return;
+      }
+      if (e.target.closest("a.pr-sico")) setTimeout(closeShare, 150);
+    });
+    document.body.appendChild(el);
+    document.body.classList.add("pr-sheet-lock");
+    sheetEl = el;
+    document.addEventListener("keydown", sheetKey, true);
+    requestAnimationFrame(function () { el.classList.add("is-in"); var cb = el.querySelector(".pr-sheet__x"); if (cb) cb.focus({ preventScroll: true }); });
+  }
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy") ? resolve() : reject(); } catch (err) { reject(err); }
+      document.body.removeChild(ta);
+    });
   }
 
   function reviewNote(g) {
@@ -803,6 +899,7 @@
         renderReader(true);
         break;
       }
+      case "share": openShare(g, el); break;
       case "togglenav": navOpen = !navOpen; renderReader(true); break;
       case "book": bookFor(g); break;
       case "reset": confirmingReset = true; renderReader(true); break;
@@ -847,6 +944,8 @@
   });
 
   libraryEl.addEventListener("click", function (e) {
+    var sh = e.target.closest("[data-share]");
+    if (sh) { var sg = guideById(sh.getAttribute("data-share")); if (sg) openShare(sg, sh); return; }
     var kt = e.target.closest("[data-katha]");
     if (kt) { openKathaView(kt.getAttribute("data-katha")); return; }
     var o = e.target.closest("[data-open]");
@@ -882,6 +981,14 @@
   // Explicit user intent (the hero "Explore Pooja Vidhi" button) loads immediately.
   var explore = document.getElementById("psbHeroExplore");
   if (explore) explore.addEventListener("click", function () { init(); });
+
+  // A shared link (/pooja-vidhi/<id>/) opens that guide straight away.
+  var deepGuide = section.getAttribute("data-open-guide");
+  if (deepGuide) document.addEventListener("psb:pooja-ready", function once() {
+    document.removeEventListener("psb:pooja-ready", once);
+    open(deepGuide);
+  });
+  if (deepGuide) init();
 
   window.PoojaVidhi = { open: function (id) { return load().then(function () { if (!libraryEl.querySelector(".pr-cards")) renderLibrary(); open(id); }); } };
 })();

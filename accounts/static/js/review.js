@@ -270,12 +270,14 @@
       emitAnalytics("review_closed", { source });
     };
 
+    // Auto-prompting goes through the shared popup gate: only after the visitor has done something (or used
+    // the site for 5 minutes), and never while they are in the middle of an action.
     const maybeAutoPrompt = (source) => {
-      const nextScore = getNumber(sessionStorage, STORAGE.engagementScore) + 1;
-      setNumber(sessionStorage, STORAGE.engagementScore, nextScore);
-      if (nextScore >= AUTO_THRESHOLD) {
-        open({ source, auto: true });
-      }
+      if (!window.SMSPopupGate) return;
+      window.SMSPopupGate.request("review", () => open({ source, auto: true }), {
+        isEligible: canAutoPrompt,
+        prio: { action: 1, time: 2 },
+      });
     };
 
     const collectPayload = () => {
@@ -405,27 +407,11 @@
     });
 
     window.addEventListener("sms:quiz-complete", () => maybeAutoPrompt("quiz_complete"));
+    window.addEventListener("sms:quiz-completed", () => maybeAutoPrompt("quiz_complete"));
     window.addEventListener("sms:kundali-generated", () => maybeAutoPrompt("kundali_generated"));
     window.addEventListener("sms:library-engaged", () => maybeAutoPrompt("library_engaged"));
     window.addEventListener("sms:meaningful-engagement", () => maybeAutoPrompt("meaningful_engagement"));
-
-    let scrollPrompted = false;
-    window.addEventListener(
-      "scroll",
-      () => {
-        if (scrollPrompted) return;
-        const scrollMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        if (window.scrollY / scrollMax >= 0.45) {
-          scrollPrompted = true;
-          maybeAutoPrompt("scroll_depth");
-        }
-      },
-      { passive: true }
-    );
-
-    window.setTimeout(() => {
-      maybeAutoPrompt("time_spent");
-    }, 35000);
+    maybeAutoPrompt("gate");
 
     window.SMSReview = {
       open,

@@ -219,6 +219,17 @@ def seo(request):
                 faq, faq_visible = data["faqs"], False  # the page already shows its questions
         except Exception:
             pass
+    elif path.startswith("/pooja-vidhi/"):
+        try:
+            from pandit.views import _pooja_guides
+
+            g = _pooja_guides().get(path.strip("/").split("/")[-1])
+            if g:
+                title = f"{g['name']['en']} Vidhi ({g['name']['hi']}): Step-by-Step Guide | {SITE_NAME}"
+                desc = str(g["summary"]["en"])[:155]
+                og_type = "article"
+        except Exception:
+            pass
     elif path.startswith("/pandits/") and path not in _SEO_PAGES and path != "/pandits/dashboard/":
         title, desc = f"Pandit Profile | {SITE_NAME}", "Pandit profile on SanatanSeva: services, languages and cities."
     elif path.startswith("/astrologers/") and path not in _SEO_PAGES and "/chat/" not in path:
@@ -284,6 +295,8 @@ def seo(request):
                 breadcrumbs = [home, ("Gita Shlok", "/gita-shlok/"), (g[1], path)]
         elif parts[:1] in (["panchang"], ["library"], ["kundali"], ["horoscope"], ["baby-names"], ["quizzes"], ["about"], ["pandits"], ["astrologers"]) and len(parts) == 1:
             breadcrumbs = [home, (_SEO_PAGES[path][0].split(":")[0].split("|")[0].strip()[:40], path)]
+        elif path.startswith("/pooja-vidhi/"):
+            breadcrumbs = [home, ("Pooja Vidhi", "/pandits/#pooja"), (title.split("|")[0].split(":")[0].strip()[:60], path)]
         elif path.startswith(("/pandit-for-", "/pandit-in-")):
             breadcrumbs = [home, ("Book a Pandit", "/pandits/"), (title.split("|")[0].strip(), path)]
         elif parts[:2] == ["library", "collections"] and len(parts) == 3:

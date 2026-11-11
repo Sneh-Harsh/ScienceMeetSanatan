@@ -18,10 +18,12 @@ from .views import (
     pandit_dashboard_page,
     pandit_marketplace_page,
     pandit_profile_page,
+    pooja_vidhi_page,
 )
 
 
 urlpatterns = [
+    path("pooja-vidhi/<slug:guide_id>/", pooja_vidhi_page, name="pooja_vidhi"),
     path("pandits/", pandit_marketplace_page, name="pandit_marketplace"),
     path("pandit-for-<slug:slug>/", pandit_landing_page, name="pandit_landing"),
     path("pandit-<slug:slug>/", pandit_landing_page, name="pandit_city_landing"),

@@ -1,5 +1,9 @@
 from __future__ import annotations
 
+import json
+from functools import lru_cache
+from pathlib import Path
+
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Prefetch, Q
@@ -50,6 +54,22 @@ class PanditPagination(PageNumberPagination):
 def pandit_marketplace_page(request):
     # The Pandit Booking page is a static, WhatsApp-led enquiry flow: it needs no database lookups.
     return render(request, "pandit/index.html")
+
+
+@lru_cache(maxsize=1)
+def _pooja_guides() -> dict:
+    path = Path(__file__).resolve().parent / "static" / "pandit" / "pooja" / "guides.json"
+    guides = json.loads(path.read_text(encoding="utf-8")).get("guides", [])
+    return {g["id"]: g for g in guides if g.get("availability") == "documented"}
+
+
+@require_GET
+def pooja_vidhi_page(request, guide_id: str):
+    """Shareable link for one Pooja Vidhi guide: the page opens straight on that guide."""
+    guide = _pooja_guides().get(guide_id)
+    if not guide:
+        raise Http404("No such guide")
+    return render(request, "pandit/index.html", {"open_guide": guide["id"]})
 
 
 @require_GET

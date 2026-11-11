@@ -14,14 +14,24 @@
   <link rel="stylesheet" href="{% static 'header.css' %}?v=13">
   <link rel="stylesheet" href="{% static 'baby_names.css' %}?v=2">
   <link rel="stylesheet" href="{% static 'quizzes.css' %}?v=7">
+  <link rel="stylesheet" href="{% static 'quizzes-glass.css' %}?v=9">
   <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
   <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
   <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2">
   <link rel="stylesheet" href="{% static 'css/scroll_reveal.css' %}?v=2">
   <link rel="stylesheet" href="{% static 'css/production-responsive.css' %}?v=3">
 </head>
-<body>
-  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+<body class="lg-screen-hub">
+  <canvas class="lg-sky" id="lgSky" aria-hidden="true"></canvas>
+  <canvas class="lg-fx" id="lgFx" aria-hidden="true"></canvas>
+  <svg class="lg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="lg-refract" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+      </filter>
+    </defs>
+  </svg>
   <div class="achievement-toast" id="achievement-toast" aria-hidden="true">
     <div class="toast-icon" id="toast-icon">🏅</div>
     <div class="toast-text">
@@ -44,7 +54,7 @@
     </div>
 
     <div class="screen active" id="hub-screen">
-      <section class="hero">
+      <section class="hero" id="secHome">
         <div class="hero-ambient"></div>
         <div class="hero-eyebrow">Ancient Wisdom Challenges</div>
         <h1 class="hero-title">The <span>Dharma</span> Trials</h1>
@@ -61,7 +71,7 @@
         </div>
       </section>
 
-      <div class="daily-strip">
+      <div class="daily-strip" id="secDaily">
         <div class="daily-card" id="daily-card">
           <div class="daily-pill">⚡ Daily Destiny</div>
           <div class="daily-text">
@@ -102,20 +112,26 @@
             <div id="globalLeaderboardError" class="lb-error" hidden>Could not load leaderboard right now.</div>
             <div id="globalLeaderboardSub" class="lb-copy">Top seekers across the global board.</div>
             <div class="podium" id="globalLeaderboardPodium" hidden>
-              <div class="podium-item p2">
+              <div class="podium-item p2" tabindex="0">
+                
                 <div class="podium-avatar" data-avatar="2">—</div>
                 <div class="podium-name" data-name="2">—</div>
-                <div class="podium-platform" data-score="2">2</div>
+                <div class="podium-score" data-score="2">—</div>
+                <div class="podium-platform" aria-label="Rank 2"><span>2</span></div>
               </div>
-              <div class="podium-item p1">
+              <div class="podium-item p1" tabindex="0">
+                <div class="podium-crown" aria-hidden="true">👑</div>
                 <div class="podium-avatar" data-avatar="1">—</div>
                 <div class="podium-name" data-name="1">—</div>
-                <div class="podium-platform" data-score="1">1</div>
+                <div class="podium-score" data-score="1">—</div>
+                <div class="podium-platform" aria-label="Rank 1"><span>1</span></div>
               </div>
-              <div class="podium-item p3">
+              <div class="podium-item p3" tabindex="0">
+                
                 <div class="podium-avatar" data-avatar="3">—</div>
                 <div class="podium-name" data-name="3">—</div>
-                <div class="podium-platform" data-score="3">3</div>
+                <div class="podium-score" data-score="3">—</div>
+                <div class="podium-platform" aria-label="Rank 3"><span>3</span></div>
               </div>
             </div>
             <div class="lb-entries" id="globalLeaderboardRows" hidden></div>
@@ -135,20 +151,26 @@
             <div id="leagueLeaderboardSub" class="lb-copy">Standings inside your current league.</div>
             <div id="leagueLeaderboardNotice" class="lb-notice" hidden>Please log in to compete in your league.</div>
             <div class="podium" id="leagueLeaderboardPodium" hidden>
-              <div class="podium-item p2">
+              <div class="podium-item p2" tabindex="0">
+                
                 <div class="podium-avatar" data-avatar="2">—</div>
                 <div class="podium-name" data-name="2">—</div>
-                <div class="podium-platform" data-score="2">2</div>
+                <div class="podium-score" data-score="2">—</div>
+                <div class="podium-platform" aria-label="Rank 2"><span>2</span></div>
               </div>
-              <div class="podium-item p1">
+              <div class="podium-item p1" tabindex="0">
+                <div class="podium-crown" aria-hidden="true">👑</div>
                 <div class="podium-avatar" data-avatar="1">—</div>
                 <div class="podium-name" data-name="1">—</div>
-                <div class="podium-platform" data-score="1">1</div>
+                <div class="podium-score" data-score="1">—</div>
+                <div class="podium-platform" aria-label="Rank 1"><span>1</span></div>
               </div>
-              <div class="podium-item p3">
+              <div class="podium-item p3" tabindex="0">
+                
                 <div class="podium-avatar" data-avatar="3">—</div>
                 <div class="podium-name" data-name="3">—</div>
-                <div class="podium-platform" data-score="3">3</div>
+                <div class="podium-score" data-score="3">—</div>
+                <div class="podium-platform" aria-label="Rank 3"><span>3</span></div>
               </div>
             </div>
             <div class="lb-entries" id="leagueLeaderboardRows" hidden></div>
@@ -165,7 +187,7 @@
         </div>
       </section>
 
-      <section class="category-browse" aria-labelledby="quizWorldsTitle">
+      <section class="category-browse" id="secWorlds" aria-labelledby="quizWorldsTitle">
         <div class="category-browse__head">
           <div>
             <div class="hero-eyebrow">Premium Discovery</div>
@@ -325,6 +347,25 @@
     </div>
   </div>
 
+
+  <nav class="lg-dock" id="lgDock" aria-label="Quiz sections">
+    <a class="lg-dock__item is-active" href="#secHome" data-target="secHome">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11.2 12 4l8.5 7.2V20a1 1 0 0 1-1 1h-4.5v-6h-6v6H4.500a1 1 0 0 1-1-1z"/></svg><span>Home</span>
+    </a>
+    <a class="lg-dock__item" href="#secDaily" data-target="secDaily">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 13.500h6L10 21l8-10.500h-6z"/></svg><span>Daily</span>
+    </a>
+    <button class="lg-dock__play" type="button" id="lgPlay" aria-label="Play now">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.500v13a1 1 0 0 0 1.500.9l10.500-6.500a1 1 0 0 0 0-1.700L9.500 4.600A1 1 0 0 0 8 5.500z"/></svg>
+    </button>
+    <a class="lg-dock__item" href="#leaderboardSection" data-target="leaderboardSection">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10v4a5 5 0 0 1-10 0zM7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3M12 13v4M8.500 20h7M10 17h4"/></svg><span>Ranks</span>
+    </a>
+    <a class="lg-dock__item" href="#secWorlds" data-target="secWorlds">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.500" y="3.500" width="7.500" height="7.500" rx="2.200"/><rect x="13" y="3.500" width="7.500" height="7.500" rx="2.200"/><rect x="3.500" y="13" width="7.500" height="7.500" rx="2.200"/><rect x="13" y="13" width="7.500" height="7.500" rx="2.200"/></svg><span>Worlds</span>
+    </a>
+  </nav>
+
   {% include 'components/login_popup.html' %}
   {% include 'components/digital_daanpatra.html' %}
   {% include 'components/review_modal.html' %}
@@ -335,13 +376,15 @@
       quizProfile: {{ quiz_profile_json|safe }}
     });
   </script>
-  <script defer src="{% static 'js/login_popup.js' %}?v=4"></script>
-  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=6"></script>
-  <script defer src="{% static 'js/review.js' %}?v=1"></script>
+  <script defer src="{% static 'js/popup_gate.js' %}?v=2"></script>
+  <script defer src="{% static 'js/login_popup.js' %}?v=5"></script>
+  <script defer src="{% static 'js/digital_daanpatra.js' %}?v=7"></script>
+  <script defer src="{% static 'js/review.js' %}?v=2"></script>
   <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
   <script src="{% static 'header.js' %}?v=6"></script>
   <script src="{% static 'quiz-categories-data.js' %}?v=2"></script>
-  <script src="{% static 'quizzes.js' %}?v=6"></script>
+  <script src="{% static 'quizzes.js' %}?v=7"></script>
+  <script defer src="{% static 'quizzes-glass.js' %}?v=10"></script>
 {% include "components/seo_faq.html" %}
 </body>
 </html>

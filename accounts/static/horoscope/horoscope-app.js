@@ -102,12 +102,27 @@
       syncDock();
       if (now && !wasReady && wantJump) {
         wantJump = false;
+        window.dispatchEvent(new CustomEvent("sms:kundali-generated"));
         setTimeout(function () { goTo("secOverview"); }, 120);
       }
       wasReady = now;
     }).observe(results, { attributes: true, attributeFilter: ["hidden"] });
   }
   syncDock();
+
+  /* an Oracle answer counts as "the visitor did something" */
+  var convo = document.getElementById("oracleConversation");
+  if (convo && "MutationObserver" in window) {
+    var answered = 0;
+    new MutationObserver(function () {
+      var threads = convo.querySelectorAll(".oracle-thread").length;
+      if (convo.querySelector(".oracle-bubble--pending")) return;
+      if (threads > answered) {
+        answered = threads;
+        window.dispatchEvent(new CustomEvent("sms:meaningful-engagement"));
+      }
+    }).observe(convo, { childList: true, subtree: true });
+  }
 
   /* ---------- tiny life: greeting card tilts toward the pointer (desktop only) ---------- */
   if (!reduce && window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)").matches) {

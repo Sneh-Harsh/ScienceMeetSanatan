@@ -18,24 +18,6 @@
     "weight": 1
   },
   {
-    "id": "mythology_1",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
     "id": "mythology_2",
     "category": "mythology",
     "subcategory": "mythology",
@@ -90,1249 +72,7 @@
     "weight": 1
   },
   {
-    "id": "mythology_5",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
     "id": "mythology_6",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_7",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_8",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_9",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_10",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_11",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_12",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_13",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_14",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_15",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_16",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_17",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_18",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_19",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_20",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_21",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_22",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_23",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_24",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_25",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_26",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_27",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_28",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_29",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_30",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_31",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_32",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_33",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_34",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_35",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_36",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_37",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_38",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_39",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_40",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_41",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_42",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_43",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_44",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_45",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_46",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_47",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_48",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_49",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_50",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_51",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_52",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_53",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_54",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_55",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_56",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the son of Kunti born before her marriage?",
-    "options": [
-      "Karna",
-      "Arjuna",
-      "Yudhishthira",
-      "Bhima"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_57",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_58",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_59",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_60",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_61",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_62",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_63",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_64",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_65",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_66",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_67",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_68",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "easy",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_69",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which vanara built the bridge to Lanka?",
-    "options": [
-      "Nala",
-      "Sugriva",
-      "Angad",
-      "Jambavan"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_70",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "medium",
-    "question": "Who was the father of Bhishma?",
-    "options": [
-      "Shantanu",
-      "Vichitravirya",
-      "Pandu",
-      "Dhritarashtra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_71",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_72",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Who cursed Karna to forget his knowledge during battle?",
-    "options": [
-      "Parashurama",
-      "Drona",
-      "Krishna",
-      "Indra"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_73",
-    "category": "mythology",
-    "subcategory": "mythology",
-    "difficulty": "hard",
-    "question": "Which weapon did Indra give to Karna?",
-    "options": [
-      "Vajra",
-      "Shakti",
-      "Sudarshan",
-      "Trishul"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "mythology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "mythology_74",
     "category": "mythology",
     "subcategory": "mythology",
     "difficulty": "medium",
@@ -1404,154 +144,10 @@
     "weight": 1
   },
   {
-    "id": "astrology_3",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
     "id": "astrology_4",
     "category": "astrology",
     "subcategory": "astrology",
     "difficulty": "medium",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_5",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_6",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_7",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_8",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_9",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_10",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_11",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
     "question": "Which house represents career?",
     "options": [
       "4th",
@@ -1576,1122 +172,6 @@
       "Jupiter",
       "Saturn",
       "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_13",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_14",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_15",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_16",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_17",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_18",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_19",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_20",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_21",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_22",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_23",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_24",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_25",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_26",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_27",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_28",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_29",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_30",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_31",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_32",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_33",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_34",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_35",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_36",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_37",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_38",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_39",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_40",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_41",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_42",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_43",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_44",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_45",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_46",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_47",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_48",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_49",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_50",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_51",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_52",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_53",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_54",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_55",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_56",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_57",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_58",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_59",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_60",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_61",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_62",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_63",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_64",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_65",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_66",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_67",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_68",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_69",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_70",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "hard",
-    "question": "Which house represents career?",
-    "options": [
-      "4th",
-      "6th",
-      "10th",
-      "12th"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_71",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Which planet is known as the teacher of gods?",
-    "options": [
-      "Mars",
-      "Jupiter",
-      "Saturn",
-      "Mercury"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_72",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which planet signifies communication?",
-    "options": [
-      "Mercury",
-      "Venus",
-      "Mars",
-      "Saturn"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_73",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "easy",
-    "question": "Rahu is associated with which quality?",
-    "options": [
-      "Discipline",
-      "Illusion",
-      "Wisdom",
-      "Peace"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "astrology"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "astrology_74",
-    "category": "astrology",
-    "subcategory": "astrology",
-    "difficulty": "medium",
-    "question": "Which house represents marriage in astrology?",
-    "options": [
-      "5th",
-      "7th",
-      "9th",
-      "11th"
     ],
     "correctAnswer": 1,
     "tags": [
@@ -2736,42 +216,6 @@
     "weight": 1
   },
   {
-    "id": "brain_2",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_3",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
     "id": "brain_4",
     "category": "brain",
     "subcategory": "brain",
@@ -2782,42 +226,6 @@
       "7",
       "8",
       "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_5",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_6",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
     ],
     "correctAnswer": 1,
     "tags": [
@@ -2844,96 +252,6 @@
     "weight": 1
   },
   {
-    "id": "brain_8",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_9",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_10",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_11",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_12",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
     "id": "brain_13",
     "category": "brain",
     "subcategory": "brain",
@@ -2952,1126 +270,10 @@
     "weight": 1
   },
   {
-    "id": "brain_14",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_15",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_16",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_17",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_18",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_19",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_20",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_21",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_22",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_23",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_24",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_25",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_26",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_27",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_28",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_29",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_30",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_31",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_32",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_33",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_34",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_35",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_36",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_37",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_38",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_39",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_40",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_41",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_42",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_43",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_44",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_45",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_46",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_47",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_48",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_49",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_50",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_51",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_52",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_53",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_54",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_55",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_56",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_57",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_58",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_59",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "Which number is missing: 2, 6, 7, 21, 22, ?",
-    "options": [
-      "44",
-      "66",
-      "33",
-      "11"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_60",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_61",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_62",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "hard",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_63",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_64",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_65",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_66",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_67",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_68",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_69",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "If 3x = 12, what is x?",
-    "options": [
-      "2",
-      "3",
-      "4",
-      "6"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_70",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "Find odd one out: Apple, Banana, Carrot, Mango",
-    "options": [
-      "Apple",
-      "Banana",
-      "Carrot",
-      "Mango"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_71",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_72",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "easy",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_73",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "If ALL=9, BAT=23, what is CAT?",
-    "options": [
-      "24",
-      "26",
-      "27",
-      "28"
-    ],
-    "correctAnswer": 2,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "brain_74",
-    "category": "brain",
-    "subcategory": "brain",
-    "difficulty": "medium",
-    "question": "What comes next: 1, 1, 2, 3, 5, ?",
-    "options": [
-      "6",
-      "7",
-      "8",
-      "9"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "brain"
-    ],
-    "weight": 1
-  },
-  {
     "id": "knowledge_0",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_1",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
     "question": "What is the capital of Japan?",
     "options": [
       "Seoul",
@@ -4158,34 +360,3022 @@
     "weight": 1
   },
   {
-    "id": "knowledge_6",
-    "category": "knowledge",
-    "subcategory": "knowledge",
+    "id": "mythology_v2_1",
+    "category": "mythology",
+    "subcategory": "mythology",
     "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
+    "question": "Who is the author of the Ramayana?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
+      "Tulsidas",
+      "Kalidasa",
+      "Ved Vyasa",
+      "Valmiki"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 3,
     "tags": [
-      "knowledge"
+      "mythology"
     ],
     "weight": 1
   },
   {
-    "id": "knowledge_7",
+    "id": "mythology_v2_2",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who composed the Mahabharata?",
+    "options": [
+      "Ved Vyasa",
+      "Tulsidas",
+      "Kalidasa",
+      "Valmiki"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_3",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was the father of Lord Rama?",
+    "options": [
+      "Dasharatha",
+      "Janaka",
+      "Shantanu",
+      "Pandu"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_4",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was the mother of Hanuman?",
+    "options": [
+      "Ahalya",
+      "Sumitra",
+      "Anjana",
+      "Kaikeyi"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_5",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "How many chapters does the Bhagavad Gita have?",
+    "options": [
+      "16",
+      "24",
+      "12",
+      "18"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_6",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was Arjuna's charioteer in the Kurukshetra war?",
+    "options": [
+      "Karna",
+      "Bhima",
+      "Krishna",
+      "Drona"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_7",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "What was the name of Ravana's golden city?",
+    "options": [
+      "Mithila",
+      "Ayodhya",
+      "Lanka",
+      "Kishkindha"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_8",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which god has the head of an elephant?",
+    "options": [
+      "Ganesha",
+      "Indra",
+      "Kartikeya",
+      "Hanuman"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_9",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which animal is the vahana (vehicle) of Goddess Durga?",
+    "options": [
+      "Peacock",
+      "Lion",
+      "Owl",
+      "Swan"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_10",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which bird is the vahana of Lord Kartikeya?",
+    "options": [
+      "Swan",
+      "Mouse",
+      "Peacock",
+      "Garuda"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_11",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who is the mount of Lord Vishnu?",
+    "options": [
+      "Hamsa",
+      "Garuda",
+      "Nandi",
+      "Airavata"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_12",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "What is the name of Lord Vishnu's discus?",
+    "options": [
+      "Brahmastra",
+      "Trishula",
+      "Sudarshana Chakra",
+      "Pashupatastra"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_13",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "What was the name of Arjuna's famous bow?",
+    "options": [
+      "Gandiva",
+      "Kodanda",
+      "Pinaka",
+      "Sharanga"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_14",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "What was the name of Lord Rama's bow?",
+    "options": [
+      "Vijaya",
+      "Pinaka",
+      "Gandiva",
+      "Kodanda"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_15",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "What is the name of Lord Shiva's bow?",
+    "options": [
+      "Kodanda",
+      "Sharanga",
+      "Gandiva",
+      "Pinaka"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_16",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was the adoptive father of Sita?",
+    "options": [
+      "Janaka",
+      "Dasharatha",
+      "Drupada",
+      "Virata"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_17",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who killed Indrajit (Meghnad) in the Ramayana?",
+    "options": [
+      "Lakshmana",
+      "Rama",
+      "Hanuman",
+      "Angada"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_18",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the wife of Lakshmana?",
+    "options": [
+      "Mandavi",
+      "Sumitra",
+      "Shrutakirti",
+      "Urmila"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_19",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which brother of Ravana joined Lord Rama's side?",
+    "options": [
+      "Maricha",
+      "Khara",
+      "Vibhishana",
+      "Kumbhakarna"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_20",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the adoptive father of Karna?",
+    "options": [
+      "Pandu",
+      "Adhiratha",
+      "Surya",
+      "Drona"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_21",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was the eldest of the Kauravas?",
+    "options": [
+      "Dushasana",
+      "Vikarna",
+      "Duryodhana",
+      "Yuyutsu"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_22",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who taught archery and weapons to the Pandavas and Kauravas?",
+    "options": [
+      "Drona",
+      "Kripa",
+      "Parashurama",
+      "Vyasa"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_23",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was the father of Abhimanyu?",
+    "options": [
+      "Arjuna",
+      "Bhima",
+      "Nakula",
+      "Yudhishthira"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_24",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who entered the Chakravyuha but did not know how to come out?",
+    "options": [
+      "Abhimanyu",
+      "Arjuna",
+      "Satyaki",
+      "Ghatotkacha"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_25",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the mother of the twins Nakula and Sahadeva?",
+    "options": [
+      "Gandhari",
+      "Madri",
+      "Kunti",
+      "Draupadi"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_26",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the father of Draupadi?",
+    "options": [
+      "Shalya",
+      "Drupada",
+      "Virata",
+      "Dhritarashtra"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_27",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "For how many days did the Kurukshetra war last?",
+    "options": [
+      "21",
+      "12",
+      "10",
+      "18"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_28",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the mother of Bhishma?",
+    "options": [
+      "Yamuna",
+      "Ganga",
+      "Satyavati",
+      "Amba"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_29",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the first commander-in-chief of the Kaurava army?",
+    "options": [
+      "Bhishma",
+      "Drona",
+      "Shalya",
+      "Karna"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_30",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "hard",
+    "question": "Who was the last commander-in-chief of the Kaurava army in the war?",
+    "options": [
+      "Shalya",
+      "Ashwatthama",
+      "Karna",
+      "Drona"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_31",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Lord Rama is which avatar of Lord Vishnu?",
+    "options": [
+      "Sixth",
+      "Seventh",
+      "Eighth",
+      "Ninth"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_32",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Lord Krishna is which avatar of Lord Vishnu in the common Dashavatara list?",
+    "options": [
+      "Eighth",
+      "Tenth",
+      "Seventh",
+      "Ninth"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_33",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Which is the first avatar of Vishnu in the Dashavatara?",
+    "options": [
+      "Narasimha",
+      "Varaha (boar)",
+      "Kurma (tortoise)",
+      "Matsya (fish)"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_34",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which avatar of Vishnu was half man and half lion?",
+    "options": [
+      "Varaha",
+      "Vamana",
+      "Narasimha",
+      "Parashurama"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_35",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which devotee was saved by Lord Narasimha?",
+    "options": [
+      "Markandeya",
+      "Dhruva",
+      "Prahlada",
+      "Ambarisha"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_36",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Holika was the sister of which demon king?",
+    "options": [
+      "Kamsa",
+      "Hiranyakashipu",
+      "Ravana",
+      "Mahishasura"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_37",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which maternal uncle of Krishna tried to kill him?",
+    "options": [
+      "Kamsa",
+      "Dantavakra",
+      "Jarasandha",
+      "Shishupala"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_38",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "In which city was Lord Krishna born?",
+    "options": [
+      "Hastinapur",
+      "Mathura",
+      "Indraprastha",
+      "Dwarka"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_39",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Which city did Lord Krishna build as his kingdom on the western coast?",
+    "options": [
+      "Hastinapur",
+      "Mathura",
+      "Indraprastha",
+      "Dwarka"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_40",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was Lord Krishna's poor Brahmin childhood friend?",
+    "options": [
+      "Uddhava",
+      "Arjuna",
+      "Akrura",
+      "Sudama"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_41",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "What is the name of Lord Shiva's bull?",
+    "options": [
+      "Uchchaihshravas",
+      "Kamadhenu",
+      "Nandi",
+      "Airavata"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_42",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Where did the river Ganga first fall when she came down from heaven?",
+    "options": [
+      "On Shiva's matted hair",
+      "On Mount Meru",
+      "On Vishnu's feet",
+      "On Brahma's palm"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_43",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Which king brought the river Ganga to earth by his penance?",
+    "options": [
+      "Dileep",
+      "Harishchandra",
+      "Bhagiratha",
+      "Sagara"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_44",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Which serpent was used as the rope in the Samudra Manthan (churning of the ocean)?",
+    "options": [
+      "Shesha",
+      "Vasuki",
+      "Takshaka",
+      "Kaliya"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_45",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Which poison, produced in the Samudra Manthan, did Lord Shiva drink?",
+    "options": [
+      "Kalakuta wine",
+      "Halahala",
+      "Soma",
+      "Amrita"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_46",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who is the goddess of wealth?",
+    "options": [
+      "Durga",
+      "Saraswati",
+      "Lakshmi",
+      "Parvati"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_47",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who is the goddess of knowledge and music?",
+    "options": [
+      "Kali",
+      "Annapurna",
+      "Saraswati",
+      "Lakshmi"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_48",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Diwali celebrates Lord Rama's return to which city?",
+    "options": [
+      "Mithila",
+      "Ayodhya",
+      "Lanka",
+      "Panchavati"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_49",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "How many heads did Ravana have?",
+    "options": [
+      "Seven",
+      "Ten",
+      "Twelve",
+      "Five"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_50",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Which herb did Hanuman bring to revive Lakshmana?",
+    "options": [
+      "Tulsi",
+      "Brahmakamal",
+      "Somalata",
+      "Sanjeevani"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_51",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "On which battlefield did Krishna speak the Bhagavad Gita to Arjuna?",
+    "options": [
+      "Dwarka",
+      "Hastinapur",
+      "Panipat",
+      "Kurukshetra"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_52",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "easy",
+    "question": "Who was Karna's biological mother?",
+    "options": [
+      "Madri",
+      "Gandhari",
+      "Satyavati",
+      "Kunti"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_53",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "hard",
+    "question": "Who gave Karna his armour and earrings at birth?",
+    "options": [
+      "Surya",
+      "Indra",
+      "Agni",
+      "Vayu"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_54",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Who was the king of Ayodhya before Lord Rama?",
+    "options": [
+      "Bharata",
+      "Dasharatha",
+      "Janaka",
+      "Raghu"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "mythology_v2_55",
+    "category": "mythology",
+    "subcategory": "mythology",
+    "difficulty": "medium",
+    "question": "Which demon did Goddess Durga defeat in a nine-day battle?",
+    "options": [
+      "Kamsa",
+      "Mahishasura",
+      "Ravana",
+      "Hiranyaksha"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "mythology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_1",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "How many zodiac signs (rashis) are there in Vedic astrology?",
+    "options": [
+      "10",
+      "12",
+      "27",
+      "9"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_2",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "How many Nakshatras (lunar mansions) are there?",
+    "options": [
+      "27",
+      "12",
+      "9",
+      "36"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_3",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "How many planets (Grahas) are there in the Navagraha?",
+    "options": [
+      "7",
+      "9",
+      "8",
+      "12"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_4",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Aries (Mesha)?",
+    "options": [
+      "Sun",
+      "Venus",
+      "Mercury",
+      "Mars"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_5",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Taurus (Vrishabha)?",
+    "options": [
+      "Mars",
+      "Jupiter",
+      "Saturn",
+      "Venus"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_6",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Gemini (Mithuna)?",
+    "options": [
+      "Moon",
+      "Jupiter",
+      "Venus",
+      "Mercury"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_7",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Cancer (Karka)?",
+    "options": [
+      "Sun",
+      "Moon",
+      "Mars",
+      "Mercury"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_8",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Leo (Simha)?",
+    "options": [
+      "Moon",
+      "Sun",
+      "Saturn",
+      "Jupiter"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_9",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which planet rules Sagittarius (Dhanu)?",
+    "options": [
+      "Venus",
+      "Jupiter",
+      "Saturn",
+      "Mars"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_10",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which planet rules Capricorn (Makara)?",
+    "options": [
+      "Mercury",
+      "Mars",
+      "Saturn",
+      "Jupiter"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_11",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which planet is the traditional ruler of Scorpio (Vrishchika)?",
+    "options": [
+      "Mars",
+      "Mercury",
+      "Venus",
+      "Moon"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_12",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "What is the Hindi name of the zodiac sign Leo?",
+    "options": [
+      "Vrishabha",
+      "Mesha",
+      "Simha",
+      "Kanya"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_13",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "What is the Hindi name of the zodiac sign Virgo?",
+    "options": [
+      "Mithuna",
+      "Tula",
+      "Kanya",
+      "Meena"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_14",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "What is the Hindi name of the zodiac sign Libra?",
+    "options": [
+      "Tula",
+      "Kumbha",
+      "Karka",
+      "Dhanu"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_15",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "What is the Hindi name of the zodiac sign Aquarius?",
+    "options": [
+      "Kumbha",
+      "Makara",
+      "Meena",
+      "Vrishchika"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_16",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "What is the Hindi name of the zodiac sign Pisces?",
+    "options": [
+      "Kumbha",
+      "Makara",
+      "Meena",
+      "Mithuna"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_17",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet is known as Mangal in Hindi?",
+    "options": [
+      "Jupiter",
+      "Mars",
+      "Mercury",
+      "Saturn"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_18",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet is known as Budha?",
+    "options": [
+      "Venus",
+      "Moon",
+      "Mercury",
+      "Saturn"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_19",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet is known as Guru or Brihaspati?",
+    "options": [
+      "Mars",
+      "Sun",
+      "Jupiter",
+      "Venus"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_20",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet is known as Shukra?",
+    "options": [
+      "Venus",
+      "Mercury",
+      "Saturn",
+      "Mars"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_21",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet is known as Shani?",
+    "options": [
+      "Mars",
+      "Saturn",
+      "Jupiter",
+      "Mercury"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_22",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which two points are called the shadow planets in Vedic astrology?",
+    "options": [
+      "Mars and Saturn",
+      "Venus and Mercury",
+      "Sun and Moon",
+      "Rahu and Ketu"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_23",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "How far apart are Rahu and Ketu in the sky?",
+    "options": [
+      "90 degrees",
+      "180 degrees",
+      "60 degrees",
+      "120 degrees"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_24",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which is the first Nakshatra?",
+    "options": [
+      "Rohini",
+      "Bharani",
+      "Krittika",
+      "Ashwini"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_25",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which is the last Nakshatra?",
+    "options": [
+      "Revati",
+      "Shravana",
+      "Jyeshtha",
+      "Ashlesha"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_26",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which Nakshatra is ruled by the Moon and linked with Lord Krishna's birth?",
+    "options": [
+      "Ashwini",
+      "Rohini",
+      "Magha",
+      "Pushya"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_27",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "Which planet is the lord of the Pushya Nakshatra?",
+    "options": [
+      "Sun",
+      "Mercury",
+      "Jupiter",
+      "Saturn"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_28",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "Which planet is the lord of the Ashwini Nakshatra?",
+    "options": [
+      "Venus",
+      "Sun",
+      "Ketu",
+      "Moon"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_29",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "Which planet is the lord of the Magha Nakshatra?",
+    "options": [
+      "Sun",
+      "Mars",
+      "Venus",
+      "Ketu"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_30",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "How many houses (bhavas) are there in a birth chart?",
+    "options": [
+      "27",
+      "9",
+      "10",
+      "12"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_31",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "What is the first house of a birth chart called?",
+    "options": [
+      "Moon sign",
+      "Lagna (Ascendant)",
+      "Karma bhava",
+      "Dhana bhava"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_32",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which house is mainly linked with career in a birth chart?",
+    "options": [
+      "2nd house",
+      "10th house",
+      "4th house",
+      "7th house"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_33",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which house is mainly linked with marriage and partnerships?",
+    "options": [
+      "4th house",
+      "7th house",
+      "10th house",
+      "5th house"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_34",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which house is mainly linked with wealth and family?",
+    "options": [
+      "8th house",
+      "6th house",
+      "3rd house",
+      "2nd house"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_35",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which house is mainly linked with the mother and home?",
+    "options": [
+      "5th house",
+      "9th house",
+      "4th house",
+      "11th house"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_36",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which house is mainly linked with children and creativity?",
+    "options": [
+      "3rd house",
+      "8th house",
+      "12th house",
+      "5th house"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_37",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "What do we call the zodiac sign where the Moon was at your birth?",
+    "options": [
+      "Lagna",
+      "Graha",
+      "Rashi (Moon sign)",
+      "Nakshatra"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_38",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "How long does the Sade Sati of Saturn last?",
+    "options": [
+      "7.5 years",
+      "2.5 years",
+      "5 years",
+      "12 years"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_39",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Sade Sati is caused by the movement of which planet?",
+    "options": [
+      "Mars",
+      "Jupiter",
+      "Rahu",
+      "Saturn"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_40",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "About how long does Saturn stay in one zodiac sign?",
+    "options": [
+      "2.5 years",
+      "1 month",
+      "5 years",
+      "1 year"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_41",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "About how long does Jupiter stay in one zodiac sign?",
+    "options": [
+      "2.5 years",
+      "1 year",
+      "1 month",
+      "6 years"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_42",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "Which planet moves fastest through the zodiac, spending about 2.25 days in each sign?",
+    "options": [
+      "Moon",
+      "Mercury",
+      "Venus",
+      "Sun"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_43",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "How many years is the full Vimshottari Dasha cycle?",
+    "options": [
+      "120",
+      "100",
+      "108",
+      "90"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_44",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "How many years does the Sun's Mahadasha last in Vimshottari?",
+    "options": [
+      "20 years",
+      "7 years",
+      "10 years",
+      "6 years"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_45",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "How many years does the Venus Mahadasha last in Vimshottari?",
+    "options": [
+      "10 years",
+      "18 years",
+      "16 years",
+      "20 years"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_46",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "How many years does the Rahu Mahadasha last in Vimshottari?",
+    "options": [
+      "7 years",
+      "18 years",
+      "16 years",
+      "19 years"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_47",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "How many years does the Saturn Mahadasha last in Vimshottari?",
+    "options": [
+      "19 years",
+      "16 years",
+      "17 years",
+      "20 years"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_48",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Monday?",
+    "options": [
+      "Venus",
+      "Sun",
+      "Mars",
+      "Moon"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_49",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Tuesday?",
+    "options": [
+      "Moon",
+      "Mars",
+      "Saturn",
+      "Mercury"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_50",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Thursday?",
+    "options": [
+      "Venus",
+      "Saturn",
+      "Mercury",
+      "Jupiter"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_51",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which planet rules Saturday?",
+    "options": [
+      "Rahu",
+      "Mars",
+      "Venus",
+      "Saturn"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_52",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "In which sign is the Sun exalted (strongest)?",
+    "options": [
+      "Aries",
+      "Leo",
+      "Cancer",
+      "Libra"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_53",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "In which sign is the Moon exalted (strongest)?",
+    "options": [
+      "Pisces",
+      "Libra",
+      "Cancer",
+      "Taurus"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_54",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "In which sign is Jupiter exalted (strongest)?",
+    "options": [
+      "Cancer",
+      "Leo",
+      "Sagittarius",
+      "Pisces"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_55",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "In which sign is Saturn exalted (strongest)?",
+    "options": [
+      "Aquarius",
+      "Capricorn",
+      "Libra",
+      "Aries"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_56",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "How many parts (limbs) does a Panchang have?",
+    "options": [
+      "12",
+      "9",
+      "5",
+      "7"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_57",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "hard",
+    "question": "Which of these is NOT one of the five parts of a Panchang?",
+    "options": [
+      "Yoga",
+      "Tithi",
+      "Nakshatra",
+      "Rashi chart"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_58",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which tithi is the new moon day?",
+    "options": [
+      "Purnima",
+      "Chaturthi",
+      "Amavasya",
+      "Ekadashi"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_59",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "easy",
+    "question": "Which tithi is the full moon day?",
+    "options": [
+      "Ashtami",
+      "Amavasya",
+      "Ekadashi",
+      "Purnima"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "astrology_v2_60",
+    "category": "astrology",
+    "subcategory": "astrology",
+    "difficulty": "medium",
+    "question": "About how long does Rahu Kaal last each day?",
+    "options": [
+      "1.5 hours",
+      "30 minutes",
+      "3 hours",
+      "6 hours"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "astrology"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_1",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: 2, 4, 8, 16, ?",
+    "options": [
+      "24",
+      "64",
+      "32",
+      "30"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_2",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: 2, 3, 5, 7, 11, ?",
+    "options": [
+      "14",
+      "13",
+      "15",
+      "12"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_3",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: 1, 1, 2, 3, 5, 8, ?",
+    "options": [
+      "13",
+      "15",
+      "11",
+      "12"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_4",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "What is 5 + 5 × 5 − 5?",
+    "options": [
+      "45",
+      "55",
+      "0",
+      "25"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_5",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "What is 12 divided by 0.5?",
+    "options": [
+      "12",
+      "24",
+      "0.24",
+      "6"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_6",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "Which number does not belong: 3, 5, 7, 9, 11?",
+    "options": [
+      "11",
+      "9",
+      "7",
+      "3"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_7",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "How many months of the year have 28 days?",
+    "options": [
+      "12",
+      "1",
+      "2",
+      "6"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_8",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "Mary's father has five daughters: Nana, Nene, Nini, Nono and ___?",
+    "options": [
+      "Mary",
+      "Cannot say",
+      "Nana",
+      "Nunu"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_9",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "What is the angle between the hands of a clock at 3:15?",
+    "options": [
+      "30 degrees",
+      "0 degrees",
+      "7.5 degrees",
+      "15 degrees"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_10",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "A bat and a ball cost 1.10 together. The bat costs 1.00 more than the ball. How much is the ball?",
+    "options": [
+      "5 cents",
+      "1 cent",
+      "10 cents",
+      "15 cents"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_11",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: A, C, E, G, ?",
+    "options": [
+      "I",
+      "H",
+      "J",
+      "K"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_12",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: Z, X, V, T, ?",
+    "options": [
+      "Q",
+      "P",
+      "R",
+      "S"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_13",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: 1, 4, 9, 16, 25, ?",
+    "options": [
+      "35",
+      "36",
+      "49",
+      "30"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_14",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What comes next: 3, 6, 12, 24, ?",
+    "options": [
+      "48",
+      "36",
+      "42",
+      "30"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_15",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "Which is the odd one out: Apple, Banana, Carrot, Mango?",
+    "options": [
+      "Apple",
+      "Mango",
+      "Banana",
+      "Carrot"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_16",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "Which is the odd one out: Square, Triangle, Circle, Cube?",
+    "options": [
+      "Circle",
+      "Triangle",
+      "Square",
+      "Cube"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_17",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "Which is the odd one out: Mercury, Venus, Mars, Moon?",
+    "options": [
+      "Mercury",
+      "Mars",
+      "Moon",
+      "Venus"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_18",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is 7 × 8?",
+    "options": [
+      "54",
+      "64",
+      "49",
+      "56"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_19",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is 15% of 200?",
+    "options": [
+      "15",
+      "30",
+      "25",
+      "20"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_20",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is the square root of 144?",
+    "options": [
+      "11",
+      "12",
+      "14",
+      "13"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_21",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is 17 × 3?",
+    "options": [
+      "41",
+      "54",
+      "48",
+      "51"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_22",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "If 5 machines make 5 widgets in 5 minutes, how long do 100 machines take to make 100 widgets?",
+    "options": [
+      "5 minutes",
+      "20 minutes",
+      "100 minutes",
+      "1 minute"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_23",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "A man points at a boy and says, 'His father is the only son of my father.' How is the boy related to the man?",
+    "options": [
+      "Nephew",
+      "Grandson",
+      "Son",
+      "Brother"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_24",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "If yesterday was Friday, what day is tomorrow?",
+    "options": [
+      "Sunday",
+      "Monday",
+      "Friday",
+      "Saturday"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_25",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "If today is Monday, what day will it be after 10 days?",
+    "options": [
+      "Tuesday",
+      "Thursday",
+      "Wednesday",
+      "Friday"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_26",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "How many sides does a hexagon have?",
+    "options": [
+      "5",
+      "7",
+      "6",
+      "8"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_27",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is the sum of all numbers from 1 to 10?",
+    "options": [
+      "55",
+      "45",
+      "50",
+      "60"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_28",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "Which is the largest value?",
+    "options": [
+      "4/9",
+      "3/5",
+      "0.55",
+      "0.5"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_29",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "What comes next: 2, 6, 12, 20, 30, ?",
+    "options": [
+      "44",
+      "42",
+      "36",
+      "40"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_30",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "What comes next: 100, 95, 85, 70, ?",
+    "options": [
+      "45",
+      "60",
+      "50",
+      "55"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_31",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "If A=1, B=2, C=3, what is the sum for CAB?",
+    "options": [
+      "7",
+      "9",
+      "5",
+      "6"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_32",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "If A=1, B=2 and so on, what is the sum for DOG (D+O+G)?",
+    "options": [
+      "24",
+      "26",
+      "25",
+      "27"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_33",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "How many faces does a cube have?",
+    "options": [
+      "12",
+      "6",
+      "8",
+      "4"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_34",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "How many edges does a cube have?",
+    "options": [
+      "6",
+      "10",
+      "12",
+      "8"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_35",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is the smallest prime number?",
+    "options": [
+      "1",
+      "3",
+      "2",
+      "0"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_36",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "How many degrees are there in the three angles of a triangle together?",
+    "options": [
+      "180",
+      "360",
+      "90",
+      "270"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_37",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "A farmer has 17 sheep. All but 9 run away. How many are left?",
+    "options": [
+      "0",
+      "17",
+      "8",
+      "9"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_38",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "Which weighs more: 1 kg of cotton or 1 kg of iron?",
+    "options": [
+      "Iron",
+      "Cotton",
+      "Both weigh the same",
+      "It depends"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_39",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "Divide 30 by one half and add 10. What is the answer?",
+    "options": [
+      "70",
+      "25",
+      "15",
+      "40"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_40",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "A 100 m long train passes a pole at 10 metres per second. How long does it take?",
+    "options": [
+      "100 seconds",
+      "20 seconds",
+      "10 seconds",
+      "1 second"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_41",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "How far will you travel at 60 km/h in 2.5 hours?",
+    "options": [
+      "160 km",
+      "140 km",
+      "120 km",
+      "150 km"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_42",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What is the average of 10, 20 and 30?",
+    "options": [
+      "15",
+      "20",
+      "60",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_43",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "What is the binary number 101 in our usual numbers?",
+    "options": [
+      "5",
+      "4",
+      "7",
+      "6"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_44",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "What number is the Roman numeral XIV?",
+    "options": [
+      "14",
+      "9",
+      "16",
+      "4"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_45",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "What letter comes next: O, T, T, F, F, S, S, ?",
+    "options": [
+      "T",
+      "E",
+      "N",
+      "O"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_46",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "What letter comes next: J, F, M, A, M, J, ?",
+    "options": [
+      "S",
+      "J",
+      "D",
+      "A"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_47",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "How many minutes are there in 3 hours?",
+    "options": [
+      "180",
+      "300",
+      "120",
+      "240"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_48",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "easy",
+    "question": "Rahul is taller than Amit and Amit is taller than Suresh. Who is the shortest?",
+    "options": [
+      "Amit",
+      "Rahul",
+      "Suresh",
+      "Cannot say"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_49",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "Five friends meet and each shakes hands once with every other friend. How many handshakes happen?",
+    "options": [
+      "5",
+      "10",
+      "20",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_50",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "What is 2 to the power 5?",
+    "options": [
+      "32",
+      "16",
+      "10",
+      "25"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_51",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "medium",
+    "question": "What comes next: 1, 8, 27, 64, ?",
+    "options": [
+      "81",
+      "216",
+      "100",
+      "125"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "brain_v2_52",
+    "category": "brain",
+    "subcategory": "brain",
+    "difficulty": "hard",
+    "question": "What comes next: 3, 5, 9, 17, ?",
+    "options": [
+      "34",
+      "33",
+      "31",
+      "25"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "brain"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_1",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which is the largest ocean?",
+    "question": "What is the capital of India?",
     "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Chennai",
+      "Mumbai",
+      "New Delhi",
+      "Kolkata"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4194,16 +3384,34 @@
     "weight": 1
   },
   {
-    "id": "knowledge_8",
+    "id": "knowledge_v2_2",
     "category": "knowledge",
     "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who discovered gravity?",
+    "difficulty": "easy",
+    "question": "Which is the national animal of India?",
     "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
+      "Leopard",
+      "Tiger",
+      "Elephant",
+      "Lion"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_3",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Which is the national bird of India?",
+    "options": [
+      "Peacock",
+      "Eagle",
+      "Parrot",
+      "Sparrow"
     ],
     "correctAnswer": 0,
     "tags": [
@@ -4212,34 +3420,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_9",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Which gas do plants absorb?",
-    "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_10",
+    "id": "knowledge_v2_4",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
+    "question": "Which is the national flower of India?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
+      "Marigold",
+      "Lotus",
+      "Rose",
+      "Jasmine"
     ],
     "correctAnswer": 1,
     "tags": [
@@ -4248,70 +3438,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_11",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_12",
+    "id": "knowledge_v2_5",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
+    "question": "Which river is considered the most sacred in India?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_13",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_14",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
+      "Ganga",
+      "Narmada",
+      "Krishna",
+      "Godavari"
     ],
     "correctAnswer": 0,
     "tags": [
@@ -4320,34 +3456,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_15",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Which gas do plants absorb?",
-    "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_16",
+    "id": "knowledge_v2_6",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which is the largest ocean?",
+    "question": "Which is the highest mountain peak in the world?",
     "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Makalu",
+      "K2",
+      "Mount Everest",
+      "Kangchenjunga"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4356,70 +3474,34 @@
     "weight": 1
   },
   {
-    "id": "knowledge_17",
+    "id": "knowledge_v2_7",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Who wrote the Indian national anthem?",
+    "options": [
+      "Rabindranath Tagore",
+      "Muhammad Iqbal",
+      "Sarojini Naidu",
+      "Bankim Chandra Chatterjee"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_8",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "Who invented electricity?",
+    "question": "Who wrote the song Vande Mataram?",
     "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_18",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_19",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_20",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Which is the largest ocean?",
-    "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Sarojini Naidu",
+      "Rabindranath Tagore",
+      "Bankim Chandra Chatterjee",
+      "Subramania Bharati"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4428,106 +3510,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_21",
+    "id": "knowledge_v2_9",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
+    "question": "Who is called the Father of the Nation in India?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_22",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_23",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_24",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_25",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
-    "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_26",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Which is the largest ocean?",
-    "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Subhas Chandra Bose",
+      "Sardar Patel",
+      "Mahatma Gandhi",
+      "Jawaharlal Nehru"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4536,34 +3528,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_27",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Which gas do plants absorb?",
-    "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_28",
+    "id": "knowledge_v2_10",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which is the largest ocean?",
+    "question": "Who was the first Prime Minister of India?",
     "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Rajendra Prasad",
+      "Sardar Patel",
+      "Jawaharlal Nehru",
+      "Lal Bahadur Shastri"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4572,16 +3546,34 @@
     "weight": 1
   },
   {
-    "id": "knowledge_29",
+    "id": "knowledge_v2_11",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "Which is the largest ocean?",
+    "question": "Who was the first President of India?",
     "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Dr. Rajendra Prasad",
+      "Dr. Zakir Husain",
+      "Dr. S. Radhakrishnan",
+      "Jawaharlal Nehru"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_12",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "On which date is Independence Day celebrated in India?",
+    "options": [
+      "26 January",
+      "14 November",
+      "15 August",
+      "2 October"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4590,16 +3582,52 @@
     "weight": 1
   },
   {
-    "id": "knowledge_30",
+    "id": "knowledge_v2_13",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "On which date is Republic Day celebrated in India?",
+    "options": [
+      "1 May",
+      "26 January",
+      "2 October",
+      "15 August"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_14",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "Who discovered gravity?",
+    "question": "In which year did the Constitution of India come into effect?",
     "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
+      "1952",
+      "1950",
+      "1947",
+      "1949"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_15",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "How many states does India have?",
+    "options": [
+      "28",
+      "25",
+      "30",
+      "29"
     ],
     "correctAnswer": 0,
     "tags": [
@@ -4608,16 +3636,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_31",
+    "id": "knowledge_v2_17",
     "category": "knowledge",
     "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Which is the largest ocean?",
+    "difficulty": "easy",
+    "question": "Which is the largest planet in our solar system?",
     "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Saturn",
+      "Neptune",
+      "Jupiter",
+      "Earth"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4626,34 +3654,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_32",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_33",
+    "id": "knowledge_v2_18",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Who invented electricity?",
+    "question": "Which planet is known as the Red Planet?",
     "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
+      "Venus",
+      "Mercury",
+      "Jupiter",
+      "Mars"
     ],
     "correctAnswer": 3,
     "tags": [
@@ -4662,142 +3672,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_34",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_35",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_36",
+    "id": "knowledge_v2_19",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Who discovered gravity?",
+    "question": "Which gas do plants take in from the air for photosynthesis?",
     "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_37",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_38",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_39",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_40",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_41",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "Which is the largest ocean?",
-    "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Hydrogen",
+      "Oxygen",
+      "Carbon dioxide",
+      "Nitrogen"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -4806,52 +3690,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_42",
+    "id": "knowledge_v2_20",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Who discovered gravity?",
+    "question": "What is the chemical formula of water?",
     "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_43",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_44",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
+      "NaCl",
+      "H2O",
+      "O2",
+      "CO2"
     ],
     "correctAnswer": 1,
     "tags": [
@@ -4860,196 +3708,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_45",
+    "id": "knowledge_v2_21",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "Which gas do plants absorb?",
+    "question": "What is the chemical symbol of gold?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_46",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_47",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_48",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_49",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_50",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_51",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_52",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_53",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_54",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_55",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Which is the largest ocean?",
-    "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Gd",
+      "Ag",
+      "Au",
+      "Go"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -5058,142 +3726,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_56",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_57",
+    "id": "knowledge_v2_22",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
+    "question": "Which is the largest ocean on Earth?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_58",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_59",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
-    ],
-    "correctAnswer": 0,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_60",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_61",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_62",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Which gas do plants absorb?",
-    "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_63",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Which is the largest ocean?",
-    "options": [
-      "Atlantic",
-      "Indian",
-      "Pacific",
-      "Arctic"
+      "Arctic Ocean",
+      "Indian Ocean",
+      "Pacific Ocean",
+      "Atlantic Ocean"
     ],
     "correctAnswer": 2,
     "tags": [
@@ -5202,16 +3744,52 @@
     "weight": 1
   },
   {
-    "id": "knowledge_64",
+    "id": "knowledge_v2_23",
     "category": "knowledge",
     "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "Who discovered gravity?",
+    "difficulty": "easy",
+    "question": "Which is the largest continent?",
     "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
+      "North America",
+      "Asia",
+      "Africa",
+      "Europe"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_24",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "In which city is the Taj Mahal?",
+    "options": [
+      "Lucknow",
+      "Agra",
+      "Jaipur",
+      "Delhi"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_25",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Who built the Taj Mahal?",
+    "options": [
+      "Shah Jahan",
+      "Akbar",
+      "Babur",
+      "Aurangzeb"
     ],
     "correctAnswer": 0,
     "tags": [
@@ -5220,88 +3798,16 @@
     "weight": 1
   },
   {
-    "id": "knowledge_65",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Which gas do plants absorb?",
-    "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_66",
+    "id": "knowledge_v2_26",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "Which gas do plants absorb?",
+    "question": "Which Mughal emperor built the Red Fort in Delhi?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_67",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "easy",
-    "question": "Who invented electricity?",
-    "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
-    ],
-    "correctAnswer": 3,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_68",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "medium",
-    "question": "What is the capital of Japan?",
-    "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
-    ],
-    "correctAnswer": 1,
-    "tags": [
-      "knowledge"
-    ],
-    "weight": 1
-  },
-  {
-    "id": "knowledge_69",
-    "category": "knowledge",
-    "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who discovered gravity?",
-    "options": [
-      "Newton",
-      "Einstein",
-      "Galileo",
-      "Tesla"
+      "Shah Jahan",
+      "Jahangir",
+      "Akbar",
+      "Humayun"
     ],
     "correctAnswer": 0,
     "tags": [
@@ -5310,34 +3816,34 @@
     "weight": 1
   },
   {
-    "id": "knowledge_70",
+    "id": "knowledge_v2_27",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "What is the capital of Japan?",
+    "question": "Which ancient university in Bihar drew students from across Asia?",
     "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
+      "Nalanda",
+      "Kashi",
+      "Taxila",
+      "Ujjain"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 0,
     "tags": [
       "knowledge"
     ],
     "weight": 1
   },
   {
-    "id": "knowledge_71",
+    "id": "knowledge_v2_28",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "easy",
-    "question": "Which gas do plants absorb?",
+    "question": "Who discovered the law of gravity?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
+      "Nikola Tesla",
+      "Isaac Newton",
+      "Albert Einstein",
+      "Galileo"
     ],
     "correctAnswer": 1,
     "tags": [
@@ -5346,34 +3852,124 @@
     "weight": 1
   },
   {
-    "id": "knowledge_72",
+    "id": "knowledge_v2_29",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "Which gas do plants absorb?",
+    "question": "Which ancient Indian mathematician and astronomer wrote the Aryabhatiya?",
     "options": [
-      "Oxygen",
-      "Carbon Dioxide",
-      "Nitrogen",
-      "Hydrogen"
+      "Brahmagupta",
+      "Bhaskara",
+      "Aryabhata",
+      "Varahamihira"
     ],
-    "correctAnswer": 1,
+    "correctAnswer": 2,
     "tags": [
       "knowledge"
     ],
     "weight": 1
   },
   {
-    "id": "knowledge_73",
+    "id": "knowledge_v2_30",
     "category": "knowledge",
     "subcategory": "knowledge",
     "difficulty": "medium",
-    "question": "What is the capital of Japan?",
+    "question": "Which Indian scientist won the Nobel Prize in Physics in 1930?",
     "options": [
-      "Seoul",
-      "Tokyo",
-      "Kyoto",
-      "Beijing"
+      "C. V. Raman",
+      "Meghnad Saha",
+      "J. C. Bose",
+      "Homi Bhabha"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_31",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Who is known as the Missile Man of India?",
+    "options": [
+      "Homi Bhabha",
+      "Vikram Sarabhai",
+      "A. P. J. Abdul Kalam",
+      "C. V. Raman"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_32",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "In which city is the head office of ISRO?",
+    "options": [
+      "Bengaluru",
+      "Mumbai",
+      "Thiruvananthapuram",
+      "Hyderabad"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_33",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Chandrayaan-3 landed near which part of the Moon?",
+    "options": [
+      "North pole",
+      "Far side centre",
+      "South pole",
+      "Equator"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_34",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "How many Vedas are there?",
+    "options": [
+      "Five",
+      "Three",
+      "Four",
+      "Six"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_35",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Which is the oldest of the four Vedas?",
+    "options": [
+      "Yajurveda",
+      "Rigveda",
+      "Samaveda",
+      "Atharvaveda"
     ],
     "correctAnswer": 1,
     "tags": [
@@ -5382,18 +3978,378 @@
     "weight": 1
   },
   {
-    "id": "knowledge_74",
+    "id": "knowledge_v2_36",
     "category": "knowledge",
     "subcategory": "knowledge",
-    "difficulty": "hard",
-    "question": "Who invented electricity?",
+    "difficulty": "easy",
+    "question": "In which language were the ancient Vedic texts written?",
     "options": [
-      "Newton",
-      "Edison",
-      "Tesla",
-      "Faraday"
+      "Sanskrit",
+      "Tamil",
+      "Pali",
+      "Prakrit"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_37",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Who compiled the Yoga Sutras?",
+    "options": [
+      "Panini",
+      "Patanjali",
+      "Vyasa",
+      "Kapila"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_38",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Who wrote the Arthashastra?",
+    "options": [
+      "Kalidasa",
+      "Banabhatta",
+      "Aryabhata",
+      "Chanakya (Kautilya)"
     ],
     "correctAnswer": 3,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_39",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "On which date is International Yoga Day celebrated?",
+    "options": [
+      "21 June",
+      "21 March",
+      "2 October",
+      "15 August"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_40",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Which city does NOT host the Kumbh Mela?",
+    "options": [
+      "Prayagraj",
+      "Nashik",
+      "Haridwar",
+      "Varanasi"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_41",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Which of these is one of the four Char Dham established by Adi Shankaracharya?",
+    "options": [
+      "Varanasi",
+      "Ujjain",
+      "Ayodhya",
+      "Puri"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_42",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "How many Jyotirlingas of Lord Shiva are there?",
+    "options": [
+      "8",
+      "12",
+      "14",
+      "10"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_43",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "In which state is the Sun Temple of Konark?",
+    "options": [
+      "Odisha",
+      "Rajasthan",
+      "Tamil Nadu",
+      "Gujarat"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_44",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "In which city is the Golden Temple?",
+    "options": [
+      "Amritsar",
+      "Ludhiana",
+      "Chandigarh",
+      "Delhi"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_45",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Which is the largest Indian state by area?",
+    "options": [
+      "Rajasthan",
+      "Maharashtra",
+      "Uttar Pradesh",
+      "Madhya Pradesh"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_46",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "Which is the smallest Indian state by area?",
+    "options": [
+      "Kerala",
+      "Tripura",
+      "Goa",
+      "Sikkim"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_47",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "What is the capital of Australia?",
+    "options": [
+      "Perth",
+      "Melbourne",
+      "Canberra",
+      "Sydney"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_48",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "About how fast does light travel in a vacuum?",
+    "options": [
+      "3 million km per second",
+      "3,000 km per second",
+      "30,000 km per second",
+      "300,000 km per second"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_49",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "How many continents are there on Earth?",
+    "options": [
+      "6",
+      "8",
+      "7",
+      "5"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_50",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "How many bones does an adult human body have?",
+    "options": [
+      "256",
+      "150",
+      "206",
+      "300"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_51",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Which organ pumps blood around the human body?",
+    "options": [
+      "Kidney",
+      "Lungs",
+      "Heart",
+      "Liver"
+    ],
+    "correctAnswer": 2,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_52",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Which festival is known as the Festival of Colours?",
+    "options": [
+      "Baisakhi",
+      "Holi",
+      "Dussehra",
+      "Diwali"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_53",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Which festival ends Navratri with the burning of Ravana's effigies?",
+    "options": [
+      "Dussehra",
+      "Holi",
+      "Raksha Bandhan",
+      "Baisakhi"
+    ],
+    "correctAnswer": 0,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_54",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Who is known as the Iron Man of India?",
+    "options": [
+      "Lal Bahadur Shastri",
+      "Subhas Chandra Bose",
+      "Bhagat Singh",
+      "Sardar Vallabhbhai Patel"
+    ],
+    "correctAnswer": 3,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_55",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "easy",
+    "question": "Which planet is closest to the Sun?",
+    "options": [
+      "Venus",
+      "Mercury",
+      "Mars",
+      "Earth"
+    ],
+    "correctAnswer": 1,
+    "tags": [
+      "knowledge"
+    ],
+    "weight": 1
+  },
+  {
+    "id": "knowledge_v2_56",
+    "category": "knowledge",
+    "subcategory": "knowledge",
+    "difficulty": "medium",
+    "question": "In which state is the Statue of Unity?",
+    "options": [
+      "Gujarat",
+      "Maharashtra",
+      "Rajasthan",
+      "Madhya Pradesh"
+    ],
+    "correctAnswer": 0,
     "tags": [
       "knowledge"
     ],

@@ -209,6 +209,90 @@
         "english": "Your right is to action alone, never to the fruits that arise from it.",
         "sanskrit": "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन॥"
       }
+    },
+    {
+      "slug": "laxmi-aarti",
+      "name": "Om Jai Lakshmi Mata (Laxmi Aarti)",
+      "category": "Aartis",
+      "deity": "Maa Lakshmi",
+      "featured": true,
+      "popularity": 99,
+      "excerpt": "The traditional Laxmi aarti sung at the end of the Diwali Lakshmi puja, asking for the blessings of wealth, peace and a happy home.",
+      "languages": {
+        "hindi": "ॐ जय लक्ष्मी माता, मैया जय लक्ष्मी माता।\nतुमको निसदिन सेवत, हर विष्णु विधाता॥\nॐ जय लक्ष्मी माता...\n\nउमा, रमा, ब्रह्माणी, तुम ही जग माता।\nसूर्य चन्द्रमा ध्यावत, नारद ऋषि गाता॥\nॐ जय लक्ष्मी माता...\n\nदुर्गा रूप निरंजनी, सुख-सम्पत्ति दाता।\nजो कोई तुमको ध्यावत, ऋद्धि-सिद्धि धन पाता॥\nॐ जय लक्ष्मी माता...\n\nतुम पाताल निवासिनि, तुम ही शुभदाता।\nकर्म-प्रभाव-प्रकाशिनी, भवनिधि की त्राता॥\nॐ जय लक्ष्मी माता...\n\nजिस घर में तुम रहती, तहँ सब सद्गुण आता।\nसब सम्भव हो जाता, मन नहिं घबराता॥\nॐ जय लक्ष्मी माता...\n\nतुम बिन यज्ञ न होते, वस्त्र न कोई पाता।\nखान-पान का वैभव, सब तुमसे आता॥\nॐ जय लक्ष्मी माता...\n\nशुभ-गुण मन्दिर सुन्दर, क्षीरोदधि जाता।\nरत्न चतुर्दश तुम बिन, कोई नहिं पाता॥\nॐ जय लक्ष्मी माता...\n\nमहालक्ष्मीजी की आरती, जो कोई नर गाता।\nउर आनन्द समाता, पाप उतर जाता॥\nॐ जय लक्ष्मी माता...",
+        "english": "Glory to Mother Lakshmi. Vishnu, Shiva and Brahma serve you day and night.\n\nYou are Uma, Rama and Brahmani, the Mother of the world. The Sun and Moon meditate on you, and the sage Narada sings your praise.\n\nIn the form of Durga you are the giver of happiness and prosperity. Whoever meditates on you receives success, spiritual powers and wealth.\n\nYou dwell in the netherworld too and you are the giver of all that is auspicious. You light up the fruit of our actions and carry us across the ocean of worldly life.\n\nIn the home where you live, every good quality arrives, everything becomes possible, and the mind is free of fear.\n\nWithout you no sacrifice (yagna) is performed and no one gets clothes. All the richness of food and drink comes from you.\n\nYou are the beautiful home of auspicious qualities and the daughter of the milk ocean. Without you no one can obtain the fourteen jewels.\n\nWhoever sings this aarti of Mahalakshmi is filled with joy in the heart, and their sins are washed away.",
+        "sanskrit": "या देवी सर्वभूतेषु लक्ष्मीरूपेण संस्थिता।\nनमस्तस्यै नमस्तस्यै नमस्तस्यै नमो नमः॥"
+      }
+    },
+    {
+      "slug": "diwali-puja-mantras",
+      "name": "Diwali Puja Mantras (Ganesh, Lakshmi and Kubera)",
+      "category": "Mantras",
+      "deity": "Maa Lakshmi, Lord Ganesha and Lord Kubera",
+      "featured": true,
+      "popularity": 98,
+      "excerpt": "The seven mantras chanted in order during the Diwali Lakshmi-Ganesh puja, from the Ganesh Vandana and lamp mantra to the Lakshmi Beej mantra, Lakshmi Gayatri and Kubera mantra.",
+      "languages": {
+        "hindi": "दीपावली की लक्ष्मी-गणेश पूजा में परंपरा से ये मंत्र इसी क्रम में पढ़े जाते हैं।\n\n१. गणेश वंदना: हे वक्रतुण्ड, विशाल देह वाले, करोड़ों सूर्यों के समान तेजस्वी देव! मेरे सभी कार्य सदा बिना विघ्न के पूरे कीजिए।\n\n२. दीप मंत्र: शुभ, कल्याण, आरोग्य और धन-संपदा देने वाली तथा बुरी बुद्धि का नाश करने वाली दीपक की ज्योति को नमस्कार। दीपक की ज्योति परब्रह्म और जनार्दन का रूप है; वह मेरे पाप हर ले।\n\n३. लक्ष्मी ध्यान: कमल के आसन पर विराजमान, कमल-पंखुड़ी जैसे बड़े नेत्रों वाली, श्वेत वस्त्र धारण करने वाली, हाथी स्वर्ण-कलशों से जिनका अभिषेक करते हैं, ऐसी कमल-हस्ता लक्ष्मी सब मंगलों के साथ मेरे घर में सदा निवास करें।\n\n४. देवी स्तुति: जो देवी सभी प्राणियों में लक्ष्मी के रूप में स्थित हैं, उन्हें बारंबार नमस्कार।\n\n५. लक्ष्मी बीज मंत्र: श्रीं (समृद्धि), ह्रीं (शक्ति) के साथ कमल पर विराजने वाली देवी से प्रसन्न होने की प्रार्थना; महालक्ष्मी को नमस्कार। परंपरा में इसे 108 बार जपा जाता है।\n\n६. लक्ष्मी गायत्री: हम महालक्ष्मी को जानें, विष्णु-पत्नी का ध्यान करें; वे लक्ष्मी हमें प्रेरणा दें।\n\n७. कुबेर मंत्र: यक्षराज कुबेर, वैश्रवण, धन-धान्य के अधिपति, मुझे धन-धान्य की समृद्धि दीजिए।",
+        "english": "These are the mantras traditionally chanted, in this order, during the Diwali Lakshmi-Ganesh puja.\n\n1. Ganesh Vandana: O Lord with the curved trunk and mighty body, whose brilliance equals a crore of suns, remove all obstacles from my work, always.\n\n2. Lamp mantra: Salutations to the light of the lamp, which brings auspiciousness, well-being, health and wealth, and destroys hostile thoughts. The lamp's flame is the Supreme Brahman and Janardana; may it remove my sins.\n\n3. Lakshmi Dhyana: Lakshmi who sits on a lotus, with large lotus-petal eyes, dressed in white, bathed by elephants with golden pots, holding a lotus in her hand: may she live in my home forever, bringing every blessing.\n\n4. Devi Stuti: Salutations again and again to the Goddess who dwells in all beings in the form of Lakshmi.\n\n5. Lakshmi Beej mantra: A prayer to the lotus-seated Goddess to be gracious (Shreem stands for prosperity, Hreem for divine power). Salutations to Mahalakshmi. It is traditionally chanted 108 times.\n\n6. Lakshmi Gayatri: Let us know Mahalakshmi and meditate on the wife of Vishnu; may Lakshmi inspire us.\n\n7. Kubera mantra: O Kubera, king of the Yakshas and lord of wealth and grain, grant me prosperity in wealth and food.",
+        "sanskrit": "१. गणेश वंदना (पूजा के आरंभ में)\nवक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।\nनिर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥\n\n२. दीप प्रज्वलन मंत्र\nशुभं करोति कल्याणम् आरोग्यं धनसंपदा।\nशत्रुबुद्धिविनाशाय दीपज्योतिर्नमोऽस्तु ते॥\nदीपज्योतिः परं ब्रह्म दीपज्योतिर्जनार्दनः।\nदीपो हरतु मे पापं दीपज्योतिर्नमोऽस्तु ते॥\n\n३. लक्ष्मी ध्यान मंत्र\nया सा पद्मासनस्था विपुलकटितटी पद्मपत्रायताक्षी।\nगम्भीरावर्तनाभिः स्तनभरनमिता शुभ्रवस्त्रोत्तरीया॥\nलक्ष्मीर्दिव्यैर्गजेन्द्रैर्मणिगणखचितैः स्नापिता हेमकुम्भैः।\nनित्यं सा पद्महस्ता मम वसतु गृहे सर्वमाङ्गल्ययुक्ता॥\n\n४. देवी स्तुति\nया देवी सर्वभूतेषु लक्ष्मीरूपेण संस्थिता।\nनमस्तस्यै नमस्तस्यै नमस्तस्यै नमो नमः॥\n\n५. लक्ष्मी बीज मंत्र\nॐ श्रीं ह्रीं श्रीं कमले कमलालये प्रसीद प्रसीद।\nॐ श्रीं ह्रीं श्रीं महालक्ष्म्यै नमः॥\n\n६. लक्ष्मी गायत्री मंत्र\nॐ महालक्ष्म्यै च विद्महे विष्णुपत्न्यै च धीमहि।\nतन्नो लक्ष्मीः प्रचोदयात्॥\n\n७. कुबेर मंत्र (धन-धान्य की समृद्धि के लिए)\nॐ यक्षाय कुबेराय वैश्रवणाय धनधान्याधिपतये।\nधनधान्यसमृद्धिं मे देहि दापय स्वाहा॥"
+      }
+    },
+    {
+      "slug": "jai-jagdish-hare",
+      "name": "Om Jai Jagdish Hare",
+      "category": "Aartis",
+      "deity": "Lord Vishnu",
+      "featured": true,
+      "popularity": 97,
+      "excerpt": "The best-loved aarti of Lord Vishnu, sung at the close of the Diwali puja and in most Hindu homes on festival evenings.",
+      "languages": {
+        "hindi": "ॐ जय जगदीश हरे, स्वामी जय जगदीश हरे।\nभक्त जनों के संकट, दास जनों के संकट, क्षण में दूर करे॥\nॐ जय जगदीश हरे...\n\nजो ध्यावे फल पावे, दुख बिनसे मन का।\nसुख सम्पति घर आवे, कष्ट मिटे तन का॥\nॐ जय जगदीश हरे...\n\nमात-पिता तुम मेरे, शरण गहूँ किसकी।\nतुम बिन और न दूजा, आस करूँ जिसकी॥\nॐ जय जगदीश हरे...\n\nतुम पूरण परमात्मा, तुम अन्तर्यामी।\nपारब्रह्म परमेश्वर, तुम सबके स्वामी॥\nॐ जय जगदीश हरे...\n\nतुम करुणा के सागर, तुम पालन-कर्ता।\nमैं सेवक तुम स्वामी, कृपा करो भर्ता॥\nॐ जय जगदीश हरे...\n\nतुम हो एक अगोचर, सबके प्राणपति।\nकिस विध मिलूँ दयामय, तुमको मैं कुमति॥\nॐ जय जगदीश हरे...\n\nदीनबन्धु दुखहर्ता, तुम रक्षक मेरे।\nकरुणा हस्त बढ़ाओ, द्वार पड़ा तेरे॥\nॐ जय जगदीश हरे...\n\nविषय-विकार मिटाओ, पाप हरो देवा।\nश्रद्धा भक्ति बढ़ाओ, सन्तन की सेवा॥\nॐ जय जगदीश हरे...",
+        "english": "Glory to Jagdish (Lord of the universe), Hari. He removes the troubles of his devotees in an instant.\n\nWhoever meditates on him is rewarded, the sorrows of the mind end, happiness and wealth come home, and the body's suffering is cured.\n\nYou are my mother and father. Whose shelter can I seek? Without you I have no other hope.\n\nYou are the complete Supreme Soul and the inner witness, the Supreme Lord and master of all.\n\nYou are the ocean of compassion and the one who sustains the world. I am your servant and you are my master. Please bless me.\n\nYou are one, beyond the reach of the senses, and the Lord of all life. How can I, with my weak understanding, meet you?\n\nFriend of the poor and remover of sorrow, you are my protector. Stretch out your kind hand; I lie at your door.\n\nRemove my worldly desires and faults, destroy my sins, O Lord, and increase my faith, devotion and service to the saints.",
+        "sanskrit": "शान्ताकारं भुजगशयनं पद्मनाभं सुरेशं।\nविश्वाधारं गगनसदृशं मेघवर्णं शुभाङ्गम्॥\nलक्ष्मीकान्तं कमलनयनं योगिहृद्ध्यानगम्यं।\nवन्दे विष्णुं भवभयहरं सर्वलोकैकनाथम्॥"
+      }
+    },
+    {
+      "slug": "shri-ram-chandra-kripalu-bhajman",
+      "name": "Shri Ramchandra Kripalu Bhajman",
+      "category": "Bhajans",
+      "deity": "Lord Rama",
+      "featured": true,
+      "popularity": 96,
+      "excerpt": "Tulsidas's famous bhajan in praise of Lord Rama, sung on Diwali to celebrate Rama's return to Ayodhya.",
+      "languages": {
+        "hindi": "श्री रामचन्द्र कृपालु भजु मन हरण भवभय दारुणं।\nनवकञ्ज-लोचन, कञ्ज-मुख, कर-कञ्ज, पद कञ्जारुणं॥१॥\n\nकन्दर्प अगणित अमित छवि नवनील-नीरद सुन्दरं।\nपटपीत मानहुँ तड़ित रुचि शुचि नौमि जनक-सुतावरं॥२॥\n\nभजु दीनबन्धु दिनेश दानव-दैत्यवंश-निकन्दनं।\nरघुनन्द आनन्दकन्द कौशलचन्द दशरथ-नन्दनं॥३॥\n\nसिर मुकुट कुण्डल तिलक चारु उदारु अङ्ग विभूषणं।\nआजानुभुज शर-चाप-धर सङ्ग्राम-जित-खरदूषणं॥४॥\n\nइति वदति तुलसीदास शङ्कर-शेष-मुनि-मन-रञ्जनं।\nमम हृदय-कञ्ज निवास कुरु कामादि खलदल-गञ्जनं॥५॥\n\nमनु जाहिं राचेउ मिलिहि सो बरु सहज सुन्दर साँवरो।\nकरुना निधान सुजान सीलु सनेहु जानत रावरो॥६॥\n\nएहि भाँति गौरि असीस सुनि सिय सहित हियँ हरषीं अली।\nतुलसी भवानिहि पूजि पुनि पुनि मुदित मन मन्दिर चली॥७॥",
+        "english": "A hymn from Tulsidas that praises Lord Rama. It is sung on Diwali because the festival celebrates Rama's return to Ayodhya after 14 years of exile.\n\n1. O mind, worship the merciful Lord Ramachandra, who removes the terrible fear of worldly life. His eyes, face, hands and feet are as soft and red as fresh lotuses.\n2. His beauty outshines countless gods of love, like a fresh dark rain cloud, and his yellow garment shines like lightning. I bow to the husband of Janaka's daughter, Sita.\n3. Worship the friend of the poor and the sun-like destroyer of the demon dynasties, the joy of the Raghu clan, the moon of Kaushalya and the son of Dasharatha.\n4. He wears a crown, earrings and a tilak, and is adorned with fine ornaments. His arms reach his knees, he carries a bow and arrows, and he conquered Khara and Dushana in battle.\n5. Tulsidas says: delighter of the minds of Shankara, Shesha and the sages, please make my heart your home and destroy desire, anger and the other enemies within.\n6. The one your heart is set on will meet you: that naturally beautiful, dark-complexioned Lord. He is full of compassion, wise, kind, and knows your devotion.\n7. Hearing this blessing of Gauri, Sita and her friends were glad at heart. Tulsidas says, after worshipping Bhavani again and again, they returned to the palace with joy.",
+        "sanskrit": ""
+      }
+    },
+    {
+      "slug": "mahalakshmi-ashtakam",
+      "name": "Mahalakshmi Ashtakam",
+      "category": "Sacred Hymns",
+      "deity": "Maa Lakshmi",
+      "featured": true,
+      "popularity": 95,
+      "excerpt": "The eight-verse hymn to Mahalakshmi composed by Indra, recited on Diwali for prosperity and blessings.",
+      "languages": {
+        "hindi": "यह इन्द्र द्वारा रचित महालक्ष्मी अष्टक है, जिसे दीपावली की लक्ष्मी पूजा में पढ़ा जाता है।\n\n१. हे महामाये, श्रीपीठ पर विराजमान, देवताओं से पूजित, हाथों में शंख, चक्र और गदा धारण करने वाली महालक्ष्मी! आपको नमस्कार।\n२. गरुड़ पर आरूढ़, कोलासुर को भयभीत करने वाली, सभी पापों को हरने वाली देवी! आपको नमस्कार।\n३. सब कुछ जानने वाली, सबको वरदान देने वाली, सब दुष्टों के लिए भयकारी और सब दुःख हरने वाली देवी! आपको नमस्कार।\n४. सिद्धि और बुद्धि देने वाली, भोग और मोक्ष प्रदान करने वाली, मंत्र-स्वरूपा देवी! आपको नमस्कार।\n५. आदि और अंत से रहित, आदिशक्ति, महेश्वरी, योग से उत्पन्न और योग-स्वरूपा देवी! आपको नमस्कार।\n६. स्थूल और सूक्ष्म रूप वाली, महारौद्र, महाशक्ति, महान पापों को हरने वाली देवी! आपको नमस्कार।\n७. कमल के आसन पर स्थित, परब्रह्म-स्वरूपिणी, परमेश्वरी, जगन्माता! आपको नमस्कार।\n८. श्वेत वस्त्र धारण करने वाली, अनेक आभूषणों से सुशोभित, जगत में स्थित जगन्माता महालक्ष्मी! आपको नमस्कार।\n\nफलश्रुति: जो भक्त श्रद्धा से इस अष्टक का पाठ करता है उसे सब सिद्धियाँ और समृद्धि मिलती है। परंपरा के अनुसार दिन में एक बार पाठ से पाप नष्ट होते हैं, दो बार से धन-धान्य मिलता है, और तीन बार से शत्रुओं का नाश होता है तथा महालक्ष्मी सदा प्रसन्न रहती हैं।",
+        "english": "The Mahalakshmi Ashtakam was composed by Indra, and is recited during the Diwali Lakshmi puja.\n\n1. Salutations, O Mahamaya, seated on the sacred seat, worshipped by the gods, holding a conch, discus and mace in your hands, O Mahalakshmi.\n2. Salutations to you, riding Garuda, who frightened the demon Kolasura and removes all sins.\n3. You know all, grant all boons, terrify all wicked beings and remove all sorrow.\n4. You grant success and wisdom, worldly enjoyment and liberation, and you are the very form of the mantra.\n5. You are without beginning or end, the primal power and the great goddess, born of yoga and the source of yoga.\n6. You are both gross and subtle, fierce, all-powerful, and the destroyer of the greatest sins.\n7. You sit on a lotus, you are the form of the Supreme Brahman, the supreme goddess and mother of the world.\n8. You wear white garments, adorned with many ornaments, you are present in the world and you are its mother.\n\nPhala-shruti: One who recites this ashtakam with devotion attains success in everything and lasting prosperity. Traditionally, reciting once a day destroys great sins, twice a day brings wealth and grain, and thrice a day destroys enemies and keeps Mahalakshmi ever pleased.",
+        "sanskrit": "नमस्तेऽस्तु महामाये श्रीपीठे सुरपूजिते।\nशङ्खचक्रगदाहस्ते महालक्ष्मि नमोऽस्तु ते॥१॥\n\nनमस्ते गरुडारूढे कोलासुरभयङ्करि।\nसर्वपापहरे देवि महालक्ष्मि नमोऽस्तु ते॥२॥\n\nसर्वज्ञे सर्ववरदे सर्वदुष्टभयङ्करि।\nसर्वदुःखहरे देवि महालक्ष्मि नमोऽस्तु ते॥३॥\n\nसिद्धिबुद्धिप्रदे देवि भुक्तिमुक्तिप्रदायिनि।\nमन्त्रमूर्ते सदा देवि महालक्ष्मि नमोऽस्तु ते॥४॥\n\nआद्यन्तरहिते देवि आद्यशक्तिमहेश्वरि।\nयोगजे योगसम्भूते महालक्ष्मि नमोऽस्तु ते॥५॥\n\nस्थूलसूक्ष्ममहारौद्रे महाशक्तिमहोदरे।\nमहापापहरे देवि महालक्ष्मि नमोऽस्तु ते॥६॥\n\nपद्मासनस्थिते देवि परब्रह्मस्वरूपिणि।\nपरमेशि जगन्मातर्महालक्ष्मि नमोऽस्तु ते॥७॥\n\nश्वेताम्बरधरे देवि नानालङ्कारभूषिते।\nजगत्स्थिते जगन्मातर्महालक्ष्मि नमोऽस्तु ते॥८॥\n\nमहालक्ष्म्यष्टकं स्तोत्रं यः पठेद्भक्तिमान्नरः।\nसर्वसिद्धिमवाप्नोति राज्यं प्राप्नोति सर्वदा॥९॥\n\nएककाले पठेन्नित्यं महापापविनाशनम्।\nद्विकालं यः पठेन्नित्यं धनधान्यसमन्वितः॥१०॥\n\nत्रिकालं यः पठेन्नित्यं महाशत्रुविनाशनम्।\nमहालक्ष्मीर्भवेन्नित्यं प्रसन्ना वरदा शुभा॥११॥"
+      }
+    },
+    {
+      "slug": "shri-suktam",
+      "name": "Shri Suktam (opening verses)",
+      "category": "Sacred Hymns",
+      "deity": "Maa Lakshmi",
+      "featured": false,
+      "popularity": 93,
+      "excerpt": "The first four verses of the Vedic Shri Suktam, the ancient hymn that invites Goddess Lakshmi, chanted during Diwali puja.",
+      "languages": {
+        "hindi": "श्री सूक्त ऋग्वेद का लक्ष्मी-सूक्त है। यहाँ इसके आरंभिक चार मंत्र हैं, जिन्हें दीपावली पूजन में पढ़ा जाता है।\n\n१. हे जातवेदा (अग्निदेव)! सोने के समान वर्ण वाली, हरिणी रूप वाली, सोने-चाँदी की मालाएँ पहनने वाली, चन्द्रमा जैसी शीतल, स्वर्णमयी लक्ष्मी को मेरे पास बुलाइए।\n२. हे अग्निदेव! उस अविचल लक्ष्मी को मेरे पास लाइए, जिनके आने से मुझे स्वर्ण, गौ, अश्व और सेवकजन प्राप्त हों।\n३. जिनके आगे अश्व हैं, जो रथ के मध्य विराजमान हैं और हाथियों की चिंघाड़ से जिनके आगमन का पता चलता है, उन श्री देवी का मैं आवाहन करता/करती हूँ; श्रीदेवी मुझ पर प्रसन्न हों।\n४. जो मंद मुस्कान वाली हैं, स्वर्ण-प्राकार से घिरी हैं, करुणा से भीगी हैं, तेजस्विनी, तृप्त और भक्तों को तृप्त करने वाली हैं, कमल पर स्थित और कमल के रंग की हैं, उन श्री का मैं यहाँ आवाहन करता/करती हूँ।",
+        "english": "The Shri Suktam is the hymn to Lakshmi from the Rigveda (Khila). Here are its first four verses, recited during the Diwali puja.\n\n1. O Agni (Jatavedas), please bring to me Lakshmi, golden in colour, graceful as a deer, wearing garlands of gold and silver, cool like the moon, and made of gold.\n2. O Agni, bring to me that unwavering Lakshmi, by whose coming I may gain gold, cattle, horses and loyal people.\n3. I call upon Goddess Shri, who is preceded by horses, seated in the middle of a chariot, and announced by the trumpeting of elephants. May Goddess Shri be gracious to me.\n4. I call upon Shri here: smiling gently, surrounded by golden walls, moist with compassion, radiant, content and the one who satisfies her devotees, seated on a lotus and lotus-coloured.",
+        "sanskrit": "ॐ हिरण्यवर्णां हरिणीं सुवर्णरजतस्रजाम्।\nचन्द्रां हिरण्मयीं लक्ष्मीं जातवेदो म आवह॥१॥\n\nतां म आवह जातवेदो लक्ष्मीमनपगामिनीम्।\nयस्यां हिरण्यं विन्देयं गामश्वं पुरुषानहम्॥२॥\n\nअश्वपूर्वां रथमध्यां हस्तिनादप्रबोधिनीम्।\nश्रियं देवीमुपह्वये श्रीर्मा देवी जुषताम्॥३॥\n\nकां सोस्मितां हिरण्यप्राकारामार्द्रां ज्वलन्तीं तृप्तां तर्पयन्तीम्।\nपद्मे स्थितां पद्मवर्णां तामिहोपह्वये श्रियम्॥४॥"
+      }
     }
   ]
 }

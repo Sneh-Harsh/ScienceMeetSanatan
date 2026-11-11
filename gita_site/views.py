@@ -69,6 +69,9 @@ def _sitemap_rows(kind: str):
 
             rows += [(f"/pandit-in-{c}/", "weekly", "0.7", None) for c in seo_pages.CITIES]
             rows += [(f"/pandit-for-{slug}/", "weekly", "0.6", None) for slug in seo_pages.all_slugs()]
+            from pandit.views import _pooja_guides
+
+            rows += [(f"/pooja-vidhi/{gid}/", "monthly", "0.6", None) for gid in _pooja_guides()]
         elif kind == "panchang":
             from accounts import seo_data as sd
 

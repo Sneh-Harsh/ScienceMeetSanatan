@@ -44,7 +44,6 @@ const smsLS = {
     };
 
     const AUTO_REOPEN_COOLDOWN_MS = 24 * 60 * 60 * 1000;
-    const AUTO_TRIGGER_DELAY_MS = 20 * 1000;
     const SESSION_LIMIT = 2;
     const DATASET = {
       upiId: String(root.dataset.upiId || "").trim(),
@@ -59,7 +58,6 @@ const smsLS = {
     let customMode = false;
     let lastFocusedElement = null;
     let toastTimer = 0;
-    let autoTriggerTimer = 0;
     let confirmationMode = "";
 
     const messages = {
@@ -395,9 +393,14 @@ const smsLS = {
       sendAnalytics("daan_modal_closed", { source });
     };
 
+    // Auto-opening goes through the shared popup gate: only after the visitor has done something (or used
+    // the site for 5 minutes), and never while they are in the middle of an action.
     const requestAutoOpen = (source) => {
-      if (!shouldAutoOpen()) return;
-      open({ auto: true, source });
+      if (!window.SMSPopupGate) return;
+      window.SMSPopupGate.request("daan", () => open({ auto: true, source }), {
+        isEligible: shouldAutoOpen,
+        prio: { action: 2, time: 3 },
+      });
     };
 
     const handleAmountChip = (chip) => {
@@ -497,34 +500,6 @@ const smsLS = {
       saveDonorNote();
     });
 
-    // Time/scroll auto-opens are skipped on phones; the floating button and
-    // intent events (quiz complete, kundali generated, engagement) still work.
-    const passiveAutoOpenAllowed = () => !window.matchMedia("(max-width: 760px)").matches;
-
-    const scheduleIdleAutoTrigger = () => {
-      if (!passiveAutoOpenAllowed()) return;
-      const scheduler = window.requestIdleCallback || ((cb) => window.setTimeout(cb, 400));
-      scheduler(() => {
-        autoTriggerTimer = window.setTimeout(() => requestAutoOpen("time_delay"), AUTO_TRIGGER_DELAY_MS);
-      });
-    };
-
-    const onScroll = (() => {
-      let ticking = false;
-      return () => {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(() => {
-          const scrollMax = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-          const ratio = window.scrollY / scrollMax;
-          if (ratio >= 0.4 && passiveAutoOpenAllowed()) {
-            requestAutoOpen("scroll_depth");
-          }
-          ticking = false;
-        });
-      };
-    })();
-
     const incrementEngagement = (amount = 1, source = "engagement") => {
       const next = Number(sessionStorage.getItem(STORAGE.engagement) || 0) + amount;
       sessionStorage.setItem(STORAGE.engagement, String(next));
@@ -533,11 +508,12 @@ const smsLS = {
       }
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("sms:quiz-complete", () => requestAutoOpen("quiz_complete"));
+    window.addEventListener("sms:quiz-completed", () => requestAutoOpen("quiz_complete"));
     window.addEventListener("sms:kundali-generated", () => requestAutoOpen("kundali_generated"));
     window.addEventListener("sms:library-engaged", () => incrementEngagement(2, "library_engaged"));
     window.addEventListener("sms:meaningful-engagement", () => incrementEngagement(1, "meaningful_engagement"));
+    requestAutoOpen("gate");
 
     window.SMSDaanpatra = {
       open: () => open({ auto: false, source: "api" }),
@@ -559,7 +535,6 @@ const smsLS = {
     updateConfirmationState();
     setContextCopy();
     applyVariant();
-    scheduleIdleAutoTrigger();
   };
 
   if (document.readyState === "loading") {
