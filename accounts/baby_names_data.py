@@ -160,7 +160,64 @@ def load_baby_names() -> dict:
             else _read_csv_grouped(girls_path, expect_deity_column=True)
         )
 
+    _drop_placeholder_rows(payload)
+    _merge_extra_names(payload)
+    for gender in payload.values():
+        for letters in gender.values():
+            for items in letters.values():
+                items.sort(key=lambda item: item["name"].lower())
     return payload
+
+
+# Keyboard-mash rows that were left in the spreadsheets as placeholders.
+_PLACEHOLDER_NAMES = {
+    "akshutam", "ahgsdytfw", "bygdcyuwg", "bydwguy", "cudhgcu",
+    "adkn", "afcsd", "asdf", "bdhufiuw", "bgfdu", "bydgf", "cjdhfjk", "cweikjfd",
+}
+
+
+def _drop_placeholder_rows(payload: dict) -> None:
+    for gender in payload.values():
+        for letters in gender.values():
+            seen = set()
+            for letter in list(letters):
+                kept = []
+                for item in letters[letter]:
+                    key = item["name"].strip().lower()
+                    meaning = item["meaning"].strip()
+                    if key in _PLACEHOLDER_NAMES or key in seen:
+                        continue
+                    if meaning.isalpha() and len(meaning) >= 12:
+                        continue
+                    seen.add(key)
+                    kept.append(item)
+                if kept:
+                    letters[letter] = kept
+                else:
+                    del letters[letter]
+
+
+def _merge_extra_names(payload: dict) -> None:
+    """Adds the curated names in data/baby_names_extra.json (never duplicates a name already in the sheets)."""
+    path = Path(__file__).resolve().parent / "data" / "baby_names_extra.json"
+    if not path.exists():
+        return
+    try:
+        extra = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return
+    for gender, deities in extra.items():
+        target = payload.setdefault(gender, {})
+        for deity, rows in deities.items():
+            letters = target.setdefault(deity, {})
+            seen = {item["name"].strip().lower() for items in letters.values() for item in items}
+            for name, meaning in rows:
+                key = name.strip().lower()
+                letter = _to_letter(name)
+                if not letter or key in seen:
+                    continue
+                seen.add(key)
+                letters.setdefault(letter, []).append({"name": name.strip(), "meaning": meaning.strip()})
 
 
 def load_baby_names_json() -> str:

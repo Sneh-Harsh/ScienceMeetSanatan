@@ -14,10 +14,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="{% static 'header.css' %}?v=13">
-<link rel="stylesheet" href="{% static 'baby_names.css' %}?v=2">
+<link rel="stylesheet" href="{% static 'baby_names.css' %}?v=6">
 <link rel="stylesheet" href="{% static 'css/login_popup.css' %}?v=3">
 <link rel="stylesheet" href="{% static 'css/digital_daanpatra.css' %}?v=5">
 <link rel="stylesheet" href="{% static 'css/review.css' %}?v=2">
@@ -30,29 +30,60 @@
 
 {% include 'components/header.html' %}
 
-<main class="names-page">
+<main class="names-page bn">
 
-<section class="names-controls">
+<div class="bn-sky" aria-hidden="true"><i></i><i></i><i></i></div>
 
-<h1>Divine Baby Names</h1>
+<section class="bn-hero" aria-labelledby="bnTitle">
+  <p class="bn-eyebrow">Naamkaran &middot; Sanatan Baby Names</p>
+  <h1 id="bnTitle">Divine Baby Names <span>with Meaning</span></h1>
+  <p class="bn-lede">Find a name blessed by your favourite deity. Browse by Shiva, Krishna, Durga and more, or search any name or meaning.</p>
 
-<p>Choose a category to update names on each deity card.</p>
-
-<div class="gender-toggle">
-
-<button class="toggle-btn active" data-gender="girl">
-Girl Names
-</button>
-
-<button class="toggle-btn" data-gender="boy">
-Boy Names
-</button>
-
-</div>
-
+  <div class="bn-controls">
+    <div class="gender-toggle bn-seg" role="group" aria-label="Choose names for">
+      <span class="bn-seg__thumb" aria-hidden="true"></span>
+      <button class="toggle-btn active" type="button" data-gender="girl" aria-pressed="true">Girl Names</button>
+      <button class="toggle-btn" type="button" data-gender="boy" aria-pressed="false">Boy Names</button>
+    </div>
+    <label class="bn-search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.800-3.800" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="sr-only">Search names or meanings</span>
+      <input id="bnSearch" type="search" placeholder="Search a name or meaning, e.g. &ldquo;victory&rdquo;" autocomplete="off" enterkeyhint="search">
+      <button id="bnSearchClear" type="button" aria-label="Clear search" hidden>&times;</button>
+    </label>
+    <button id="bnSurprise" class="bn-saved bn-surprise" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 2.200 6.300L21 10l-6.800 1.700L12 18l-2.200-6.300L3 10l6.800-1.700L12 2Zm7 13 1 2.600 2.600 1-2.600 1-1 2.600-1-2.600-2.600-1 2.600-1 1-2.600Z" fill="currentColor"/></svg><span>Surprise me</span></button>
+    <button id="bnSavedBtn" class="bn-saved" type="button" aria-label="Open saved names">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.500-4.700-9.500-9.300C1.200 8.500 3 5 6.400 5c2 0 3.400 1.100 4.100 2.300h3C14.200 6.100 15.600 5 17.600 5 21 5 22.800 8.500 21.500 11.700 19.500 16.300 12 21 12 21Z" fill="currentColor"/></svg>
+      <span>Saved</span><b id="bnSavedCount">0</b>
+    </button>
+  </div>
+  <p class="bn-hint"><span aria-hidden="true">&#10024;</span> Tap a floating letter to see names that start with it</p>
+  <ul class="bn-stats" aria-label="About this collection">
+    <li><b id="bnStatNames">0</b><span>names</span></li>
+    <li><b id="bnStatDeities">9</b><span>deities</span></li>
+    <li><b>A&ndash;Z</b><span>browse by letter</span></li>
+  </ul>
 </section>
 
-<section id="deityGrid" class="deity-grid"></section>
+<section id="bnResults" class="bn-results" aria-live="polite" hidden>
+  <h2 class="bn-h2"><span id="bnResultsTitle">Results</span></h2>
+  <ul id="bnResultsList" class="bn-namegrid"></ul>
+  <p id="bnResultsEmpty" class="bn-empty" hidden>No name matches that yet. Try a shorter word like &ldquo;light&rdquo; or &ldquo;brave&rdquo;.</p>
+</section>
+
+<section id="bnBrowse" class="bn-browse">
+  <h2 class="bn-h2">Choose a deity <small>Tap a card to see its names</small></h2>
+  <div id="deityGrid" class="deity-grid"></div>
+</section>
+
+<section class="bn-tips" aria-labelledby="bnTipsTitle">
+  <h2 class="bn-h2" id="bnTipsTitle">How to pick the right name</h2>
+  <div class="bn-tipgrid">
+    <article><span>1</span><h3>Start with the letter</h3><p>Many families choose the first letter from the child&rsquo;s Nakshatra pada. Our <a href="/kundali/">free Kundali</a> shows it.</p></article>
+    <article><span>2</span><h3>Read the meaning</h3><p>Every name here has its meaning beside it, so you know the blessing you are giving.</p></article>
+    <article><span>3</span><h3>Say it aloud</h3><p>Save a few favourites with the heart, then say them together with the surname.</p></article>
+  </div>
+</section>
 
 </main>
 
@@ -78,7 +109,8 @@ Boy Names
 <script defer src="{% static 'js/review.js' %}?v=2"></script>
 <script defer src="{% static 'js/scroll_reveal.js' %}?v=2"></script>
 <script src="{% static 'header.js' %}?v=6"></script>
-<script src="{% static 'baby_names.js' %}?v=2"></script>
+<script src="{% static 'baby_names.js' %}?v=5"></script>
+<script defer src="{% static 'baby_names_bg.js' %}?v=2"></script>
 
 {% include "components/seo_faq.html" %}
 </body>

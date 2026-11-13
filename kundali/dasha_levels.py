@@ -38,6 +38,12 @@ def _split(planet: str, nominal_start: datetime, nominal_days: float, clip_start
                 "nominal_days": days,
             })
         cursor = nxt
+    # stored times are rounded to whole seconds, so deep layers can drift by a second: snap the edges to the parent
+    if out:
+        if abs((datetime.fromisoformat(out[0]["start"]) - clip_start).total_seconds()) < 2:
+            out[0]["start"] = _iso(clip_start)
+        if abs((datetime.fromisoformat(out[-1]["end"]) - clip_end).total_seconds()) < 2:
+            out[-1]["end"] = _iso(clip_end)
     return out
 
 
@@ -61,6 +67,18 @@ def pratyantars(antar: Dict, clip_start: Optional[datetime] = None) -> List[Dict
     s = datetime.fromisoformat(str(antar["start"]))
     e = datetime.fromisoformat(str(antar["end"]))
     return _split(str(antar["planet"]), antar["nominal_start"], antar["nominal_days"], clip_start or s, e)
+
+
+def children(node: Dict, clip_start: Optional[datetime] = None) -> List[Dict]:
+    """The nine sub-periods of ANY period (Antar -> Pratyantar -> Sookshma -> Prana ...).
+
+    ``node`` is a row returned by ``antardashas`` / ``children`` (it carries its nominal start and length), so a
+    period that is clipped at birth is still cut from its full nominal length. Each level is the parent's length
+    times the sub-planet's years / 120, starting with the parent's own planet.
+    """
+    s = datetime.fromisoformat(str(node["start"]))
+    e = datetime.fromisoformat(str(node["end"]))
+    return _split(str(node["planet"]), node["nominal_start"], node["nominal_days"], clip_start or s, e)
 
 
 def _find(rows: List[Dict], moment: datetime) -> Optional[Dict]:

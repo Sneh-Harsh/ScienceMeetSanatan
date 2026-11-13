@@ -97,6 +97,10 @@
         '<span class="rd-mrow__name"><strong>' + esc(pl(m.planet)) + " " + (hi ? "महादशा" : "Mahadasha") + "</strong><small>" + esc(monthYear(m.start)) + " – " + esc(monthYear(m.end)) + " &middot; " + esc(T("ages", { a: m.ageStart, b: m.ageEnd })) + " &middot; " + esc(m.span) + '</small></span><span class="rd-mrow__side"><span class="rd-mrow__tag">' + esc(tag) + '</span><span class="rd-mrow__chev" aria-hidden="true">▾</span></span></button>' +
         '<div class="rd-mrow__body"><p>' + esc(m.meaning) + '</p><div class="rd-sub">' + esc(T("sub_periods_title")) + '</div><div class="rd-ants">' + subs + "</div></div></div>";
     }).join("");
+    if (window.KundaliLayers) {  // one combined view: the journey holds every layer and its meaning
+      return '<div class="rd">' + KundaliLayers.shell(r) +
+        '<details class="rd-method"><summary>' + esc(T("method_title")) + "</summary><p>" + esc(r.method) + "</p></details></div>";
+    }
     return '<div class="rd">' + intro + head + '<div class="rd-dasha">' + table + "</div>" +
       '<details class="rd-method"><summary>' + esc(T("method_title")) + "</summary><p>" + esc(r.method) + "</p></details></div>";
   }
@@ -145,6 +149,7 @@
     set("tabOverview", overview(r));
     set("tabPredictions", areas(r));
     set("tabDasha", dasha(r));
+    if (window.KundaliLayers) KundaliLayers.mount();
     set("tabDosha", doshas(r));
     set("tabRemedies", remedies(r));
   }

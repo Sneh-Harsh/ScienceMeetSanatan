@@ -13,6 +13,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 
 from .dasha_engine import _antardashas
+from .dasha_levels import antardashas as _levels_antardashas
 
 LANGS = ("en", "hi")
 
@@ -706,10 +707,11 @@ def _dasha_full(kundali: Dict, now: datetime, lang: str) -> List[Dict]:
         lord = maha.get("planet")
         nxt = mahas[i + 1]["planet"] if i + 1 < len(mahas) else None
         subs = []
-        for idx, a in enumerate(_antardashas(maha), start=1):
+        for idx, (a, lv) in enumerate(zip(_antardashas(maha), _levels_antardashas(maha)), start=1):
             s, e = _dt(a["start"]), _dt(a["end"])
             cur = bool(s and e and s <= now < e)
-            subs.append({**a, "effect": antardasha_effect(kundali, lord, a["planet"], lang, idx, a["start"], a["end"], nxt), "isCurrent": cur, "isPast": bool(e and now >= e),
+            # nominal_* lets the page cut Pratyantar / Sookshma / Prana from the full (unclipped) period
+            subs.append({**a, "nominal_start": lv["nominal_start"].isoformat(timespec="seconds"), "nominal_days": lv["nominal_days"], "effect": antardasha_effect(kundali, lord, a["planet"], lang, idx, a["start"], a["end"], nxt), "isCurrent": cur, "isPast": bool(e and now >= e),
                          "span": _span(a["start"], a["end"], T), "ageStart": _age(birth, s), "ageEnd": _age(birth, e),
                          "progress": max(0, min(100, round((now - s).total_seconds() / max((e - s).total_seconds(), 1) * 100))) if cur else (100 if e and now >= e else 0)})
         house = int((planets.get(lord) or {}).get("house", 0) or 0)
